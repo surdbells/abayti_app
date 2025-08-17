@@ -1,0 +1,7 @@
+{
+  "name": "abayti",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
