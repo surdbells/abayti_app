@@ -1,0 +1,46 @@
+<ion-content [fullscreen]="true" class="app-bg ion-padding">
+  <!-- Dark mode toggle -->
+  <ion-grid class="h-100">
+    <ion-row class="h-100 ion-justify-content-center">
+      <ion-col class="ion-padding" size="12">
+        <div class="stack">
+          <div class="brand-badge">
+            <span>
+            <img class="animate__animated animate__fadeIn" src="assets/images/abayti_small.png" alt="">
+          </span>
+        </div>
+          <h1 class="title animate__animated ion-text-center animate__fadeInDown">Login</h1>
+          <p class="subtitle animate__animated animate__fadeInDown">Sign in to continue.</p>
+        </div>
+        <tui-textfield class="animate__animated animate__fadeInDown ion-margin-bottom"  #m tuiTextfieldSize="m" style="width:100%">
+          <label tuiLabel>Email</label>
+          <input [(ngModel)]="login.email" type="email" name="email" tuiTextfield />
+        </tui-textfield>
+
+        <tui-textfield class="animate__animated animate__fadeInDown ion-margin-bottom"  #m tuiTextfieldSize="m" style="width:100%">
+          <label tuiLabel>Password</label>
+          <input [(ngModel)]="login.password" type="password" name="password" tuiTextfield />
+          <tui-icon tuiPassword />
+        </tui-textfield>
+
+        <button *ngIf="!ui_controls.login_loading" (click)="signIn()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light" style="width: 100%; outline-color: #ffffff; color: #ffffff"
+                size="m" tuiButton type="button"> Sign In </button>
+        <tui-loader *ngIf="ui_controls.login_loading"></tui-loader>
+        <div class="flex items-start">
+          <div class="flex ion-margin-top items-start">
+            <div class="flex abayti_secondary_color animate__animated animate__fadeInDown items-center h-5">
+              New here? <ion-text (click)="user_register()" style="font-weight: bolder;" type="button" class="abayti_secondary_color">Sign up now</ion-text>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-start">
+          <div class="flex ion-margin-top items-start">
+            <div class="flex items-center h-5">
+              <ion-text class="ion-margin-top abayti_secondary_color animate__animated animate__fadeInDown" (click)="forgot_password()"> Forgot Password </ion-text>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

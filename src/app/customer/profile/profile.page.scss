@@ -1,0 +1,164 @@
+:root { --text: var(--ink-700); }  /* used by <tui-icon [style.color]="'var(--text)'" /> */
+
+/* Optional: size/align icons inside ion-item */
+.list-flat ion-item tui-icon[slot="start"] { width: 20px; height: 20px; }
+.list-flat ion-item tui-icon[slot="end"]   { width: 18px; height: 18px; opacity: .7; }
+.order-actions tui-icon { vertical-align: -2px; width: 18px; height: 18px; }
+
+/* page bg */
+ion-content { --background: var(--profile-bg); }
+
+/* ============ HERO ============ */
+.hero{
+  padding: 14px 16px 12px;
+  color: var(--header-text);
+  background:
+    radial-gradient(140% 80% at 0% 0%, rgba(255,255,255,.05), transparent 55%),
+    radial-gradient(120% 80% at 100% 100%, rgba(0,0,0,.08), transparent 55%),
+    var(--header-bg);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  position: relative;
+}
+
+.hero-top{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 12px;
+}
+
+.welcome .muted{
+  color: color-mix(in oklab, var(--header-text), transparent 20%);
+  font-size: .75rem;
+}
+.hello{
+  font-size: .8rem;
+  letter-spacing: .18em;
+  opacity: .9;
+}
+.name{
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.avatar{
+  width: 56px; height: 56px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255,255,255,.75);
+  box-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+
+/* faux barcode */
+.barcode{
+  margin-top: 10px;
+  height: 28px; width: 160px; border-radius: 6px;
+  background:
+    repeating-linear-gradient(
+        to right,
+        rgba(255,255,255,.95) 0 2px,
+        transparent 2px 4px
+    ),
+    linear-gradient(var(--header-bg), var(--header-bg));
+  opacity: .9;
+}
+
+/* points row */
+.points-row{
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.pill{
+  background: var(--pill-bg);
+  color: #1e1b18;
+  border: 1px solid var(--pill-border);
+  border-radius: 9999px;
+  padding: 10px 14px;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+
+  .label{
+    font-size: .50rem;
+    font-weight: 800;
+    opacity: .7;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .value{ font-size: .50rem; }
+}
+
+/* ============ MY ORDERS ============ */
+.section{ padding: 10px 12px; }
+
+.section-title{
+  background: var(--section-title-bg);
+  color: #1e1b18;
+  font-weight: 900;
+  letter-spacing: .08em;
+  font-size: .76rem;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 10px 0 6px;
+}
+
+/* table-like grid */
+.order-grid{
+  background: var(--section-bg);
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.order-head{
+  padding: 10px;
+  font-size: .75rem;
+  font-weight: 800;
+  color: var(--muted);
+  background: #f9f6f2;
+  border-bottom: 1px solid var(--divider);
+}
+
+.order-cell{
+  padding: 12px 10px;
+  font-weight: 700;
+  color: var(--text);
+  border-top: 1px solid var(--divider);
+}
+.order-cell.price{ color: var(--price); }
+.order-cell.status.delivered{ color: var(--success); }
+
+/* actions under grid */
+.order-actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px 0;
+}
+
+button.link{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  padding: 6px 8px;
+  color: var(--muted);
+  font-weight: 800;
+  border-radius: 8px;
+}
+button.link:hover{ background: rgba(0,0,0,.04); }
+button.link strong{ color: var(--text); }
+
+/* icon sizing in actions */
+.order-actions tui-icon{
+  width: 18px; height: 18px;
+  vertical-align: -2px;
+}

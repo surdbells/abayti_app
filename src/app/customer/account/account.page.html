@@ -1,0 +1,151 @@
+<ion-header style="background-color: #664840" class="ion-padding-bottom ion-padding-top" translucent="true">
+  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
+    <ion-buttons slot="start">
+      <ion-avatar class="avatar">
+        <img src="https://lh3.googleusercontent.com/ogw/AF2bZyj-sYY2-U51it1lAO4EoJhdrpH58igEC5Rohx0On76Vn5Xl=s32-c-mo" alt="u"/>
+      </ion-avatar>
+      <div class="hello">
+        <div class="hey">Hi,<span>{{ single_user.first_name }}</span> 👋</div>
+        <div class="loc">Dubai, UAE</div>
+      </div>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="user_wishlist()" fill="clear">
+        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+      </ion-button>
+      <ion-button fill="clear">
+        <tui-icon (click)="user_messages()" icon="@tui.message-square-dot" [style.color]="'var(--text)'"/>
+      </ion-button>
+      <ion-button fill="clear">
+        <tui-icon (click)="user_sign_out()" icon="@tui.log-out" [style.color]="'var(--text)'" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Search -->
+  <div class="search-wrap ion-padding-top ion-padding-horizontal">
+    <ion-searchbar placeholder="Search Stores" show-clear-button="never"></ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-content fullscreen="true" class="page">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <!-- Category -->
+  <section [style.background-color]="'var(--text)'" class="section">
+    <div class="section-head">
+      <h2>Category</h2>
+    </div>
+    <div class="h-scroll categories">
+      <button class="cat">
+        <span class="cat-icon">
+          <tui-icon [style.font-size.rem]="2" icon="@tui.layout-dashboard" [style.color]="'var(--ion-color-secondary)'"/>
+        </span>
+        <span class="cat-text">All</span>
+      </button>
+      @for (a_cat of category; track a_cat.id){
+        <button [tuiShimmer]="ui_controls.is_loading" class="cat">
+        <span class="cat-icon">
+            <tui-icon [style.font-size.rem]="2" icon="{{a_cat.icon}}" [style.color]="'var(--ion-color-secondary)'"/>
+        </span>
+          <span class="cat-text">{{ a_cat.name }}</span>
+        </button>
+      }
+      @empty {
+        <!-- Content to display if the collection is empty -->
+        <p>No items found.</p>
+      }
+
+      <button class="cat">
+        <span class="cat-icon">
+          <tui-icon [style.font-size.rem]="2" icon="@tui.shirt" [style.color]="'var(--ion-color-secondary)'"/>
+        </span>
+        <span class="cat-text">Dresses</span>
+      </button>
+
+      <button class="cat">
+        <span class="cat-icon">
+          <tui-icon [style.font-size.rem]="2" icon="@tui.plane-takeoff" [style.color]="'var(--ion-color-secondary)'"/>
+        </span>
+        <span class="cat-text">Travel wear</span>
+      </button>
+
+      <!-- add more as needed -->
+    </div>
+  </section>
+
+  <!-- Best sellers -->
+  <section class="section ion-padding">
+    <div class="section-head">
+      <h2>Best sellers</h2>
+      <ion-button [style.color]="'var(--ion-color-secondary)'" fill="clear" size="small">Show All</ion-button>
+    </div>
+    <div class="h-scroll products">
+      <article class="product-card">
+        <div class="img-wrap">
+          <img style="object-fit: cover; object-position: top center; padding: 10px; border-radius: 20px" src="https://cdn.shopify.com/s/files/1/0400/6998/8502/files/AB_51_046_8aa015fa-c299-4848-8d9f-0c6b67134d52_360x.jpg?v=1754168620" alt="AT319" />
+          <button class="like">
+            <tui-icon icon="@tui.heart" [style.color]="'var(--ion-color-secondary)'"/>
+          </button>
+          <span class="tag">BOKSHA</span>
+        </div>
+        <div class="info">
+          <h3 class="title">AT319</h3>
+          <p class="desc">
+            Black Work abaya with neat pressing, comes with a matching scarf.
+          </p>
+        </div>
+      </article>
+      <article class="product-card">
+        <div class="img-wrap">
+          <img style="object-fit: cover; object-position: top center; padding: 10px; border-radius: 20px" src="https://cdn.shopify.com/s/files/1/0400/6998/8502/files/AB_73_047_08ad0ca0-4c0a-4112-8d97-451c2c94abdc_360x.jpg?v=1752430118" alt="Tessa set" />
+          <button class="like">
+            <tui-icon icon="@tui.heart" [style.color]="'var(--ion-color-secondary)'"/>
+          </button>
+          <span class="tag">NORA</span>
+        </div>
+        <div class="info">
+          <h3 class="title">Tessa set</h3>
+          <p class="desc">
+            A top with balloon sleeves and a subtle wrap detail; stretch
+            pleated skirt that shines the floor with grace.
+          </p>
+        </div>
+      </article>
+   </div>
+  </section>
+
+  <!-- Brand strip -->
+  <section class="brand-strip">
+    <div class="logo">C L A S S Y  Y M</div>
+    <small>Since 2020</small>
+  </section>
+
+
+
+</ion-content>
+<ion-footer>
+  <!-- Bottom tabs (static UI only) -->
+  <ion-tab-bar style="padding-bottom: 16px;" slot="bottom" class="tabs">
+    <ion-tab-button (click)="getCategory()" tab="home">
+      <tui-icon icon="@tui.house" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.compass" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_cart()" tab="cart">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_support()" tab="sketch">
+      <tui-icon icon="@tui.history" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Orders</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-round-pen" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

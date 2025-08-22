@@ -1,2 +1,84 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+:root {
+	--ion-color-primary: #e8dccb;
+	--ion-color-primary-rgb: 232,220,203;
+	--ion-color-primary-contrast: #000000;
+	--ion-color-primary-contrast-rgb: 0,0,0;
+	--ion-color-primary-shade: #ccc2b3;
+	--ion-color-primary-tint: #eae0d0;
+
+	--ion-color-secondary: #906952;
+	--ion-color-secondary-rgb: 144,105,82;
+	--ion-color-secondary-contrast: #ffffff;
+	--ion-color-secondary-contrast-rgb: 255,255,255;
+	--ion-color-secondary-shade: #7f5c48;
+	--ion-color-secondary-tint: #9b7863;
+
+	--ion-color-tertiary: #906952;
+	--ion-color-tertiary-rgb: 144,105,82;
+	--ion-color-tertiary-contrast: #ffffff;
+	--ion-color-tertiary-contrast-rgb: 255,255,255;
+	--ion-color-tertiary-shade: #7f5c48;
+	--ion-color-tertiary-tint: #9b7863;
+
+	--ion-color-success: #906952;
+	--ion-color-success-rgb: 144,105,82;
+	--ion-color-success-contrast: #ffffff;
+	--ion-color-success-contrast-rgb: 255,255,255;
+	--ion-color-success-shade: #7f5c48;
+	--ion-color-success-tint: #9b7863;
+
+	--ion-color-warning: #e8dccb;
+	--ion-color-warning-rgb: 232,220,203;
+	--ion-color-warning-contrast: #000000;
+	--ion-color-warning-contrast-rgb: 0,0,0;
+	--ion-color-warning-shade: #ccc2b3;
+	--ion-color-warning-tint: #eae0d0;
+
+	--ion-color-danger: #e8dccb;
+	--ion-color-danger-rgb: 232,220,203;
+	--ion-color-danger-contrast: #000000;
+	--ion-color-danger-contrast-rgb: 0,0,0;
+	--ion-color-danger-shade: #ccc2b3;
+	--ion-color-danger-tint: #eae0d0;
+
+	--ion-color-light: #f6f8fc;
+	--ion-color-light-rgb: 246,248,252;
+	--ion-color-light-contrast: #000000;
+	--ion-color-light-contrast-rgb: 0,0,0;
+	--ion-color-light-shade: #d8dade;
+	--ion-color-light-tint: #f7f9fc;
+
+	--ion-color-medium: #5f5f5f;
+	--ion-color-medium-rgb: 95,95,95;
+	--ion-color-medium-contrast: #ffffff;
+	--ion-color-medium-contrast-rgb: 255,255,255;
+	--ion-color-medium-shade: #545454;
+	--ion-color-medium-tint: #6f6f6f;
+
+	--ion-color-dark: #2f2f2f;
+	--ion-color-dark-rgb: 47,47,47;
+	--ion-color-dark-contrast: #ffffff;
+	--ion-color-dark-contrast-rgb: 255,255,255;
+	--ion-color-dark-shade: #292929;
+	--ion-color-dark-tint: #444444;
+  --app-bg-image: url('/assets/images/home_bg.webp');
+  --app-bg-image-dark: url('/assets/images/home_bg.webp'); /* optional */
+
+  --profile-bg: #efe4d6;      /* page background */
+  --header-bg: #6b4b3a;       /* coffee header */
+  --header-text: #ffffff;
+  --section-bg: #ffffff;
+  --section-title-bg: #e6d6c6;
+  --divider: #e9e4df;
+
+  --text: #3a2f2b;            /* used by <tui-icon [style.color]="'var(--text)'" /> */
+  --muted: #7a6a61;
+
+  --pill-bg: #f1eadf;
+  --pill-border: rgba(0,0,0,.06);
+
+  --success: #1bb063;
+  --price: #b33;
+}

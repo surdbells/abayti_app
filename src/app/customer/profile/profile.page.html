@@ -1,0 +1,130 @@
+<ion-header style="background-color: #664840" class="ion-padding-top" translucent="true">
+  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
+    <ion-buttons class="back-chip" [routerLink]="['/account']" aria-label="Back to account" slot="start">
+      <tui-icon icon="@tui.chevron-left" />
+      <span>Profile</span>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="profile-bg">
+  <!-- HERO -->
+  <div class="hero ion-margin-horizontal">
+    <div class="hero-top">
+      <div class="welcome">
+        <div class="name">{{ single_user.first_name }}</div>
+      </div>
+
+      <ion-avatar class="avatar">
+        <ion-img src="https://lh3.googleusercontent.com/ogw/AF2bZyj-sYY2-U51it1lAO4EoJhdrpH58igEC5Rohx0On76Vn5Xl=s32-c-mo" alt="User avatar"></ion-img>
+      </ion-avatar>
+    </div>
+    <div class="points-row">
+      <div class="pill">
+        <span class="label">POINTS</span>
+        <span class="value">{{ user().points | number:'1.0-2' }} PTS</span>
+      </div>
+      <div class="pill">
+        <span class="label">Pending Points</span>
+        <span class="value">{{ user().pending | number:'1.0-0' }} PTS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY ORDERS -->
+  <!--<section class="section">
+    <div class="section-title">MY ORDERS</div>
+
+    <div class="order-grid">
+      <div class="order-head">Order Date</div>
+      <div class="order-head">Price</div>
+      <div class="order-head">Status</div>
+
+      <div class="order-cell">{{ lastOrder().date | date:'dd/MM/yyyy' }}</div>
+      <div class="order-cell price">₦ {{ lastOrder().price | number:'1.0-2' }}</div>
+      <div class="order-cell status delivered">{{ lastOrder().status }}</div>
+    </div>
+
+    <div class="order-actions">
+      <button type="button" class="link" (click)="viewAllOrders()">
+        <tui-icon icon="@tui.list" [style.color]="'var(&#45;&#45;text)'" />
+        View all orders
+      </button>
+
+      <button type="button" class="link" (click)="sortOrders()">
+        <tui-icon icon="@tui.arrow-up-down" [style.color]="'var(&#45;&#45;text)'" />
+        Sort by <strong>Latest</strong>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+    </div>
+  </section>-->
+
+  <!-- MY ACCOUNT -->
+  <section class="section">
+    <div class="section-title">MY ACCOUNT</div>
+    <ion-list class="list-flat">
+      <ion-item button detail (click)="openReturns()">
+        <tui-icon slot="start" icon="@tui.rotate-ccw" [style.color]="'var(--text)'" />
+        <ion-label>Returns</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>
+
+<!--      <ion-item button detail (click)="openWallet()">
+        <tui-icon slot="start" icon="@tui.wallet" [style.color]="'var(&#45;&#45;text)'" />
+        <ion-label>My Wallet</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>
+
+      <ion-item button detail (click)="openCards()">
+        <tui-icon slot="start" icon="@tui.credit-card" [style.color]="'var(&#45;&#45;text)'" />
+        <ion-label>My Payment Cards</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>-->
+
+      <ion-item button detail (click)="openInfo()">
+        <tui-icon slot="start" icon="@tui.user" [style.color]="'var(--text)'" />
+        <ion-label>My Information</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>
+
+      <ion-item button detail (click)="openReviews()">
+        <tui-icon slot="start" icon="@tui.star" [style.color]="'var(--text)'" />
+        <ion-label>My Reviews</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>
+    </ion-list>
+  </section>
+
+<!--  &lt;!&ndash; MY LOCATION &ndash;&gt;
+  <section class="section">
+    <div class="section-title">MY LOCATION</div>
+    <ion-list class="list-flat">
+      <ion-item button detail>
+        <img slot="start" class="flag" [src]="country().flag" alt="flag" />
+        <ion-label>{{ country().name }}</ion-label>
+        <tui-icon slot="end" icon="@tui.chevron-right" />
+      </ion-item>
+    </ion-list>
+  </section>-->
+
+  <!-- MY LANGUAGE -->
+  <section class="section">
+    <div class="section-title">MY LANGUAGE</div>
+    <app-language-switcher></app-language-switcher>
+  </section>
+
+  <!-- HELP & CONTACT -->
+<!--  <section class="section">
+    <ion-button expand="block" fill="outline" class="help-btn" (click)="openHelp()">
+      <tui-icon slot="start" icon="@tui.help-circle" />
+      Help & Contact
+    </ion-button>
+  </section>-->
+
+  <!-- SIGN OUT -->
+  <section class="section bottom-pad">
+    <ion-button expand="block" class="signout-btn" (click)="signOut()">
+      <tui-icon slot="start" icon="@tui.log-out" />
+      SIGN OUT
+    </ion-button>
+  </section>
+</ion-content>

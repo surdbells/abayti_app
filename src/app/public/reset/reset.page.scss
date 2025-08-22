@@ -1,0 +1,51 @@
+.h-100 { height: 100%; }
+
+.fashion-bg {
+  --background: none;
+  background: var(--ion-color-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.stack {
+  display: grid;
+  justify-items: center;
+  gap: .3rem;
+  padding: 0.5rem 0 1.5rem;
+  color: var(--text);
+}
+
+.brand-badge {
+  width: 120px; height: 65px;
+}
+
+.title { font-weight: 600; font-size: 2rem; margin: 0; color: var(--ion-color-secondary); }
+.subtitle { margin: -0.4rem 0 .6rem; color: var(--ion-color-secondary); font-size: .95rem; }
+
+
+ion-content.app-bg {
+  /* Ionic supports setting background via a CSS var */
+  --background: var(--app-bg-image) center / cover no-repeat;
+}
+
+/* Dark mode swap (optional) */
+@media (prefers-color-scheme: dark) {
+  ion-content.app-bg {
+    --background: var(--app-bg-image-dark) center / cover no-repeat;
+  }
+}
+
+/* Landscape override (optional) */
+@media (orientation: landscape) {
+  ion-content.app-bg {
+    --background: url('/assets/images/home_bg.webp') center / cover no-repeat;
+  }
+}
+
+/* Tablet-specific tweaks (optional) */
+@media (min-width: 768px) {
+  ion-content.app-bg {
+    /* you can choose a tablet-optimized asset here if needed */
+    /* --background: url('/assets/img/bg-2048x2732.webp') center / cover no-repeat; */
+  }
+}

@@ -1,0 +1,26 @@
+<ion-header style="background-color: #664840" class="ion-padding-bottom ion-padding-top" translucent="true">
+  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
+    <ion-buttons class="back-chip" [routerLink]="['/account']" aria-label="Back to account" slot="start">
+      <tui-icon icon="@tui.chevron-left" />
+      <span>Messages</span>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="search-wrap ion-padding-horizontal">
+    <ion-searchbar placeholder="Search" show-clear-button="never"></ion-searchbar>
+  </div>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="empty-state">
+    <ion-card>
+      <ion-card-content class="ion-text-center">
+        <tui-icon [style.font-size.rem]="2" icon="message-square-off"></tui-icon>
+        <h2>No Messages Yet</h2>
+        <p>Your inbox is quiet. Start a conversation to see messages here.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

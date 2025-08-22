@@ -1,0 +1,31 @@
+<ion-header style="background-color: #664840" class="ion-padding-bottom ion-padding-top" translucent="true">
+  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
+    <ion-buttons class="back-chip" [routerLink]="['/account']" aria-label="Back to account" slot="start">
+      <tui-icon icon="@tui.chevron-left" />
+      <span>Support</span>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Search -->
+  <div class="search-wrap ion-padding-horizontal">
+    <ion-searchbar placeholder="Search" show-clear-button="never"></ion-searchbar>
+  </div>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="empty-state">
+    <ion-card>
+      <ion-card-content class="ion-text-center">
+        <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+        <h2>No Orders Yet</h2>
+        <p>You haven’t placed any orders. Start shopping to make your first purchase.</p>
+        <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
+          <tui-icon icon="tuiIconShoppingCart"></tui-icon>
+          <span>Start Shopping</span>
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

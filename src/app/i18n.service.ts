@@ -20,37 +20,30 @@ export class I18nService {
     return this._lang$.value;
   }
 
-  /** Call once at app startup */
   async init() {
     const saved = (localStorage.getItem(STORAGE_KEY) as LangCode) || 'en';
     await this.use(saved);
   }
 
-  /** Switch language and load its dictionary */
   async use(lang: LangCode) {
-    const url = `assets/i18n/${lang}.json`;
     try {
-      const dict = await firstValueFrom(this.http.get<Dict>(url));
+      const dict = await firstValueFrom(this.http.get<Dict>(`assets/i18n/${lang}.json`));
       this._dict = dict ?? {};
       this._lang$.next(lang);
       localStorage.setItem(STORAGE_KEY, lang);
 
-      // Update document language + direction
+      // Make Ionic components respect direction
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    } catch (err) {
-      console.error('Failed to load language file:', err);
-      // Optional: fallback to English if requested lang fails
+    } catch (e) {
+      console.error('i18n load failed', e);
       if (lang !== 'en') await this.use('en');
     }
   }
 
-  /** Translate a key with optional {{placeholders}} */
   t(key: string, params?: Record<string, any>): string {
     const raw = this._dict[key] ?? key;
     if (!params) return raw;
-    return raw.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, m) =>
-      params[m] != null ? String(params[m]) : ''
-    );
+    return raw.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, m) => params[m] != null ? String(params[m]) : '');
   }
 }

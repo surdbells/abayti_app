@@ -1,0 +1,160 @@
+<ion-content [fullscreen]="true" class="app-bg ion-padding">
+  <!-- Dark mode toggle -->
+  <ion-grid class="h-100">
+    <ion-row class="h-100 ion-justify-content-center">
+      <ion-col class="ion-padding" size="12">
+        <div class="stack">
+          <div class="brand-badge">
+            <span>
+            <img class="animate__animated animate__fadeIn" src="assets/images/abayti_small.png" alt="">
+          </span>
+          </div>
+          <h1 class="title animate__animated animate__fadeInDown ion-text-center">Create new<br>Account</h1>
+          <div class="flex items-start">
+            <div class="flex ion-margin-top animate__animated animate__fadeInDown items-start">
+              <div class="flex abayti_secondary_color items-center h-5">
+                Already registered? <ion-text (click)="sign_in()" style="font-weight: bolder;" type="button" class="animate__animated  abayti_secondary_color animate__fadeInRight">Sign in</ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ion-row *ngIf="!ui_controls.registered" class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-col class="ion-no-padding">
+              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+                <label tuiLabel>First name</label>
+                <input [(ngModel)]="register.first_name" type="text" name="first_name" tuiTextfield />
+              </tui-textfield>
+          </ion-col>
+          <ion-col class="ion-no-padding ion-padding-start">
+              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+                <label class="animate__animated animate__fadeInDown" tuiLabel>Last name</label>
+                <input [(ngModel)]="register.last_name" type="text" name="first_name" tuiTextfield />
+              </tui-textfield>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!ui_controls.registered" class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-col class="ion-no-padding">
+            <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+              <label tuiLabel>Email</label>
+              <input [(ngModel)]="register.email" type="text" name="email" tuiTextfield />
+            </tui-textfield>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!ui_controls.registered" class="ion-padding-bottom animate__animated animate__fadeInDown">
+          <ion-col size="4" class="ion-no-padding">
+            <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                style="width: 100%; outline-color: #ffffff; color: #ffffff; margin-top: 6px;" size="m" tuiButton type="button" id="open-country-codes">
+                <span class="cc-flag">{{ selectedDial?.flag }}</span>
+                <span class="cc-code">{{ register.countryCode }}</span>
+              <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+            </button>
+          </ion-col>
+          <ion-col>
+            <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+              <label class="animate__animated animate__fadeInDown" tuiLabel>Phone number</label>
+              <input type="tel"
+                     inputmode="numeric" maxlength="15"
+                     [(ngModel)]="register.phone" name="phone" tuiTextfield />
+            </tui-textfield>
+          </ion-col>
+        </ion-row>
+        <button *ngIf="!ui_controls.registered" (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                style="width: 100%; outline-color: #ffffff; color: #ffffff" size="m"
+                tuiButton type="button">
+          Register
+        </button>
+
+        <ion-row *ngIf="ui_controls.registered" class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-col class="ion-no-padding">
+            <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+              <label tuiLabel>One Time Password [ OTP ]</label>
+              <input [max]="6" [(ngModel)]="confirm.input_otp" type="text" name="input_otp" tuiTextfield />
+            </tui-textfield>
+          </ion-col>
+        </ion-row>
+        <button *ngIf="ui_controls.registered" (click)="user_validate()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                style="width: 100%; outline-color: #ffffff; color: #ffffff" size="m"
+                tuiButton type="button">
+          Validate
+        </button>
+        <ion-row *ngIf="ui_controls.registered" class="ion-padding-top">
+          <ion-col>
+            <ion-text> Didn’t get the otp email? Please check your inbox and spam folder. </ion-text>
+            <ion-text>If the email address you entered is incorrect, click the button below to update and try again.</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="ui_controls.registered" class="ion-padding-top">
+          <ion-col>
+            <button (click)="ui_controls.registered=false" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                    style="width: 100%; outline-color: #ffffff; color: #ffffff" size="s" tuiButton type="button">
+              Change Email
+            </button>
+          </ion-col>
+          <ion-col>
+            <button (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                    style="width: 100%; outline-color: #ffffff; color: #ffffff" size="s" tuiButton type="button">
+              Resend OTP
+            </button>
+          </ion-col>
+        </ion-row>
+        <div class="flex items-start">
+          <div class="flex ion-margin-top items-start">
+            <div class="flex items-center h-5">
+              <ion-text class="ion-margin-top abayti_secondary_color animate__animated animate__fadeInRight" (click)="forgot_password()"> Forgot Password </ion-text>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- Searchable country code modal (bottom sheet style) -->
+  <ion-modal
+    #codeModal
+    trigger="open-country-codes"
+    [initialBreakpoint]="0.8"
+    [breakpoints]="[0, 0.5, 0.8, 1]"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select country code</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="codeModal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+
+        <ion-toolbar>
+          <ion-searchbar
+            [(ngModel)]="codeSearch"
+            debounce="100"
+            placeholder="Search by country or +code"
+          ></ion-searchbar>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-item
+            button
+            detail
+            *ngFor="let c of filteredDialCodes()"
+            (click)="selectCode(c); codeModal.dismiss()"
+          >
+            <ion-label>
+              <div class="code-line">
+                <span class="flag">{{ c.flag }}</span>
+                <span class="name">{{ c.name }}</span>
+                <span class="code">{{ c.code }}</span>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-item *ngIf="filteredDialCodes().length === 0">
+          <ion-label>No results</ion-label>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>
