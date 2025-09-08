@@ -1,9 +1,12 @@
-export class City {
+export class Area {
   constructor(
-    public city_ID: number,
+    public area_ID: number,
     public code: string,
     public name: string,
     public name_Arabic: string,
-    public country_ID: number
+    public zone_Id: number,
+    public city_Id: number,
+    public latitude: string,
+    public longitude: string
   ){  }
 }

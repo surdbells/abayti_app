@@ -16,16 +16,15 @@
 }
 
 .brand-badge {
-  width: 120px; height: 65px;
+  width: 160px; height: 72px;
 }
 
-.title { font-weight: 600; font-size: 1.5rem; margin: 0; color: var(--ion-color-secondary); }
-.subtitle { margin: -0.4rem 0 .6rem; color: var(--ion-color-secondary); font-size: .95rem; }
-
+.title { font-weight: 600; font-size: 25px; margin: 0; color: #000000; }
+.subtitle {font-weight: 400; margin: 0.4rem 0 .6rem; color: #000000; font-size: 16px; }
 
 ion-content.app-bg {
   /* Ionic supports setting background via a CSS var */
-  --background: var(--app-bg-image) center / cover no-repeat;
+  --background: var(--login-bg-image) center / cover no-repeat;
 }
 
 /* Dark mode swap (optional) */

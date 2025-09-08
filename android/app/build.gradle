@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "ae.abayti.app"
+    namespace "ae.threebayti.app"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "ae.abayti.app"
+        applicationId "ae.threebayti.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

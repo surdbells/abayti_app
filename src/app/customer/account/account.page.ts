@@ -80,6 +80,8 @@ export class AccountPage implements OnInit {
     user_type: "",
     email: "",
     phone: "",
+    avatar: "",
+    location: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,
@@ -123,7 +125,7 @@ export class AccountPage implements OnInit {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
 
-    handleRefresh(event: any) {
+  handleRefresh(event: any) {
     setTimeout(() => {
       this.getCategory().then(r => console.log(r));
       event.target.complete();

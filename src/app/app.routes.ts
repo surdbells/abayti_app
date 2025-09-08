@@ -1,15 +1,8 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: 'home',
-    loadComponent: () => import('./public/home/home.page').then((m) => m.HomePage),
-  },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: 'start', pathMatch: 'full' },
+  { path: 'start', loadComponent: () => import('./start/start.page').then(m => m.StartPage) },
   {
     path: 'login',
     loadComponent: () => import('./public/login/login.page').then( m => m.LoginPage)
@@ -47,7 +40,31 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/cart/cart.page').then( m => m.CartPage)
   },
   {
+    path: 'measurements',
+    loadComponent: () => import('./customer/measurements/measurements.page').then( m => m.MeasurementsPage)
+  },
+  {
     path: 'orders',
     loadComponent: () => import('./customer/orders/orders.page').then(m => m.OrdersPage)
+  },
+  {
+    path: 'reviews',
+    loadComponent: () => import('./customer/reviews/reviews.page').then( m => m.ReviewsPage)
+  },
+  {
+    path: 'addresses',
+    loadComponent: () => import('./customer/addresses/addresses.page').then( m => m.AddressesPage)
+  },
+  {
+    path: 'create_billing',
+    loadComponent: () => import('./customer/addresses/create-billing/create-billing.page').then( m => m.CreateBillingPage)
+  },
+  {
+    path: 'start',
+    loadComponent: () => import('./start/start.page').then( m => m.StartPage)
+  },
+  {
+    path: 'start',
+    loadComponent: () => import('./start/start.page').then( m => m.StartPage)
   },
 ];

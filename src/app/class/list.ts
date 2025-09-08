@@ -1,7 +1,6 @@
-export class Category {
+export class List {
   constructor(
     public id: number,
-    public icon: string,
     public name: string
   ){  }
 }

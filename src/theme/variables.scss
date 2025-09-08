@@ -63,8 +63,10 @@
 	--ion-color-dark-contrast-rgb: 255,255,255;
 	--ion-color-dark-shade: #292929;
 	--ion-color-dark-tint: #444444;
-  --app-bg-image: url('/assets/images/home_bg.webp');
-  --app-bg-image-dark: url('/assets/images/home_bg.webp'); /* optional */
+  --app-bg-image: url('/assets/images/home_bg.png');
+  --login-bg-image: url('/assets/images/login.png');
+  --app-bg-gradient: linear-gradient(180deg, #F1C0A9 0%, #FFE0C7 29%, #F1BEA8 100%);
+  --app-bg-image-dark: url('/assets/images/login.png'); /* optional */
 
   --profile-bg: #efe4d6;      /* page background */
   --header-bg: #6b4b3a;       /* coffee header */
@@ -73,7 +75,6 @@
   --section-title-bg: #e6d6c6;
   --divider: #e9e4df;
 
-  --text: #3a2f2b;            /* used by <tui-icon [style.color]="'var(--text)'" /> */
   --muted: #7a6a61;
 
   --pill-bg: #f1eadf;
@@ -81,4 +82,26 @@
 
   --success: #1bb063;
   --price: #b33;
+  --bg: #f6efe9;            /* page background */
+  --sheet: #e9d7c7;         /* rounded card */
+  --card: #ffffff;          /* inner pills / rows */
+  --ink: #2a211c;           /* main text */
+  --coffee: #5b4437;        /* primary brand (buttons) */
+  --border: rgba(44, 28, 20, 0.08);
+
+  --radius-2xl: 28px;
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+  --shadow-xl: 0 20px 50px rgba(91, 68, 55, 0.18);
+  --shadow-md: 0 8px 22px rgba(91, 68, 55, 0.10);
+  --shadow-sm: 0 3px 10px rgba(91, 68, 55, 0.08);
+
+  /* for <tui-icon [style.color]="'var(--text)'" /> */
+  --text: var(--ink);
+}
+
+.remove_nudge {
+  padding-top: 2rem !important;
+  background-color: #664840 !important;
+  color: #fff !important;
 }

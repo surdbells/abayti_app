@@ -3,6 +3,8 @@ import {ReplaySubject} from "rxjs";
 export class GlobalComponent {
   constructor() {}
   public static baseURL = 'https://api.3bayti.com/' // test
+  public static topexCitiesURL = 'https://shipperapi.topex.ae/api/CommonAPI/Cities?countryID=1' //
+  public static topexAreaURL = 'https://shipperapi.topex.ae/api/CommonAPI/Areas?acityID=' //
 
   /* POST REQUEST */
   public static UserLogin = GlobalComponent.baseURL + 'users/login';
@@ -10,7 +12,21 @@ export class GlobalComponent {
   public static UserValidate = GlobalComponent.baseURL + 'users/validate';
   public static EmailValidate = GlobalComponent.baseURL + 'users/validate-email';
   public static ProductCategory = GlobalComponent.baseURL + 'customer/category';
+  public static topexCities = GlobalComponent.topexCitiesURL;
   public static UserConfirm = GlobalComponent.baseURL + 'users/confirm';
+  public static UpdateLocation = GlobalComponent.baseURL + 'customer/settings/update-location';
+
+  // Measurement
+  public static createMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/create-measurement';
+  public static readMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/read-measurements';
+  public static updateMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/update-measurement';
+  public static getMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/get-measurement';
+
+  // Billing
+  public static createBilling = GlobalComponent.baseURL + 'customer/settings/billing/create-billing';
+  public static readBilling = GlobalComponent.baseURL + 'customer/settings/billing/read-billings';
+  public static updateBilling = GlobalComponent.baseURL + 'customer/settings/billing/update-billing';
+  public static getBilling = GlobalComponent.baseURL + 'customer/settings/billing/get-billing';
 
 
 

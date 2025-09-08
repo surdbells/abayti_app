@@ -16,11 +16,11 @@
 }
 
 .brand-badge {
-  width: 120px; height: 65px;
+  width: 160px; height: 72px;
 }
 
-.title { font-weight: 600; font-size: 2.5rem; margin: 0; color: var(--ion-color-secondary); }
-.subtitle { margin: -0.4rem 0 .6rem; color: var(--ion-color-secondary); font-size: .95rem; }
+.title { font-weight: 600; font-size: 35px; margin: 0; color: #000000; }
+.subtitle {font-weight: 400; margin: 0.4rem 0 .6rem; color: #000000; font-size: 16px; }
 
 
 ion-content.app-bg {
@@ -31,14 +31,14 @@ ion-content.app-bg {
 /* Dark mode swap (optional) */
 @media (prefers-color-scheme: dark) {
   ion-content.app-bg {
-    --background: var(--app-bg-image-dark) center / cover no-repeat;
+    --background: var(--login-bg-image) center / cover no-repeat;
   }
 }
 
 /* Landscape override (optional) */
 @media (orientation: landscape) {
   ion-content.app-bg {
-    --background: url('/assets/images/home_bg.webp') center / cover no-repeat;
+    --background: url('/assets/images/login.png') center / cover no-repeat;
   }
 }
 

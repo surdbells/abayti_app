@@ -1,0 +1,62 @@
+<ion-content class="nudge-fix" [fullscreen]="false">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="center" [edge]="true">
+    <ion-fab-button (click)="add_billing()">
+      <tui-icon [style.font-size.rem]="2" icon="plus"></tui-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="sheet">
+    <ion-buttons class="back-chip" [routerLink]="['/profile']" aria-label="Back to account" slot="start">
+      <tui-icon icon="@tui.chevron-left" />
+      <span>Billing addresses</span>
+    </ion-buttons>
+    <div *ngIf="!ui_controls.is_loading" class="menu">
+      <ion-card (click)="get_selected(item.name, item.billing)" *ngFor="let item of billing; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-no-margin ion-margin-bottom compact">
+        <ion-card-content>
+          <!-- Name -->
+          <div class="row-top">
+            <tui-icon icon="user-round"></tui-icon>
+            <div class="name">{{ item?.name || '—' }}</div>
+          </div>
+
+          <!-- Contact -->
+          <div class="contact">
+            <div class="item">
+              <tui-icon icon="phone"></tui-icon>
+              <a class="value" [href]="'tel:' + (item?.phone || '')">{{ item?.phone || '—' }}</a>
+            </div>
+            <span class="dot" aria-hidden="true">•</span>
+            <div class="item">
+              <tui-icon icon="mail"></tui-icon>
+              <a class="value" [href]="'mailto:' + (item?.email || '')">{{ item?.email || '—' }}</a>
+            </div>
+          </div>
+
+          <!-- Horizontal Address Row -->
+          <div class="address-row">
+            <div class="chip">
+              <tui-icon icon="@tui.map-pin" [style.color]="'var(--text)'" />
+              <span>{{ item?.city || 'Dubai' }} {{ item?.area || 'Al Marmoom' }} {{ item?.street || '—' }}</span>
+            </div>
+            <div class="chip" slot="end">
+              <tui-icon icon="@tui.chevron-right" />
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div *ngIf="ui_controls.is_empty" class="empty-state">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="location"></tui-icon>
+          <h2>No Billing Addresses</h2>
+          <p>You can add multiple addresses and set one as default.</p>
+          <button (click)="add_billing()" appearance="floating" tuiButton size="m" class="mt-4">
+            <tui-icon [style.font-size.rem]="2" icon="plus"></tui-icon>
+            <span>Add new</span>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
+  </div>
+</ion-content>

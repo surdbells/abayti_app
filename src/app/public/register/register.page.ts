@@ -18,7 +18,7 @@ import {
   IonModal,
   IonSearchbar,
   IonButtons,
-  IonSegmentButton, IonSegment
+  IonSegmentButton, IonSegment, IonCheckbox
 } from '@ionic/angular/standalone';
 import { ConnectionService } from '../../service/connection.service';
 import {defer, Subscription} from 'rxjs';
@@ -48,7 +48,7 @@ import {getCountries} from "libphonenumber-js";
   styleUrls: ['./register.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment]
+  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox]
 })
 export class RegisterPage implements OnInit {
   isOnline = true;
@@ -115,7 +115,8 @@ export class RegisterPage implements OnInit {
     confirm_password: "",
     countryCode: "+971",
     business_name: "",
-    license_number: ""
+    license_number: "",
+    accepted_terms: false
   };
   confirm = {
     otp: "",
@@ -215,6 +216,10 @@ export class RegisterPage implements OnInit {
     }
     if (this.register.password != this.register.confirm_password) {
       this.error_notification("Password does not match");
+      return;
+    }
+    if (!this.register.accepted_terms) {
+      this.error_notification("Accept our terms and conditions to proceed");
       return;
     }
     this.send_otp_check.email = this.register.email;

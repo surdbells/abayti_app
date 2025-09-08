@@ -153,6 +153,10 @@ export class LoginPage implements OnInit, OnDestroy {
     this.router.navigate(['/', 'reset']).then(r => console.log(r));
   }
 
-  google_signin?(): void {}
-  apple_signin?(): void {}
+  google_signin(): void {
+    this.show_error("Google sign in is currently unavailable");
+  }
+  apple_signin(): void {
+    this.show_error("Apple sign in is currently unavailable");
+  }
 }

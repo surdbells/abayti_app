@@ -1,130 +1,147 @@
-<ion-header style="background-color: #664840" class="ion-padding-top" translucent="true">
-  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
+
+<ion-content class="ion-padding remove_nudge">
+  <div class="sheet">
     <ion-buttons class="back-chip" [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <tui-icon icon="@tui.chevron-left" />
       <span>Profile</span>
     </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" class="profile-bg">
-  <!-- HERO -->
-  <div class="hero ion-margin-horizontal">
-    <div class="hero-top">
+    <!-- Header -->
+    <div class="sheet-header">
+      <div class="avatar">
+        <ion-img src="{{single_user.avatar}}" alt="{{single_user.first_name}}"></ion-img>
+      </div>
       <div class="welcome">
-        <div class="name">{{ single_user.first_name }}</div>
-      </div>
-
-      <ion-avatar class="avatar">
-        <ion-img src="https://lh3.googleusercontent.com/ogw/AF2bZyj-sYY2-U51it1lAO4EoJhdrpH58igEC5Rohx0On76Vn5Xl=s32-c-mo" alt="User avatar"></ion-img>
-      </ion-avatar>
-    </div>
-    <div class="points-row">
-      <div class="pill">
-        <span class="label">POINTS</span>
-        <span class="value">{{ user().points | number:'1.0-2' }} PTS</span>
-      </div>
-      <div class="pill">
-        <span class="label">Pending Points</span>
-        <span class="value">{{ user().pending | number:'1.0-0' }} PTS</span>
+        <div class="overline">WELCOME</div>
+        <h1 class="name">{{ single_user.first_name}}</h1>
       </div>
     </div>
-  </div>
 
-  <!-- MY ORDERS -->
-  <!--<section class="section">
-    <div class="section-title">MY ORDERS</div>
+    <!-- Stats -->
+    <!--<div class="stats">
+      <div class="stat-pill">
+        <div class="stat-label">Points</div>
+        <div class="stat-value">
+          {{ user().points | number:'1.0-0' }}
+          <span class="unit">PTS</span>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-label">Rewards</div>
+        <div class="stat-value">
+          {{ user().pending | number:'1.0-0' }}
+          <span class="unit">PTS</span>
+        </div>
+      </div>
+    </div>-->
 
-    <div class="order-grid">
-      <div class="order-head">Order Date</div>
-      <div class="order-head">Price</div>
-      <div class="order-head">Status</div>
+    <!-- Menu list -->
+    <div class="menu">
 
-      <div class="order-cell">{{ lastOrder().date | date:'dd/MM/yyyy' }}</div>
-      <div class="order-cell price">₦ {{ lastOrder().price | number:'1.0-2' }}</div>
-      <div class="order-cell status delivered">{{ lastOrder().status }}</div>
-    </div>
-
-    <div class="order-actions">
-      <button type="button" class="link" (click)="viewAllOrders()">
-        <tui-icon icon="@tui.list" [style.color]="'var(&#45;&#45;text)'" />
-        View all orders
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openReturns()">
+        <div class="left">
+          <tui-icon icon="@tui.undo-2" [style.color]="'var(--text)'" />
+          <span>Returns</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
       </button>
 
-      <button type="button" class="link" (click)="sortOrders()">
-        <tui-icon icon="@tui.arrow-up-down" [style.color]="'var(&#45;&#45;text)'" />
-        Sort by <strong>Latest</strong>
+      <!--      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openWallet()">
+        <div class="left">
+          <tui-icon icon="@tui.wallet" [style.color]="'var(&#45;&#45;text)'" />
+          <span>My Wallet</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openCards()">
+        <div class="left">
+          <tui-icon icon="@tui.credit-card" [style.color]="'var(&#45;&#45;text)'" />
+          <span>My Payment Cards</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>-->
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openReviews()">
+        <div class="left">
+          <tui-icon icon="@tui.star" [style.color]="'var(--text)'" />
+          <span>My Reviews</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openAddresses()">
+        <div class="left">
+          <tui-icon icon="@tui.map-pin" [style.color]="'var(--text)'" />
+          <span>Delivery Addresses</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openMeasurement()">
+        <div class="left">
+          <tui-icon icon="@tui.ruler" [style.color]="'var(--text)'" />
+          <span>Measurements</span>
+        </div>
         <tui-icon icon="@tui.chevron-right" />
       </button>
     </div>
-  </section>-->
 
-  <!-- MY ACCOUNT -->
-  <section class="section">
-    <div class="section-title">MY ACCOUNT</div>
-    <ion-list class="list-flat">
-      <ion-item button detail (click)="openReturns()">
-        <tui-icon slot="start" icon="@tui.rotate-ccw" [style.color]="'var(--text)'" />
-        <ion-label>Returns</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>
-
-<!--      <ion-item button detail (click)="openWallet()">
-        <tui-icon slot="start" icon="@tui.wallet" [style.color]="'var(&#45;&#45;text)'" />
-        <ion-label>My Wallet</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>
-
-      <ion-item button detail (click)="openCards()">
-        <tui-icon slot="start" icon="@tui.credit-card" [style.color]="'var(&#45;&#45;text)'" />
-        <ion-label>My Payment Cards</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>-->
-
-      <ion-item button detail (click)="openInfo()">
-        <tui-icon slot="start" icon="@tui.user" [style.color]="'var(--text)'" />
-        <ion-label>My Information</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>
-
-      <ion-item button detail (click)="openReviews()">
-        <tui-icon slot="start" icon="@tui.star" [style.color]="'var(--text)'" />
-        <ion-label>My Reviews</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>
-    </ion-list>
-  </section>
-
-<!--  &lt;!&ndash; MY LOCATION &ndash;&gt;
-  <section class="section">
-    <div class="section-title">MY LOCATION</div>
-    <ion-list class="list-flat">
-      <ion-item button detail>
-        <img slot="start" class="flag" [src]="country().flag" alt="flag" />
-        <ion-label>{{ country().name }}</ion-label>
-        <tui-icon slot="end" icon="@tui.chevron-right" />
-      </ion-item>
-    </ion-list>
-  </section>-->
-
-  <!-- MY LANGUAGE -->
-  <section class="section">
-    <div class="section-title">MY LANGUAGE</div>
+    <!-- Language -->
+    <div class="group-title">LANGUAGE</div>
     <app-language-switcher></app-language-switcher>
-  </section>
 
-  <!-- HELP & CONTACT -->
-<!--  <section class="section">
-    <ion-button expand="block" fill="outline" class="help-btn" (click)="openHelp()">
-      <tui-icon slot="start" icon="@tui.help-circle" />
-      Help & Contact
-    </ion-button>
-  </section>-->
+    <!-- Location -->
+    <div class="group-title">LOCATION</div>
+    <button  id="open-location" type="button" class="menu-item animate__animated animate__fadeInDown">
+      <div class="left">
+        <span>{{ single_user.location }}</span>
+      </div>
+      <tui-icon icon="@tui.chevron-right" />
+    </button>
 
-  <!-- SIGN OUT -->
-  <section class="section bottom-pad">
-    <ion-button expand="block" class="signout-btn" (click)="signOut()">
-      <tui-icon slot="start" icon="@tui.log-out" />
-      SIGN OUT
-    </ion-button>
-  </section>
+    <!-- Footer actions -->
+    <div class="footer-row ion-margin-bottom">
+      <button type="button" class="support" (click)="openHelp()">
+        <tui-icon icon="@tui.help-circle" />
+        <span>Support</span>
+      </button>
+
+      <button type="button" class="signout" (click)="signOut()">
+        SIGN OUT
+      </button>
+    </div>
+  </div>
+
+  <ion-modal  #locationModal trigger="open-location" [initialBreakpoint]="0.3" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Set location</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="locationModal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-row class="animate__animated ion-padding-bottom">
+          <ion-col>
+            <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+              <label tuiLabel>Location</label>
+              <input [(ngModel)]="u_location.location" type="text" name="name" tuiTextfield />
+            </tui-textfield>
+          </ion-col>
+          <button *ngIf="!ui_controls.updating_location" (click)="update_location()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                  style="width: 100%; outline-color: #ffffff; color: #ffffff" size="m"
+                  tuiButton type="button"> Update
+          </button>
+          </ion-row>
+        <ion-row>
+          <ion-col>
+            <tui-loader *ngIf="ui_controls.updating_location"></tui-loader>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
+

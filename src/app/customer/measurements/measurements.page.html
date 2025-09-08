@@ -1,0 +1,82 @@
+<ion-content class="nudge-fix remove_nudge" [fullscreen]="false">
+  <div class="sheet">
+    <ion-buttons class="back-chip" [routerLink]="['/profile']" aria-label="Back to account" slot="start">
+      <tui-icon icon="@tui.chevron-left" />
+      <span>Measurement</span>
+    </ion-buttons>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/arm.png" alt="Arm Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Arm Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.arm"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/bust.png" alt="Bust Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Bust Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.bust"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/hip.png" alt="Hip Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Hip Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.hip"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/length.png" alt="Length Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Length Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.length"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/neck.png" alt="Neck Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Neck Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.neck"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="measure-card ion-no-margin ion-margin-bottom">
+      <div class="mc-row">
+        <img src="assets/images/waist.png" alt="Waist Measurement" class="mc-img" />
+        <div class="mc-body">
+          <div class="mc-title">Waist Measurement</div>
+          <ion-item lines="none" class="mc-input-item">
+            <ion-input type="number" inputmode="decimal" placeholder="Enter value" [(ngModel)]="update.waist"> </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ion-card>
+    <ion-row>
+      <ion-col>
+        <button  *ngIf="!ui_controls.is_loading" (click)="update_measurement()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                 style="width: 100%; outline-color: #ffffff; color: #ffffff" size="m" tuiButton type="button"> Update
+        </button>
+        <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
+      </ion-col>
+    </ion-row>
+   </div>
+</ion-content>
