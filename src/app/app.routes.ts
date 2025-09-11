@@ -20,8 +20,8 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/account/account.page').then( m => m.AccountPage)
   },
   {
-    path: 'profile',
-    loadComponent: () => import('./customer/profile/profile.page').then( m => m.ProfilePage)
+    path: 'settings',
+    loadComponent: () => import('./customer/settings/settings.page').then(m => m.SettingsPage)
   },
   {
     path: 'wishlist',
@@ -56,15 +56,19 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/addresses/addresses.page').then( m => m.AddressesPage)
   },
   {
-    path: 'create_billing',
-    loadComponent: () => import('./customer/addresses/create-billing/create-billing.page').then( m => m.CreateBillingPage)
-  },
-  {
     path: 'start',
     loadComponent: () => import('./start/start.page').then( m => m.StartPage)
   },
   {
-    path: 'start',
-    loadComponent: () => import('./start/start.page').then( m => m.StartPage)
+    path: 'welcome',
+    loadComponent: () => import('./welcome/welcome.page').then( m => m.WelcomePage)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./customer/profile/profile.page').then( m => m.ProfilePage)
+  },
+  {
+    path: 'product',
+    loadComponent: () => import('./customer/product/product.page').then( m => m.ProductPage)
   },
 ];

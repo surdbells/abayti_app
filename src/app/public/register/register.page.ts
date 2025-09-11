@@ -47,7 +47,6 @@ import {getCountries} from "libphonenumber-js";
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox]
 })
 export class RegisterPage implements OnInit {
@@ -273,7 +272,7 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['/', 'reset']).then(r => console.log(r));
   }
 
-  // Step control: 1 = email, 2 = otp, 3 = profile, 4 = done
+  // Step control: 1 = email, 2 = otp, 3 = settings, 4 = done
   step = 1;
 
   // UI state

@@ -17,16 +17,31 @@ export class GlobalComponent {
   public static UpdateLocation = GlobalComponent.baseURL + 'customer/settings/update-location';
 
   // Measurement
-  public static createMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/create-measurement';
-  public static readMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/read-measurements';
+  public static readMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/read-measurement';
   public static updateMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/update-measurement';
-  public static getMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/get-measurement';
 
-  // Billing
-  public static createBilling = GlobalComponent.baseURL + 'customer/settings/billing/create-billing';
   public static readBilling = GlobalComponent.baseURL + 'customer/settings/billing/read-billings';
   public static updateBilling = GlobalComponent.baseURL + 'customer/settings/billing/update-billing';
-  public static getBilling = GlobalComponent.baseURL + 'customer/settings/billing/get-billing';
+
+
+  public static readReviews = GlobalComponent.baseURL + 'customer/settings/read-reviews';
+  public static deleteReview = GlobalComponent.baseURL + 'customer/settings/delete-review';
+  public static readProfile = GlobalComponent.baseURL + 'customer/settings/read-profile';
+  public static updateProfile = GlobalComponent.baseURL + 'customer/settings/update-profile';
+
+  public static readWishlist = GlobalComponent.baseURL + 'customer/read_wishlist';
+  public static readWishlistLabel = GlobalComponent.baseURL + 'customer/read_wishlist_label';
+  public static addWishlistLabel = GlobalComponent.baseURL + 'customer/add_wishlist_label';
+
+  public static filtered_products = GlobalComponent.baseURL + 'customer/filter_product';
+  public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
+  public static explore = GlobalComponent.baseURL + 'customer/explore';
+  public static featured = GlobalComponent.baseURL + 'customer/featured';
+  public static product_by_category = GlobalComponent.baseURL + 'customer/product_by_category';
+  public static products_by_labels = GlobalComponent.baseURL + 'customer/products_by_labels';
+  public static search = GlobalComponent.baseURL + 'customer/search';
+  public static store_labels = GlobalComponent.baseURL + 'customer/store_labels';
+  public static store_latest = GlobalComponent.baseURL + 'customer/store_latest';
 
 
 

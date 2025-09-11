@@ -1,7 +1,8 @@
-export class Labels {
+export class Wishlist {
   constructor(
     public id: number,
+    public product: number,
     public name: string,
-    public count: number
+    public image: string
   ){  }
 }

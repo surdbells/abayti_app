@@ -1,150 +1,315 @@
-<ion-header class="ion-padding-vertical remove_nudge" translucent="true">
-  <ion-toolbar class="toolbar  ion-no-border ion-padding-top">
-    <ion-buttons slot="start">
-      <ion-avatar class="avatar">
-        <img src="https://lh3.googleusercontent.com/ogw/AF2bZyj-sYY2-U51it1lAO4EoJhdrpH58igEC5Rohx0On76Vn5Xl=s32-c-mo" alt="u"/>
-      </ion-avatar>
-      <div class="hello">
-        <div class="hey">Hi,<span>{{ single_user.first_name }}</span> 👋</div>
-        <div class="loc">Dubai, UAE</div>
-      </div>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="user_wishlist()" fill="clear">
-        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
-      </ion-button>
-      <ion-button fill="clear">
-        <tui-icon (click)="user_messages()" icon="@tui.message-square-dot" [style.color]="'var(--text)'"/>
-      </ion-button>
-      <ion-button fill="clear">
-        <tui-icon (click)="user_sign_out()" icon="@tui.log-out" [style.color]="'var(--text)'" />
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <!-- Search -->
-  <div class="search-wrap ion-padding-top ion-padding-horizontal">
-    <ion-searchbar placeholder="Search Stores" show-clear-button="never"></ion-searchbar>
-  </div>
-</ion-header>
-
-<ion-content fullscreen="true" class="page">
+<ion-content fullscreen="true" class="home-bg">
+  <ion-header class="ion-padding-top ion-no-border remove_nudge">
+    <ion-toolbar class="toolbar  ion-no-border">
+      <ion-buttons slot="start">
+        <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
+        <div class="hello">
+          <div class="hey">Welcome back <span>{{ single_user.first_name }}</span></div>
+          <div class="loc"><tui-icon icon="@tui.map-pin" [style.font-size.rem]="1" [style.color]="'var(--muted)'"/> Dubai, UAE</div>
+        </div>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="user_wishlist()" fill="clear">
+          <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+        </ion-button>
+        <ion-button (click)="user_messages()" fill="clear">
+          <tui-icon icon="@tui.message-square-more" [style.color]="'var(--text)'"/>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <!-- Search -->
+    <div class="search-wrap">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-searchbar (click)="user_search()" style="border: 1px solid #FAC0B0; border-radius: 17px" placeholder="Search stores" show-clear-button="never"></ion-searchbar>
+          </ion-col>
+          <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
+            <tui-icon class="ion-float-end" [style.color]="'var(--ion-color-secondary)'" icon="@tui.sliders-horizontal" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-header>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <!-- Category -->
-  <section [style.background-color]="'var(--text)'" class="section">
+  <section class="section ion-padding-horizontal">
     <div class="section-head">
       <h2>Category</h2>
     </div>
     <div class="h-scroll categories">
-      <button class="cat">
-        <span class="cat-icon">
-          <tui-icon [style.font-size.rem]="2" icon="@tui.layout-dashboard" [style.color]="'var(--ion-color-secondary)'"/>
-        </span>
-        <span class="cat-text">All</span>
+      <svg (click)="get_best_sellers();" width="60" height="46" viewBox="0 0 60 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="60" height="46" rx="8" fill="#F98563"/>
+        <path d="M11.334 21.6673H12.6673C14.0007 21.6673 14.6673 21.0007 14.6673 19.6673V18.334C14.6673 17.0007 14.0007 16.334 12.6673 16.334H11.334C10.0007 16.334 9.33398 17.0007 9.33398 18.334V19.6673C9.33398 21.0007 10.0007 21.6673 11.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.334 21.6673H20.6673C22.0007 21.6673 22.6673 21.0007 22.6673 19.6673V18.334C22.6673 17.0007 22.0007 16.334 20.6673 16.334H19.334C18.0007 16.334 17.334 17.0007 17.334 18.334V19.6673C17.334 21.0007 18.0007 21.6673 19.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.334 29.6673H20.6673C22.0007 29.6673 22.6673 29.0007 22.6673 27.6673V26.334C22.6673 25.0007 22.0007 24.334 20.6673 24.334H19.334C18.0007 24.334 17.334 25.0007 17.334 26.334V27.6673C17.334 29.0007 18.0007 29.6673 19.334 29.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.334 29.6673H12.6673C14.0007 29.6673 14.6673 29.0007 14.6673 27.6673V26.334C14.6673 25.0007 14.0007 24.334 12.6673 24.334H11.334C10.0007 24.334 9.33398 25.0007 9.33398 26.334V27.6673C9.33398 29.0007 10.0007 29.6673 11.334 29.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29.144 28L32.234 19.12H34.058L37.148 28H35.876L33.05 19.702H33.224L30.404 28H29.144ZM30.914 25.276L31.202 24.238H35.084L35.372 25.276H30.914ZM38.1429 28V18.304H39.3969V28H38.1429ZM41.0843 28V18.304H42.3383V28H41.0843Z" fill="#FDFDFD"/>
+      </svg>
+      <!-- Dynamic categories -->
+      <button class="chip" type="button" (click)="products_by_category(1)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Abayas</span>
       </button>
-      @for (a_cat of category; track a_cat.id){
-        <button [tuiShimmer]="ui_controls.is_loading" class="cat">
-        <span class="cat-icon">
-            <tui-icon [style.font-size.rem]="2" icon="{{a_cat.icon}}" [style.color]="'var(--ion-color-secondary)'"/>
-        </span>
-          <span class="cat-text">{{ a_cat.name }}</span>
-        </button>
-      }
-      @empty {
-        <!-- Content to display if the collection is empty -->
-        <p>No items found.</p>
-      }
-
-      <button class="cat">
-        <span class="cat-icon">
-          <tui-icon [style.font-size.rem]="2" icon="@tui.shirt" [style.color]="'var(--ion-color-secondary)'"/>
-        </span>
-        <span class="cat-text">Dresses</span>
+      <button class="chip" type="button" (click)="products_by_category(2)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Mukhawars</span>
       </button>
-
-      <button class="cat">
-        <span class="cat-icon">
-          <tui-icon [style.font-size.rem]="2" icon="@tui.plane-takeoff" [style.color]="'var(--ion-color-secondary)'"/>
-        </span>
-        <span class="cat-text">Travel wear</span>
+      <button class="chip" type="button" (click)="products_by_category(3)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Kaftans</span>
       </button>
-
-      <!-- add more as needed -->
+      <button class="chip" type="button" (click)="products_by_category(4)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/bag.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Bags</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(5)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Accessories</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(6)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/modest.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Modest clothes</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(7)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/dress.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Dresses</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(8)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/activewear.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Active wear</span>
+      </button>
     </div>
   </section>
+  @if (!ui_controls.is_loading){
+    <section class="section ion-padding">
+      <div class="section-head">
+        <h2>Best Seller</h2>
+        <ion-button [style.color]="'#FF3D00'" fill="clear" size="small">Show All</ion-button>
+      </div>
+      <div class="h-scroll products">
+        @for(best_seller of best_sellers; track best_seller.product_name){
+          <article (click)="open_product()" class="product-card">
+            <div class="img-wrap" [style.background]="'#7A1C09'">
+              <img style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+              <button (click)="addWishlist(best_seller.product_id)" class="like" type="button">
+                <tui-icon icon="@tui.heart" />
+              </button>
+              <span class="tag">{{best_seller.store_name}}</span>
+            </div>
+            <div class="info">
+              <p class="desc">
+                {{best_seller.product_name}} - <span [innerHTML]="best_seller.description"></span>
+              </p>
+              <svg class="ion-float-end ion-margin-bottom" width="87" height="28" viewBox="0 0 87 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="87" height="28" rx="10" fill="#7C2108"/>
+                <path d="M18.222 13.464V16.278C18.222 16.6793 18.2407 16.9407 18.278 17.062C18.3247 17.174 18.404 17.23 18.516 17.23C18.6747 17.23 18.894 17.062 19.174 16.726V17.23C18.698 17.874 18.1987 18.196 17.676 18.196C17.1533 18.196 16.8827 17.874 16.864 17.23C16.1547 17.874 15.5293 18.196 14.988 18.196C14.5027 18.196 14.1153 18.0607 13.826 17.79C13.546 17.51 13.406 17.1227 13.406 16.628C13.406 16.1147 13.6627 15.648 14.176 15.228C14.6987 14.808 15.5947 14.374 16.864 13.926C16.864 13.2353 16.7893 12.75 16.64 12.47C16.4907 12.19 16.22 12.05 15.828 12.05C15.24 12.05 14.946 12.2973 14.946 12.792C14.946 13.492 14.7173 13.842 14.26 13.842C14.064 13.842 13.91 13.7813 13.798 13.66C13.686 13.5293 13.63 13.366 13.63 13.17C13.63 12.7313 13.8447 12.3533 14.274 12.036C14.7127 11.7093 15.296 11.546 16.024 11.546C17.4893 11.546 18.222 12.1853 18.222 13.464ZM16.864 16.712V14.402C16.0707 14.738 15.5247 15.0413 15.226 15.312C14.9273 15.5827 14.778 15.9233 14.778 16.334C14.778 16.5953 14.8573 16.8147 15.016 16.992C15.184 17.1693 15.3893 17.258 15.632 17.258C15.968 17.258 16.3787 17.076 16.864 16.712ZM23.9127 12.05V10.468C23.9127 10.0013 23.8707 9.68867 23.7867 9.53C23.7027 9.362 23.558 9.278 23.3527 9.278C23.2127 9.278 23.082 9.306 22.9607 9.362L22.8347 9.068L24.8647 8.284H25.2707V16.124C25.2707 16.5533 25.3033 16.8427 25.3687 16.992C25.434 17.1413 25.5553 17.216 25.7327 17.216C25.826 17.216 25.9847 17.1787 26.2087 17.104L26.3347 17.37L24.3187 18.196H23.9127V17.412C23.334 17.9347 22.7367 18.196 22.1207 18.196C21.3273 18.196 20.6927 17.9067 20.2167 17.328C19.7407 16.7493 19.5027 16.0073 19.5027 15.102C19.5027 14.1313 19.7873 13.3007 20.3567 12.61C20.926 11.9007 21.6633 11.546 22.5687 11.546C23.1567 11.546 23.6047 11.714 23.9127 12.05ZM23.9267 16.81V13.954C23.9267 13.338 23.81 12.8667 23.5767 12.54C23.3433 12.2133 23.012 12.05 22.5827 12.05C22.1253 12.05 21.752 12.2787 21.4627 12.736C21.1733 13.1933 21.0287 13.8187 21.0287 14.612C21.0287 15.4427 21.192 16.11 21.5187 16.614C21.8547 17.118 22.2793 17.37 22.7927 17.37C23.166 17.37 23.544 17.1833 23.9267 16.81ZM31.0357 12.05V10.468C31.0357 10.0013 30.9937 9.68867 30.9097 9.53C30.8257 9.362 30.6811 9.278 30.4757 9.278C30.3357 9.278 30.2051 9.306 30.0837 9.362L29.9577 9.068L31.9877 8.284H32.3937V16.124C32.3937 16.5533 32.4264 16.8427 32.4917 16.992C32.5571 17.1413 32.6784 17.216 32.8557 17.216C32.9491 17.216 33.1077 17.1787 33.3317 17.104L33.4577 17.37L31.4417 18.196H31.0357V17.412C30.4571 17.9347 29.8597 18.196 29.2437 18.196C28.4504 18.196 27.8157 17.9067 27.3397 17.328C26.8637 16.7493 26.6257 16.0073 26.6257 15.102C26.6257 14.1313 26.9104 13.3007 27.4797 12.61C28.0491 11.9007 28.7864 11.546 29.6917 11.546C30.2797 11.546 30.7277 11.714 31.0357 12.05ZM31.0497 16.81V13.954C31.0497 13.338 30.9331 12.8667 30.6997 12.54C30.4664 12.2133 30.1351 12.05 29.7057 12.05C29.2484 12.05 28.8751 12.2787 28.5857 12.736C28.2964 13.1933 28.1517 13.8187 28.1517 14.612C28.1517 15.4427 28.3151 16.11 28.6417 16.614C28.9777 17.118 29.4024 17.37 29.9157 17.37C30.2891 17.37 30.6671 17.1833 31.0497 16.81ZM39.2768 9.824V11.742H40.7468V12.414H39.2768V16.124C39.2768 16.544 39.3281 16.8473 39.4308 17.034C39.5428 17.2113 39.7108 17.3 39.9348 17.3C40.2241 17.3 40.4528 17.1507 40.6208 16.852H40.9288C40.5741 17.6827 40.0468 18.098 39.3468 18.098C38.8895 18.098 38.5348 17.972 38.2828 17.72C38.0401 17.468 37.9188 17.104 37.9188 16.628V12.414H37.0508V12.05C37.5268 11.8073 37.8908 11.532 38.1428 11.224C38.4228 10.888 38.6795 10.4213 38.9128 9.824H39.2768ZM44.377 11.546C45.2636 11.546 46.0103 11.8633 46.617 12.498C47.2236 13.1327 47.527 13.8793 47.527 14.738C47.527 15.6807 47.247 16.4973 46.687 17.188C46.1363 17.86 45.371 18.196 44.391 18.196C43.495 18.196 42.7483 17.8693 42.151 17.216C41.5536 16.5627 41.255 15.7927 41.255 14.906C41.255 14.0287 41.5583 13.2493 42.165 12.568C42.7623 11.8867 43.4996 11.546 44.377 11.546ZM44.265 12.106C43.8076 12.106 43.4436 12.2973 43.173 12.68C42.9023 13.0627 42.767 13.6087 42.767 14.318C42.767 15.326 42.935 16.1287 43.271 16.726C43.607 17.3233 44.055 17.622 44.615 17.622C45.5483 17.622 46.015 16.852 46.015 15.312C46.015 14.332 45.847 13.5527 45.511 12.974C45.1843 12.3953 44.769 12.106 44.265 12.106ZM57.0743 15.536L57.3263 15.69C57.177 16.39 56.8596 16.9873 56.3743 17.482C55.917 17.958 55.3523 18.196 54.6803 18.196C53.8683 18.196 53.1963 17.888 52.6643 17.272C52.1323 16.656 51.8663 15.858 51.8663 14.878C51.8663 13.9447 52.1603 13.156 52.7483 12.512C53.3456 11.868 54.069 11.546 54.9183 11.546C55.5343 11.546 56.0616 11.6953 56.5003 11.994C56.939 12.2927 57.1583 12.638 57.1583 13.03C57.1583 13.226 57.0883 13.3893 56.9483 13.52C56.8176 13.6507 56.6496 13.716 56.4443 13.716C55.9216 13.716 55.6416 13.4173 55.6043 12.82C55.5763 12.3253 55.2823 12.078 54.7223 12.078C54.265 12.078 53.8916 12.274 53.6023 12.666C53.3223 13.058 53.1823 13.576 53.1823 14.22C53.1823 15.0507 53.369 15.7227 53.7423 16.236C54.1156 16.74 54.587 16.992 55.1563 16.992C55.9963 16.992 56.6356 16.5067 57.0743 15.536ZM62.929 13.464V16.278C62.929 16.6793 62.9477 16.9407 62.985 17.062C63.0317 17.174 63.111 17.23 63.223 17.23C63.3817 17.23 63.601 17.062 63.881 16.726V17.23C63.405 17.874 62.9057 18.196 62.383 18.196C61.8604 18.196 61.5897 17.874 61.571 17.23C60.8617 17.874 60.2364 18.196 59.695 18.196C59.2097 18.196 58.8224 18.0607 58.533 17.79C58.253 17.51 58.113 17.1227 58.113 16.628C58.113 16.1147 58.3697 15.648 58.883 15.228C59.4057 14.808 60.3017 14.374 61.571 13.926C61.571 13.2353 61.4964 12.75 61.347 12.47C61.1977 12.19 60.927 12.05 60.535 12.05C59.947 12.05 59.653 12.2973 59.653 12.792C59.653 13.492 59.4244 13.842 58.967 13.842C58.771 13.842 58.617 13.7813 58.505 13.66C58.393 13.5293 58.337 13.366 58.337 13.17C58.337 12.7313 58.5517 12.3533 58.981 12.036C59.4197 11.7093 60.003 11.546 60.731 11.546C62.1964 11.546 62.929 12.1853 62.929 13.464ZM61.571 16.712V14.402C60.7777 14.738 60.2317 15.0413 59.933 15.312C59.6344 15.5827 59.485 15.9233 59.485 16.334C59.485 16.5953 59.5644 16.8147 59.723 16.992C59.891 17.1693 60.0964 17.258 60.339 17.258C60.675 17.258 61.0857 17.076 61.571 16.712ZM66.0964 11.546H66.5304V12.806C66.6518 12.6007 66.7451 12.456 66.8104 12.372C67.2211 11.8213 67.6644 11.546 68.1404 11.546C68.7191 11.546 69.0084 11.812 69.0084 12.344C69.0084 12.5587 68.9384 12.7407 68.7984 12.89C68.6678 13.03 68.4998 13.1 68.2944 13.1C68.1358 13.1 67.9631 13.0207 67.7764 12.862C67.5991 12.694 67.4731 12.61 67.3984 12.61C67.1651 12.61 66.8711 12.9833 66.5164 13.73V16.614C66.5164 17.034 66.5958 17.3187 66.7544 17.468C66.9131 17.6173 67.2211 17.692 67.6784 17.692V18H64.1924V17.692C64.5471 17.692 64.7944 17.622 64.9344 17.482C65.0838 17.342 65.1584 17.0993 65.1584 16.754V13.492C65.1584 13.128 65.1211 12.8807 65.0464 12.75C64.9718 12.61 64.8411 12.54 64.6544 12.54C64.5424 12.54 64.3791 12.568 64.1644 12.624L64.0664 12.344L66.0964 11.546ZM71.6108 9.824V11.742H73.0808V12.414H71.6108V16.124C71.6108 16.544 71.6621 16.8473 71.7648 17.034C71.8768 17.2113 72.0448 17.3 72.2688 17.3C72.5581 17.3 72.7868 17.1507 72.9548 16.852H73.2628C72.9081 17.6827 72.3808 18.098 71.6808 18.098C71.2234 18.098 70.8688 17.972 70.6168 17.72C70.3741 17.468 70.2528 17.104 70.2528 16.628V12.414H69.3848V12.05C69.8608 11.8073 70.2248 11.532 70.4768 11.224C70.7568 10.888 71.0134 10.4213 71.2468 9.824H71.6108Z" fill="white"/>
+              </svg>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
+  @if (!ui_controls.is_loading){
+    <section (click)="open_product()" class="boutique ion-padding">
+      <h3 class="b-title ion-text-center">{{ featured_store.name }}</h3>
+      <p class="b-sub ion-text-center">{{ featured_store.description }}</p>
+      <div class="thumbs h-scroll">
+        @for(vendor_feature of vendor_featured; track vendor_feature.product_name){
+          <img (click)="selected_product(vendor_feature.product_name, vendor_feature.product_id)" style="object-fit: cover; object-position: top center;" src="{{vendor_feature.image_1}}" alt="b1"/>
+        }
+      </div>
+    </section>
+  }
+    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+      @if (ui_controls.is_loading){
+       <tui-loader></tui-loader>
+      }
+    </span>
+  <ion-modal #filter_modal [isOpen]="isFilterOpen" [initialBreakpoint]="0.8" [breakpoints]="[0, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="ion-text-center">Filter</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeFilter()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-margin-bottom">
+        <ion-card>
+          <ion-card-content>
+            <ion-item>
+              <ion-label>Category</ion-label>
+              <ion-select [(ngModel)]="filter.category" interface="popover">
+                @for(cat of category; track  cat.name){
+                  <ion-select-option [value]="cat.id">
+                    {{ cat.name }}
+                  </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Price Range</ion-card-title>
+          </ion-card-header>
 
-  <!-- Best sellers -->
-  <section class="section ion-padding">
-    <div class="section-head">
-      <h2>Best sellers</h2>
-      <ion-button [style.color]="'var(--ion-color-secondary)'" fill="clear" size="small">Show All</ion-button>
-    </div>
-    <div class="h-scroll products">
-      <article class="product-card">
-        <div class="img-wrap">
-          <img style="object-fit: cover; object-position: top center; padding: 10px; border-radius: 20px" src="https://cdn.shopify.com/s/files/1/0400/6998/8502/files/AB_51_046_8aa015fa-c299-4848-8d9f-0c6b67134d52_360x.jpg?v=1754168620" alt="AT319" />
-          <button class="like">
-            <tui-icon icon="@tui.heart" [style.color]="'var(--ion-color-secondary)'"/>
-          </button>
-          <span class="tag">BOKSHA</span>
-        </div>
-        <div class="info">
-          <h3 class="title">AT319</h3>
-          <p class="desc">
-            Black Work abaya with neat pressing, comes with a matching scarf.
-          </p>
-        </div>
-      </article>
-      <article class="product-card">
-        <div class="img-wrap">
-          <img style="object-fit: cover; object-position: top center; padding: 10px; border-radius: 20px" src="https://cdn.shopify.com/s/files/1/0400/6998/8502/files/AB_73_047_08ad0ca0-4c0a-4112-8d97-451c2c94abdc_360x.jpg?v=1752430118" alt="Tessa set" />
-          <button class="like">
-            <tui-icon icon="@tui.heart" [style.color]="'var(--ion-color-secondary)'"/>
-          </button>
-          <span class="tag">NORA</span>
-        </div>
-        <div class="info">
-          <h3 class="title">Tessa set</h3>
-          <p class="desc">
-            A top with balloon sleeves and a subtle wrap detail; stretch
-            pleated skirt that shines the floor with grace.
-          </p>
-        </div>
-      </article>
-   </div>
-  </section>
+          <ion-card-content>
+            <ion-range
+              aria-label="Dual Knobs Range"
+              [dualKnobs]="true"
+              [min]="min"
+              [max]="max"
+              [step]="step"
+              [value]="range()"
+              (ionChange)="onRangeChange($event)">
+            </ion-range>
+            <ion-grid class="inputs">
+              <ion-row class="ion-align-items-center animate__animated animate__fadeInDown">
+                <ion-col class="ion-no-padding" size="6">
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Minimum Price</ion-label>
+                    <ion-input
+                      type="number"
+                      inputmode="numeric"
+                      [min]="min"
+                      [max]="range().upper"
+                      [step]="step"
+                      [value]="range().lower"
+                      (ionInput)="onLowerInput($event)">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="6">
+                  <ion-item lines="none">
+                    <ion-label position="stacked">Maximum price</ion-label>
+                    <ion-input
+                      type="number"
+                      inputmode="numeric"
+                      [min]="range().lower"
+                      [max]="max"
+                      [step]="step"
+                      [value]="range().upper"
+                      (ionInput)="onUpperInput($event)">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+<!--              <ion-row>
+                <ion-col class="notes">
+                  <ion-note>Min: {{ min }}</ion-note>
+                  <ion-note>Max: {{ max }}</ion-note>
+                  <ion-note>Step: {{ step }}</ion-note>
+                </ion-col>
+              </ion-row>-->
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Delivery Time</ion-card-title>
+          </ion-card-header>
 
-  <!-- Brand strip -->
-  <section class="brand-strip">
-    <div class="logo">C L A S S Y  Y M</div>
-    <small>Since 2020</small>
-  </section>
+          <ion-card-content>
+            <ion-grid class="inputs">
+              <ion-row class="ion-align-items-center animate__animated animate__fadeInDown">
+                <ion-col class="ion-no-padding" size="6">
 
+                <ion-item lines="none">
+                    <label tuiLabel>
+                      <input tuiRadio type="radio" [value]="'1 - 3'" [(ngModel)]="filter.delivery">
+                      1 - 3 days
+                    </label>
+                  </ion-item>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="6">
 
+                <ion-item lines="none">
+                    <label tuiLabel>
+                      <input tuiRadio type="radio" [value]="'4 - 7'" [(ngModel)]="filter.delivery">
+                      4 - 7 days
+                    </label>
+                  </ion-item>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="6">
 
+                <ion-item lines="none">
+                    <label tuiLabel>
+                      <input tuiRadio type="radio" [value]="'14 - 21'" [(ngModel)]="filter.delivery">
+                      14 - 21 days
+                    </label>
+                  </ion-item>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="6">
+
+                <ion-item lines="none">
+                    <label tuiLabel>
+                      <input tuiRadio type="radio" [value]="'custom'" [(ngModel)]="filter.delivery">
+                      Any time
+                    </label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <svg (click)="get_filtered_products()" class="ion-margin-vertical" width="100%" height="43" viewBox="0 0 269 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="269" height="43" rx="10" fill="url(#paint0_linear_287_5940)"/>
+          <rect x="0.5" y="0.5" width="268" height="42" rx="9.5" stroke="#7C2108" stroke-opacity="0.32"/>
+          <path d="M86.78 24.22L86.1 22.6H81.2L80.44 24.38C80.16 25.06 80.02 25.5 80.02 25.7C80.02 26.22 80.5467 26.5067 81.6 26.56V27H77.18V26.56C77.7133 26.4933 78.1 26.34 78.34 26.1C78.62 25.8467 78.9267 25.34 79.26 24.58L84.16 13.46H84.64L89.3 24.26C89.6733 25.1133 90.02 25.7067 90.34 26.04C90.6733 26.3733 91.1133 26.5467 91.66 26.56V27H85.86V26.56C86.7667 26.52 87.22 26.22 87.22 25.66C87.22 25.34 87.0733 24.86 86.78 24.22ZM81.56 21.8H85.76L83.64 16.82L81.56 21.8ZM92.7945 29.48V20.76C92.7945 20.1467 92.7345 19.7267 92.6145 19.5C92.5079 19.2733 92.3145 19.16 92.0345 19.16C91.8745 19.16 91.6545 19.2133 91.3745 19.32L91.2345 18.92L94.1345 17.78H94.7345V19.62H94.7745C95.0945 19.06 95.5079 18.6133 96.0145 18.28C96.5345 17.9467 97.0679 17.78 97.6145 17.78C98.5479 17.78 99.3345 18.18 99.9745 18.98C100.628 19.7533 100.955 20.7933 100.955 22.1C100.955 23.5933 100.541 24.8333 99.7145 25.82C98.9012 26.7933 97.8945 27.28 96.6945 27.28C95.8279 27.28 95.1745 27.02 94.7345 26.5V29.48C94.7345 30.0267 94.8345 30.3867 95.0345 30.56C95.2345 30.7467 95.6479 30.8333 96.2745 30.82V31.26H91.2545V30.82C91.8545 30.8333 92.2612 30.7467 92.4745 30.56C92.6879 30.3867 92.7945 30.0267 92.7945 29.48ZM94.7345 20.56V24.22C94.7345 25.7933 95.3812 26.58 96.6745 26.58C97.3012 26.58 97.8279 26.2667 98.2545 25.64C98.6945 25 98.9145 24.16 98.9145 23.12C98.9145 21.92 98.7079 21 98.2945 20.36C97.8945 19.72 97.3612 19.4 96.6945 19.4C96.0012 19.4 95.3479 19.7867 94.7345 20.56ZM102.658 29.48V20.76C102.658 20.1467 102.598 19.7267 102.478 19.5C102.371 19.2733 102.178 19.16 101.898 19.16C101.738 19.16 101.518 19.2133 101.238 19.32L101.098 18.92L103.998 17.78H104.598V19.62H104.638C104.958 19.06 105.371 18.6133 105.878 18.28C106.398 17.9467 106.931 17.78 107.478 17.78C108.411 17.78 109.198 18.18 109.838 18.98C110.491 19.7533 110.818 20.7933 110.818 22.1C110.818 23.5933 110.404 24.8333 109.578 25.82C108.764 26.7933 107.758 27.28 106.558 27.28C105.691 27.28 105.038 27.02 104.598 26.5V29.48C104.598 30.0267 104.698 30.3867 104.898 30.56C105.098 30.7467 105.511 30.8333 106.138 30.82V31.26H101.118V30.82C101.718 30.8333 102.124 30.7467 102.338 30.56C102.551 30.3867 102.658 30.0267 102.658 29.48ZM104.598 20.56V24.22C104.598 25.7933 105.244 26.58 106.538 26.58C107.164 26.58 107.691 26.2667 108.118 25.64C108.558 25 108.778 24.16 108.778 23.12C108.778 21.92 108.571 21 108.158 20.36C107.758 19.72 107.224 19.4 106.558 19.4C105.864 19.4 105.211 19.7867 104.598 20.56ZM113.83 13.12H114.41V25.22C114.41 25.7133 114.503 26.06 114.69 26.26C114.89 26.46 115.243 26.56 115.75 26.56V27H111.11V26.56C111.63 26.56 111.983 26.4667 112.17 26.28C112.37 26.08 112.47 25.7267 112.47 25.22V16.18C112.47 15.54 112.41 15.1067 112.29 14.88C112.17 14.6533 111.963 14.54 111.67 14.54C111.457 14.54 111.257 14.58 111.07 14.66L110.89 14.26L113.83 13.12ZM120.156 28L120.596 26.8L117.616 20.64C117.189 19.76 116.856 19.2 116.616 18.96C116.363 18.6933 116.036 18.54 115.636 18.5V18.06H120.236V18.5C119.556 18.5 119.216 18.74 119.216 19.22C119.216 19.4733 119.349 19.88 119.616 20.44L121.516 24.42L123.316 20.02C123.503 19.54 123.596 19.2 123.596 19C123.596 18.6667 123.296 18.5 122.696 18.5V18.06H125.736V18.5C125.163 18.5 124.749 18.8467 124.496 19.54L120.756 28.8C120.049 30.48 119.043 31.32 117.736 31.32C117.363 31.32 117.049 31.2133 116.796 31C116.556 30.8 116.436 30.54 116.436 30.22C116.436 29.94 116.529 29.7 116.716 29.5C116.916 29.3133 117.176 29.22 117.496 29.22C117.683 29.22 117.936 29.2933 118.256 29.44C118.576 29.6 118.776 29.68 118.856 29.68C119.296 29.68 119.729 29.12 120.156 28ZM137.768 14.6H135.268V19.64H137.228C137.988 19.64 138.501 19.5133 138.768 19.26C139.048 18.9933 139.201 18.4933 139.228 17.76H139.648V22.44H139.228C139.201 21.72 139.048 21.2333 138.768 20.98C138.501 20.7133 137.988 20.58 137.228 20.58H135.268V24.38C135.268 25.3 135.375 25.8933 135.588 26.16C135.815 26.4267 136.341 26.56 137.168 26.56V27H131.108V26.56C131.908 26.56 132.421 26.4267 132.648 26.16C132.875 25.8667 132.988 25.2733 132.988 24.38V16.26C132.988 15.46 132.875 14.9133 132.648 14.62C132.421 14.34 131.908 14.2 131.108 14.2V13.76H141.228L141.368 16.86H140.948C140.695 15.9267 140.355 15.32 139.928 15.04C139.515 14.7467 138.795 14.6 137.768 14.6ZM144.848 17.78H145.488V25.22C145.488 25.7533 145.575 26.1133 145.748 26.3C145.921 26.4733 146.268 26.56 146.788 26.56V27H142.208V26.56C142.741 26.56 143.095 26.4733 143.268 26.3C143.455 26.1133 143.548 25.7533 143.548 25.22V20.78C143.548 20.1267 143.495 19.7 143.388 19.5C143.295 19.3 143.101 19.2 142.808 19.2C142.621 19.2 142.448 19.24 142.288 19.32L142.108 18.92L144.848 17.78ZM144.488 13.1C144.821 13.1 145.108 13.2267 145.348 13.48C145.601 13.72 145.728 14.0133 145.728 14.36C145.728 14.7067 145.608 15 145.368 15.24C145.128 15.4667 144.835 15.58 144.488 15.58C144.128 15.58 143.828 15.4667 143.588 15.24C143.348 15 143.228 14.7067 143.228 14.36C143.228 14.0133 143.348 13.72 143.588 13.48C143.841 13.2267 144.141 13.1 144.488 13.1ZM150.119 13.12H150.699V25.22C150.699 25.7133 150.792 26.06 150.979 26.26C151.179 26.46 151.532 26.56 152.039 26.56V27H147.399V26.56C147.919 26.56 148.272 26.4667 148.459 26.28C148.659 26.08 148.759 25.7267 148.759 25.22V16.18C148.759 15.54 148.699 15.1067 148.579 14.88C148.459 14.6533 148.252 14.54 147.959 14.54C147.746 14.54 147.546 14.58 147.359 14.66L147.179 14.26L150.119 13.12ZM155.417 15.32V18.06H157.517V19.02H155.417V24.32C155.417 24.92 155.491 25.3533 155.637 25.62C155.797 25.8733 156.037 26 156.357 26C156.771 26 157.097 25.7867 157.337 25.36H157.777C157.271 26.5467 156.517 27.14 155.517 27.14C154.864 27.14 154.357 26.96 153.997 26.6C153.651 26.24 153.477 25.72 153.477 25.04V19.02H152.237V18.5C152.917 18.1533 153.437 17.76 153.797 17.32C154.197 16.84 154.564 16.1733 154.897 15.32H155.417ZM165.963 21.44H159.843C159.843 22.6667 160.116 23.6333 160.663 24.34C161.223 25.0467 161.97 25.4 162.903 25.4C164.143 25.4 165.043 24.7667 165.603 23.5L165.943 23.76C165.756 24.76 165.343 25.5933 164.703 26.26C164.036 26.94 163.243 27.28 162.323 27.28C161.163 27.28 160.19 26.8467 159.403 25.98C158.643 25.1 158.263 24 158.263 22.68C158.263 21.24 158.636 20.0667 159.383 19.16C160.143 18.24 161.143 17.78 162.383 17.78C163.476 17.78 164.343 18.1133 164.983 18.78C165.636 19.4467 165.963 20.3333 165.963 21.44ZM159.863 20.76H163.803C163.763 20.0267 163.576 19.4733 163.243 19.1C162.91 18.7267 162.47 18.54 161.923 18.54C161.39 18.54 160.923 18.7533 160.523 19.18C160.123 19.5933 159.903 20.12 159.863 20.76ZM169.454 17.78H170.074V19.58C170.247 19.2867 170.38 19.08 170.474 18.96C171.06 18.1733 171.694 17.78 172.374 17.78C173.2 17.78 173.614 18.16 173.614 18.92C173.614 19.2267 173.514 19.4867 173.314 19.7C173.127 19.9 172.887 20 172.594 20C172.367 20 172.12 19.8867 171.854 19.66C171.6 19.42 171.42 19.3 171.314 19.3C170.98 19.3 170.56 19.8333 170.054 20.9V25.02C170.054 25.62 170.167 26.0267 170.394 26.24C170.62 26.4533 171.06 26.56 171.714 26.56V27H166.734V26.56C167.24 26.56 167.594 26.46 167.794 26.26C168.007 26.06 168.114 25.7133 168.114 25.22V20.56C168.114 20.04 168.06 19.6867 167.954 19.5C167.847 19.3 167.66 19.2 167.394 19.2C167.234 19.2 167 19.24 166.694 19.32L166.554 18.92L169.454 17.78ZM179.605 17.78H180.045V20.84H179.605C179.485 20.1733 179.205 19.62 178.765 19.18C178.339 18.7267 177.799 18.5 177.145 18.5C176.719 18.5 176.372 18.6067 176.105 18.82C175.852 19.0333 175.725 19.3067 175.725 19.64C175.725 20.28 176.305 20.8533 177.465 21.36C177.905 21.5467 178.205 21.68 178.365 21.76C178.539 21.84 178.812 21.9933 179.185 22.22C179.559 22.4333 179.825 22.6333 179.985 22.82C180.159 22.9933 180.319 23.24 180.465 23.56C180.612 23.8667 180.685 24.2 180.685 24.56C180.685 25.3733 180.392 26.0333 179.805 26.54C179.232 27.0333 178.465 27.28 177.505 27.28C177.012 27.28 176.525 27.2133 176.045 27.08C175.565 26.9467 175.285 26.88 175.205 26.88C175.005 26.88 174.885 26.9667 174.845 27.14H174.405V23.94H174.845C174.965 24.7 175.279 25.3267 175.785 25.82C176.305 26.3133 176.905 26.56 177.585 26.56C178.025 26.56 178.372 26.4467 178.625 26.22C178.879 25.9933 179.005 25.7 179.005 25.34C179.005 24.94 178.845 24.5933 178.525 24.3C178.205 24.0067 177.819 23.76 177.365 23.56C176.912 23.3467 176.459 23.1267 176.005 22.9C175.565 22.66 175.185 22.3267 174.865 21.9C174.545 21.4733 174.385 20.9667 174.385 20.38C174.385 19.6333 174.645 19.0133 175.165 18.52C175.685 18.0267 176.365 17.78 177.205 17.78C177.552 17.78 177.925 17.8467 178.325 17.98C178.739 18.1 179.025 18.16 179.185 18.16C179.425 18.16 179.565 18.0333 179.605 17.78Z" fill="white"/>
+          <defs>
+            <linearGradient id="paint0_linear_287_5940" x1="0" y1="21.5" x2="269" y2="21.5" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#7C2108" offset=""/>
+              <stop offset="1" stop-color="#E23C0F"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 <ion-footer>
   <!-- Bottom tabs (static UI only) -->
   <ion-tab-bar style="padding-bottom: 35px;" slot="bottom" class="tabs">
-    <ion-tab-button (click)="getCategory()" tab="home">
-      <tui-icon icon="@tui.house" [style.color]="'var(--ion-color-secondary)'"/>
+    <ion-tab-button tab="home">
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/home.svg"></ion-icon>
       <ion-label [style.color]="'var(--ion-color-secondary)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.compass" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
       <ion-label [style.color]="'var(--ion-color-secondary)'">Explore</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_cart()" tab="cart">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
       <ion-label [style.color]="'var(--ion-color-secondary)'">My Cart</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_support()" tab="sketch">
-      <tui-icon icon="@tui.history" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/my_closet.svg"></ion-icon>
       <ion-label [style.color]="'var(--ion-color-secondary)'">Orders</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <tui-icon icon="@tui.user-round-pen" [style.color]="'var(--ion-color-secondary)'"/>
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
       <ion-label [style.color]="'var(--ion-color-secondary)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

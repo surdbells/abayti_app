@@ -44,9 +44,9 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {TuiAvatar} from "@taiga-ui/kit";
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-settings',
+  templateUrl: './settings.page.html',
+  styleUrls: ['./settings.page.scss'],
   standalone: true,
     imports: [
         CommonModule, DatePipe, CurrencyPipe,
@@ -55,7 +55,7 @@ import {TuiAvatar} from "@taiga-ui/kit";
         TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe
     ],
 })
-export class ProfilePage implements OnInit {
+export class SettingsPage implements OnInit {
   private backSub?: Subscription;
   @ViewChild(IonModal) modal!: IonModal;
   isOnline = true;
@@ -131,7 +131,7 @@ export class ProfilePage implements OnInit {
   }
 
   openProfile() {
-    this.router.navigate(['/', '']).then(r => console.log(r));
+    this.router.navigate(['/', 'profile']).then(r => console.log(r));
   }
   async signOut() {
     const actionSheet = await this.actionSheetCtrl.create({

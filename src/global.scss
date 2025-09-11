@@ -72,7 +72,6 @@
 
 /* Search */
 .search-wrap {
-  display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
   margin-top: 8px;
@@ -99,16 +98,15 @@
 
 /* Sections */
 .section {
-  padding-top: 12px;
   .section-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px 6px;
+    padding: 0 0px 6px;
 
     h2 {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       color: var(--ion-color-primary-contrast);
       font-weight: 700;
     }
@@ -179,3 +177,30 @@ $peach-2:  #F2C3AB; // mid
 $peach-3:  #F1BEA8; // bottom
 $deep-red: #A92B07;
 $deep-red-2:#AF2C06;
+
+ion-content.page-bg {
+  /* Ionic supports setting background via a CSS var */
+  --background: var(--home-bg-image) center / cover no-repeat;
+}
+
+/* Dark mode swap (optional) */
+@media (prefers-color-scheme: dark) {
+  ion-content.page-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Landscape override (optional) */
+@media (orientation: landscape) {
+  ion-content.page-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Tablet-specific tweaks (optional) */
+@media (min-width: 768px) {
+  ion-content.page-bg {
+    /* you can choose a tablet-optimized asset here if needed */
+    /* --background: var(--home-bg-image) center / cover no-repeat; */
+  }
+}

@@ -1,8 +1,7 @@
-export class Reviews {
+export class Labels {
   constructor(
     public id: number,
-    public store_name: string,
-    public comment: string,
-    public star: number
+    public name: string,
+    public count: number
   ){  }
 }

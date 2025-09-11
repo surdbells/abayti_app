@@ -3,18 +3,18 @@ import {Subscription} from "rxjs";
 import {
   IonButtons,
   IonCard,
-  IonCardContent, IonCol,
+  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
   IonContent,
   IonFab,
   IonFabButton,
-  IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption,
+  IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonText, IonTitle,
   IonToolbar,
   NavController,
   Platform
 } from '@ionic/angular/standalone';
 import {
-  TuiButton,
-  TuiIcon, TuiLoader
+    TuiButton,
+    TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
@@ -55,7 +55,16 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
     TuiAccordionDirective,
     IonCol,
-    IonRow
+    IonRow,
+    TuiLabel,
+    TuiTextfieldComponent,
+    TuiTextfieldDirective,
+    TuiTextfieldOptionsDirective,
+    IonTitle,
+    IonText,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardTitle
   ]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {
@@ -78,7 +87,7 @@ export class MeasurementsPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: CustomEvent) {
     ev.detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/settings').then(r => console.log(r));
     });
   }
   ui_controls = {
@@ -143,9 +152,29 @@ export class MeasurementsPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
       this.rqst_param.token = this.single_user.token
+      this.get_measurement();
     }
   }
-
+  get_measurement() {
+    this.ui_controls.is_loading = true;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readMeasurement)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.update.bust =  response.data[0].bust
+            this.update.neck = response.data[0].neck
+            this.update.waist = response.data[0].waist
+            this.update.length = response.data[0].length
+            this.update.hip = response.data[0].hip
+            this.update.arm = response.data[0].arm
+            this.ui_controls.is_loading = false;
+          }else{
+            this.ui_controls.is_empty = true;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
+  }
   update_measurement() {
     if(this.isOnline){
       this.update.id = this.single_user.id;
@@ -155,8 +184,9 @@ export class MeasurementsPage implements OnInit, OnDestroy {
         .subscribe(({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
-              this.ui_controls.is_loading = false;
               this.success_notification(response.message);
+              this.ui_controls.is_loading = false;
+              this.get_measurement();
             }else{
               this.ui_controls.is_loading = false
               this.error_notification(response.message);
@@ -173,12 +203,12 @@ export class MeasurementsPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "top-center"
+      position: "bottom-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'top-center'
+      position: 'bottom-center'
     });
   }
 }

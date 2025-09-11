@@ -7,7 +7,7 @@ import {
   IonCard,
   IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
   IonContent, IonFab, IonFabButton,
-  IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow,
+  IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow, IonText,
   IonTitle,
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
@@ -27,21 +27,20 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
-import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
+import {Reviews} from "../../class/reviews";
+import {ActionSheetController} from "@ionic/angular";
 
 @Component({
-  selector: 'app-addresses',
-  templateUrl: './addresses.page.html',
-  styleUrls: ['./addresses.page.scss'],
+  selector: 'app-reviews',
+  templateUrl: './reviews.page.html',
+  styleUrls: ['./reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText]
 })
-export class AddressesPage implements OnInit, OnDestroy {
-  billing: Billing[] = [];
-  city: City[] = [];
-  area: Area[] = [];
+export class ReviewsPage implements OnInit, OnDestroy {
+  reviews: Reviews[] = [];
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
@@ -50,6 +49,7 @@ export class AddressesPage implements OnInit, OnDestroy {
     private net: ConnectionService,
     private platform: Platform,
     private router: Router,
+    private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: HotToastService,
   ) {
@@ -59,14 +59,14 @@ export class AddressesPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: CustomEvent) {
     ev.detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/settings').then(r => console.log(r));
     });
   }
   ui_controls = {
     is_empty: false,
     is_loading: false,
     is_loading_area: false,
-    is_updating: false
+    is_deleting: false
   }
   single_user = {
     id: 0,
@@ -84,15 +84,10 @@ export class AddressesPage implements OnInit, OnDestroy {
     is_vendor: false,
     is_customer: false
   }
-  update = {
+  delete = {
     id: 0,
     token: '',
-    name: '',
-    phone: '',
-    email: '',
-    city: 'Dubai',
-    area: 'Al Marmoom',
-    street: ''
+    review: 0
   };
 
   ngOnInit() {
@@ -105,13 +100,14 @@ export class AddressesPage implements OnInit, OnDestroy {
   ionViewDidEnter() {
     //  this.getObject().then(r => console.log(r));
     this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
+      this.nav.navigateRoot('/settings').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
     });
   }
   // Clean up when you leave the page
   ionViewWillLeave() {
     this.backSub?.unsubscribe();
   }
+  star_items = Array(5).fill(0);
   rqst_param = {
     id: 0,
     token: ""
@@ -124,26 +120,17 @@ export class AddressesPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
       this.rqst_param.token = this.single_user.token
-      this.get_billing();
-      this.getCities();
-      this.update.name = this.single_user.first_name + " " + this.single_user.last_name;
-      this.update.phone = this.single_user.phone;
-      this.update.email = this.single_user.email;
+      this.get_reviews();
     }
   }
-  get_billing() {
+get_reviews() {
+    this.ui_controls.is_empty = false;
     this.ui_controls.is_loading = true;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.readBilling)
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readReviews)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.billing = response.data;
-            this.update.name = this.billing[0].name;
-            this.update.phone = this.billing[0].phone;
-            this.update.email = this.billing[0].email;
-            this.update.city = this.billing[0].city;
-            this.update.area = this.billing[0].area;
-            this.update.street = this.billing[0].street;
+            this.reviews = response.data;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_empty = true;
@@ -152,71 +139,43 @@ export class AddressesPage implements OnInit, OnDestroy {
         }
       }))
   }
-  getCities() {
-    this.ui_controls.is_loading = true;
-    this.networkService.get_request(GlobalComponent.topexCities)
-      .subscribe(({
-        next: (response) => {
-          this.city = response.data;
-          this.ui_controls.is_loading = false;
-        }
-      }))
-  }
-  getArea(city: number) {
-    this.ui_controls.is_loading_area = true;
-    this.networkService.get_request(GlobalComponent.topexAreaURL+city)
-      .subscribe(({
-        next: (response) => {
-          this.area = response.data;
-          this.ui_controls.is_loading_area = false;
-        }
-      }))
-  }
-  selectCode(d: string, id: number) {
-    this.update.city = d;
-    this.getArea(id);
-  }
-  selectArea(d: string) {
-    this.update.area = d;
-  }
-  update_billing() {
+delete_reviews(review: number) {
     if(this.isOnline){
-      this.update.id = this.single_user.id;
-      this.update.token = this.single_user.token;
-      if (this.update.city.length == 0) {
-        this.error_notification("City is require");
-        return;
-      }
-      if (this.update.area.length == 0) {
-        this.error_notification("Area is require");
-        return;
-      }
-      if (this.update.street.length == 0) {
-        this.error_notification("Street is required");
-        return;
-      }
-      this.ui_controls.is_updating = true;
-      this.networkService.post_request(this.update, GlobalComponent.updateBilling, )
+      this.delete.id = this.single_user.id;
+      this.delete.token = this.single_user.token;
+      this.ui_controls.is_deleting = true;
+      this.networkService.post_request(this.delete, GlobalComponent.deleteReview, )
         .subscribe(({
           next: (response) => {
-
             if (response.response_code === 200 && response.status === "success") {
-              this.ui_controls.is_updating = false;
+              this.ui_controls.is_deleting = false;
               this.success_notification(response.message);
-              this.get_billing();
-            }else{
-              this.ui_controls.is_updating = false
-              this.error_notification(response.message);
+              this.get_reviews();
             }
-          },
-          error: () => {
-            this.ui_controls.is_updating = false;
-            this.error_notification("unable to save billing address");
           }
         }))
     }else {
       this.error_notification("You are not online, check your connection")
     }
+  }
+  async start_delete_review(review: number) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Are you sure you want to delete this review?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.delete_reviews(review);
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {action: 'cancel'},
+        },
+      ],
+    });
+    await actionSheet.present();
   }
   error_notification(message: string) {
     this.toast.error(message, {

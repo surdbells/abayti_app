@@ -1,10 +1,21 @@
 :host {
   --bg: #f6efe9;
   --card: #fff;
-  --text: #fff;
-  --muted: #fff;
+  --text: #000;
+  --muted: #4C4C4C;
   --accent: #b37a6b; // warm brown-pink
 }
+
+/* ===== Brand palette (from your designs) ===== */
+$peach-0: #FBF0E6;  // very light peach background
+$peach-1: #F8D1B9;
+$peach-2: #F2C3AB;
+$ink:     #000000;
+$muted:   rgba(0,0,0,.68);
+$stroke:  #FAC0B0;
+$chip:    rgba(0,0,0,.10);
+$cta-1:   #A92B07;
+$cta-2:   #AF2C06;
 
 /* Header */
 .toolbar {
@@ -24,13 +35,13 @@
     flex-direction: column;
     line-height: 1.1;
 
-    .hey { font-weight: 600; color: var(--text); }
-    .loc { font-size: 12px; padding-bottom: 5px; color: var(--muted); }
+    .hey { font-weight: 600; font-size: 12px; color: var(--text); padding-left: 10px; }
+    .loc { font-size: 12px; padding-bottom: 5px; color: var(--muted); padding-left: 10px; }
   }
 }
 
 .page {
-  --background: var(--bg);
+  --background: var(--home-bg-image);
 }
 
 
@@ -40,7 +51,6 @@
   grid-auto-flow: column;
   grid-auto-columns: max-content;
   gap: 12px;
-  padding: 0 16px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
@@ -49,112 +59,77 @@
   &::-webkit-scrollbar { display: none; }
 }
 
-/* Categories */
+/* ===== Category chips ===== */
 .categories {
-  padding-bottom: 8px;
+  .chip {
+    display: inline-grid; grid-template-columns: auto 1fr; align-items: center;
+    padding: 1px 7px; border-radius: 16px; border: 1px solid $stroke;
+    background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.02) inset; color: $ink;
 
-  .cat {
-    scroll-snap-align: start;
-    border: none;
-    background: transparent;
-    display: grid;
-    place-items: center;
-    gap: 6px;
-    min-width: 68px;
+    .chip-ico { font-size: 30px; color: #000000; margin-top: 7px; }
+    .chip-text { font-size: 14px; font-weight: 600; }
 
-    .cat-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 14px;
-      background: #ffeae1;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-
-      ion-icon { font-size: 24px; color: var(--accent); }
-      img { width: 26px; height: 26px; object-fit: contain; }
-    }
-
-    .cat-text {
-      font-size: 12px;
-      color: var(--ion-color-dark);
-      white-space: nowrap;
+    &.active {
+      background: $peach-1; border-color: transparent;
+      .chip-ico tui-icon { color: #fff; }
     }
   }
 }
 
 /* Product cards */
-.products {
-  padding-bottom: 18px;
+.product-card {
+  width: 200px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid $stroke;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  overflow: hidden;
 
-  .product-card {
-    scroll-snap-align: start;
-    width: 220px;
-    background: var(--ion-color-secondary);
-    border-radius: 16px;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-    overflow: hidden;
+  &.loading {
+    opacity: .6; pointer-events: none;
   }
 
   .img-wrap {
     position: relative;
     height: 220px;
-    background: #eee;
+    display: flex; align-items: center; justify-content: center;
+    border-top-left-radius: 20px; border-top-right-radius: 20px;
+    overflow: hidden;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    img { width: 100%; height: 100%; object-fit: contain; }
+
+    .tag {
+      position: absolute; left: 10px; top: 10px;
+      --color: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      font-weight: 700; letter-spacing: .4px;
+      padding: 6px 6px; border-radius: 999px; font-size: 12px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.35);
     }
 
     .like {
-      position: absolute;
-      right: 8px;
-      bottom: 8px;
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      border: none;
-      background: #ffffffd9;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      color: var(--accent);
-    }
-
-    .tag {
-      position: absolute;
-      left: 8px;
-      bottom: 8px;
-      background: #ffffffd9;
-      border-radius: 10px;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #5a504d;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      position: absolute; top: 10px; right: 10px;
+      width: 36px; height: 36px; border-radius: 999px;
+      background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.6);
+      display: grid; place-items: center;
+      tui-icon { font-size: 18px; color: #fff; filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); }
+      /* dark icon on light bubble */
+      background: #fff; border-color: $stroke;
+      tui-icon { color: $cta-2; }
     }
   }
 
   .info {
-    padding: 10px 12px 14px;
-
-    .title {
-      margin: 0 0 4px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
+    padding: 12px 14px 16px;
     .desc {
-      margin: 0;
-      font-size: 12px;
-      color: var(--muted);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 11px; font-weight: 400; color: #000000; margin: 0 0 10px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .cta {
+      --padding-start: 16px; --padding-end: 16px; --border-radius: 14px;
+      --background: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      --background-activated: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      height: 28px; text-transform: none; font-weight: 700; letter-spacing: .2px; color: #ffffff;
     }
   }
 }
@@ -185,3 +160,61 @@
     ion-label { font-size: 11px; }
   }
 }
+
+
+ion-content.home-bg {
+  /* Ionic supports setting background via a CSS var */
+  --background: var(--home-bg-image) center / cover no-repeat;
+}
+
+/* Dark mode swap (optional) */
+@media (prefers-color-scheme: dark) {
+  ion-content.home-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Landscape override (optional) */
+@media (orientation: landscape) {
+  ion-content.home-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Tablet-specific tweaks (optional) */
+@media (min-width: 768px) {
+  ion-content.home-bg {
+    /* you can choose a tablet-optimized asset here if needed */
+    /* --background: var(--home-bg-image) center / cover no-repeat; */
+  }
+}
+
+/* ===== Boutique strip ===== */
+.boutique {
+  .b-title { margin: 0; font-size: 16px; font-weight: 700; color: $ink; letter-spacing: .8px; }
+  .b-sub { margin: 2px 0 14px; color: $muted; font-size: 16px; font-weight: 400; letter-spacing: .6px; }
+  .thumbs {
+    img { width: 83px; height: 132px; border-radius: 18px; object-fit: cover; }
+  }
+}
+
+ion-card {
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+.inputs {
+  margin-bottom: 8px;
+
+  ion-item {
+    --inner-padding-top: 8px;
+    --inner-padding-bottom: 8px;
+  }
+
+  .notes {
+    display: flex;
+    gap: 12px;
+    padding: 4px 8px 0;
+  }
+}
+

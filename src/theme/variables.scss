@@ -65,6 +65,8 @@
 	--ion-color-dark-tint: #444444;
   --app-bg-image: url('/assets/images/home_bg.png');
   --login-bg-image: url('/assets/images/login.png');
+  --home-bg-image: url('/assets/images/home.png');
+  --welcome-bg-image: url('/assets/images/welcome.png');
   --app-bg-gradient: linear-gradient(180deg, #F1C0A9 0%, #FFE0C7 29%, #F1BEA8 100%);
   --app-bg-image-dark: url('/assets/images/login.png'); /* optional */
 
@@ -88,7 +90,7 @@
   --ink: #2a211c;           /* main text */
   --coffee: #5b4437;        /* primary brand (buttons) */
   --border: rgba(44, 28, 20, 0.08);
-
+  --buttons: #7C2108;
   --radius-2xl: 28px;
   --radius-xl: 18px;
   --radius-lg: 14px;
@@ -101,7 +103,6 @@
 }
 
 .remove_nudge {
-  padding-top: 2rem !important;
-  background-color: #664840 !important;
+  padding-top: 1rem !important;
   color: #fff !important;
 }

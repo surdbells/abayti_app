@@ -1,7 +1,7 @@
 <ion-content fullscreen="true" class="page-bg">
   <ion-header class="ion-padding-top ion-no-border remove_nudge">
     <ion-toolbar class="toolbar ion-no-border">
-      <ion-buttons [routerLink]="['/profile']" aria-label="Back to account" slot="start">
+      <ion-buttons [routerLink]="['/settings']" aria-label="Back to account" slot="start">
         <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_d_75_149)">
             <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
@@ -26,141 +26,55 @@
   <div class="sheet ion-padding-horizontal">
     <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
     <div *ngIf="!ui_controls.is_loading" class="menu">
-      <ion-card *ngFor="let item of billing; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
+      <ion-card *ngFor="let item of reviews; index as i;" (click)="start_delete_review(item.id)" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
         <ion-card-content>
-          <!-- Name -->
           <div class="row-top">
-            <tui-icon icon="user-round"></tui-icon>
-            <div class="name">{{ item?.name || '—' }}</div>
+            <tui-icon icon="@tui.store"></tui-icon>
+            <div class="name">{{ item?.store_name || '—' }}</div>
           </div>
-
-          <!-- Contact -->
-          <div class="contact">
-            <div class="item">
-              <tui-icon icon="phone"></tui-icon>
-              <a class="value" [href]="'tel:' + (item?.phone || '')">{{ item?.phone || '—' }}</a>
-            </div>
-            <span class="dot" aria-hidden="true">•</span>
-            <div class="item">
-              <tui-icon icon="mail"></tui-icon>
-              <a class="value" [href]="'mailto:' + (item?.email || '')">{{ item?.email || '—' }}</a>
-            </div>
-          </div>
-
-          <!-- Horizontal Address Row -->
           <div class="address-row">
-            <div class="chip">
-              <tui-icon icon="@tui.map-pin" [style.color]="'var(--text)'" />
-              <span>{{ item?.city || 'Dubai' }} {{ item?.area || 'Al Marmoom' }} {{ item?.street || '—' }}</span>
+            <ion-text>
+              <span>{{ item?.comment || '' }}</span>
+            </ion-text>
+            <div *ngIf="item.star != 0"  class="chip" slot="end">
+              @if (item.star == 1){
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+              }
+              @if (item.star == 2){
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+              }
+              @if (item.star == 3){
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+              }
+              @if (item.star == 4){
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+              }
+              @if (item.star == 5){
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+              }
             </div>
           </div>
         </ion-card-content>
       </ion-card>
     </div>
-    @if (!ui_controls.is_loading){
-      <ion-row class="animate__animated ion-padding-bottom">
-        <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Name</label>
-            <input  [(ngModel)]="update.name" name="name" maxlength="15" type="text" tuiTextfield />
-          </tui-textfield>
-        </ion-col>
-      </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
-        <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Phone</label>
-            <input  [(ngModel)]="update.phone" name="phone" type="text" tuiTextfield />
-          </tui-textfield>
-        </ion-col>
-        <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Email</label>
-            <input  [(ngModel)]="update.email" name="email" type="text" tuiTextfield />
-          </tui-textfield>
-        </ion-col>
-      </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
-        <ion-col>
-          <label tuiLabel class="ion-color-light">City</label>
-          <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-city">
-            <span class="cc-code">{{ update.city }}</span>
-            <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
-          </button>
-        </ion-col>
-        <ion-col>
-          <tui-loader *ngIf="ui_controls.is_loading_area"></tui-loader>
-          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">Area</label>
-          <button *ngIf="!ui_controls.is_loading_area" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
-            <span class="cc-code">{{ update.area }}</span>
-            <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
-          </button>
-        </ion-col>
-      </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
-        <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Street</label>
-            <input  [(ngModel)]="update.street" name="street" type="text" tuiTextfield />
-          </tui-textfield>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <button *ngIf="!ui_controls.is_updating" (click)="update_billing()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Update
-          </button>
-          <tui-loader *ngIf="ui_controls.is_updating"></tui-loader>
-        </ion-col>
-      </ion-row>
-    }
+    <div *ngIf="ui_controls.is_empty && !ui_controls.is_loading" class="empty-state">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+          <h2>No Reviews Yet</h2>
+          <p>You haven’t reviewed any store yet.</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
-  <ion-modal  #cityModal trigger="open-city" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Select city</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="cityModal.dismiss()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <ion-list>
-          <ion-item  button detail *ngFor="let cities of city" (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()" >
-            <ion-label>
-              <div class="code-line">
-                <span class="name">{{ cities.name }}</span>
-              </div>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-  <ion-modal  #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Select city</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="areaModal.dismiss()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <ion-list>
-          <ion-item  button detail *ngFor="let areas of area" (click)="selectArea(areas.name); areaModal.dismiss()" >
-            <ion-label>
-              <div class="code-line">
-                <span class="name">{{ areas.name }}</span>
-              </div>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 </ion-content>
