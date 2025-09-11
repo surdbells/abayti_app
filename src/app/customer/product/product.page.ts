@@ -46,7 +46,6 @@ import {Platform} from "@ionic/angular";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {TuiCardLarge, TuiHeader} from "@taiga-ui/layout";
 import {TuiAvatar, TuiButtonGroup, TuiRadioComponent} from "@taiga-ui/kit";
 import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
@@ -57,7 +56,7 @@ import {Preferences} from "@capacitor/preferences";
   styleUrls: ['./product.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiCardLarge, TuiHeader, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
 })
 export class ProductPage implements AfterViewInit, OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
