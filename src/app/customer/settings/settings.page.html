@@ -1,0 +1,225 @@
+<ion-content fullscreen="true" class="page-bg">
+  <ion-header class="ion-padding-top ion-no-border remove_nudge">
+    <ion-toolbar class="toolbar ion-no-border">
+      <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
+        <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d_75_149)">
+            <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
+            <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
+          </g>
+          <defs>
+            <filter id="filter0_d_75_149" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+              <feOffset/>
+              <feGaussianBlur stdDeviation="8.55"/>
+              <feComposite in2="hardAlpha" operator="out"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_75_149"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_75_149" result="shape"/>
+            </filter>
+          </defs>
+        </svg>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="welcome">
+        <div class="overline">WELCOME</div>
+        <h1 class="name">{{ single_user.first_name}} {{ single_user.last_name}}</h1>
+      </div>
+      <div class="avatar">
+        <ion-img src="{{single_user.avatar}}" alt="{{single_user.first_name}}"></ion-img>
+      </div>
+    </div>
+    <!-- Stats -->
+    <!--<div class="stats">
+      <div class="stat-pill">
+        <div class="stat-label">Points</div>
+        <div class="stat-value">
+          {{ user().points | number:'1.0-0' }}
+          <span class="unit">PTS</span>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-label">Rewards</div>
+        <div class="stat-value">
+          {{ user().pending | number:'1.0-0' }}
+          <span class="unit">PTS</span>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- Menu list -->
+    <div class="menu">
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openReturns()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_516)"/>
+            <path d="M16 13.5L12.5 16.5L16 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.5 16.5H23.997C27.4385 16.5 30.361 19.31 30.495 22.75C30.637 26.385 27.6335 29.5 23.997 29.5H15.499" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="paint0_linear_174_516" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>Returns</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+      <!--    <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openWallet()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_523)"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.444 12.75H22.556C24.394 12.75 25.85 12.75 26.989 12.903C28.161 13.061 29.11 13.393 29.859 14.141C30.783 15.066 31.078 16.304 31.185 17.911C31.762 18.164 32.198 18.701 32.245 19.381C32.25 19.442 32.25 19.507 32.25 19.567V23.433C32.25 23.493 32.25 23.558 32.246 23.618C32.198 24.298 31.762 24.836 31.185 25.09C31.078 26.696 30.783 27.934 29.859 28.859C29.11 29.607 28.161 29.939 26.989 30.097C25.849 30.25 24.394 30.25 22.556 30.25H19.444C17.606 30.25 16.15 30.25 15.011 30.097C13.839 29.939 12.89 29.607 12.141 28.859C11.393 28.11 11.061 27.161 10.903 25.989C10.75 24.849 10.75 23.394 10.75 21.556V21.444C10.75 19.606 10.75 18.15 10.903 17.011C11.061 15.839 11.393 14.89 12.141 14.141C12.89 13.393 13.839 13.061 15.011 12.903C16.151 12.75 17.606 12.75 19.444 12.75ZM29.668 25.25H27.73C25.585 25.25 23.749 23.622 23.749 21.5C23.749 19.378 25.585 17.75 27.729 17.75H29.667C29.553 16.409 29.296 15.7 28.797 15.202C28.374 14.779 27.794 14.525 26.788 14.39C25.761 14.252 24.406 14.25 22.499 14.25H19.499C17.592 14.25 16.238 14.252 15.209 14.39C14.204 14.525 13.624 14.779 13.201 15.202C12.778 15.625 12.525 16.205 12.39 17.21C12.252 18.238 12.25 19.592 12.25 21.499C12.25 23.406 12.252 24.761 12.39 25.789C12.525 26.794 12.779 27.374 13.202 27.797C13.625 28.22 14.205 28.474 15.211 28.609C16.239 28.747 17.593 28.749 19.5 28.749H22.5C24.407 28.749 25.762 28.747 26.79 28.609C27.795 28.474 28.375 28.22 28.798 27.797C29.297 27.299 29.554 26.591 29.668 25.249M14.75 17.5C14.75 17.3011 14.829 17.1103 14.9697 16.9697C15.1103 16.829 15.3011 16.75 15.5 16.75H19.5C19.6989 16.75 19.8897 16.829 20.0303 16.9697C20.171 17.1103 20.25 17.3011 20.25 17.5C20.25 17.6989 20.171 17.8897 20.0303 18.0303C19.8897 18.171 19.6989 18.25 19.5 18.25H15.5C15.3011 18.25 15.1103 18.171 14.9697 18.0303C14.829 17.8897 14.75 17.6989 14.75 17.5ZM30.424 19.25H27.73C26.306 19.25 25.249 20.309 25.249 21.5C25.249 22.691 26.306 23.75 27.729 23.75H30.447C30.653 23.737 30.742 23.598 30.749 23.514V19.486C30.742 19.402 30.653 19.263 30.447 19.251L30.424 19.25Z" fill="white"/>
+            <defs>
+            <linearGradient id="paint0_linear_174_523" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#7C2108"/>
+            <stop offset="1" stop-color="#E23C0F"/>
+            </linearGradient>
+            </defs>
+          </svg>
+          <span>My Wallet</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openCards()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_528)"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 17.5C11.5 16.7044 11.8161 15.9413 12.3787 15.3787C12.9413 14.8161 13.7044 14.5 14.5 14.5H28.5C29.2956 14.5 30.0587 14.8161 30.6213 15.3787C31.1839 15.9413 31.5 16.7044 31.5 17.5V25.5C31.5 26.2956 31.1839 27.0587 30.6213 27.6213C30.0587 28.1839 29.2956 28.5 28.5 28.5H14.5C13.7044 28.5 12.9413 28.1839 12.3787 27.6213C11.8161 27.0587 11.5 26.2956 11.5 25.5V17.5ZM20.5 21.5C20.5 21.2348 20.6054 20.9804 20.7929 20.7929C20.9804 20.6054 21.2348 20.5 21.5 20.5C21.7652 20.5 22.0196 20.6054 22.2071 20.7929C22.3946 20.9804 22.5 21.2348 22.5 21.5C22.5 21.7652 22.3946 22.0196 22.2071 22.2071C22.0196 22.3946 21.7652 22.5 21.5 22.5C21.2348 22.5 20.9804 22.3946 20.7929 22.2071C20.6054 22.0196 20.5 21.7652 20.5 21.5ZM21.5 18.5C20.7044 18.5 19.9413 18.8161 19.3787 19.3787C18.8161 19.9413 18.5 20.7044 18.5 21.5C18.5 22.2956 18.8161 23.0587 19.3787 23.6213C19.9413 24.1839 20.7044 24.5 21.5 24.5C22.2956 24.5 23.0587 24.1839 23.6213 23.6213C24.1839 23.0587 24.5 22.2956 24.5 21.5C24.5 20.7044 24.1839 19.9413 23.6213 19.3787C23.0587 18.8161 22.2956 18.5 21.5 18.5Z" fill="white"/>
+            <defs>
+              <linearGradient id="paint0_linear_174_528" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>My Payment Cards</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>-->
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openProfile()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
+            <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
+          </svg>
+          <span>My Information</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openReviews()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_538)"/>
+            <path d="M21.4994 27.0242L17.3494 29.5242C17.166 29.6409 16.9744 29.6909 16.7744 29.6742C16.5744 29.6576 16.3994 29.5909 16.2494 29.4742C16.0994 29.3576 15.9827 29.2119 15.8994 29.0372C15.816 28.8626 15.7994 28.6666 15.8494 28.4492L16.9494 23.7242L13.2744 20.5492C13.1077 20.3992 13.0037 20.2282 12.9624 20.0362C12.921 19.8442 12.9334 19.6569 12.9994 19.4742C13.0654 19.2916 13.1654 19.1416 13.2994 19.0242C13.4334 18.9069 13.6167 18.8319 13.8494 18.7992L18.6994 18.3742L20.5744 13.9242C20.6577 13.7242 20.787 13.5742 20.9624 13.4742C21.1377 13.3742 21.3167 13.3242 21.4994 13.3242C21.682 13.3242 21.861 13.3742 22.0364 13.4742C22.2117 13.5742 22.341 13.7242 22.4244 13.9242L24.2994 18.3742L29.1494 18.7992C29.3827 18.8326 29.566 18.9076 29.6994 19.0242C29.8327 19.1409 29.9327 19.2909 29.9994 19.4742C30.066 19.6576 30.0787 19.8452 30.0374 20.0372C29.996 20.2292 29.8917 20.3999 29.7244 20.5492L26.0494 23.7242L27.1494 28.4492C27.1994 28.6659 27.1827 28.8619 27.0994 29.0372C27.016 29.2126 26.8994 29.3582 26.7494 29.4742C26.5994 29.5902 26.4244 29.6569 26.2244 29.6742C26.0244 29.6916 25.8327 29.6416 25.6494 29.5242L21.4994 27.0242Z" fill="white"/>
+            <defs>
+              <linearGradient id="paint0_linear_174_538" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>My Reviews</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openAddresses()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_533)"/>
+            <path d="M21.5 29.5C23.6217 29.5 25.6566 28.6571 27.1569 27.1569C28.6571 25.6566 29.5 23.6217 29.5 21.5C29.5 19.3783 28.6571 17.3434 27.1569 15.8431C25.6566 14.3429 23.6217 13.5 21.5 13.5C19.3783 13.5 17.3434 14.3429 15.8431 15.8431C14.3429 17.3434 13.5 19.3783 13.5 21.5C13.5 23.6217 14.3429 25.6566 15.8431 27.1569C17.3434 28.6571 19.3783 29.5 21.5 29.5ZM21.5 31.5C15.977 31.5 11.5 27.023 11.5 21.5C11.5 15.977 15.977 11.5 21.5 11.5C27.023 11.5 31.5 15.977 31.5 21.5C31.5 27.023 27.023 31.5 21.5 31.5ZM20.5 20.5V26.5H22.5V20.5H20.5ZM20.5 16.5H22.5V18.5H20.5V16.5Z" fill="white"/>
+            <defs>
+              <linearGradient id="paint0_linear_174_533" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>Delivery Address</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+
+      <button type="button" class="menu-item animate__animated animate__fadeInDown" (click)="openMeasurement()">
+        <div class="left">
+          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_533)"/>
+            <path d="M21.5 29.5C23.6217 29.5 25.6566 28.6571 27.1569 27.1569C28.6571 25.6566 29.5 23.6217 29.5 21.5C29.5 19.3783 28.6571 17.3434 27.1569 15.8431C25.6566 14.3429 23.6217 13.5 21.5 13.5C19.3783 13.5 17.3434 14.3429 15.8431 15.8431C14.3429 17.3434 13.5 19.3783 13.5 21.5C13.5 23.6217 14.3429 25.6566 15.8431 27.1569C17.3434 28.6571 19.3783 29.5 21.5 29.5ZM21.5 31.5C15.977 31.5 11.5 27.023 11.5 21.5C11.5 15.977 15.977 11.5 21.5 11.5C27.023 11.5 31.5 15.977 31.5 21.5C31.5 27.023 27.023 31.5 21.5 31.5ZM20.5 20.5V26.5H22.5V20.5H20.5ZM20.5 16.5H22.5V18.5H20.5V16.5Z" fill="white"/>
+            <defs>
+              <linearGradient id="paint0_linear_174_533" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>Measurements</span>
+        </div>
+        <tui-icon icon="@tui.chevron-right" />
+      </button>
+    </div>
+
+    <!-- Language -->
+    <div class="group-title">LANGUAGE</div>
+    <app-language-switcher></app-language-switcher>
+
+    <!-- Location -->
+    <div class="group-title">
+        LOCATION
+    </div>
+    <button  id="open-location" type="button" class="menu-item animate__animated animate__fadeInDown">
+      <div class="left">
+        <span>{{ single_user.location }}</span>
+      </div>
+      <tui-icon icon="@tui.chevron-right" />
+    </button>
+
+    <!-- Footer actions -->
+    <div class="footer-row ion-margin-bottom">
+      <button type="button" class="support" (click)="openHelp()">
+        <tui-icon icon="@tui.help-circle" />
+        <span>Support</span>
+      </button>
+      <button type="button" class="signout ion-margin-vertical" (click)="signOut()">
+        SIGN OUT
+      </button>
+    </div>
+  </div>
+  <ion-modal  #locationModal trigger="open-location" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Set location</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="locationModal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-row class="animate__animated ion-padding-bottom">
+          <ion-col>
+            <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+              <label tuiLabel>Location</label>
+              <input [(ngModel)]="u_location.location" type="text" name="name" tuiTextfield />
+            </tui-textfield>
+          </ion-col>
+          <button *ngIf="!ui_controls.updating_location" (click)="update_location()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                  style="width: 100%; outline-color: #000000; color: #000000" size="m"
+                  tuiButton type="button"> Update
+          </button>
+          </ion-row>
+        <ion-row>
+          <ion-col>
+            <tui-loader *ngIf="ui_controls.updating_location"></tui-loader>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+

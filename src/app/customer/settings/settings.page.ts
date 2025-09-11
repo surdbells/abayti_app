@@ -25,12 +25,12 @@ import {
   IonSearchbar
 } from '@ionic/angular/standalone';
 import {
-  TuiButton,
-  TuiIcon,
-  TuiLabel, TuiLoader,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
+    TuiButton, TuiFallbackSrcPipe,
+    TuiIcon,
+    TuiLabel, TuiLoader,
+    TuiTextfieldComponent,
+    TuiTextfieldDirective,
+    TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {Router, RouterModule} from "@angular/router";
 import {Subscription} from "rxjs";
@@ -42,17 +42,18 @@ import {GlobalComponent} from "../../global-component";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
+import {TuiAvatar} from "@taiga-ui/kit";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule, DatePipe, CurrencyPipe,
-    IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
-    IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
-    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader
-  ],
+    imports: [
+        CommonModule, DatePipe, CurrencyPipe,
+        IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
+        IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
+        TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe
+    ],
 })
 export class ProfilePage implements OnInit {
   private backSub?: Subscription;
@@ -116,12 +117,10 @@ export class ProfilePage implements OnInit {
   language = signal<'en' | 'ar'>('en');
 
   openReturns() {}
-  openWallet() {}
-  openCards() {}
-  openInfo() {}
-  openReviews() {}
-  viewAllOrders() {}
-  sortOrders() {}
+  openReviews() {
+    this.router.navigate(['/', 'reviews']).then(r => console.log(r));
+
+  }
   openHelp() {
     const phone = '971504559975';
     const msg = encodeURIComponent('Hello 3bayti, I need assistance.');
@@ -129,6 +128,10 @@ export class ProfilePage implements OnInit {
   }
   openMeasurement() {
     this.router.navigate(['/', 'measurements']).then(r => console.log(r));
+  }
+
+  openProfile() {
+    this.router.navigate(['/', '']).then(r => console.log(r));
   }
   async signOut() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -211,4 +214,5 @@ export class ProfilePage implements OnInit {
       position: 'top-center'
     });
   }
+
 }

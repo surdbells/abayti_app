@@ -1,0 +1,236 @@
+:host {
+  /* Theme tokens – tweak freely */
+  --profile-grad-start: #8e1d0a;
+  --profile-grad-end: #d24a1e;
+  --profile-surface: #ffffff;
+  --profile-bg: #fbf4ef;            /* soft cream backdrop */
+  --profile-text: #231f1e;
+  --profile-muted: #6e6461;
+  --profile-ring: rgba(255, 255, 255, 0.5);
+  --profile-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
+}
+
+/* Page canvas */
+ion-content.remove_nudge {
+  --background: var(--profile-bg);
+}
+
+.sheet {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: clamp(12px, 3vw, 20px);
+  display: grid;
+  gap: 16px;
+}
+
+/* Back chip */
+.back-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--profile-surface);
+  box-shadow: var(--profile-shadow);
+  color: var(--profile-text);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin-bottom: 8px;
+
+  tui-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+}
+
+/* Header (avatar + welcome) */
+.sheet-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 18px 18px 20px;
+  border-radius: var(--radius-3xl);
+  background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
+  color: #fff;
+  box-shadow: var(--profile-shadow);
+
+  .welcome {
+    display: grid;
+    gap: 4px;
+
+    .overline {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      opacity: 0.85;
+    }
+
+    .name {
+      margin: 0;
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+  }
+
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    outline: 3px solid var(--profile-ring);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+
+    ion-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+/* Menu section */
+.menu {
+  display: grid;
+  gap: 12px;
+}
+
+.menu-item {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 16px 16px 16px 14px;
+  border-radius: var(--radius-2xl);
+  background: var(--profile-surface);
+  box-shadow: var(--profile-shadow);
+  color: var(--profile-text);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  will-change: transform;
+
+  .left {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    /* circular icon chip */
+    tui-icon:first-child {
+      width: 36px;
+      height: 36px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: radial-gradient(120% 120% at 20% 20%, #fff3, transparent 60%),
+      linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(210, 74, 30, 0.25);
+      font-size: 14px;
+    }
+
+    span {
+      font-weight: 600;
+      letter-spacing: .2px;
+    }
+  }
+
+  /* right chevron */
+  tui-icon:last-child {
+    color: #a09a97;
+    font-size: 18px;
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.997);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Section headings */
+.group-title {
+  margin: 5px 3px 4px;
+  color: var(--profile-text);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  opacity: 0.9;
+}
+
+/* Footer actions */
+.footer-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 2px;
+
+  .support {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: var(--radius-2xl);
+    padding: 14px 16px;
+    background: var(--profile-surface);
+    box-shadow: var(--profile-shadow);
+    color: var(--profile-text);
+    font-weight: 600;
+
+    tui-icon {
+      font-size: 18px;
+      color: var(--profile-grad-end);
+    }
+  }
+
+  .signout {
+    appearance: none;
+    border: 0;
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    box-shadow: var(--profile-shadow);
+  }
+}
+
+/* Modal: compact spacing harmony */
+ion-modal::part(content) {
+  border-top-left-radius: var(--radius-2xl);
+  border-top-right-radius: var(--radius-2xl);
+}
+
+ion-modal ion-header ion-toolbar {
+  --background: var(--profile-surface);
+  --color: var(--profile-text);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+}
+
+ion-modal ion-content {
+  --background: var(--profile-bg);
+}
+
+/* Helpers for icons inside textfields/buttons */
+[tuiTextfield] + .tui-hint,
+tui-textfield label[tuiLabel] {
+  color: var(--profile-muted);
+}
+
+/* Reduce default ion-item spacing if you enable list sections later */
+ion-list {
+  background: transparent;
+}
+
+@media (min-width: 560px) {
+  .footer-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

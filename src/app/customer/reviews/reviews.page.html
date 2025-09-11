@@ -1,13 +1,166 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>reviews</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">reviews</ion-title>
+<ion-content fullscreen="true" class="page-bg">
+  <ion-header class="ion-padding-top ion-no-border remove_nudge">
+    <ion-toolbar class="toolbar ion-no-border">
+      <ion-buttons [routerLink]="['/profile']" aria-label="Back to account" slot="start">
+        <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d_75_149)">
+            <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
+            <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
+          </g>
+          <defs>
+            <filter id="filter0_d_75_149" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+              <feOffset/>
+              <feGaussianBlur stdDeviation="8.55"/>
+              <feComposite in2="hardAlpha" operator="out"/>
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_75_149"/>
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_75_149" result="shape"/>
+            </filter>
+          </defs>
+        </svg>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
+  <div class="sheet ion-padding-horizontal">
+    <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
+    <div *ngIf="!ui_controls.is_loading" class="menu">
+      <ion-card *ngFor="let item of billing; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
+        <ion-card-content>
+          <!-- Name -->
+          <div class="row-top">
+            <tui-icon icon="user-round"></tui-icon>
+            <div class="name">{{ item?.name || '—' }}</div>
+          </div>
+
+          <!-- Contact -->
+          <div class="contact">
+            <div class="item">
+              <tui-icon icon="phone"></tui-icon>
+              <a class="value" [href]="'tel:' + (item?.phone || '')">{{ item?.phone || '—' }}</a>
+            </div>
+            <span class="dot" aria-hidden="true">•</span>
+            <div class="item">
+              <tui-icon icon="mail"></tui-icon>
+              <a class="value" [href]="'mailto:' + (item?.email || '')">{{ item?.email || '—' }}</a>
+            </div>
+          </div>
+
+          <!-- Horizontal Address Row -->
+          <div class="address-row">
+            <div class="chip">
+              <tui-icon icon="@tui.map-pin" [style.color]="'var(--text)'" />
+              <span>{{ item?.city || 'Dubai' }} {{ item?.area || 'Al Marmoom' }} {{ item?.street || '—' }}</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    @if (!ui_controls.is_loading){
+      <ion-row class="animate__animated ion-padding-bottom">
+        <ion-col>
+          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+            <label tuiLabel>Name</label>
+            <input  [(ngModel)]="update.name" name="name" maxlength="15" type="text" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+      </ion-row>
+      <ion-row class="animate__animated ion-padding-bottom">
+        <ion-col>
+          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+            <label tuiLabel>Phone</label>
+            <input  [(ngModel)]="update.phone" name="phone" type="text" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+        <ion-col>
+          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+            <label tuiLabel>Email</label>
+            <input  [(ngModel)]="update.email" name="email" type="text" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+      </ion-row>
+      <ion-row class="animate__animated ion-padding-bottom">
+        <ion-col>
+          <label tuiLabel class="ion-color-light">City</label>
+          <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-city">
+            <span class="cc-code">{{ update.city }}</span>
+            <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+          </button>
+        </ion-col>
+        <ion-col>
+          <tui-loader *ngIf="ui_controls.is_loading_area"></tui-loader>
+          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">Area</label>
+          <button *ngIf="!ui_controls.is_loading_area" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
+            <span class="cc-code">{{ update.area }}</span>
+            <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="animate__animated ion-padding-bottom">
+        <ion-col>
+          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+            <label tuiLabel>Street</label>
+            <input  [(ngModel)]="update.street" name="street" type="text" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button *ngIf="!ui_controls.is_updating" (click)="update_billing()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                  style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Update
+          </button>
+          <tui-loader *ngIf="ui_controls.is_updating"></tui-loader>
+        </ion-col>
+      </ion-row>
+    }
+  </div>
+  <ion-modal  #cityModal trigger="open-city" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select city</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cityModal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-item  button detail *ngFor="let cities of city" (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()" >
+            <ion-label>
+              <div class="code-line">
+                <span class="name">{{ cities.name }}</span>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <ion-modal  #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select city</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="areaModal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-item  button detail *ngFor="let areas of area" (click)="selectArea(areas.name); areaModal.dismiss()" >
+            <ion-label>
+              <div class="code-line">
+                <span class="name">{{ areas.name }}</span>
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
