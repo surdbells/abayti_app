@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'start', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'start', loadComponent: () => import('./start/start.page').then(m => m.StartPage) },
   {
     path: 'login',
@@ -70,5 +70,9 @@ export const routes: Routes = [
   {
     path: 'product',
     loadComponent: () => import('./customer/product/product.page').then( m => m.ProductPage)
+  },
+  {
+    path: 'search',
+    loadComponent: () => import('./customer/search/search.page').then( m => m.SearchPage)
   },
 ];

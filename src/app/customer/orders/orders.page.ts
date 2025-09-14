@@ -2,13 +2,14 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonButtons,
-  IonCard,
-  IonCardContent,
-  IonContent,
-  IonHeader, IonRefresher, IonRefresherContent, IonSearchbar,
-  IonTitle,
-  IonToolbar, NavController, Platform
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonContent, IonFooter,
+    IonHeader, IonIcon, IonLabel, IonRefresher, IonRefresherContent, IonSearchbar, IonTabBar, IonTabButton,
+    IonTitle,
+    IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
 import {TuiButton, TuiIcon} from "@taiga-ui/core";
 import {Router, RouterLink} from "@angular/router";
@@ -16,17 +17,29 @@ import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
+import {GlobalComponent} from "../../global-component";
+import {Products} from "../../class/products";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton]
 })
 export class OrdersPage implements OnInit, OnDestroy {
+
   isOnline = true;
   private sub: Subscription;
+  product = {
+    name: "",
+    isFavorite: false,
+    description: "",
+    price: "",
+    quantity: "",
+    size: undefined
+
+  };
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -62,5 +75,21 @@ export class OrdersPage implements OnInit, OnDestroy {
     }, 200);
   }
 
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+  user_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+  user_explore() {
+    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+  }
+  user_support() {
+    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
 
 }

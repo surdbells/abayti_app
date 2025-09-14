@@ -5,60 +5,69 @@ import {
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList, IonModal,
-  IonRefresher,
-  IonRefresherContent, IonRow,
-  IonSearchbar,
-  IonTabBar,
-  IonTabButton,
+  IonCardContent, IonCol,
+  IonContent, IonFooter, IonGrid,
+  IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton,
   IonTitle,
-  IonToolbar,
-  NavController,
-  Platform
+  IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
-import {TuiButton, TuiIcon, TuiLoader} from "@taiga-ui/core";
+import {
+  TuiButton,
+  TuiFallbackSrcPipe,
+  TuiIcon, TuiLoader,
+  TuiTextfieldComponent,
+  TuiTextfieldDirective,
+  TuiTextfieldOptionsDirective
+} from "@taiga-ui/core";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {Cart} from "../../class/cart";
-import {GlobalComponent} from "../../global-component";
+import {TuiAvatar} from "@taiga-ui/kit";
 import {Preferences} from "@capacitor/preferences";
-import {ActionSheetController} from "@ionic/angular";
+import {GlobalComponent} from "../../global-component";
+import {Search} from "../../class/search";
 import {Labels} from "../../class/labels";
+
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.page.html',
-  styleUrls: ['./cart.page.scss'],
+  selector: 'app-search',
+  templateUrl: './search.page.html',
+  styleUrls: ['./search.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader]
 })
-export class CartPage implements OnInit, OnDestroy {
-  carts: Cart[] = [];
+export class SearchPage implements OnInit, OnDestroy {
+  products: Search[] = [];
   categories: Labels[] = [];
   isOnline = true;
   isWishOpen = false; // or control this as you like
   private sub: Subscription;
+  product = {
+    name: "",
+    isFavorite: false,
+    description: "",
+    price: "",
+    quantity: "",
+    size: undefined
+
+  };
   constructor(
     private nav: NavController,
     private net: ConnectionService,
     private platform: Platform,
     private router: Router,
-    private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: HotToastService
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
+  }
+  @HostListener('window:ionBackButton', ['$event'])
+  onHardwareBack(ev: CustomEvent) {
+    ev.detail.register(100, () => {
+      this.nav.navigateRoot('/account').then(r => console.log(r));
+    });
   }
   ui_controls = {
     is_loading: false,
@@ -66,30 +75,17 @@ export class CartPage implements OnInit, OnDestroy {
     is_loading_category: false,
     is_empty: false
   }
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
   rqst_param = {
     id: 0,
     token: ""
   }
-  request = {
-    id: 0,
-    token: ""
-  }
-  remove = {
+  search = {
     id: 0,
     token: "",
-    item: 0,
-  }
-  increase = {
-    id: 0,
-    token: "",
-    item: 0,
-    quantity: 0,
-  }
-  decrease = {
-    id: 0,
-    token: "",
-    item: 0,
-    quantity: 0,
+    search: ""
   }
   single_user = {
     id: 0,
@@ -115,25 +111,8 @@ export class CartPage implements OnInit, OnDestroy {
     product_name: "",
     product_image: ""
   }
-  @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
-    });
-  }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
   ngOnInit() {
     this.getObject().then(r => console.log(r));
-    if (this.isOnline) {
-      console.log('You are online');
-    } else {
-      console.log('You are offline');
-    }
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -141,30 +120,18 @@ export class CartPage implements OnInit, OnDestroy {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.request.id = this.single_user.id
-      this.request.token = this.single_user.token
-
-      this.remove.id = this.single_user.id
-      this.remove.token = this.single_user.token
-
-      this.increase.id = this.single_user.id
-      this.increase.token = this.single_user.token
-
-      this.decrease.id = this.single_user.id
-      this.decrease.token = this.single_user.token
-      this.load_cart();
+      this.search.id = this.single_user.id
+      this.search.token = this.single_user.token
     }
   }
-  load_cart() {
-    this.carts = [];
+  searchProduct() {
     this.ui_controls.is_loading = true;
     this.ui_controls.is_empty = false;
-    this.request.id = this.single_user.id;
-    this.networkService.post_request(this.request, GlobalComponent.customerCart)
+    this.networkService.post_request(this.search, GlobalComponent.search)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.carts = response.data;
+            this.products = response.data;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_loading = false;
@@ -173,78 +140,23 @@ export class CartPage implements OnInit, OnDestroy {
         }
       }))
   }
-  removeItem(item: number) {
-    this.remove.item = item;
-    this.networkService.post_request(this.remove, GlobalComponent.RemoveCartItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.success_notification(response.message);
-            this.load_cart();
-          }
-        }
-      }))
+  user_wishlist() {
+    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
   }
-  IncreaseItem(item: number, quantity: number) {
-    this.increase.item = item;
-    this.increase.quantity = quantity+1;
-    this.networkService.post_request(this.increase, GlobalComponent.IncreaseItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.load_cart();
-          }
-        }
-      }))
-  }
-  DecreaseItem(item: number, quantity: number) {
-    this.decrease.item = item;
-    this.decrease.quantity = quantity - 1;
-    this.networkService.post_request(this.decrease, GlobalComponent.DecreaseItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.load_cart();
-          }
-        }
-      }))
-  }
-  async startRemove(item: number, name: string) {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Remove ' + name + " from cart ?",
-      buttons: [
-        {
-          text: 'Remove',
-          role: 'destructive',
-          handler: () => {
-            this.removeItem(item);
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {action: 'cancel'},
-        },
-      ],
-    });
-    await actionSheet.present();
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
-  user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
   user_support() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
-  }
-  handleRefresh(event: any) {
-    setTimeout(() => {
-      this.load_cart();
-      event.target.complete();
-    }, 200);
   }
   get_label() {
     this.ui_controls.is_loading_category = true;
@@ -285,7 +197,12 @@ export class CartPage implements OnInit, OnDestroy {
     this.get_label();
     this.isWishOpen = true;
   }
-
+  open_product(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'product'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
   error_notification(message: string) {
     this.toast.error(message, {
       position: "bottom-center"
@@ -297,4 +214,9 @@ export class CartPage implements OnInit, OnDestroy {
     });
   }
 
+  onInputChange(value: string) {
+    this.search.search = value;
+    this.searchProduct()
+
+  }
 }

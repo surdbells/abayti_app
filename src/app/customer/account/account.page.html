@@ -12,9 +12,9 @@
         <ion-button (click)="user_wishlist()" fill="clear">
           <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
         </ion-button>
-        <ion-button (click)="user_messages()" fill="clear">
-          <tui-icon icon="@tui.message-square-more" [style.color]="'var(--text)'"/>
-        </ion-button>
+<!--        <ion-button (click)="user_messages()" fill="clear">
+          <tui-icon icon="@tui.message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
+        </ion-button>-->
       </ion-buttons>
     </ion-toolbar>
     <!-- Search -->
@@ -22,7 +22,9 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-searchbar (click)="user_search()" style="border: 1px solid #FAC0B0; border-radius: 17px" placeholder="Search stores" show-clear-button="never"></ion-searchbar>
+            <tui-textfield (click)="search()" #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn ion-margin-bottom" style="width:100%">
+              <input style="border: 1px solid #FAC0B0" (click)="user_search()" placeholder="Search" type="text" name="search" tuiTextfield />
+            </tui-textfield>
           </ion-col>
           <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
             <tui-icon class="ion-float-end" [style.color]="'var(--ion-color-secondary)'" icon="@tui.sliders-horizontal" />
@@ -49,49 +51,49 @@
         <path d="M29.144 28L32.234 19.12H34.058L37.148 28H35.876L33.05 19.702H33.224L30.404 28H29.144ZM30.914 25.276L31.202 24.238H35.084L35.372 25.276H30.914ZM38.1429 28V18.304H39.3969V28H38.1429ZM41.0843 28V18.304H42.3383V28H41.0843Z" fill="#FDFDFD"/>
       </svg>
       <!-- Dynamic categories -->
-      <button class="chip" type="button" (click)="products_by_category(1)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 1"  class="chip" type="button" (click)="products_by_category(1)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/abayas.svg"></ion-icon>
           </span>
         <span class="chip-text">Abayas</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(2)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 2" class="chip" type="button" (click)="products_by_category(2)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
           </span>
         <span class="chip-text">Mukhawars</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(3)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 3" class="chip" type="button" (click)="products_by_category(3)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
           </span>
         <span class="chip-text">Kaftans</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(4)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 4" class="chip" type="button" (click)="products_by_category(4)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/bag.svg"></ion-icon>
           </span>
         <span class="chip-text">Bags</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(5)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 5" class="chip" type="button" (click)="products_by_category(5)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/accessories.svg"></ion-icon>
           </span>
         <span class="chip-text">Accessories</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(6)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 6" class="chip" type="button" (click)="products_by_category(6)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/modest.svg"></ion-icon>
           </span>
         <span class="chip-text">Modest clothes</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(7)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 7" class="chip" type="button" (click)="products_by_category(7)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/dress.svg"></ion-icon>
           </span>
         <span class="chip-text">Dresses</span>
       </button>
-      <button class="chip" type="button" (click)="products_by_category(8)">
+      <button [class.cat_active]="rqst_param_products_by_category.category === 8" class="chip" type="button" (click)="products_by_category(8)">
           <span class="chip-ico">
             <ion-icon src="assets/icon/activewear.svg"></ion-icon>
           </span>
@@ -106,11 +108,11 @@
         <ion-button [style.color]="'#FF3D00'" fill="clear" size="small">Show All</ion-button>
       </div>
       <div class="h-scroll products">
-        @for(best_seller of best_sellers; track best_seller.product_name){
-          <article (click)="open_product()" class="product-card">
+        @for(best_seller of best_sellers; track best_seller.product_id){
+          <article class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
               <img style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
-              <button (click)="addWishlist(best_seller.product_id)" class="like" type="button">
+              <button (click)="startAddToCloset(best_seller.product_id, best_seller.product_name, best_seller.image_1)" class="like" type="button">
                 <tui-icon icon="@tui.heart" />
               </button>
               <span class="tag">{{best_seller.store_name}}</span>
@@ -119,7 +121,7 @@
               <p class="desc">
                 {{best_seller.product_name}} - <span [innerHTML]="best_seller.description"></span>
               </p>
-              <svg class="ion-float-end ion-margin-bottom" width="87" height="28" viewBox="0 0 87 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg (click)="open_product(best_seller.product_id, best_seller.product_name)"  class="ion-float-end ion-margin-bottom" width="87" height="28" viewBox="0 0 87 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="87" height="28" rx="10" fill="#7C2108"/>
                 <path d="M18.222 13.464V16.278C18.222 16.6793 18.2407 16.9407 18.278 17.062C18.3247 17.174 18.404 17.23 18.516 17.23C18.6747 17.23 18.894 17.062 19.174 16.726V17.23C18.698 17.874 18.1987 18.196 17.676 18.196C17.1533 18.196 16.8827 17.874 16.864 17.23C16.1547 17.874 15.5293 18.196 14.988 18.196C14.5027 18.196 14.1153 18.0607 13.826 17.79C13.546 17.51 13.406 17.1227 13.406 16.628C13.406 16.1147 13.6627 15.648 14.176 15.228C14.6987 14.808 15.5947 14.374 16.864 13.926C16.864 13.2353 16.7893 12.75 16.64 12.47C16.4907 12.19 16.22 12.05 15.828 12.05C15.24 12.05 14.946 12.2973 14.946 12.792C14.946 13.492 14.7173 13.842 14.26 13.842C14.064 13.842 13.91 13.7813 13.798 13.66C13.686 13.5293 13.63 13.366 13.63 13.17C13.63 12.7313 13.8447 12.3533 14.274 12.036C14.7127 11.7093 15.296 11.546 16.024 11.546C17.4893 11.546 18.222 12.1853 18.222 13.464ZM16.864 16.712V14.402C16.0707 14.738 15.5247 15.0413 15.226 15.312C14.9273 15.5827 14.778 15.9233 14.778 16.334C14.778 16.5953 14.8573 16.8147 15.016 16.992C15.184 17.1693 15.3893 17.258 15.632 17.258C15.968 17.258 16.3787 17.076 16.864 16.712ZM23.9127 12.05V10.468C23.9127 10.0013 23.8707 9.68867 23.7867 9.53C23.7027 9.362 23.558 9.278 23.3527 9.278C23.2127 9.278 23.082 9.306 22.9607 9.362L22.8347 9.068L24.8647 8.284H25.2707V16.124C25.2707 16.5533 25.3033 16.8427 25.3687 16.992C25.434 17.1413 25.5553 17.216 25.7327 17.216C25.826 17.216 25.9847 17.1787 26.2087 17.104L26.3347 17.37L24.3187 18.196H23.9127V17.412C23.334 17.9347 22.7367 18.196 22.1207 18.196C21.3273 18.196 20.6927 17.9067 20.2167 17.328C19.7407 16.7493 19.5027 16.0073 19.5027 15.102C19.5027 14.1313 19.7873 13.3007 20.3567 12.61C20.926 11.9007 21.6633 11.546 22.5687 11.546C23.1567 11.546 23.6047 11.714 23.9127 12.05ZM23.9267 16.81V13.954C23.9267 13.338 23.81 12.8667 23.5767 12.54C23.3433 12.2133 23.012 12.05 22.5827 12.05C22.1253 12.05 21.752 12.2787 21.4627 12.736C21.1733 13.1933 21.0287 13.8187 21.0287 14.612C21.0287 15.4427 21.192 16.11 21.5187 16.614C21.8547 17.118 22.2793 17.37 22.7927 17.37C23.166 17.37 23.544 17.1833 23.9267 16.81ZM31.0357 12.05V10.468C31.0357 10.0013 30.9937 9.68867 30.9097 9.53C30.8257 9.362 30.6811 9.278 30.4757 9.278C30.3357 9.278 30.2051 9.306 30.0837 9.362L29.9577 9.068L31.9877 8.284H32.3937V16.124C32.3937 16.5533 32.4264 16.8427 32.4917 16.992C32.5571 17.1413 32.6784 17.216 32.8557 17.216C32.9491 17.216 33.1077 17.1787 33.3317 17.104L33.4577 17.37L31.4417 18.196H31.0357V17.412C30.4571 17.9347 29.8597 18.196 29.2437 18.196C28.4504 18.196 27.8157 17.9067 27.3397 17.328C26.8637 16.7493 26.6257 16.0073 26.6257 15.102C26.6257 14.1313 26.9104 13.3007 27.4797 12.61C28.0491 11.9007 28.7864 11.546 29.6917 11.546C30.2797 11.546 30.7277 11.714 31.0357 12.05ZM31.0497 16.81V13.954C31.0497 13.338 30.9331 12.8667 30.6997 12.54C30.4664 12.2133 30.1351 12.05 29.7057 12.05C29.2484 12.05 28.8751 12.2787 28.5857 12.736C28.2964 13.1933 28.1517 13.8187 28.1517 14.612C28.1517 15.4427 28.3151 16.11 28.6417 16.614C28.9777 17.118 29.4024 17.37 29.9157 17.37C30.2891 17.37 30.6671 17.1833 31.0497 16.81ZM39.2768 9.824V11.742H40.7468V12.414H39.2768V16.124C39.2768 16.544 39.3281 16.8473 39.4308 17.034C39.5428 17.2113 39.7108 17.3 39.9348 17.3C40.2241 17.3 40.4528 17.1507 40.6208 16.852H40.9288C40.5741 17.6827 40.0468 18.098 39.3468 18.098C38.8895 18.098 38.5348 17.972 38.2828 17.72C38.0401 17.468 37.9188 17.104 37.9188 16.628V12.414H37.0508V12.05C37.5268 11.8073 37.8908 11.532 38.1428 11.224C38.4228 10.888 38.6795 10.4213 38.9128 9.824H39.2768ZM44.377 11.546C45.2636 11.546 46.0103 11.8633 46.617 12.498C47.2236 13.1327 47.527 13.8793 47.527 14.738C47.527 15.6807 47.247 16.4973 46.687 17.188C46.1363 17.86 45.371 18.196 44.391 18.196C43.495 18.196 42.7483 17.8693 42.151 17.216C41.5536 16.5627 41.255 15.7927 41.255 14.906C41.255 14.0287 41.5583 13.2493 42.165 12.568C42.7623 11.8867 43.4996 11.546 44.377 11.546ZM44.265 12.106C43.8076 12.106 43.4436 12.2973 43.173 12.68C42.9023 13.0627 42.767 13.6087 42.767 14.318C42.767 15.326 42.935 16.1287 43.271 16.726C43.607 17.3233 44.055 17.622 44.615 17.622C45.5483 17.622 46.015 16.852 46.015 15.312C46.015 14.332 45.847 13.5527 45.511 12.974C45.1843 12.3953 44.769 12.106 44.265 12.106ZM57.0743 15.536L57.3263 15.69C57.177 16.39 56.8596 16.9873 56.3743 17.482C55.917 17.958 55.3523 18.196 54.6803 18.196C53.8683 18.196 53.1963 17.888 52.6643 17.272C52.1323 16.656 51.8663 15.858 51.8663 14.878C51.8663 13.9447 52.1603 13.156 52.7483 12.512C53.3456 11.868 54.069 11.546 54.9183 11.546C55.5343 11.546 56.0616 11.6953 56.5003 11.994C56.939 12.2927 57.1583 12.638 57.1583 13.03C57.1583 13.226 57.0883 13.3893 56.9483 13.52C56.8176 13.6507 56.6496 13.716 56.4443 13.716C55.9216 13.716 55.6416 13.4173 55.6043 12.82C55.5763 12.3253 55.2823 12.078 54.7223 12.078C54.265 12.078 53.8916 12.274 53.6023 12.666C53.3223 13.058 53.1823 13.576 53.1823 14.22C53.1823 15.0507 53.369 15.7227 53.7423 16.236C54.1156 16.74 54.587 16.992 55.1563 16.992C55.9963 16.992 56.6356 16.5067 57.0743 15.536ZM62.929 13.464V16.278C62.929 16.6793 62.9477 16.9407 62.985 17.062C63.0317 17.174 63.111 17.23 63.223 17.23C63.3817 17.23 63.601 17.062 63.881 16.726V17.23C63.405 17.874 62.9057 18.196 62.383 18.196C61.8604 18.196 61.5897 17.874 61.571 17.23C60.8617 17.874 60.2364 18.196 59.695 18.196C59.2097 18.196 58.8224 18.0607 58.533 17.79C58.253 17.51 58.113 17.1227 58.113 16.628C58.113 16.1147 58.3697 15.648 58.883 15.228C59.4057 14.808 60.3017 14.374 61.571 13.926C61.571 13.2353 61.4964 12.75 61.347 12.47C61.1977 12.19 60.927 12.05 60.535 12.05C59.947 12.05 59.653 12.2973 59.653 12.792C59.653 13.492 59.4244 13.842 58.967 13.842C58.771 13.842 58.617 13.7813 58.505 13.66C58.393 13.5293 58.337 13.366 58.337 13.17C58.337 12.7313 58.5517 12.3533 58.981 12.036C59.4197 11.7093 60.003 11.546 60.731 11.546C62.1964 11.546 62.929 12.1853 62.929 13.464ZM61.571 16.712V14.402C60.7777 14.738 60.2317 15.0413 59.933 15.312C59.6344 15.5827 59.485 15.9233 59.485 16.334C59.485 16.5953 59.5644 16.8147 59.723 16.992C59.891 17.1693 60.0964 17.258 60.339 17.258C60.675 17.258 61.0857 17.076 61.571 16.712ZM66.0964 11.546H66.5304V12.806C66.6518 12.6007 66.7451 12.456 66.8104 12.372C67.2211 11.8213 67.6644 11.546 68.1404 11.546C68.7191 11.546 69.0084 11.812 69.0084 12.344C69.0084 12.5587 68.9384 12.7407 68.7984 12.89C68.6678 13.03 68.4998 13.1 68.2944 13.1C68.1358 13.1 67.9631 13.0207 67.7764 12.862C67.5991 12.694 67.4731 12.61 67.3984 12.61C67.1651 12.61 66.8711 12.9833 66.5164 13.73V16.614C66.5164 17.034 66.5958 17.3187 66.7544 17.468C66.9131 17.6173 67.2211 17.692 67.6784 17.692V18H64.1924V17.692C64.5471 17.692 64.7944 17.622 64.9344 17.482C65.0838 17.342 65.1584 17.0993 65.1584 16.754V13.492C65.1584 13.128 65.1211 12.8807 65.0464 12.75C64.9718 12.61 64.8411 12.54 64.6544 12.54C64.5424 12.54 64.3791 12.568 64.1644 12.624L64.0664 12.344L66.0964 11.546ZM71.6108 9.824V11.742H73.0808V12.414H71.6108V16.124C71.6108 16.544 71.6621 16.8473 71.7648 17.034C71.8768 17.2113 72.0448 17.3 72.2688 17.3C72.5581 17.3 72.7868 17.1507 72.9548 16.852H73.2628C72.9081 17.6827 72.3808 18.098 71.6808 18.098C71.2234 18.098 70.8688 17.972 70.6168 17.72C70.3741 17.468 70.2528 17.104 70.2528 16.628V12.414H69.3848V12.05C69.8608 11.8073 70.2248 11.532 70.4768 11.224C70.7568 10.888 71.0134 10.4213 71.2468 9.824H71.6108Z" fill="white"/>
               </svg>
@@ -130,12 +132,12 @@
     </section>
   }
   @if (!ui_controls.is_loading){
-    <section (click)="open_product()" class="boutique ion-padding">
+    <section  class="boutique ion-padding">
       <h3 class="b-title ion-text-center">{{ featured_store.name }}</h3>
       <p class="b-sub ion-text-center">{{ featured_store.description }}</p>
       <div class="thumbs h-scroll">
-        @for(vendor_feature of vendor_featured; track vendor_feature.product_name){
-          <img (click)="selected_product(vendor_feature.product_name, vendor_feature.product_id)" style="object-fit: cover; object-position: top center;" src="{{vendor_feature.image_1}}" alt="b1"/>
+        @for(vendor_feature of vendor_featured; track vendor_feature.product_id){
+          <img (click)="open_product(vendor_feature.product_id, vendor_feature.product_name)" style="object-fit: cover; object-position: top center;" src="{{vendor_feature.image_1}}" alt="b1"/>
         }
       </div>
     </section>
@@ -288,13 +290,47 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+  <ion-modal  [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Save {{ addCloset.product_name }} to </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isWishOpen = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        @if (!ui_controls.is_loading_category){
+          <ion-list class="custom-list">
+            @for(category of categories; track category.id; let i = $index){
+              <ion-item (click)="addToCloset(category.id)" lines="none">
+                <ion-label>
+                  <h2>{{category.name}}</h2>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        }
+        <ion-row>
+          <ion-col>
+              <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+                @if (ui_controls.is_loading_category){
+                  <tui-loader></tui-loader>
+                }
+              </span>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 <ion-footer>
   <!-- Bottom tabs (static UI only) -->
   <ion-tab-bar style="padding-bottom: 35px;" slot="bottom" class="tabs">
-    <ion-tab-button tab="home">
-      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/home.svg"></ion-icon>
-      <ion-label [style.color]="'var(--ion-color-secondary)'">Home</ion-label>
+    <ion-tab-button selected tab="home">
+      <ion-icon style="font-size: 30px; font-weight: 900" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/home.svg"></ion-icon>
+      <ion-label style="font-weight: 900" [style.color]="'var(--ion-color-secondary)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
       <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>

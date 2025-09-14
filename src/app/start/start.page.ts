@@ -25,9 +25,7 @@ register();
 export class StartPage implements AfterViewInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
   index = signal(0);
-
   constructor(private router: Router) {}
-
   ngAfterViewInit(): void {
     // Wait until the web component attaches the Swiper instance
     const el = this.swiperEl.nativeElement as any;
@@ -51,7 +49,6 @@ export class StartPage implements AfterViewInit {
 
     attach();
   }
-
   next(swiperElRef: HTMLElement) {
     const sw: any = (swiperElRef as any).swiper;
     if (!sw) return;

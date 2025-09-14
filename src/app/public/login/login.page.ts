@@ -64,12 +64,33 @@ export class LoginPage implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
- ngOnInit() {
-    if (this.isOnline) {
-          console.log('You are online');
-        } else {
-          console.log('You are offline');
-      }
+  ngOnInit() {
+    this.getObject().then(r => console.log(r));
+  }
+  single_user = {
+    id: 0,
+    token: "",
+    first_name: "",
+    last_name: "",
+    user_type: "",
+    email: "",
+    phone: "",
+    avatar: "",
+    location: "",
+    is_2fa: false,
+    is_active: false,
+    is_admin: false,
+    is_vendor: false,
+    is_customer: false
+  }
+  async getObject() {
+    const ret: any = await Preferences.get({ key: 'user' });
+    if (ret.value == null){
+      //
+    }else{
+      this.single_user = JSON.parse(ret.value);
+      this.router.navigate(['/', 'account']).then(r => console.log(r));
+    }
   }
   ui_controls = {
     page_loading: false,
@@ -152,7 +173,6 @@ export class LoginPage implements OnInit, OnDestroy {
   forgot_password() {
     this.router.navigate(['/', 'reset']).then(r => console.log(r));
   }
-
   google_signin(): void {
     this.show_error("Google sign in is currently unavailable");
   }

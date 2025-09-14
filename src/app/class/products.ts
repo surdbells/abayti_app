@@ -3,6 +3,7 @@ export class Products {
     public id: number,
     public token: string,
     public product_id: number,
+    public store_id: number,
     public store_name: string,
     public product_name: string,
     public description: string,

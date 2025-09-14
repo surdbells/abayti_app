@@ -32,9 +32,15 @@ export class GlobalComponent {
   public static readWishlist = GlobalComponent.baseURL + 'customer/read_wishlist';
   public static readWishlistLabel = GlobalComponent.baseURL + 'customer/read_wishlist_label';
   public static addWishlistLabel = GlobalComponent.baseURL + 'customer/add_wishlist_label';
+  public static addWishlist = GlobalComponent.baseURL + 'customer/add_wishlist';
+  public static addToCart = GlobalComponent.baseURL + 'customer/addToCart';
 
   public static filtered_products = GlobalComponent.baseURL + 'customer/filter_product';
   public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
+  public static customerCart = GlobalComponent.baseURL + 'customer/read-cart';
+  public static RemoveCartItem = GlobalComponent.baseURL + 'customer/removeFromCart';
+  public static IncreaseItem = GlobalComponent.baseURL + 'customer/IncreaseItem';
+  public static DecreaseItem = GlobalComponent.baseURL + 'customer/decreaseItem';
   public static explore = GlobalComponent.baseURL + 'customer/explore';
   public static featured = GlobalComponent.baseURL + 'customer/featured';
   public static product_by_category = GlobalComponent.baseURL + 'customer/product_by_category';
@@ -42,6 +48,7 @@ export class GlobalComponent {
   public static search = GlobalComponent.baseURL + 'customer/search';
   public static store_labels = GlobalComponent.baseURL + 'customer/store_labels';
   public static store_latest = GlobalComponent.baseURL + 'customer/store_latest';
+  public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
 
 
 

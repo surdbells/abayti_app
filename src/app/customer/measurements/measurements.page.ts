@@ -1,6 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {
+  IonButton,
   IonButtons,
   IonCard,
   IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
@@ -64,7 +65,8 @@ import {FormsModule} from "@angular/forms";
     IonText,
     IonCardHeader,
     IonCardSubtitle,
-    IonCardTitle
+    IonCardTitle,
+    IonButton
   ]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {

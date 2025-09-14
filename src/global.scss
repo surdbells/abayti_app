@@ -139,7 +139,7 @@ ion-content.nudge-fix {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 350px;
   ion-card {
     max-width: 320px;
     width: 100%;
@@ -175,8 +175,8 @@ ion-content.nudge-fix {
 $peach-1:  #F8D1B9; // bg top
 $peach-2:  #F2C3AB; // mid
 $peach-3:  #F1BEA8; // bottom
-$deep-red: #A92B07;
-$deep-red-2:#AF2C06;
+$deep-red: #7f5c48;
+$deep-red-2: #7f5c48;
 
 ion-content.page-bg {
   /* Ionic supports setting background via a CSS var */
@@ -203,4 +203,8 @@ ion-content.page-bg {
     /* you can choose a tablet-optimized asset here if needed */
     /* --background: var(--home-bg-image) center / cover no-repeat; */
   }
+}
+
+.transparent-modal {
+  --background: transparent;
 }

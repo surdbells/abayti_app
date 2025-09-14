@@ -1,6 +1,4 @@
 /* Ensure the container has height */
-:host,
-ion-content,
 swiper-container,
 .slides {
   display: block;
@@ -18,8 +16,14 @@ swiper-container,
   padding: 25px;
   background-color: var(--ion-color-secondary-contrast);
 }
-.swiper-slide {
+swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
 }
 swiper-slide,
 .slide {
@@ -36,10 +40,9 @@ ion-content.start-bg {
 /* Hero section */
 .hero {
   display: flex;
-  border-radius: 25px;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  flex: 1;
+  width: 100%;
 
   .model {
     width: 100%;
@@ -49,34 +52,10 @@ ion-content.start-bg {
     object-position: top center;
   }
 }
-
-/* Text area */
-.cta {
-  text-align: center;
-  padding: 0 8px 16px;
-
-  .title {
-    font-weight: 900;
-    color: #000;
-    letter-spacing: 0.4px;
-    line-height: 1.2;
-    font-size: 17px;
-    margin: 0 0 10px;
-  }
-
-  .subtitle {
-    margin: 0 auto;
-    max-width: 92%;
-    color: rgba(0, 0, 0, 0.72);
-    font-size: 14.5px;
-    line-height: 1.45;
-  }
-}
-
 /* Footer card */
 .footer {
   border-radius: 24px;
-  padding: 16px 18px 18px;
+  padding: 16px 18px 0px;
 }
 
 /* Pager dots */
@@ -100,18 +79,107 @@ ion-content.start-bg {
   }
 }
 
-/* Call-to-action button */
-.cta-btn {
-  --border-radius: 18px;
-  --padding-start: 26px;
-  --padding-end: 18px;
-  --background: linear-gradient(90deg, #872308 0%, #B02C06 100%);
-  --background-activated: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+.product-card {
+  .row {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 12px;
+    background-color: transparent;
+    border: transparent;
+  }
+
+
+  .first-line {
+    .title {
+      font-size: 1.0rem;
+      margin: 0;
+      color: #000000;
+      font-weight: 600;
+      flex: 1 1 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .price {
+      flex: 0 0 auto;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+  }
+
+
+  .second-line {
+    margin-top: 6px;
+
+    .description {
+      margin: 0;
+      color: var(--ion-color-medium);
+      font-size: 0.9rem;
+    }
+  }
+
+  .third-line {
+    width: 100%;
+    .left-btn {
+      flex: 0 0 auto;
+    }
+    .right-btn {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-text {
+      margin: 0 6px;
+    }
+  }
+}
+
+.img-wrap {
   width: 100%;
-  height: 56px;
-  font-size: 18px;
-  color: #ffffff;
-  letter-spacing: 0.2px;
+  height: 100%;
+  aspect-ratio: 9 / 16; /* try 3/4 or 4/5 if your images need it */
+  border-radius: 8px; /* optional */
+  background-color: #f6f6f6; /* neutral background while loading */
+
+  ion-img, img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 260ms ease-in-out;
+    will-change: opacity;
+    /* force GPU compositing for smoother cross-fade */
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  /* when loaded, fade in */
+  &.loaded ion-img,
+  &.loaded img {
+    opacity: 1;
+  }
+
+  /* simple shimmer placeholder */
+  .skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f2f2f2 25%, #e8e8e8 50%, #f2f2f2 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+.model {
+  height: 100%;
 }
 
 

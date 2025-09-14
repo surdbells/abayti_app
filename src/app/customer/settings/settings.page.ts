@@ -22,7 +22,7 @@ import {
   Platform,
   IonButtons,
   IonModal,
-  IonSearchbar
+  IonSearchbar, IonFooter, IonIcon, IonTabBar, IonTabButton
 } from '@ionic/angular/standalone';
 import {
     TuiButton, TuiFallbackSrcPipe,
@@ -48,12 +48,12 @@ import {TuiAvatar} from "@taiga-ui/kit";
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-    imports: [
-        CommonModule, DatePipe, CurrencyPipe,
-        IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
-        IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
-        TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe
-    ],
+  imports: [
+    CommonModule, DatePipe, CurrencyPipe,
+    IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
+    IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
+    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton
+  ],
 })
 export class SettingsPage implements OnInit {
   private backSub?: Subscription;
@@ -214,5 +214,20 @@ export class SettingsPage implements OnInit {
       position: 'top-center'
     });
   }
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+  user_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
 
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+  user_explore() {
+    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+  }
+  user_support() {
+    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
 }

@@ -2,14 +2,14 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonButton,
-  IonButtons,
-  IonCard,
-  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
-  IonContent,
-  IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow, IonSearchbar, IonText,
-  IonTitle,
-  IonToolbar, NavController, Platform
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
+    IonContent, IonFooter,
+    IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonRow, IonSearchbar, IonTabBar, IonTabButton, IonText,
+    IonTitle,
+    IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
 import {
   TuiButton,
@@ -36,7 +36,7 @@ import {DIAL_CODES, DialCode} from "../../dial-codes";
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton]
 })
 export class ProfilePage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];
@@ -208,4 +208,5 @@ export class ProfilePage implements OnInit, OnDestroy {
       position: 'top-center'
     });
   }
+
 }

@@ -1,4 +1,4 @@
-export class Cart {
+export class Search {
   constructor(
     public id: number,
     public token: string,
@@ -7,10 +7,6 @@ export class Cart {
     public product_name: string,
     public product_image: string,
     public description: string,
-    public quantity: number,
-    public store: number,
-    public discount: number,
-    public price: number,
     public price_formatted: string,
     public size: string,
     public color: string,

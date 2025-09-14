@@ -24,7 +24,7 @@ import {
   TuiDialogService,
   TuiFallbackSrcPipe,
   TuiIcon, TuiLabel, TuiLoader,
-  TuiTextfieldComponent, TuiTextfieldDropdownDirective, TuiTextfieldOptionsDirective
+  TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldDropdownDirective, TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {ActionSheetController, Platform} from '@ionic/angular';
@@ -40,6 +40,7 @@ import {
   TuiShimmer
 } from "@taiga-ui/kit";
 import {Products} from "../../class/products";
+import {Labels} from "../../class/labels";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -50,12 +51,14 @@ type DualRange = { lower: number; upper: number };
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective]
 })
 export class AccountPage implements OnInit {
   best_sellers: Products[] = [];
   vendor_featured: Products[] = [];
   isOnline = true;
+  categories: Labels[] = [];
+  isWishOpen = false; // or control this as you like
   range = signal<DualRange>({ lower: 5, upper: 500 });
   protected readonly category: Category[] = [
     {id: 1, name: 'Abayas'},
@@ -94,9 +97,14 @@ export class AccountPage implements OnInit {
   }
 
  ui_controls = {
-   is_loading: false
+   is_loading: false,
+   is_loading_category: false
   }
   best_seller = {
+    id: 0,
+    token: ""
+  }
+  rqst_param = {
     id: 0,
     token: ""
   }
@@ -108,6 +116,14 @@ export class AccountPage implements OnInit {
     id: 0,
     token: "",
     category: 0
+  }
+  addCloset = {
+    id: 0,
+    token: "",
+    label_id: 0,
+    product_id: 0,
+    product_name: "",
+    product_image: ""
   }
   filter = {
     id: 0,
@@ -140,7 +156,7 @@ export class AccountPage implements OnInit {
   ngOnInit() {
     this.getObject().then(r => console.log(r));
   }
-    async getObject() {
+  async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
       this.router.navigate(['/', 'login']).then(r => console.log(r));
@@ -165,6 +181,9 @@ export class AccountPage implements OnInit {
   user_cart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
+  search() {
+    this.router.navigate(['/', 'search']).then(r => console.log(r));
+  }
 
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
@@ -175,9 +194,13 @@ export class AccountPage implements OnInit {
   user_search() {
     this.router.navigate(['/', 'search']).then(r => console.log(r));
   }
-  open_product() {
-    this.router.navigate(['/', 'product']).then(r => console.log(r));
+  open_product(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'product'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
   }
+
 
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -189,7 +212,7 @@ export class AccountPage implements OnInit {
   }
 
 
-async user_sign_out() {
+  async user_sign_out() {
   const actionSheet = await this.actionSheetCtrl.create({
     header: 'Are you sure you want to sign out of this account?',
     buttons: [
@@ -286,6 +309,7 @@ async user_sign_out() {
     this.ui_controls.is_loading = true;
     this.best_seller.id = this.single_user.id;
     this.best_seller.token = this.single_user.token;
+    this.rqst_param_products_by_category.category = 0;
     this.networkService.post_request(this.best_seller, GlobalComponent.best_sellers)
       .subscribe(({
         next: (response) => {
@@ -314,11 +338,54 @@ async user_sign_out() {
       }))
   }
 
-  selected_product(product_name: string, product_id: number) {
-    this.router.navigate(['/', 'product']).then(r => console.log(r));
+  get_label() {
+    this.ui_controls.is_loading_category = true;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.categories = response.data;
+            this.ui_controls.is_loading_category = false;
+          }
+        }
+      }))
+  }
+  addToCloset(label: number) {
+    this.ui_controls.is_loading_category = true;
+    this.addCloset.label_id = label;
+    this.isWishOpen = false;
+    this.networkService.post_request(this.addCloset, GlobalComponent.addWishlist)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.success_notification(response.message);
+            this.ui_controls.is_loading_category = false;
+          }else{
+            this.ui_controls.is_loading_category = false;
+          }
+        }
+      }))
+  }
+  startAddToCloset(product: number, product_name: string, image_1: string) {
+    this.addCloset.id = this.single_user.id;
+    this.addCloset.token = this.single_user.token;
+    this.addCloset.product_id = product;
+    this.addCloset.product_name = product_name;
+    this.addCloset.product_image = image_1;
+    this.rqst_param.id = this.single_user.id;
+    this.rqst_param.token = this.single_user.token;
+    this.get_label();
+    this.isWishOpen = true;
   }
 
-  addWishlist(product_id: number) {
-
+  error_notification(message: string) {
+    this.toast.error(message, {
+      position: "bottom-center"
+    });
+  }
+  success_notification(message: string) {
+    this.toast.success(message, {
+      position: 'bottom-center'
+    });
   }
 }

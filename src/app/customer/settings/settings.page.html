@@ -223,3 +223,27 @@
   </ion-modal>
 </ion-content>
 
+<ion-footer>
+  <ion-tab-bar style="padding-bottom: 35px;" slot="bottom" class="tabs">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/home.svg"></ion-icon>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <ion-icon style="font-size: 30px;" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_cart()" tab="cart">
+      <ion-icon style="font-size: 30px;" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_support()" tab="sketch">
+      <ion-icon style="font-size: 30px" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/my_closet.svg"></ion-icon>
+      <ion-label [style.color]="'var(--ion-color-secondary)'">Orders</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <ion-icon style="font-size: 30px; font-weight: 900" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
+      <ion-label  style="font-weight: 900"  [style.color]="'var(--ion-color-secondary)'">Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
