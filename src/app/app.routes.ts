@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'intro', pathMatch: 'full' },
   { path: 'start', loadComponent: () => import('./start/start.page').then(m => m.StartPage) },
   {
     path: 'login',
@@ -32,7 +32,7 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/messages/messages.page').then( m => m.MessagesPage)
   },
   {
-    path: 'explore',
+    path: 'vertican',
     loadComponent: () => import('./customer/explore/explore.page').then( m => m.ExplorePage)
   },
   {
@@ -74,5 +74,25 @@ export const routes: Routes = [
   {
     path: 'search',
     loadComponent: () => import('./customer/search/search.page').then( m => m.SearchPage)
+  },
+  {
+    path: 'conversations',
+    loadComponent: () => import('./customer/conversations/conversations.page').then(m => m.ConversationsPage)
+  },
+  {
+    path: 'checkout',
+    loadComponent: () => import('./customer/checkout/checkout.page').then(m => m.CheckoutPage)
+  },
+  {
+    path: 'intro',
+    loadComponent: () => import('./public/intro/intro.page').then( m => m.IntroPage)
+  },
+  {
+    path: 'vendors',
+    loadComponent: () => import('./customer/vendors/vendors.page').then( m => m.VendorsPage)
+  },
+  {
+    path: 'explore',
+    loadComponent: () => import('./customer/vertican/vertican.page').then( m => m.VerticanPage)
   },
 ];

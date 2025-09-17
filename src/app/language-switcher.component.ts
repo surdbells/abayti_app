@@ -17,7 +17,7 @@ import {TuiIcon} from "@taiga-ui/core";
         class="lang-pill"
         [class.active]="this.i18n.lang === l.code"
         (click)="select(l.code)">
-        <span>{{ l.flag }} {{ l.native }}</span>
+        <span><span style="font-size: 32px; font-weight: bolder;">{{ l.flag }}</span><br> {{ l.native }}</span>
       </button>
     </div>
   `,
@@ -29,14 +29,14 @@ import {TuiIcon} from "@taiga-ui/core";
       margin-bottom: 14px;
     }
     .lang-pill {
-      color: var(--ink);
-      display: inline-flex;
+      color: var(--card);
+      display: block;
       align-items: center;
       gap: 10px;
-      background: var(--card);
+      background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 12px 14px;
+      padding: 24px 28px;
       box-shadow: var(--shadow-sm);
       font-weight: 700;
     }

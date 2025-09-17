@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {Preferences} from "@capacitor/preferences";
@@ -41,6 +50,8 @@ import {
 } from "@taiga-ui/kit";
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
+import {CartIconComponent} from "../../cart-icon.component";
+import {BlockerService} from "../../blocker.service";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -51,14 +62,16 @@ type DualRange = { lower: number; upper: number };
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent]
 })
-export class AccountPage implements OnInit {
+export class AccountPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
   vendor_featured: Products[] = [];
   isOnline = true;
   categories: Labels[] = [];
   isWishOpen = false; // or control this as you like
+  isFilterOpen = false; // or control this as you like
+
   range = signal<DualRange>({ lower: 5, upper: 500 });
   protected readonly category: Category[] = [
     {id: 1, name: 'Abayas'},
@@ -71,17 +84,12 @@ export class AccountPage implements OnInit {
     {id: 8, name: 'Active wear'}
   ];
   protected value: Category | null = {id: 1, name: 'Abayas'}; // !== this.users[0]
-  @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
-  isFilterOpen = false; // or control this as you like
-
-  closeFilter() {
-    this.filterModal?.nativeElement.dismiss(undefined, 'cancel'); // role optional
-  }
   private sub: Subscription;
   constructor(
     private router: Router,
     private platform: Platform,
     private net: ConnectionService,
+    private blocker: BlockerService,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: HotToastService
@@ -92,9 +100,7 @@ export class AccountPage implements OnInit {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
+
 
  ui_controls = {
    is_loading: false,
@@ -154,6 +160,7 @@ export class AccountPage implements OnInit {
     is_customer: false
   }
   ngOnInit() {
+    this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
   }
   async getObject() {
@@ -167,7 +174,10 @@ export class AccountPage implements OnInit {
     }
   }
 
-
+  ngOnDestroy(): void {
+    this.blocker.unblock(); // ✅ restore when leaving
+    this.sub?.unsubscribe();
+  }
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
@@ -188,11 +198,11 @@ export class AccountPage implements OnInit {
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
-  user_support() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
-  }
   user_search() {
     this.router.navigate(['/', 'search']).then(r => console.log(r));
+  }
+  user_orders() {
+    this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
   open_product(id: number, name: string) {
     this.router.navigate(
@@ -387,5 +397,9 @@ export class AccountPage implements OnInit {
     this.toast.success(message, {
       position: 'bottom-center'
     });
+  }
+
+  openCart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
 }

@@ -1,0 +1,26 @@
+ion-content.intro-bg {
+  /* Ionic supports setting background via a CSS var */
+  --background: var(--welcome-splash-image) center / cover no-repeat;
+}
+
+/* Dark mode swap (optional) */
+@media (prefers-color-scheme: dark) {
+  ion-content.intro-bg {
+    --background: var(--welcome-splash-image) center / cover no-repeat;
+  }
+}
+
+/* Landscape override (optional) */
+@media (orientation: landscape) {
+  ion-content.intro-bg {
+    --background: url('/assets/images/splash.png') center / cover no-repeat;
+  }
+}
+
+/* Tablet-specific tweaks (optional) */
+@media (min-width: 768px) {
+  ion-content.intro-bg {
+    /* you can choose a tablet-optimized asset here if needed */
+    /* --background: url('/assets/img/bg-2048x2732.webp') center / cover no-repeat; */
+  }
+}

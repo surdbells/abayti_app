@@ -30,13 +30,14 @@ import {GlobalComponent} from "../../global-component";
 import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
+import {CartIconComponent} from "../../cart-icon.component";
 
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.page.html',
   styleUrls: ['./addresses.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent]
 })
 export class AddressesPage implements OnInit, OnDestroy {
   billing: Billing[] = [];
@@ -78,6 +79,7 @@ export class AddressesPage implements OnInit, OnDestroy {
     phone: "",
     avatar: "",
     location: "",
+    delivery_address: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,
@@ -203,6 +205,11 @@ export class AddressesPage implements OnInit, OnDestroy {
             if (response.response_code === 200 && response.status === "success") {
               this.ui_controls.is_updating = false;
               this.success_notification(response.message);
+              this.single_user.delivery_address = this.update.city + ", " + this.update.area + ", " + this.update.street;
+              Preferences.set({
+                key: 'user',
+                value: JSON.stringify(this.single_user)
+              }).then(r => console.log(r));
               this.get_billing();
             }else{
               this.ui_controls.is_updating = false
@@ -217,6 +224,17 @@ export class AddressesPage implements OnInit, OnDestroy {
     }else {
       this.error_notification("You are not online, check your connection")
     }
+  }
+
+  user_wishlist() {
+    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+  }
+  user_messages() {
+    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+  }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
   error_notification(message: string) {
     this.toast.error(message, {

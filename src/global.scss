@@ -36,14 +36,14 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
 @import "animate.css/animate.min.css";
 @import url('https://fonts.cdnfonts.com/css/optima');
 * {
-  font-family: 'Optima', sans-serif;
+  font-family: 'Optima', sans-serif !important;
 }
 .abayti_primary_background {
-  background-color: #8E2508;
+  background-color: #8E2508
 }
 
 .abayti_primary_color {
@@ -183,12 +183,6 @@ ion-content.page-bg {
   --background: var(--home-bg-image) center / cover no-repeat;
 }
 
-/* Dark mode swap (optional) */
-@media (prefers-color-scheme: dark) {
-  ion-content.page-bg {
-    --background: var(--home-bg-image) center / cover no-repeat;
-  }
-}
 
 /* Landscape override (optional) */
 @media (orientation: landscape) {
@@ -208,3 +202,10 @@ ion-content.page-bg {
 .transparent-modal {
   --background: transparent;
 }
+
+
+
+ion-tab-button  {
+  background-color: transparent;
+}
+

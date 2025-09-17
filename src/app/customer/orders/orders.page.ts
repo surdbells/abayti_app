@@ -88,8 +88,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
-  user_support() {
+  user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-
 }

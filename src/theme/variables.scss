@@ -1,14 +1,14 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 :root {
-	--ion-color-primary: #7f5c48;
+	--ion-color-primary: #792108;
 	--ion-color-primary-rgb: 127,92,72;
 	--ion-color-primary-contrast: #000000;
 	--ion-color-primary-contrast-rgb: 0,0,0;
-	--ion-color-primary-shade: #7f5c48;
-	--ion-color-primary-tint: #7f5c48;
+	--ion-color-primary-shade: #BA2E06;
+	--ion-color-primary-tint: #BA2E06;
 
-	--ion-color-secondary: #906952;
+	--ion-color-secondary: #BA2E06;
 	--ion-color-secondary-rgb: 144,105,82;
 	--ion-color-secondary-contrast: #ffffff;
 	--ion-color-secondary-contrast-rgb: 255,255,255;
@@ -57,18 +57,13 @@
 	--ion-color-medium-shade: #545454;
 	--ion-color-medium-tint: #6f6f6f;
 
-	--ion-color-dark: #2f2f2f;
-	--ion-color-dark-rgb: 47,47,47;
-	--ion-color-dark-contrast: #ffffff;
-	--ion-color-dark-contrast-rgb: 255,255,255;
-	--ion-color-dark-shade: #292929;
-	--ion-color-dark-tint: #444444;
+
   --app-bg-image: url('/assets/images/home_bg.png');
   --login-bg-image: url('/assets/images/login.png');
   --home-bg-image: url('/assets/images/home.png');
   --welcome-bg-image: url('/assets/images/welcome.png');
+  --welcome-splash-image: url('/assets/images/splash.png');
   --app-bg-gradient: linear-gradient(180deg, #F1C0A9 0%, #FFE0C7 29%, #F1BEA8 100%);
-  --app-bg-image-dark: url('/assets/images/login.png'); /* optional */
 
   --profile-bg: #efe4d6;      /* page background */
   --header-bg: #6b4b3a;       /* coffee header */
@@ -103,6 +98,8 @@
 }
 
 .remove_nudge {
-  padding-top: 1rem !important;
+  padding-top: 1.2rem !important;
   color: #fff !important;
 }
+
+

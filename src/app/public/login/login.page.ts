@@ -23,6 +23,7 @@ import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
+import {BlockerService} from "../../blocker.service";
 
 @Component({
   selector: 'app-login',
@@ -54,18 +55,21 @@ export class LoginPage implements OnInit, OnDestroy {
       private net: ConnectionService,
       private platform: Platform,
       private router: Router,
+      private blocker: BlockerService,
       private networkService: NetworkService,
       private toast: HotToastService
     ) {
       this.net.setReachabilityCheck(true);
       this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
-  ngOnDestroy(): void {
-    this.sub?.unsubscribe();
-  }
-
   ngOnInit() {
+   // this.routerOutlet.swipeGesture = false;
+    this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
+  }
+  ngOnDestroy(): void {
+    this.blocker.unblock(); // ✅ restore when leaving
+    this.sub?.unsubscribe();
   }
   single_user = {
     id: 0,
@@ -133,7 +137,9 @@ export class LoginPage implements OnInit, OnDestroy {
                 value: JSON.stringify(response.data)
               }).then(r => console.log(r));
               this.ui_controls.login_loading = false;
-              this.router.navigate(['/', 'account']).then(r => console.log(r));
+              this.router.navigate(['/account'], { replaceUrl: true });
+              this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
+
             }
             if (response.status === "failed") {
               this.ui_controls.logged_in = false;

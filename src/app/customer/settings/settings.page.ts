@@ -22,7 +22,7 @@ import {
   Platform,
   IonButtons,
   IonModal,
-  IonSearchbar, IonFooter, IonIcon, IonTabBar, IonTabButton
+  IonSearchbar, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText
 } from '@ionic/angular/standalone';
 import {
     TuiButton, TuiFallbackSrcPipe,
@@ -43,6 +43,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {TuiAvatar} from "@taiga-ui/kit";
+import {BottomNavComponent} from "../../bottom-nav/bottom-nav.component";
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -52,7 +53,7 @@ import {TuiAvatar} from "@taiga-ui/kit";
     CommonModule, DatePipe, CurrencyPipe,
     IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
     IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
-    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton
+    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText, BottomNavComponent
   ],
 })
 export class SettingsPage implements OnInit {
@@ -86,6 +87,7 @@ export class SettingsPage implements OnInit {
     phone: "",
     avatar: "",
     location: "",
+    delivery_address: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,
@@ -227,7 +229,12 @@ export class SettingsPage implements OnInit {
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
-  user_support() {
+  orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
+
+  OpenEmail() {
+    const email = 'info@3bayti.com';
+    window.open(`mailto://${email}`);
   }
 }

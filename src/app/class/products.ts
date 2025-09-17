@@ -9,6 +9,7 @@ export class Products {
     public description: string,
     public image_1: string,
     public price: string,
+    public collection: number,
     public sale_price: string
   ){  }
 }

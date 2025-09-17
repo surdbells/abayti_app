@@ -1,0 +1,86 @@
+:host {
+  --color: #ffffff;
+  --card: #fff;
+  --text: #000;
+  --muted: #4C4C4C;
+  --accent: #b37a6b; // warm brown-pink
+}
+ion-content {
+  --background: #fff;
+}
+
+.slides {
+  height: 100%;
+  width: 100%;
+}
+
+.slide {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.hero {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.model {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.overlay-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  padding: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 40px;
+  border-radius: 12px 12px;
+  backdrop-filter: blur(8px);
+}
+
+.title {
+  font-size: 1.2rem;
+  min-height: 40px;
+  margin: 0;
+}
+
+.description {
+  font-size: 0.9rem;
+  margin: 8px 0;
+  line-height: 1.4em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  transition: max-height 0.3s ease;
+}
+
+.store-row {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .store-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+}
+/* Floating buttons wrapper */
+.floating-buttons {
+  position: absolute;
+  bottom: 170px; /* adjust so it floats above overlay-box */
+  left: 28%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}

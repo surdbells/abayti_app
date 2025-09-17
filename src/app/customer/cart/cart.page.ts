@@ -18,7 +18,7 @@ import {
   IonRefresherContent, IonRow,
   IonSearchbar,
   IonTabBar,
-  IonTabButton,
+  IonTabButton, IonText,
   IonTitle,
   IonToolbar,
   NavController,
@@ -40,7 +40,7 @@ import {Labels} from "../../class/labels";
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText]
 })
 export class CartPage implements OnInit, OnDestroy {
   carts: Cart[] = [];
@@ -115,6 +115,15 @@ export class CartPage implements OnInit, OnDestroy {
     product_name: "",
     product_image: ""
   }
+  bill = {
+    count: 0,
+    discount: 0,
+    subtotal: 0,
+    total: 0,
+    f_discount: "",
+    f_subtotal: "",
+    f_total: ""
+  };
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: CustomEvent) {
     ev.detail.register(100, () => {
@@ -163,8 +172,9 @@ export class CartPage implements OnInit, OnDestroy {
     this.networkService.post_request(this.request, GlobalComponent.customerCart)
       .subscribe(({
         next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
+          if (response.response_code === 200) {
             this.carts = response.data;
+            this.bill = response.message;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_loading = false;
@@ -237,8 +247,14 @@ export class CartPage implements OnInit, OnDestroy {
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
-  user_support() {
+  user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+  user_messages() {
+    this.router.navigate(['/', 'messages']).then(r => console.log(r));
   }
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -295,6 +311,10 @@ export class CartPage implements OnInit, OnDestroy {
     this.toast.success(message, {
       position: 'bottom-center'
     });
+  }
+
+  check_out() {
+    this.router.navigate(['/', 'checkout']).then(r => console.log(r));
   }
 
 }

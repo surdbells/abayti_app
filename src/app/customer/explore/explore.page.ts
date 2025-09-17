@@ -15,7 +15,7 @@ import {
   IonButtons,
   IonCard,
   IonCardContent, IonCardHeader, IonCardTitle, IonCol,
-  IonContent, IonFooter, IonGrid,
+  IonContent, IonFab, IonFabButton, IonFooter, IonGrid,
   IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList,
   IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, IonText, IonTitle,
   IonToolbar, NavController
@@ -51,7 +51,7 @@ type DualRange = { lower: number; upper: number };
   styleUrls: ['./explore.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton]
+  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton]
 })
 export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
   products: Products[] = [];
@@ -84,9 +84,9 @@ export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
     private networkService: NetworkService,
     private toast: HotToastService,
   ) {
-    this.platform.backButton.subscribeWithPriority(10, () => {
+/*    this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');
-    });
+    });*/
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
@@ -98,6 +98,11 @@ export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+  current_image = {
+    id: 0,
+    name: "",
+    image: ""
   }
   ui_controls = {
     is_loading: false,
@@ -263,10 +268,13 @@ export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
       }))
   }
   imgLoaded: boolean[] = [false, false, false, false];
-  onWillLoad(index: number) {
+  onWillLoad(index: number, id: number, name: string, image: string) {
+    this.current_image.id = id;
+    this.current_image.name = name;
+    this.current_image.image = image;
     this.imgLoaded[index] = false;
   }
-  onDidLoad(index: number) {
+  onDidLoad(index: number, id: number, name: string, image: string) {
     this.imgLoaded[index] = true;
   }
   addToCloset(label: number) {
@@ -318,16 +326,16 @@ export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
   user_cart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
-  open_product(id: number, name: string) {
+  open_vendor(id: number, name: string) {
     this.router.navigate(
-      ['/', 'product'],
+      ['/', 'vendors'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
   }
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
-  user_support() {
+  user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
 }

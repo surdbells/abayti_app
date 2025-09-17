@@ -8,7 +8,7 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
-  IonCardTitle,
+  IonCardTitle, IonChip,
   IonCol,
   IonContent,
   IonFooter,
@@ -41,14 +41,16 @@ import {
   TuiTextfieldDirective, TuiTextfieldOptionsDirective,
   TuiTitle
 } from "@taiga-ui/core";
-import {Subscription} from "rxjs";
+import {single, Subscription} from "rxjs";
 import {Platform} from "@ionic/angular";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {TuiAvatar, TuiButtonGroup, TuiRadioComponent, TuiShimmer} from "@taiga-ui/kit";
+import {TuiAvatar, TuiButtonGroup, TuiRadioComponent, TuiShimmer, TuiTextarea} from "@taiga-ui/kit";
 import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
+import {CartIconComponent} from "../../cart-icon.component";
+import {SizeChipsComponent} from "../../size-chips/size-chips.component";
 
 @Component({
   selector: 'app-product',
@@ -56,7 +58,7 @@ import {Preferences} from "@capacitor/preferences";
   styleUrls: ['./product.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip]
 })
 export class ProductPage implements AfterViewInit, OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
@@ -102,11 +104,14 @@ export class ProductPage implements AfterViewInit, OnInit {
   }
   colors: string[] = [];
   images: string[] = [];
+  apiSizes = { };
+  chosenSize: string | null = null;
   single = {
     id: 0,
     token: "",
     product: 0,
     store: 0,
+    store_name: "",
     category_id: "",
     category_name: "",
     name: "",
@@ -152,6 +157,7 @@ export class ProductPage implements AfterViewInit, OnInit {
     is_featured: false,
     delivery_note: "",
     colors: "",
+    try_on_active: false,
     label: 0
   };
   update = {
@@ -214,7 +220,7 @@ export class ProductPage implements AfterViewInit, OnInit {
     quantity: 0,
     price: 0,
     size: "",
-    color: "",
+    color: "black",
     is_custom: false,
     measurement: "",
     extra_measurement: ""
@@ -331,6 +337,14 @@ export class ProductPage implements AfterViewInit, OnInit {
             this.add_cart.product_image = this.single.image_1;
             this.add_cart.price = this.single.price;
             this.add_cart.store = this.single.store;
+            this.apiSizes = {
+              xxl: this.single.size_xxl,
+              xl: this.single.size_xl,
+              l: this.single.size_l,
+              m: this.single.size_m,
+              xs: this.single.size_s,
+              s: this.single.size_xs
+            };
             console.log(this.single);
             this.ui_controls.is_loading = false;
           }
@@ -369,12 +383,12 @@ export class ProductPage implements AfterViewInit, OnInit {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   imgLoaded: boolean[] = [false, false, false, false];
@@ -384,8 +398,14 @@ export class ProductPage implements AfterViewInit, OnInit {
   onDidLoad(index: number) {
     this.imgLoaded[index] = true;
   }
-
-
+  user_messages() {
+    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+  }
+  onSizeSelected(sizeKey: string | any) {
+    this.add_cart.size = sizeKey;
+    console.log(this.chosenSize);
+    // do whatever you need with the selection
+  }
   increaseQuantity() {
     this.add_cart.quantity++;
   }

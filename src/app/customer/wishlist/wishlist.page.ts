@@ -2,14 +2,30 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonAvatar,
-  IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCol,
-  IonContent,
-  IonHeader, IonIcon, IonImg, IonModal, IonRefresher, IonRefresherContent, IonRow, IonSearchbar, IonText,
-  IonTitle,
-  IonToolbar,
-  NavController,
-  Platform
+    IonAvatar,
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCol,
+    IonContent,
+    IonFooter,
+    IonHeader,
+    IonIcon,
+    IonImg,
+    IonModal,
+    IonRefresher,
+    IonRefresherContent,
+    IonRow,
+    IonSearchbar,
+    IonTabBar,
+    IonTabButton,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    NavController,
+    Platform
 } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -36,7 +52,7 @@ import {Wishlist} from "../../class/wishlist";
   templateUrl: './wishlist.page.html',
   styleUrls: ['./wishlist.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton]
 })
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];
@@ -201,4 +217,21 @@ export class WishlistPage implements OnInit, OnDestroy {
         }
       }))
   }
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+  user_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+  user_explore() {
+    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+  }
+  orders() {
+    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
+
 }

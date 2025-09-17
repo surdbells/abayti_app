@@ -6,6 +6,7 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from '@angular/common/http';
+import {GlobalComponent} from "../global-component";
 @Injectable({
   providedIn: 'root',
 })
@@ -13,6 +14,8 @@ export class NetworkService {
   headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json');
+
+
   constructor(private http: HttpClient) {}
   // Error Handler
   error(error: HttpErrorResponse) {
@@ -34,5 +37,10 @@ export class NetworkService {
   get_request(endpoint: string) {
     return this.http.get<any>(`${endpoint}`).pipe(catchError(this.error));
   }
-
+  paymentInitiate(data: any, endpoint: string): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', "Key "+GlobalComponent.AppKey);
+    return this.http.post(`${endpoint}`, data, { headers }).pipe(catchError(this.error));
+  }
 }

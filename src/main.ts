@@ -17,10 +17,12 @@ register();
 bootstrapApplication(AppComponent, {
   providers: [ NG_EVENT_PLUGINS,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
     { provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true },
-    provideIonicAngular(),
+    provideIonicAngular({ animated: false }),
     provideHttpClient(),
     provideHotToastConfig(),
+
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });

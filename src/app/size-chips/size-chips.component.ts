@@ -26,12 +26,14 @@ export class SizeChipsComponent implements OnChanges {
   }
 
   private buildList() {
-    this.sizesList = Object.keys(this.sizes || {}).map((k) => ({
-      key: k,
-      label: k.toUpperCase(),
-      available: this.sizes[k],
-      selected: false,
-    }));
+    this.sizesList = Object.keys(this.sizes || {})
+      .filter((k) => this.sizes[k]) // ✅ only keep sizes that are true
+      .map((k) => ({
+        key: k,
+        label: k.toUpperCase(),
+        available: true,
+        selected: false,
+      }));
   }
 
   /** Select a size — ensures only one selected at a time. Clicking an already-selected size deselects it. */

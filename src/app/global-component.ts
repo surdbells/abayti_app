@@ -5,6 +5,11 @@ export class GlobalComponent {
   public static baseURL = 'https://api.3bayti.com/' // test
   public static topexCitiesURL = 'https://shipperapi.topex.ae/api/CommonAPI/Cities?countryID=1' //
   public static topexAreaURL = 'https://shipperapi.topex.ae/api/CommonAPI/Areas?acityID=' //
+  public static paymentEndpoint = 'https://api-test.noonpayments.com/payment/v1/order' //
+  public static businessId = 'abayti_portal' //
+  public static appName = '3bayti' //
+  public static AppKey = 'b30ee074b32d489b9c792421eb93aa2a' //
+  public static returnUrl = 'https://api.3bayti.com/webhooks/noon-payments' //
 
   /* POST REQUEST */
   public static UserLogin = GlobalComponent.baseURL + 'users/login';
@@ -46,7 +51,7 @@ export class GlobalComponent {
   public static product_by_category = GlobalComponent.baseURL + 'customer/product_by_category';
   public static products_by_labels = GlobalComponent.baseURL + 'customer/products_by_labels';
   public static search = GlobalComponent.baseURL + 'customer/search';
-  public static store_labels = GlobalComponent.baseURL + 'customer/store_labels';
+  public static store_labels = GlobalComponent.baseURL + 'customer/read_vendor_collection';
   public static store_latest = GlobalComponent.baseURL + 'customer/store_latest';
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
 
@@ -68,5 +73,10 @@ export class GlobalComponent {
     reader.readAsDataURL(file);
     reader.onload = (event: any) => result.next(btoa(event.target.result.toString()));
     return result;
+  }
+  public static generateTransactionReference(prefix: string = 'TRN'): string {
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 8); // 6 characters for randomness
+    return `${prefix}-${timestamp}-${randomString}`.toUpperCase();
   }
 }

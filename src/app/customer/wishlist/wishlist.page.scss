@@ -18,7 +18,7 @@
 
 :host {
   --grad-start: #8e1d0a;
-  --grad-end: #d24a1e;
+  --grad-end: #B62E07;
   --bg: #fbf4ef;
   --surface: #fff;
   --shadow: 0 6px 14px rgba(0,0,0,0.08);
@@ -87,7 +87,7 @@ ion-content {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding-bottom: 20px;
 
   .category-card {
     flex: 0 0 auto;
@@ -104,12 +104,17 @@ ion-content {
     }
 
     h4 {
-      margin: 0;
-      font-size: 14px;
+      margin: 12px auto;
+      color: #000000;
+      font-size: 11px;
       font-weight: 700;
     }
     p {
-      margin: 0;
+      margin: 0 auto;
+      width: 65px;
+      padding: 4px 0;
+      background-color: #F6D0C5;
+      border-radius: 5px;
       font-size: 12px;
       opacity: 0.8;
     }
@@ -152,13 +157,13 @@ ion-content {
 
   .recent-card {
     background: var(--surface);
-    border-radius: var(--radius-xl);
-    padding: 8px;
+    border-radius: 12px;
+    padding: 5px;
     text-align: center;
     box-shadow: var(--shadow);
 
     img {
-      border-radius: 18px;
+      border-radius: 12px;
       margin-bottom: 6px;
     }
 
@@ -168,4 +173,7 @@ ion-content {
       font-weight: 600;
     }
   }
+}
+ion-tab-button  {
+  background-color: transparent;
 }

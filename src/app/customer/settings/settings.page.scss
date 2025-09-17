@@ -1,7 +1,7 @@
 :host {
   /* Theme tokens – tweak freely */
-  --profile-grad-start: #8e1d0a;
-  --profile-grad-end: #d24a1e;
+  --profile-grad-start: #792108;
+  --profile-grad-end: #BA2E06;
   --profile-surface: #ffffff;
   --profile-bg: #fbf4ef;            /* soft cream backdrop */
   --profile-text: #231f1e;
@@ -55,17 +55,14 @@ ion-content.remove_nudge {
   align-items: center;
   gap: 16px;
   padding: 18px 18px 18px 20px;
-  border-radius: var(--radius-3xl);
-  background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
   color: #fff;
-  box-shadow: var(--profile-shadow);
 
   .welcome {
     display: grid;
     gap: 4px;
 
     .overline {
-      font-size: 12px;
+      font-size: 32px;
       letter-spacing: 0.18em;
       opacity: 0.85;
     }
@@ -110,7 +107,7 @@ ion-content.remove_nudge {
   align-items: center;
   text-align: left;
   padding: 16px 16px 16px 14px;
-  border-radius: var(--radius-2xl);
+  border-radius: var(--radius-lg);
   background: var(--profile-surface);
   box-shadow: var(--profile-shadow);
   color: var(--profile-text);
@@ -233,4 +230,72 @@ ion-list {
   .footer-row {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+
+.gradient_bg {
+  background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
+  width: 100%;
+  border-bottom-left-radius: var(--radius-2xl);
+  border-bottom-right-radius: var(--radius-2xl);
+}
+
+.brand_border {
+  border: 2px solid var(--profile-surface);
+  border-radius: var(--radius-2xl);
+}
+
+/* Section title */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 16px;
+
+  tui-icon {
+    color: var(--grad-end);
+  }
+}
+
+.contact-list {
+  background: transparent !important;
+  ion-item {
+    --background: #ffffff;
+    --inner-border-width: 0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --min-height: 54px;
+    border-radius: 12px;
+    margin: 8px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    ion-icon[slot="start"] {
+      font-size: 22px;
+      color: #BA2E06; // your brand color
+      margin-right: 12px;
+    }
+
+    ion-icon[slot="end"] {
+      font-size: 18px;
+      color: #999;
+    }
+
+    ion-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #222;
+    }
+  }
+}
+ion-tab-button  {
+  background-color: transparent;
 }

@@ -11,12 +11,12 @@ import {StatusBar} from "@capacitor/status-bar";
 export class AppComponent {
   constructor(private platform: Platform) {
     this.platform.ready().then(async () => {
-      try {
-        await StatusBar.setOverlaysWebView({ overlay: false }); // push content below status bar
+         //  try {
+        // await StatusBar.setOverlaysWebView({ overlay: false }); // push content below status bar
         // Optional:
         // await StatusBar.setStyle({ style: Style.Light });
         // await StatusBar.setBackgroundColor({ color: '#ffffff' });
-      } catch {}
+     // } catch {}
     });
   }
 }

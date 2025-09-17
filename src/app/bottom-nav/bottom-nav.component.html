@@ -1,0 +1,21 @@
+<ion-footer class="bottom-nav-wrap" translucent>
+  <ion-toolbar class="bottom-nav-toolbar" >
+    <div class="nav-pill" role="tablist" aria-label="Bottom navigation">
+      @for(it of items; track it.href;  let i = $index){
+        <button
+          class="nav-btn"
+          [class.active]="isActive(it)"
+          (click)="navTo(it)"
+          [attr.aria-label]="it.ariaLabel || 'nav-' + i"
+          role="tab"
+          [attr.aria-selected]="isActive(it)"
+          type="button">
+          <ion-icon [name]="it.icon" class="nav-icon" aria-hidden="true"></ion-icon>
+          <span *ngIf="it.badge" class="badge" aria-hidden="true">{{ it.badge }}</span>
+        </button>
+      }
+    </div>
+  </ion-toolbar>
+</ion-footer>
+
+
