@@ -6,6 +6,7 @@ export class Billing {
     public email: string,
     public city: string,
     public area: string,
-    public street: string
+    public street: string,
+    public villa_number: string
   ){  }
 }

@@ -172,4 +172,8 @@ export class VendorsPage implements OnInit {
     ).then(r => console.log(r));
   }
 
+  triggerBack() {
+    this.nav.back();
+  }
+
 }

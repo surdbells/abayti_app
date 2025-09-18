@@ -125,6 +125,7 @@ export class VerticanPage implements OnInit, OnDestroy {
   ui_controls = {
     is_loading: false,
     is_loaded: false,
+    is_empty: false,
     is_loading_category: false
   }
   filter = {
@@ -225,6 +226,7 @@ export class VerticanPage implements OnInit, OnDestroy {
     this.isFilterOpen = false;
     this.ui_controls.is_loading = true;
     this.ui_controls.is_loaded = false;
+    this.ui_controls.is_empty = false;
     this.filter.id = this.single_user.id;
     this.filter.token = this.single_user.token;
     this.networkService.post_request(this.filter, GlobalComponent.filtered_products)
@@ -234,8 +236,10 @@ export class VerticanPage implements OnInit, OnDestroy {
             this.products = response.data;
             this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
+            this.ui_controls.is_empty = false;
           }else {
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }
         }
       }))
@@ -244,7 +248,7 @@ export class VerticanPage implements OnInit, OnDestroy {
     this.products = [];
     this.ui_controls.is_loading = true;
     this.ui_controls.is_loaded = false;
-
+    this.ui_controls.is_empty = false;
     this.explore.id = this.single_user.id;
     this.explore.token = this.single_user.token;
     this.networkService.post_request(this.explore, GlobalComponent.explore)
@@ -254,8 +258,10 @@ export class VerticanPage implements OnInit, OnDestroy {
             this.products = response.data;
             this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
+            this.ui_controls.is_empty = false;
           }else{
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }
         }
       }))
@@ -314,5 +320,9 @@ export class VerticanPage implements OnInit, OnDestroy {
       ['/', 'vendors'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
+  }
+
+  triggerBack() {
+    this.nav.back();
   }
 }

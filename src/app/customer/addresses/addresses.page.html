@@ -29,7 +29,7 @@
           <tui-icon icon="@tui.message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
         </ion-button>
         <ion-button (click)="user_cart()" fill="clear">
-          <app-cart-icon [count]="2"></app-cart-icon>
+          <app-cart-icon [count]="0"></app-cart-icon>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -110,9 +110,17 @@
       </ion-row>
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
+          <label tuiLabel>Street address</label>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Street</label>
             <input  [(ngModel)]="update.street" name="street" type="text" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+      </ion-row>
+      <ion-row class="animate__animated ion-padding-bottom">
+        <ion-col>
+          <label tuiLabel>Villa number</label>
+          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
+            <input  [(ngModel)]="update.villa_number" name="villa_number" type="text" tuiTextfield />
           </tui-textfield>
         </ion-col>
       </ion-row>

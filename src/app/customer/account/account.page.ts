@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
+  inject, Input,
   OnDestroy,
   OnInit,
   signal,
@@ -52,6 +52,7 @@ import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
 import {CartIconComponent} from "../../cart-icon.component";
 import {BlockerService} from "../../blocker.service";
+import {StoreRatingSimpleComponent} from "../../store_rating";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -62,7 +63,7 @@ type DualRange = { lower: number; upper: number };
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent]
 })
 export class AccountPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
@@ -71,6 +72,27 @@ export class AccountPage implements OnInit, OnDestroy {
   categories: Labels[] = [];
   isWishOpen = false; // or control this as you like
   isFilterOpen = false; // or control this as you like
+  @Input() rating: number = 4.5;
+  @Input() ratingsCount: number | string = '100+';
+  isActive = false;
+
+// Helper to return full / half / empty stars array for template
+  get stars(): ('full' | 'half' | 'empty')[] {
+    const out: ('full' | 'half' | 'empty')[] = [];
+    let remaining = this.rating;
+    for (let i = 0; i < 5; i++) {
+      if (remaining >= 1) {
+        out.push('full');
+      } else if (remaining >= 0.5) {
+        out.push('half');
+      } else {
+        out.push('empty');
+      }
+      remaining -= 1;
+    }
+    return out;
+  }
+
 
   range = signal<DualRange>({ lower: 5, upper: 500 });
   protected readonly category: Category[] = [
@@ -104,6 +126,7 @@ export class AccountPage implements OnInit, OnDestroy {
 
  ui_controls = {
    is_loading: false,
+   is_empty: false,
    is_loading_category: false
   }
   best_seller = {
@@ -140,8 +163,10 @@ export class AccountPage implements OnInit, OnDestroy {
     delivery: "1 - 3"
   }
   featured_store = {
-    name: "",
-    description: ""
+    store_name: "",
+    store_id: 0,
+    rating: 0,
+    rating_count: 0
   }
   single_user = {
     id: 0,
@@ -281,6 +306,7 @@ export class AccountPage implements OnInit, OnDestroy {
   get_filtered_products() {
     this.isFilterOpen = false;
     this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
     this.filter.id = this.single_user.id;
     this.filter.token = this.single_user.token;
     this.networkService.post_request(this.filter, GlobalComponent.filtered_products)
@@ -289,15 +315,17 @@ export class AccountPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.best_sellers = response.data;
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }else {
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }
         }
       }))
   }
   products_by_category(category: number) {
-    this.best_sellers = [];
     this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
     this.rqst_param_products_by_category.id = this.single_user.id;
     this.rqst_param_products_by_category.token = this.single_user.token;
     this.rqst_param_products_by_category.category = category;
@@ -307,9 +335,11 @@ export class AccountPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.best_sellers = response.data;
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = false;
             console.log(this.ui_controls.is_loading);
           }else{
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }
         }
       }))
@@ -317,6 +347,7 @@ export class AccountPage implements OnInit, OnDestroy {
   get_best_sellers() {
     this.best_sellers = [];
     this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = true;
     this.best_seller.id = this.single_user.id;
     this.best_seller.token = this.single_user.token;
     this.rqst_param_products_by_category.category = 0;
@@ -325,9 +356,11 @@ export class AccountPage implements OnInit, OnDestroy {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.best_sellers = response.data;
+            this.ui_controls.is_empty = false;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
           }
         }
       }))
@@ -340,8 +373,10 @@ export class AccountPage implements OnInit, OnDestroy {
     this.networkService.post_request(this.get_featured, GlobalComponent.featured)
       .subscribe(({
         next: (response) => {
-          this.featured_store.name = response.status;
-          this.featured_store.description = response.message;
+          this.featured_store.store_name =  response.data[0].store_name;
+          this.featured_store.store_id =  response.data[0].store_id;
+          this.featured_store.rating =  response.data[0].rating;
+          this.featured_store.rating_count =  response.data[0].rating_count;
           this.vendor_featured = response.data;
           this.ui_controls.is_loading = false;
         }
@@ -401,5 +436,16 @@ export class AccountPage implements OnInit, OnDestroy {
 
   openCart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+
+  open_reviews(id: any, name: any) {
+    this.router.navigate(
+      ['/', 'store_reviews'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
+  toggleClass(event: Event) {
+    const el = event.currentTarget as HTMLElement;
+    el.classList.toggle('cat_active');
   }
 }

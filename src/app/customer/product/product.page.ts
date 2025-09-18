@@ -217,7 +217,7 @@ export class ProductPage implements AfterViewInit, OnInit {
     product_name: "",
     product_desc: "",
     product_image: "",
-    quantity: 0,
+    quantity: 1,
     price: 0,
     size: "",
     color: "black",
@@ -265,10 +265,13 @@ export class ProductPage implements AfterViewInit, OnInit {
       this.error_notification("Quantity is require.")
       return;
     }
-    if (this.add_cart.size.length == 0){
-      this.error_notification("Select your preferred size.")
-      return;
-    }
+
+      if (!this.single.size_custom){
+        if (this.add_cart.size.length == 0){
+          this.error_notification("Select your preferred size.")
+          return;
+        }
+      }
     if (this.add_cart.color.length == 0){
       this.error_notification("Select your preferred color.")
       return;
@@ -413,5 +416,9 @@ export class ProductPage implements AfterViewInit, OnInit {
     if (this.add_cart.quantity > 1) {
       this.add_cart.quantity--;
     }
+  }
+
+  triggerBack() {
+    this.nav.back();
   }
 }

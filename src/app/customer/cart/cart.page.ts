@@ -316,5 +316,7 @@ export class CartPage implements OnInit, OnDestroy {
   check_out() {
     this.router.navigate(['/', 'checkout']).then(r => console.log(r));
   }
-
+  triggerBack() {
+    this.nav.back();
+  }
 }

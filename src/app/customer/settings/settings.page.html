@@ -279,18 +279,28 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-row class="animate__animated ion-padding-bottom">
-          <ion-col>
-            <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-              <label tuiLabel>Location</label>
-              <input [(ngModel)]="u_location.location" type="text" name="name" tuiTextfield />
-            </tui-textfield>
-          </ion-col>
-          <button *ngIf="!ui_controls.updating_location" (click)="update_location()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                  tuiButton type="button"> Update
-          </button>
-          </ion-row>
+        <ion-card class="animate__animated ion-padding-bottom">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label>Select Location: </ion-label>
+              <ion-select [(ngModel)]="u_location.location" interface="action-sheet">
+                   <ion-select-option value="Dubai">Dubai</ion-select-option>
+                  <ion-select-option value="Abu Dhabi">Abu Dhabi</ion-select-option>
+                  <ion-select-option value="Sharjah">Sharjah</ion-select-option>
+                  <ion-select-option value="Ras al Khaima">Ras al Khaima</ion-select-option>
+                  <ion-select-option value="Ajman">Ajman</ion-select-option>
+                  <ion-select-option value="Fujairah">Fujairah</ion-select-option>
+                  <ion-select-option value="Umm Al Quwain">Umm Al Quwain</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <button *ngIf="!ui_controls.updating_location" (click)="update_location()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                      style="width: 100%; outline-color: #000000; color: #000000" size="m"
+                      tuiButton type="button"> Update
+              </button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
         <ion-row>
           <ion-col>
             <tui-loader *ngIf="ui_controls.updating_location"></tui-loader>
@@ -317,19 +327,18 @@
             <ion-label>Send us an Email</ion-label>
             <tui-icon icon="@tui.move-right"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
           </ion-item>
-
           <!-- Phone -->
-          <ion-item class="animate__animated animate__fadeInDown"  detail="false">
-            <tui-icon icon="@tui.phone"  [style.color]="'var(--ion-color-secondary)'" slot="start" />
+          <!--          <ion-item class="animate__animated animate__fadeInDown"  detail="false">
+            <tui-icon icon="@tui.phone"  [style.color]="'var(&#45;&#45;ion-color-secondary)'" slot="start" />
             <ion-label>Call our customer service</ion-label>
-            <tui-icon icon="@tui.move-right"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
+            <tui-icon icon="@tui.move-right"  [style.color]="'var(&#45;&#45;ion-color-secondary)'" slot="end" />
           </ion-item>
 
           <ion-item class="animate__animated animate__fadeInDown"  detail="false">
-            <tui-icon icon="@tui.message-square"  [style.color]="'var(--ion-color-secondary)'" slot="start" />
+            <tui-icon icon="@tui.message-square"  [style.color]="'var(&#45;&#45;ion-color-secondary)'" slot="start" />
             <ion-label>Chat with Live Agent</ion-label>
-            <tui-icon icon="@tui.move-right"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
-          </ion-item>
+            <tui-icon icon="@tui.move-right"  [style.color]="'var(&#45;&#45;ion-color-secondary)'" slot="end" />
+          </ion-item>-->
         </ion-list>
       </ion-content>
     </ng-template>

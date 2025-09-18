@@ -1,6 +1,27 @@
 <ion-header class="ion-padding-vertical ion-no-border gradient_bg remove_nudge">
   <ion-toolbar class="toolbar ion-text-center  ion-no-border">
+
     <ion-title style="color: #FFFFFF; font-size: 15px">{{ rqst_param.store_name }}</ion-title>
+    <ion-buttons (click)="triggerBack()" aria-label="Back to account" slot="start">
+      <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_75_149)">
+          <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
+          <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
+        </g>
+        <defs>
+          <filter id="filter0_d_75_149" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset/>
+            <feGaussianBlur stdDeviation="8.55"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_75_149"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_75_149" result="shape"/>
+          </filter>
+        </defs>
+      </svg>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg">
@@ -11,7 +32,7 @@
       </div>
       <div class="h-scroll products">
         @for(best_seller of latest; track best_seller.product_id){
-          <article class="product-card">
+          <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
               <img style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
             </div>
@@ -32,7 +53,7 @@
                   </svg>{{best_seller.price}}
                 </ion-col>
                 <ion-col class="ion-text-end">
-                  <svg (click)="open_product(best_seller.product_id, best_seller.product_name)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="19" height="19" rx="6" fill="#7C2108"/>
                     <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
                   </svg>

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {IonApp, IonRouterOutlet, Platform} from '@ionic/angular/standalone';
-import {StatusBar} from "@capacitor/status-bar";
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 
 @Component({

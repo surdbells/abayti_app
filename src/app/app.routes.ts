@@ -95,4 +95,8 @@ export const routes: Routes = [
     path: 'explore',
     loadComponent: () => import('./customer/vertican/vertican.page').then( m => m.VerticanPage)
   },
+  {
+    path: 'store_reviews',
+    loadComponent: () => import('./customer/store-reviews/store-reviews.page').then( m => m.StoreReviewsPage)
+  },
 ];

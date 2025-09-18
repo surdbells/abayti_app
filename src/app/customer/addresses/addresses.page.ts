@@ -94,7 +94,8 @@ export class AddressesPage implements OnInit, OnDestroy {
     email: '',
     city: 'Dubai',
     area: 'Al Marmoom',
-    street: ''
+    street: '',
+    villa_number: ''
   };
 
   ngOnInit() {
@@ -146,6 +147,7 @@ export class AddressesPage implements OnInit, OnDestroy {
             this.update.city = this.billing[0].city;
             this.update.area = this.billing[0].area;
             this.update.street = this.billing[0].street;
+            this.update.villa_number = this.billing[0].villa_number;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_empty = true;
@@ -195,6 +197,10 @@ export class AddressesPage implements OnInit, OnDestroy {
       }
       if (this.update.street.length == 0) {
         this.error_notification("Street is required");
+        return;
+      }
+      if (this.update.villa_number.length == 0) {
+        this.error_notification("Villa number is required is required");
         return;
       }
       this.ui_controls.is_updating = true;

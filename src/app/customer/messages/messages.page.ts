@@ -151,4 +151,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   conversations(vendor: number, userId: number) {
     this.router.navigate(['/', 'conversations']).then(r => console.log(r));
   }
+  triggerBack() {
+    this.nav.back();
+  }
 }

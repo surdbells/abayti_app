@@ -126,9 +126,6 @@ ion-toolbar {
   --background: transparent !important;
   --border-style: none;
 }
-ion-content {
-  --background: var(--ion-color-primary-shade);
-}
 ion-content.nudge-fix {
   --padding-top:    max(30px, var(--ion-safe-area-top));
   --padding-bottom: max(30px, var(--ion-safe-area-bottom));

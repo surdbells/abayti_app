@@ -2,27 +2,36 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {CommonModule, CurrencyPipe, DatePipe} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonAvatar,
-  IonButton,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonList,
-  IonRow,
-  IonTitle,
-  IonImg,
-  IonToolbar,
-  IonItem,
-  IonLabel,
-  IonNote,
-  IonRadioGroup,
-  IonRadio,
-  NavController,
-  Platform,
-  IonButtons,
-  IonModal,
-  IonSearchbar, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText
+    IonAvatar,
+    IonButton,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonList,
+    IonRow,
+    IonTitle,
+    IonImg,
+    IonToolbar,
+    IonItem,
+    IonLabel,
+    IonNote,
+    IonRadioGroup,
+    IonRadio,
+    NavController,
+    Platform,
+    IonButtons,
+    IonModal,
+    IonSearchbar,
+    IonFooter,
+    IonIcon,
+    IonTabBar,
+    IonTabButton,
+    IonText,
+    IonCard,
+    IonCardContent,
+    IonSelect,
+    IonSelectOption
 } from '@ionic/angular/standalone';
 import {
     TuiButton, TuiFallbackSrcPipe,
@@ -49,12 +58,12 @@ import {BottomNavComponent} from "../../bottom-nav/bottom-nav.component";
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [
-    CommonModule, DatePipe, CurrencyPipe,
-    IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
-    IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
-    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText, BottomNavComponent
-  ],
+    imports: [
+        CommonModule, DatePipe, CurrencyPipe,
+        IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
+        IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
+        TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText, BottomNavComponent, IonCard, IonCardContent, IonSelect, IonSelectOption
+    ],
 })
 export class SettingsPage implements OnInit {
   private backSub?: Subscription;

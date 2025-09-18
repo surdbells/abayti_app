@@ -55,6 +55,7 @@ export class RegisterPage implements OnInit {
   protected readonly countries = getCountries();
   protected countryIsoCode: TuiCountryIsoCode = 'CN';
   protected value = '';
+  isTermsOpen = false; // or control this as you like
   constructor(
     private net: ConnectionService,
     private platform: Platform,

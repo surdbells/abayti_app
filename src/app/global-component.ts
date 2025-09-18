@@ -30,6 +30,7 @@ export class GlobalComponent {
 
 
   public static readReviews = GlobalComponent.baseURL + 'customer/settings/read-reviews';
+  public static storeReviews = GlobalComponent.baseURL + 'customer/settings/store-reviews';
   public static deleteReview = GlobalComponent.baseURL + 'customer/settings/delete-review';
   public static readProfile = GlobalComponent.baseURL + 'customer/settings/read-profile';
   public static updateProfile = GlobalComponent.baseURL + 'customer/settings/update-profile';

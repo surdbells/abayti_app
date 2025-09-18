@@ -77,8 +77,8 @@ ion-content {
 /* Floating buttons wrapper */
 .floating-buttons {
   position: absolute;
-  bottom: 170px; /* adjust so it floats above overlay-box */
-  left: 28%;
+  bottom: 180px; /* adjust so it floats above overlay-box */
+  left: 18%;
   transform: translateX(-50%);
   display: flex;
   gap: 12px;

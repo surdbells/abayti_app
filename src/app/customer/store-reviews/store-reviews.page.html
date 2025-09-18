@@ -1,8 +1,8 @@
 <ion-content fullscreen="true" class="page-bg">
   <ion-header class="ion-padding-top ion-no-border remove_nudge">
     <ion-toolbar class="toolbar ion-no-border">
-      <ion-title>Your reviews</ion-title>
-      <ion-buttons [routerLink]="['/settings']" aria-label="Back to account" slot="start">
+      <ion-title>{{rqst_param.store_name}}</ion-title>
+      <ion-buttons (click)="goBack()" aria-label="Back to account" slot="start">
         <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_d_75_149)">
             <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
@@ -27,11 +27,11 @@
   <div class="sheet ion-padding-horizontal">
     <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
     <div *ngIf="!ui_controls.is_loading" class="menu">
-      <ion-card *ngFor="let item of reviews; index as i;" (click)="start_delete_review(item.id)" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
+      <ion-card *ngFor="let item of reviews; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
         <ion-card-content>
           <div class="row-top">
-            <tui-icon icon="@tui.store"></tui-icon>
-            <div class="name">{{ item?.store_name || '—' }}</div>
+            <tui-icon icon="@tui.user"></tui-icon>
+            <div class="name">{{ item?.customer || '—' }}</div>
           </div>
           <div class="address-row">
             <ion-text>
@@ -71,9 +71,9 @@
     <div *ngIf="ui_controls.is_empty && !ui_controls.is_loading" class="empty-state">
       <ion-card>
         <ion-card-content class="ion-text-center">
-          <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+          <tui-icon [style.font-size.rem]="2" icon="star"></tui-icon>
           <h2>No Reviews Yet</h2>
-          <p>You haven’t reviewed any store yet.</p>
+          <p>This store has now reviews yet.</p>
         </ion-card-content>
       </ion-card>
     </div>
