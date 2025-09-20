@@ -164,12 +164,12 @@ export class LoginPage implements OnInit, OnDestroy {
   }
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'top-right'
+      position: 'bottom-center'
     });
   }
   show_success(message: string, position: any) {
     this.toast.success(message, {
-      position: 'top-right'
+      position: 'bottom-center'
     });
   }
 

@@ -183,6 +183,9 @@ export class CheckoutPage implements OnInit, OnDestroy {
       console.log('You are offline');
     }
   }
+  ionViewWillEnter() {
+    this.getObject().then(r => console.log(r));
+  }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){

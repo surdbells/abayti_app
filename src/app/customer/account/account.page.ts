@@ -188,6 +188,9 @@ export class AccountPage implements OnInit, OnDestroy {
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
   }
+  ionViewWillEnter() {
+    this.getObject().then(r => console.log(r));
+  }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
@@ -229,7 +232,7 @@ export class AccountPage implements OnInit, OnDestroy {
   user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-  open_product(id: number, name: string) {
+  open_product(id: number) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
@@ -447,5 +450,12 @@ export class AccountPage implements OnInit, OnDestroy {
   toggleClass(event: Event) {
     const el = event.currentTarget as HTMLElement;
     el.classList.toggle('cat_active');
+  }
+
+  open_vendor(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'vendors'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
   }
 }

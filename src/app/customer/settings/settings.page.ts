@@ -217,12 +217,12 @@ export class SettingsPage implements OnInit {
   }
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'top-center'
+      position: 'bottom-center'
     });
   }
   show_success(message: string) {
     this.toast.success(message, {
-      position: 'top-center'
+      position: 'bottom-center'
     });
   }
   user_profile() {
@@ -244,6 +244,6 @@ export class SettingsPage implements OnInit {
 
   OpenEmail() {
     const email = 'info@3bayti.com';
-    window.open(`mailto://${email}`);
+    window.open(`mailto:${email}`);
   }
 }

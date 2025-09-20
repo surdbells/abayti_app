@@ -153,11 +153,14 @@ export class VerticanPage implements OnInit, OnDestroy {
     is_customer: false
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+   // this.getObject().then(r => console.log(r));
     if (this.isOnline) {
     } else {
       console.log('You are offline');
     }
+  }
+  ionViewWillEnter(){
+    this.getObject().then(r => console.log(r));
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -307,12 +310,12 @@ export class VerticanPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "top-center"
+      position: "bottom-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'top-center'
+      position: 'bottom-center'
     });
   }
   open_vendor(id: number, name: string) {

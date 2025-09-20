@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, signal, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  EventEmitter,
+  OnInit, Output,
+  signal,
+  ViewChild
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -60,12 +69,14 @@ import {SizeChipsComponent} from "../../size-chips/size-chips.component";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip]
 })
-export class ProductPage implements AfterViewInit, OnInit {
+export class ProductPage implements OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonModal) modal!: IonModal;
   index = signal(0);
   isOnline = true;
   private sub: Subscription;
+  thumbSize = 65;
+  visibleCount = 3;
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -81,7 +92,10 @@ export class ProductPage implements AfterViewInit, OnInit {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
-  ngAfterViewInit(): void {
+  ngOnInit() {
+    this.rqst_param.product = Number(this.route.snapshot.queryParamMap.get('id'));
+    this.rqst_param.product_name = this.route.snapshot.queryParamMap.get('name') || '';
+   this.getObject().then(r => console.log(r));
     const el = this.swiperEl.nativeElement as any;
     const attach = () => {
       const sw: any = el.swiper;
@@ -94,13 +108,7 @@ export class ProductPage implements AfterViewInit, OnInit {
         this.index.set(sw.activeIndex ?? 0);
       });
     };
-
     attach();
-  }
-  ngOnInit() {
-    this.rqst_param.product = Number(this.route.snapshot.queryParamMap.get('id'));
-    this.rqst_param.product_name = this.route.snapshot.queryParamMap.get('name') || '';
-    this.getObject().then(r => console.log(r));
   }
   colors: string[] = [];
   images: string[] = [];
@@ -171,8 +179,7 @@ export class ProductPage implements AfterViewInit, OnInit {
     arm: 0
   };
   ui_controls = {
-    is_loading: false,
-    loading: true,
+    is_loading: true,
     is_creating: false,
     is_adding_to_cart: false,
     is_loading_measurement: false,
@@ -224,6 +231,10 @@ export class ProductPage implements AfterViewInit, OnInit {
     is_custom: false,
     measurement: "",
     extra_measurement: ""
+  }
+  @Output() select = new EventEmitter<number>();
+  onSelect(i: number) {
+    this.select.emit(i);
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -341,12 +352,19 @@ export class ProductPage implements AfterViewInit, OnInit {
             this.add_cart.price = this.single.price;
             this.add_cart.store = this.single.store;
             this.apiSizes = {
-              xxl: this.single.size_xxl,
-              xl: this.single.size_xl,
-              l: this.single.size_l,
-              m: this.single.size_m,
-              xs: this.single.size_s,
-              s: this.single.size_xs
+              'xxl': this.single.size_xxl,
+              'xl': this.single.size_xl,
+              'l': this.single.size_l,
+              'm': this.single.size_m,
+              'xs': this.single.size_s,
+              's': this.single.size_xs,
+              '50': this.single.size_50,
+              '52': this.single.size_52,
+              '54': this.single.size_54,
+              '56': this.single.size_56,
+              '58': this.single.size_58,
+              '60': this.single.size_60,
+              '62': this.single.size_62,
             };
             console.log(this.single);
             this.ui_controls.is_loading = false;
@@ -386,12 +404,12 @@ export class ProductPage implements AfterViewInit, OnInit {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "top-center"
+      position: "bottom-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'top-center'
+      position: 'bottom-center'
     });
   }
   imgLoaded: boolean[] = [false, false, false, false];

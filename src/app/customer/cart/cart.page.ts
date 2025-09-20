@@ -309,7 +309,7 @@ export class CartPage implements OnInit, OnDestroy {
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: "bottom-center"
     });
   }
 

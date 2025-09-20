@@ -74,7 +74,16 @@ export class OrdersPage implements OnInit, OnDestroy {
       event.target.complete();
     }, 200);
   }
-
+  error_notification(message: string) {
+    this.toast.error(message, {
+      position: "bottom-center"
+    });
+  }
+  success_notification(message: string) {
+    this.toast.success(message, {
+      position: 'bottom-center'
+    });
+  }
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }

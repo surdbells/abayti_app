@@ -307,12 +307,12 @@ export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
 
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "top-center"
+      position: "bottom-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'top-center'
+      position: "bottom-center"
     });
   }
 

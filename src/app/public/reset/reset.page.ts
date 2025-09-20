@@ -74,14 +74,14 @@ export class ResetPage implements OnInit {
           console.log('You are offline');
       }
     }
-  show_error(message: string, position: any) {
+  show_error(message: string) {
     this.toast.error(message, {
-      position: position
+      position: "bottom-center"
     });
   }
-  show_success(message: string, position: any) {
+  show_success(message: string) {
     this.toast.success(message, {
-      position: position
+      position: "bottom-center"
     });
   }
 
