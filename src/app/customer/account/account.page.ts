@@ -188,9 +188,7 @@ export class AccountPage implements OnInit, OnDestroy {
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
   }
-  ionViewWillEnter() {
-    this.getObject().then(r => console.log(r));
-  }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
