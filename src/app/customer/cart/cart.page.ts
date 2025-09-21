@@ -118,9 +118,11 @@ export class CartPage implements OnInit, OnDestroy {
   bill = {
     count: 0,
     discount: 0,
+    delivery: 0,
     subtotal: 0,
     total: 0,
     f_discount: "",
+    f_delivery: "",
     f_subtotal: "",
     f_total: ""
   };

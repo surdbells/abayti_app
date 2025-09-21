@@ -98,5 +98,17 @@ export const routes: Routes = [
   {
     path: 'store_reviews',
     loadComponent: () => import('./customer/store-reviews/store-reviews.page').then( m => m.StoreReviewsPage)
+  },
+  {
+    path: 'success',
+    loadComponent: () => import('./customer/success/success.page').then( m => m.SuccessPage)
+  },
+  {
+    path: 'failed',
+    loadComponent: () => import('./customer/failed/failed.page').then( m => m.FailedPage)
+  },
+  {
+    path: 'process',
+    loadComponent: () => import('./customer/process/process.page').then( m => m.ProcessPage)
   }
 ];

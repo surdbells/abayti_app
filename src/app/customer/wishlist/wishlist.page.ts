@@ -233,5 +233,10 @@ export class WishlistPage implements OnInit, OnDestroy {
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-
+  open_product(id: number) {
+    this.router.navigate(
+      ['/', 'product'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
 }

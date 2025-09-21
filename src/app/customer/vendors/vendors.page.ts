@@ -53,6 +53,7 @@ export class VendorsPage implements OnInit {
     private toast: HotToastService,
   ) { }
   ui_controls = {
+    best_seller_empty: false,
     is_empty: false,
     is_loading: false,
     is_creating: false,
@@ -96,7 +97,6 @@ export class VendorsPage implements OnInit {
       this.rqst_param.id = this.single_user.id
       this.rqst_param.token = this.single_user.token
       this.get_latest();
-      this.get_label()
     }
   }
   get_latest() {
@@ -108,8 +108,9 @@ export class VendorsPage implements OnInit {
           if (response.response_code === 200 && response.status === "success") {
             this.latest = response.data;
             this.ui_controls.is_loading = false;
+            this.get_label();
           }else{
-            this.ui_controls.is_empty = true;
+            this.ui_controls.best_seller_empty = true;
             this.ui_controls.is_loading = false;
           }
         }

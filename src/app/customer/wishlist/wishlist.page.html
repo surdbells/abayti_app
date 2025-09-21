@@ -76,7 +76,7 @@
         <span *ngIf="!ui_controls.is_loading">{{ selected_label }}</span>
       </div>
       <div class="recent-grid">
-        <div class="recent-card" *ngFor="let a_wishlist of wishlists">
+        <div (click)="open_product(a_wishlist.product)" class="recent-card" *ngFor="let a_wishlist of wishlists">
           <img style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
           <h5>{{ a_wishlist.name }}</h5>
         </div>

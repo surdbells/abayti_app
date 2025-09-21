@@ -28,6 +28,7 @@ import {
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
+import {InAppBrowser} from "@capgo/inappbrowser";
 
 @Component({
   selector: 'app-checkout',
@@ -99,6 +100,46 @@ export class CheckoutPage implements OnInit, OnDestroy {
     token: "",
     item: 0,
   }
+  checkout_ready = {
+    resultCode: 0,
+    message: "",
+    resultClass: 0,
+    classDescription: "",
+    actionHint: "",
+    requestReference: "",
+    result: {
+      nextActions: "",
+      order: {
+        status: "",
+        creationTime: "",
+        errorCode: 0,
+        id: 0,
+        amount: 0,
+        currency: "",
+        name: "",
+        reference: "",
+        category: "",
+        channel: ""
+      },
+      configuration: {
+        tokenizeCc: false,
+        locale: "",
+        paymentAction: ""
+      },
+      business: {
+        id: "",
+        name: ""
+      },
+      checkoutData: {
+        postUrl: "",
+        jsUrl: ""
+      },
+      deviceFingerPrint: {
+        sessionId: ""
+      }
+    }
+  }
+  parameter = "";
   increase = {
     id: 0,
     token: "",
@@ -139,35 +180,31 @@ export class CheckoutPage implements OnInit, OnDestroy {
   bill = {
     count: 0,
     discount: 0,
+    delivery: 0,
     subtotal: 0,
     total: 0,
     f_discount: "",
+    f_delivery: "",
     f_subtotal: "",
     f_total: ""
   };
   checkout = {
     apiOperation: "INITIATE",
     order: {
-      reference: GlobalComponent.generateTransactionReference(),
-      amount: this.bill.total,
+      reference: "",
+      amount: 0,
       currency: "AED",
-      name: this.single_user.first_name + " " + this.single_user.last_name,
+      name: "",
       channel: "web",
       category: "pay",
-      items: [],
-      ipAddress: "172.20.74.100"
+      items: []
     },
     configuration: {
       paymentAction: "SALE",
       tokenizeCc: "true",
-      locale: "en"
+      locale: "en",
+      returnUrl: "https://api.3bayti.com/customer/complete"
     }
-  }
-  @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
-    });
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
@@ -226,25 +263,96 @@ export class CheckoutPage implements OnInit, OnDestroy {
         }
       }))
   }
+
   checkout_initiate() {
+    this.checkout.order.amount = this.bill.total;
+    this.checkout.order.reference = GlobalComponent.generateTransactionReference();
+    this.checkout.order.name = this.single_user.first_name + " " + this.single_user.last_name;
     this.ui_controls.checking_out = true;
-    this.networkService.paymentInitiate(this.checkout, GlobalComponent.paymentEndpoint)
-      .subscribe(({
+
+    const returnUrlPrefix = 'https://api.3bayti.com/customer/complete';
+    let listenerHandle: any = null;
+    let processed = false; // ensure we only handle the redirect once
+
+    this.networkService.post_request(this.checkout, GlobalComponent.initiatePayment)
+      .subscribe({
         next: (response) => {
-            this.ui_controls.checking_out = false;
-            console.log(response);
+          this.ui_controls.checking_out = false;
+          this.checkout_ready = response;
+          console.log('checkout_ready', this.checkout_ready);
+          InAppBrowser.openWebView({
+            url: this.checkout_ready.result.checkoutData.postUrl,
+            title: 'Checkout'
+          })
+            .then(openRes => {
+              console.log('webview opened', openRes);
+            })
+            .catch(err => {
+              console.error('openWebView failed', err);
+            });
+          InAppBrowser.addListener('urlChangeEvent', (info: any) => {
+            try {
+              if (processed) return;              // already handled once
+              if (!info || !info.url) return;    // defensive
+              const urlStr: string = info.url;
+              if (!urlStr.startsWith(returnUrlPrefix)) return;
+              const params = new URL(urlStr).searchParams;
+              const orderId = params.get('orderId');
+              const merchantReference = params.get('merchantReference');
+              const paymentType = params.get('paymentType');
+              console.log('Captured redirect:', { orderId, merchantReference, paymentType });
+              processed = true; // prevent re-entry
+              try {
+                if (listenerHandle) {
+                  if (typeof listenerHandle.remove === 'function') {
+                    listenerHandle.remove();
+                  } else if (typeof listenerHandle === 'function') {
+                    listenerHandle(); // some libs return an unsubscribe function
+                  }
+                }
+              } catch (e) {
+                console.warn('Listener cleanup failed', e);
+              }
+              const closeWebview = async () => {
+                try {
+                  if (InAppBrowser.close) {
+                    await InAppBrowser.close();
+                  } else {
+                    console.warn('No close method found on InAppBrowser plugin');
+                  }
+                } catch (e) {
+                  console.warn('Error closing webview', e);
+                } finally {
+                  this.open_processing(orderId, merchantReference, paymentType);
+                }
+              };
+              closeWebview().then(r => console.log(r));
+            } catch (err) {
+              console.error('Error handling urlChangeEvent', err);
+            }
+          })
+            .then((handle: any) => {
+              listenerHandle = handle;
+              console.log('urlChangeEvent listener attached', listenerHandle);
+            })
+            .catch((err: any) => {
+              console.error('addListener failed', err);
+            });
+
+          console.log(response);
         },
         error: (e) => {
           this.ui_controls.checking_out = false;
-          console.log(e.toString());
+          console.log('initiatePayment error', e.toString());
           return;
         },
         complete: () => {
           this.ui_controls.checking_out = false;
           console.info('complete');
         }
-      }))
+      });
   }
+
   removeItem(item: number) {
     this.remove.item = item;
     this.networkService.post_request(this.remove, GlobalComponent.RemoveCartItem)
@@ -336,6 +444,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
         }
       }))
   }
+
   addToCloset(label: number) {
     this.ui_controls.is_loading_category = true;
     this.addCloset.label_id = label;
@@ -377,5 +486,12 @@ export class CheckoutPage implements OnInit, OnDestroy {
 
   open_delivery() {
     this.nav.navigateRoot('/addresses').then(r => console.log(r));
+  }
+
+  open_processing(orderId: any, merchantReference: any, paymentType: any) {
+    this.router.navigate(
+      ['/', 'process'],
+      { queryParams: { orderId, merchantReference, paymentType } }
+    ).then(r => console.log(r));
   }
 }

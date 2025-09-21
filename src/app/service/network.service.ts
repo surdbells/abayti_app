@@ -37,10 +37,4 @@ export class NetworkService {
   get_request(endpoint: string) {
     return this.http.get<any>(`${endpoint}`).pipe(catchError(this.error));
   }
-  paymentInitiate(data: any, endpoint: string): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', "Key "+GlobalComponent.AppKey);
-    return this.http.post(`${endpoint}`, data, { headers }).pipe(catchError(this.error));
-  }
 }

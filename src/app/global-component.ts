@@ -5,11 +5,6 @@ export class GlobalComponent {
   public static baseURL = 'https://api.3bayti.com/' // test
   public static topexCitiesURL = 'https://shipperapi.topex.ae/api/CommonAPI/Cities?countryID=1' //
   public static topexAreaURL = 'https://shipperapi.topex.ae/api/CommonAPI/Areas?acityID=' //
-  public static paymentEndpoint = 'https://api-test.noonpayments.com/payment/v1/order' //
-  public static businessId = 'abayti_portal' //
-  public static appName = '3bayti' //
-  public static AppKey = 'b30ee074b32d489b9c792421eb93aa2a' //
-  public static returnUrl = 'https://api.3bayti.com/webhooks/noon-payments' //
 
   /* POST REQUEST */
   public static UserLogin = GlobalComponent.baseURL + 'users/login';
@@ -57,6 +52,10 @@ export class GlobalComponent {
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
 
 
+  // ordering process
+
+  public static initiatePayment = GlobalComponent.baseURL + 'customer/payment/initiate_payment';
+  public static finalizePayment = GlobalComponent.baseURL + 'customer/payment/finalize_payment';
 
   static validateEmail(email: string) {
     return !!email.match(/(?:[a-z0-9+!#$%&'*/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])/gi);
