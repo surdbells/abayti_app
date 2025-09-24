@@ -152,5 +152,8 @@ ion-content.app-bg {
   background: var(--ion-color-primary);
   opacity: 1;
 }
-
+/* Minor responsive tweaks */
+@media (max-width: 360px) {
+  div[dir="ltr"], div[dir="rtl"] { font-size: 13px !important; }
+}
 

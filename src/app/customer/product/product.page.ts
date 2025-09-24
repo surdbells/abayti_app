@@ -230,7 +230,8 @@ export class ProductPage implements OnInit {
     color: "black",
     is_custom: false,
     measurement: "",
-    extra_measurement: ""
+    extra_measurement: "",
+    note: ""
   }
   @Output() select = new EventEmitter<number>();
   onSelect(i: number) {
@@ -351,6 +352,8 @@ export class ProductPage implements OnInit {
             this.add_cart.product_image = this.single.image_1;
             this.add_cart.price = this.single.price;
             this.add_cart.store = this.single.store;
+
+
             this.apiSizes = {
               'xxl': this.single.size_xxl,
               'xl': this.single.size_xl,

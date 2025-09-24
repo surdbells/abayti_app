@@ -123,6 +123,10 @@ export class MessagesPage implements OnInit, OnDestroy {
   cancel() {
     this.modal.dismiss(null, 'cancel').then(r => console.log(r));
   }
+  get_messaged(){
+
+  }
+
   error_notification(message: string) {
     this.toast.error(message, {
       position: "bottom-center"

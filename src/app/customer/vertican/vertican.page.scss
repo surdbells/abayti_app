@@ -83,3 +83,49 @@ ion-content {
   overflow: hidden;
   font-size: 0.9rem;
 }
+/* container */
+.scroll {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+
+  /* enable native momentum scrolling on mobile webviews */
+  -webkit-overflow-scrolling: touch;
+
+  /* ALLOW horizontal panning on this element */
+  touch-action: pan-x;
+
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* each slide fills the viewport */
+.slide {
+  scroll-snap-align: center;
+  flex: 0 0 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* image styling — do NOT block horizontal pans here */
+.slide ion-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  /* prevent the image from starting its own gesture that interferes with horizontal pan */
+  touch-action: none;
+  /* allow the scroller to receive touches */
+  pointer-events: auto;
+}
+
+

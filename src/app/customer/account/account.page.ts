@@ -58,6 +58,18 @@ interface Category {
   readonly name: string;
 }
 type DualRange = { lower: number; upper: number };
+export interface Product {
+  product_id: number;
+  product_name: string;
+  image: string;
+}
+export interface Store {
+  store_id: number;
+  store_name: string;
+  rating: number | null;        // allow null if no rating yet
+  rating_count: number;
+  products: Product[];
+}
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -65,9 +77,10 @@ type DualRange = { lower: number; upper: number };
   standalone: true,
   imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent]
 })
+
 export class AccountPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
-  vendor_featured: Products[] = [];
+  vendor_featured: Store[] = [];
   isOnline = true;
   categories: Labels[] = [];
   isWishOpen = false; // or control this as you like
@@ -161,12 +174,6 @@ export class AccountPage implements OnInit, OnDestroy {
     price_start: this.range().lower,
     price_end: this.range().upper,
     delivery: "1 - 3"
-  }
-  featured_store = {
-    store_name: "",
-    store_id: 0,
-    rating: 0,
-    rating_count: 0
   }
   single_user = {
     id: 0,
@@ -367,17 +374,12 @@ export class AccountPage implements OnInit, OnDestroy {
       }))
   }
   get_featured_products() {
-    this.vendor_featured = [];
     this.ui_controls.is_loading = true;
     this.get_featured.id = this.single_user.id;
     this.get_featured.token = this.single_user.token;
     this.networkService.post_request(this.get_featured, GlobalComponent.featured)
       .subscribe(({
         next: (response) => {
-          this.featured_store.store_name =  response.data[0].store_name;
-          this.featured_store.store_id =  response.data[0].store_id;
-          this.featured_store.rating =  response.data[0].rating;
-          this.featured_store.rating_count =  response.data[0].rating_count;
           this.vendor_featured = response.data;
           this.ui_controls.is_loading = false;
         }

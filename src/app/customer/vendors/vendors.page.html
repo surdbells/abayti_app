@@ -65,7 +65,7 @@
       <div class="h-scroll products">
         @for(product of products; track product.product_id){
           @if(category.id == product.collection){
-            <article class="product-card">
+            <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
               <div class="img-wrap" [style.background]="'#7A1C09'">
                 <img style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
               </div>
@@ -99,7 +99,7 @@
     </span>
 </ion-content>
 
-<ion-footer style="padding-bottom: 35px; background-color: #F9E4D5" class="ion-padding">
+<ion-footer style="padding-bottom: 35px; background-color: transparent" class="ion-padding">
   <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom" class="tabs">
     <ion-tab-button style="" (click)="user_home()" tab="home">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>

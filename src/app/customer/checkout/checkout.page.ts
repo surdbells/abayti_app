@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Cart} from "../../class/cart";
 import {Labels} from "../../class/labels";
 import {Subscription} from "rxjs";
@@ -139,19 +139,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
       }
     }
   }
-  parameter = "";
-  increase = {
-    id: 0,
-    token: "",
-    item: 0,
-    quantity: 0,
-  }
-  decrease = {
-    id: 0,
-    token: "",
-    item: 0,
-    quantity: 0,
-  }
   single_user = {
     id: 0,
     token: "",
@@ -163,6 +150,14 @@ export class CheckoutPage implements OnInit, OnDestroy {
     avatar: "",
     location: "",
     delivery_address: "",
+    billing_name: "",
+    billing_phone: "",
+    billing_email: "",
+    billing_country: "",
+    billing_city: "",
+    billing_area: "",
+    billing_street: "",
+    villa_number: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,
@@ -199,11 +194,40 @@ export class CheckoutPage implements OnInit, OnDestroy {
       category: "pay",
       items: []
     },
+    shipping: {
+      address: {
+        street: "street 1, main road",
+        city: "Port Saeed",
+        stateProvince: "Dubai",
+        country: "AE",
+        postalCode: null
+      },
+      contact: {
+        firstName: "John",
+        lastName: "Doe",
+        phone: "+971 041234567",
+        mobilePhone: "+971 551234567",
+        email: "test@domain.com"
+      }
+    },
     configuration: {
       paymentAction: "SALE",
       tokenizeCc: "true",
       locale: "en",
       returnUrl: "https://api.3bayti.com/customer/complete"
+    },
+    deliveryConfiguration: {
+      link: {
+        isAutomatedInvoiceDeliveryRequired: true,
+        method: "email",
+        toRecipients: [] as string[]
+      },
+      receipt: {
+        receiptNumber: "",
+        isAutomatedReceiptDeliveryRequired: true,
+        method: "email",
+        toRecipients: [] as string[]
+      }
     }
   }
   ngOnDestroy(): void {
@@ -231,15 +255,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id
       this.request.token = this.single_user.token
-
-      this.remove.id = this.single_user.id
-      this.remove.token = this.single_user.token
-
-      this.increase.id = this.single_user.id
-      this.increase.token = this.single_user.token
-
-      this.decrease.id = this.single_user.id
-      this.decrease.token = this.single_user.token
       this.load_cart();
     }
   }
@@ -268,16 +283,32 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.checkout.order.amount = this.bill.total;
     this.checkout.order.reference = GlobalComponent.generateTransactionReference();
     this.checkout.order.name = this.single_user.first_name + " " + this.single_user.last_name;
-    this.ui_controls.checking_out = true;
+    this.checkout.shipping.address.street = this.single_user.billing_street;
+    this.checkout.shipping.address.city = this.single_user.billing_city;
+    this.checkout.shipping.address.country = "AE";
+    this.checkout.shipping.address.stateProvince = this.single_user.billing_area;
 
+    this.checkout.shipping.contact.email = this.single_user.email;
+    this.checkout.shipping.contact.phone = this.single_user.billing_phone;
+    this.checkout.shipping.contact.firstName = this.single_user.first_name;
+    this.checkout.shipping.contact.lastName = this.single_user.last_name;
+
+    this.checkout.deliveryConfiguration.link.toRecipients.push(this.single_user.email);
+    this.checkout.deliveryConfiguration.receipt.receiptNumber = GlobalComponent.generateTransactionReceipt();
+    this.checkout.deliveryConfiguration.receipt.toRecipients.push(this.single_user.email);
+
+    this.ui_controls.checking_out = true;
     const returnUrlPrefix = 'https://api.3bayti.com/customer/complete';
     let listenerHandle: any = null;
     let processed = false; // ensure we only handle the redirect once
-
     this.networkService.post_request(this.checkout, GlobalComponent.initiatePayment)
       .subscribe({
         next: (response) => {
           this.ui_controls.checking_out = false;
+          if (response.resultCode != 0) {
+            this.error_notification(response.message);
+            return;
+          }
           this.checkout_ready = response;
           console.log('checkout_ready', this.checkout_ready);
           InAppBrowser.openWebView({
@@ -352,62 +383,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
         }
       });
   }
-
-  removeItem(item: number) {
-    this.remove.item = item;
-    this.networkService.post_request(this.remove, GlobalComponent.RemoveCartItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.success_notification(response.message);
-            this.load_cart();
-          }
-        }
-      }))
-  }
-  IncreaseItem(item: number, quantity: number) {
-    this.increase.item = item;
-    this.increase.quantity = quantity+1;
-    this.networkService.post_request(this.increase, GlobalComponent.IncreaseItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.load_cart();
-          }
-        }
-      }))
-  }
-  DecreaseItem(item: number, quantity: number) {
-    this.decrease.item = item;
-    this.decrease.quantity = quantity - 1;
-    this.networkService.post_request(this.decrease, GlobalComponent.DecreaseItem)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.load_cart();
-          }
-        }
-      }))
-  }
-  async startRemove(item: number, name: string) {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Remove ' + name + " from cart ?",
-      buttons: [
-        {
-          text: 'Remove',
-          role: 'destructive',
-          handler: () => {
-            this.removeItem(item);
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {action: 'cancel'},
-        },
-      ],
-    });
-    await actionSheet.present();
-  }
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
@@ -432,47 +407,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
       event.target.complete();
     }, 200);
   }
-  get_label() {
-    this.ui_controls.is_loading_category = true;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.categories = response.data;
-            this.ui_controls.is_loading_category = false;
-          }
-        }
-      }))
-  }
-
-  addToCloset(label: number) {
-    this.ui_controls.is_loading_category = true;
-    this.addCloset.label_id = label;
-    this.isWishOpen = false;
-    this.networkService.post_request(this.addCloset, GlobalComponent.addWishlist)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.success_notification(response.message);
-            this.ui_controls.is_loading_category = false;
-          }else{
-            this.ui_controls.is_loading_category = false;
-          }
-        }
-      }))
-  }
-  startAddToCloset(product: number, product_name: string, image_1: string) {
-    this.addCloset.id = this.single_user.id;
-    this.addCloset.token = this.single_user.token;
-    this.addCloset.product_id = product;
-    this.addCloset.product_name = product_name;
-    this.addCloset.product_image = image_1;
-    this.rqst_param.id = this.single_user.id;
-    this.rqst_param.token = this.single_user.token;
-    this.get_label();
-    this.isWishOpen = true;
-  }
-
   error_notification(message: string) {
     this.toast.error(message, {
       position: "bottom-center"

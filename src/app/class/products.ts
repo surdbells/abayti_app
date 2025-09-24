@@ -8,6 +8,8 @@ export class Products {
     public product_name: string,
     public description: string,
     public image_1: string,
+    public images: [],
+    public products: [  ],
     public price: string,
     public collection: number,
     public sale_price: string

@@ -18,7 +18,15 @@ import {
   IonModal,
   IonSearchbar,
   IonButtons,
-  IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent
+  IonSegmentButton,
+  IonSegment,
+  IonCheckbox,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonAccordionGroup,
+  IonAccordion
 } from '@ionic/angular/standalone';
 import { ConnectionService } from '../../service/connection.service';
 import {defer, Subscription} from 'rxjs';
@@ -37,7 +45,6 @@ import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
-import {DIAL_CODES, DialCode} from '../../dial-codes';
 import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {getCountries} from "libphonenumber-js";
 
@@ -47,7 +54,7 @@ import {getCountries} from "libphonenumber-js";
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent]
+  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonAccordionGroup, IonAccordion]
 })
 export class RegisterPage implements OnInit, OnDestroy {
   isOnline = true;
@@ -76,42 +83,22 @@ export class RegisterPage implements OnInit, OnDestroy {
     } else {
       console.log('You are offline');
     }
+    this.getAuthToken();
   }
   ui_controls = {
     loading: false,
-    registered: false
+    registered: false,
+    otpValidated: false,
+    otpSent: false,
+    termsArabic: true,
+    termsEnglish: false
   };
-  dialCodes: DialCode[] = DIAL_CODES;
-  codeSearch = '';
 
-  get selectedDial(): DialCode | undefined {
-    return this.dialCodes.find(d => d.code === this.register.countryCode);
-  }
-
-  filteredDialCodes(): DialCode[] {
-    const q = this.codeSearch.trim().toLowerCase();
-    if (!q) return this.dialCodes;
-    return this.dialCodes.filter(d =>
-      d.name.toLowerCase().includes(q) || d.code.includes(q)
-    );
-  }
-
-  selectCode(d: DialCode) {
-    this.register.countryCode = d.code;
-    this.codeSearch = '';
-  }
-
-// Optional: use when submitting
-  get fullPhone(): string {
-    return `${this.register.countryCode}${(this.register.phone || '').replace(/\D/g, '')}`;
-  }
-  // Toggle mode: 'email' or 'phone'
-  registerMode: 'email' | 'phone' = 'email';
   register = {
     first_name: "",
     last_name: "",
     email: "",
-    phone: "",
+    phone: "50455997",
     password: "",
     confirm_password: "",
     countryCode: "+971",
@@ -119,21 +106,84 @@ export class RegisterPage implements OnInit, OnDestroy {
     license_number: "",
     accepted_terms: false
   };
-  confirm = {
-    otp: "",
-    input_otp: "",
-    expires_at: 0,
-    email: ""
+
+   smsToken = {
+    response_code: 0,
+    status: "",
+    message: "",
+    data: ""
   };
-  send_otp_check = {
-    first_name: "",
-    email: ""
+
+  sendOTP = {
+    token: "",
+    number: ""
   };
+  validateOtp = {
+    token: "",
+    verificationId: "",
+    code: ""
+  };
+
   r_response = {
-    otp: "",
-    expires_at: 0
-  };
+    responseCode: 0,
+    message: "",
+    data: {
+      verificationId: "",
+      mobileNumber: "",
+      responseCode: "",
+      errorMessage: "",
+      timeout: "",
+      smCLI: "",
+      transactionId: ""
+    }
+  }
+  v_response = {
+    responseCode: 0,
+    message: "",
+    data: {
+      verificationId: "",
+      mobileNumber: "",
+      responseCode: "",
+      errorMessage: "",
+      verificationStatus: "",
+      authToken: "",
+      transactionId: ""
+    }
+  }
   user_register() {
+    if (this.register.first_name.length === 0) {
+      this.error_notification("First name is required");
+      return;
+    }
+    if (this.register.last_name.length === 0) {
+      this.error_notification("Last name is required");
+      return;
+    }
+    if (this.register.email.length === 0) {
+      this.error_notification("Email address is required");
+      return;
+    }
+    if (!GlobalComponent.validateEmail(this.register.email)) {
+      this.error_notification("Invalid email format provided");
+      return;
+    }
+
+    if (this.register.password.length === 0) {
+      this.error_notification("Password is required");
+      return;
+    }
+    if (this.register.confirm_password.length === 0) {
+      this.error_notification("Password does not match");
+      return;
+    }
+    if (this.register.password != this.register.confirm_password) {
+      this.error_notification("Password does not match");
+      return;
+    }
+    if (!this.register.accepted_terms) {
+      this.error_notification("Accept our terms and conditions to proceed");
+      return;
+    }
     this.ui_controls.loading = true;
     this.networkService.post_request(this.register, GlobalComponent.UserRegister)
       .subscribe(({
@@ -154,17 +204,15 @@ export class RegisterPage implements OnInit, OnDestroy {
         }
       }))
   }
-  user_validate() {
-    if (this.confirm.input_otp.length === 0) {
-      this.error_notification("OTP is required");
-      return;
-    }
+  getAuthToken() {
     this.ui_controls.loading = true;
-    this.networkService.post_request(this.confirm, GlobalComponent.UserValidate)
+    this.networkService.get_request(GlobalComponent.getToken)
       .subscribe(({
         next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.user_register();
+          if (response.response_code == 200 && response.status == "success") {
+            this.smsToken = response;
+            this.ui_controls.loading = false;
+            console.log(this.smsToken)
           }
         },
         error: (e) => {
@@ -178,74 +226,61 @@ export class RegisterPage implements OnInit, OnDestroy {
       }))
   }
   send_otp() {
-    if (this.register.first_name.length === 0) {
-      this.error_notification("First name is required");
-      return;
-    }
-    if (this.register.last_name.length === 0) {
-      this.error_notification("Last name is required");
-      return;
-    }
-    if (this.register.email.length === 0) {
-      this.error_notification("Email address is required");
-      return;
-    }
-    if (!GlobalComponent.validateEmail(this.register.email)) {
-      this.error_notification("Invalid email format provided");
-      return;
-    }
     if (this.register.phone.length === 0) {
       this.error_notification("Phone number is required");
       return;
     }
-    if (this.register.countryCode.length === 0) {
-      this.error_notification("Country code is required");
+    if (this.smsToken.data.length === 0) {
+      this.error_notification("Request cannot be completed at this time");
       return;
     }
-    if (!GlobalComponent.validateNumber(this.register.phone)) {
-      this.error_notification("Invalid phone number format provided");
-      return;
-    }
-    if (this.register.password.length === 0) {
-      this.error_notification("Password is required");
-      return;
-    }
-    if (this.register.confirm_password.length === 0) {
-      this.error_notification("Password does not match");
-      return;
-    }
-    if (this.register.password != this.register.confirm_password) {
-      this.error_notification("Password does not match");
-      return;
-    }
-    if (!this.register.accepted_terms) {
-      this.error_notification("Accept our terms and conditions to proceed");
-      return;
-    }
-    this.send_otp_check.email = this.register.email;
-    this.send_otp_check.first_name = this.register.first_name;
+    this.sendOTP.number = this.register.phone;
+    this.sendOTP.token = this.smsToken.data;
     this.ui_controls.loading = true;
-    this.networkService.post_request(this.send_otp_check, GlobalComponent.EmailValidate)
+    this.networkService.post_request(this.sendOTP, GlobalComponent.sendOTP)
       .subscribe(({
         next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
+          if (response.responseCode === 200 && response.message === "SUCCESS") {
+            this.r_response = response;
             this.ui_controls.loading = false;
-            this.ui_controls.registered = true;
+            this.ui_controls.otpSent = true;
+            this.ui_controls.otpValidated = false;
             this.success_notification(response.message);
-            this.r_response = response.data;
-            this.confirm.otp = this.r_response.otp;
-            this.confirm.expires_at = this.r_response.expires_at;
-            this.confirm.email = this.register.email;
-            setTimeout(() => {
-              this.showResendToken = true;
-            }, 30000);
-          }
-          if (response.response_code == 200 && response.status === "failed") {
+          }else{
             this.ui_controls.loading = false;
+            this.ui_controls.otpSent = false;
             this.error_notification(response.message);
           }
-          if (response.response_code == 400 && response.status === "failed") {
+        },
+        error: (e) => {
+          console.error(e);
+          this.error_notification(e);
+          this.ui_controls.loading = false;
+        },
+        complete: () => {
+          console.info('complete');
+        }
+      }))
+  }
+  validate_otp() {
+    if (this.validateOtp.code.length === 0) {
+      this.error_notification("otp code is required to proceed.");
+      return;
+    }
+    this.validateOtp.token = this.smsToken.data;
+    this.validateOtp.verificationId = this.r_response.data.verificationId;
+    this.ui_controls.loading = true;
+    this.networkService.post_request(this.validateOtp, GlobalComponent.validateOTP)
+      .subscribe(({
+        next: (response) => {
+          if (response.responseCode === 200 && response.message === "SUCCESS") {
+            this.v_response = response;
             this.ui_controls.loading = false;
+            this.ui_controls.otpValidated = true;
+            this.success_notification("Code validated successfully");
+          }else {
+            this.ui_controls.loading = false;
+            this.ui_controls.otpValidated = false;
             this.error_notification(response.message);
           }
         },

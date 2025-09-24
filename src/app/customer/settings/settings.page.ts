@@ -183,7 +183,7 @@ export class SettingsPage implements OnInit {
   }
 
   openAddresses() {
-    this.nav.navigateRoot('/addresses').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
+    this.router.navigate(['/', 'addresses']).then(r => console.log(r));
   }
   async update_location() {
     if(this.isOnline){

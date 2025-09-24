@@ -102,8 +102,8 @@ export class LoginPage implements OnInit, OnDestroy {
     logged_in: false
   };
   login = {
-    email: "surdbells@gmail.com",
-    password: "@2025GoBeta",
+    email: "",
+    password: "",
     remember: false,
   };
   async signIn() {

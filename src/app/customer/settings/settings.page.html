@@ -27,7 +27,7 @@
       <h1 class="name">{{ single_user.first_name}}</h1>
     </div>
     <div class="avatar">
-      <ion-img src="{{single_user.avatar}}" alt="{{single_user.first_name}}"></ion-img>
+      <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
     </div>
   </div>
 </ion-header>

@@ -142,13 +142,16 @@
         <app-size-chips *ngIf="!single.size_custom" [sizes]="apiSizes" (selected)="onSizeSelected($event)"></app-size-chips>
         <p *ngIf="chosenSize">Selected: {{ chosenSize | uppercase }}</p>
         @if(single.require_extra_msmt){
-          <p class="instruction muted">{{ single.extra_msmt }}</p>
+          <p class="instruction">{{ single.extra_msmt }}</p>
             <label tuiLabel> Extra measurement required.</label>
             <tui-textfield style="width:100%">
-              <input  [(ngModel)]="add_cart.extra_measurement" type="text" name="extra_measurement" tuiTextfield />
+              <input [maxlength]="200" [(ngModel)]="add_cart.extra_measurement" type="text" name="extra_measurement" tuiTextfield />
             </tui-textfield>
         }
-
+        <label tuiLabel> Note</label>
+        <tui-textfield style="width:100%">
+          <input [maxlength]="200" [(ngModel)]="add_cart.note" type="text" name="note" tuiTextfield />
+        </tui-textfield>
         <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
               @if(ui_controls.is_adding_to_cart){
                 <tui-loader></tui-loader>

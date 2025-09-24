@@ -3,13 +3,18 @@
     <swiper-container
       direction="vertical"
       slides-per-view="1"
+      pagination="true"
       class="slides"
       style="height: 100%;">
       @if (ui_controls.is_loaded) {
         @for(product of products; track product.product_id; let i = $index){
           <swiper-slide class="slide">
             <div class="hero">
-              <ion-img src="{{product.image_1}}"  alt="{{product.product_name}}" class="model"></ion-img>
+              <div class="scroll" #scroller>
+                <div class="slide" *ngFor="let img of product.images">
+                  <ion-img [src]="img" alt="image" class="model"></ion-img>
+                </div>
+              </div>
               <div class="floating-buttons">
                 <ion-button (click)="triggerBack()" aria-label="Back to account" slot="start">
                   <tui-icon  class="ion-float-end" style="color: #fff" icon="@tui.arrow-left" />
@@ -25,7 +30,7 @@
                 </ion-button>
               </div>
               <div class="overlay-box">
-                <h2 class="title">{{product.product_name}}</h2>
+                <h2 class="title">{{product.product_name}} <span class="ion-float-end" style="background-color: #FFFFFF; color: #000000; border-radius: 3px; padding: 2px;"><span class="dirham"></span>{{product.price}}</span></h2>
                 <div class="description" [innerHTML]="product.description"></div>
                 <div class="store-row">
                   <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">{{ product.store_name }}</span>

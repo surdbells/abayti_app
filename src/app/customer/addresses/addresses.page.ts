@@ -57,12 +57,6 @@ export class AddressesPage implements OnInit, OnDestroy {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
-  @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r));
-    });
-  }
   ui_controls = {
     is_empty: false,
     is_loading: false,
@@ -80,6 +74,14 @@ export class AddressesPage implements OnInit, OnDestroy {
     avatar: "",
     location: "",
     delivery_address: "",
+    billing_name: "",
+    billing_phone: "",
+    billing_email: "",
+    billing_country: "",
+    billing_city: "",
+    billing_area: "",
+    billing_street: "",
+    villa_number: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,
@@ -104,14 +106,6 @@ export class AddressesPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  // Called when the page becomes active (Ionic RouterOutlet triggers this)
-  ionViewDidEnter() {
-    this.getObject().then(r => console.log(r));
-    this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
-    });
-  }
-  // Clean up when you leave the page
   ionViewWillLeave() {
     this.backSub?.unsubscribe();
   }
@@ -140,14 +134,7 @@ export class AddressesPage implements OnInit, OnDestroy {
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.billing = response.data;
-            this.update.name = this.billing[0].name;
-            this.update.phone = this.billing[0].phone;
-            this.update.email = this.billing[0].email;
-            this.update.city = this.billing[0].city;
-            this.update.area = this.billing[0].area;
-            this.update.street = this.billing[0].street;
-            this.update.villa_number = this.billing[0].villa_number;
+            this.update = response.data;
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_empty = true;
@@ -212,6 +199,13 @@ export class AddressesPage implements OnInit, OnDestroy {
               this.ui_controls.is_updating = false;
               this.success_notification(response.message);
               this.single_user.delivery_address = this.update.city + ", " + this.update.area + ", " + this.update.street;
+              this.single_user.billing_name = this.update.name;
+              this.single_user.billing_phone = this.update.phone;
+              this.single_user.billing_email = this.update.email;
+              this.single_user.billing_city = this.update.city;
+              this.single_user.billing_area = this.update.area;
+              this.single_user.billing_street = this.update.street;
+              this.single_user.villa_number = this.update.villa_number;
               Preferences.set({
                 key: 'user',
                 value: JSON.stringify(this.single_user)
@@ -238,7 +232,6 @@ export class AddressesPage implements OnInit, OnDestroy {
   user_messages() {
     this.router.navigate(['/', 'messages']).then(r => console.log(r));
   }
-
   user_cart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }

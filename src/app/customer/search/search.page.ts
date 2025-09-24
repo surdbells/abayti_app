@@ -219,4 +219,8 @@ export class SearchPage implements OnInit, OnDestroy {
     this.searchProduct()
 
   }
+
+  user_orders() {
+    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
 }

@@ -51,6 +51,9 @@
       </ion-label>
       <tui-icon (click)="open_delivery()" icon="@tui.square-pen"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
     </ion-item>
+    <ion-item>
+      <ion-text>Ensure delivery information above is correct before checkout.</ion-text>
+    </ion-item>
   </ion-list>
 
   @if (!ui_controls.is_loading){
@@ -91,7 +94,7 @@
         </ion-item>
       </ion-list>
     </ion-card>
-    <div class="search-wrap">
+<!--  <div class="search-wrap">
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -108,7 +111,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </div>
+    </div>-->
     <div (click)="checkout_initiate()" style="display: flex; justify-content: center; align-items: center;">
       <svg width="327" height="58" viewBox="0 0 327 58" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="327" height="58" rx="29" fill="#7C2108"/>

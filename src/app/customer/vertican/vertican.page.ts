@@ -62,7 +62,8 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
-import {TuiRadioComponent} from "@taiga-ui/kit";
+import {TuiCarouselButtons, TuiCarouselComponent, TuiRadioComponent} from "@taiga-ui/kit";
+import {TuiItem} from "@taiga-ui/cdk";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -74,13 +75,17 @@ type DualRange = { lower: number; upper: number };
   styleUrls: ['./vertican.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, IonSkeletonText, IonThumbnail]
+  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, IonSkeletonText, IonThumbnail, TuiCarouselComponent, TuiItem, TuiCarouselButtons]
 })
 export class VerticanPage implements OnInit, OnDestroy {
   products: Products[] = [];
   categories: Labels[] = [];
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
+  @ViewChild('scroller', { read: ElementRef, static: true }) scroller!: ElementRef<HTMLDivElement>;
+  private pageWidth(): number {
+    return window.innerWidth;
+  }
 
   index = signal(0);
   isOnline = true;
@@ -98,6 +103,7 @@ export class VerticanPage implements OnInit, OnDestroy {
   protected value: Category | null = {id: 1, name: 'Abayas'}; // !== this.users[0]
   isFilterOpen = false; // or control this as you like
   isWishOpen = false; // or control this as you like
+  images: string[] = [];
   private sub: Subscription;
   constructor(
     private nav: NavController,
@@ -261,6 +267,7 @@ export class VerticanPage implements OnInit, OnDestroy {
             this.products = response.data;
             this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
+            this.images = response.data.images.split(',');
             this.ui_controls.is_empty = false;
           }else{
             this.ui_controls.is_loading = false;
@@ -326,6 +333,6 @@ export class VerticanPage implements OnInit, OnDestroy {
   }
 
   triggerBack() {
-    this.nav.back();
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
 }

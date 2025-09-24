@@ -5,7 +5,7 @@
       <div class="hello">
         <div class="hey">Welcome back <span>{{ single_user.first_name }}</span></div>
         <div class="loc"><tui-icon icon="@tui.map-pin" [style.font-size.rem]="1" [style.color]="'var(--muted)'"/>
-          {{ single_user.location }}, UAE</div>
+          {{ single_user.location }}</div>
       </div>
     </ion-buttons>
     <ion-buttons slot="end">
@@ -35,6 +35,7 @@
     </ion-grid>
   </div>
 </ion-header>
+
 <ion-content fullscreen="true" class="home-bg">
   <section class="section ion-padding-horizontal">
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
@@ -107,7 +108,7 @@
     <section class="section ion-padding-horizontal">
       <div class="section-head">
         <h2>Best Seller</h2>
-<!--        <ion-button [style.color]="'#FF3D00'" fill="clear" size="small">Show All</ion-button>-->
+        <!--        <ion-button [style.color]="'#FF3D00'" fill="clear" size="small">Show All</ion-button>-->
       </div>
       @if(!ui_controls.is_empty){
         <div  class="h-scroll products">
@@ -155,21 +156,23 @@
     </section>
   }
   @if (!ui_controls.is_loading){
-    <section  class="boutique ion-padding-horizontal">
-      <div class="store-box">
-        <div (click)="open_vendor(featured_store.store_id, featured_store.store_name)" class="name">{{ featured_store.store_name }}</div>
-        <div (click)="open_reviews(featured_store.store_id, featured_store.store_name)" class="rating">⭐ {{ featured_store.rating }} ({{ featured_store.rating_count }} ratings)</div>
-      </div>
-      <div class="thumbs h-scroll">
-        @for(vendor_feature of vendor_featured; track vendor_feature.product_id){
-          <img (click)="open_product(vendor_feature.product_id)" style="object-fit: cover; object-position: top center;" src="{{vendor_feature.image_1}}" alt="b1"/>
-        }
-      </div>
-    </section>
+    @for (vendor_feature of vendor_featured; track vendor_feature.store_id){
+      <section  class="boutique ion-padding-horizontal">
+        <div class="store-box">
+          <div (click)="open_vendor(vendor_feature.store_id, vendor_feature.store_name)" class="name">{{ vendor_feature.store_name }}</div>
+          <div (click)="open_reviews(vendor_feature.store_id, vendor_feature.store_name)" class="rating">⭐ {{ vendor_feature.rating }} ({{ vendor_feature.rating_count }} ratings)</div>
+        </div>
+        <div class="thumbs h-scroll">
+          @for(vendor_products of vendor_feature.products;  track vendor_products.product_id ){
+            <img (click)="open_product(vendor_products.product_id)" style="object-fit: cover; object-position: top center;" src="{{vendor_products.image}}" alt="b1"/>
+          }
+        </div>
+      </section>
+    }
   }
-    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       @if (ui_controls.is_loading){
-       <tui-loader></tui-loader>
+        <tui-loader></tui-loader>
       }
     </span>
   <ion-modal [isOpen]="isFilterOpen" [initialBreakpoint]="0.8" [backdropDismiss]="false"  [breakpoints]="[0, 0.5, 0.8, 1]">
