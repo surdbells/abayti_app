@@ -47,8 +47,10 @@ export class ProcessPage implements OnInit {
     this.rqst_param.orderId = this.route.snapshot.queryParamMap.get('orderId') || '';
     this.rqst_param.merchantReference = this.route.snapshot.queryParamMap.get('merchantReference') || '';
     this.rqst_param.paymentType = this.route.snapshot.queryParamMap.get('paymentType') || '';
+    this.rqst_param.delivery_fee = Number(this.route.snapshot.queryParamMap.get('deliveryFee') || 0);
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
+
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -58,6 +60,15 @@ export class ProcessPage implements OnInit {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;
       this.rqst_param.token = this.single_user.token;
+      this.rqst_param.email = this.single_user.email;
+      this.rqst_param.first_name = this.single_user.first_name;
+      this.rqst_param.delivery_name = this.single_user.billing_name;
+      this.rqst_param.delivery_phone = this.single_user.billing_phone;
+      this.rqst_param.delivery_email = this.single_user.billing_email;
+      this.rqst_param.delivery_city = this.single_user.billing_city;
+      this.rqst_param.delivery_area = this.single_user.billing_area;
+      this.rqst_param.delivery_street_address = this.single_user.delivery_address;
+      this.rqst_param.villa_number = this.single_user.villa_number;
       this.finalize();
     }
   }
@@ -65,6 +76,16 @@ export class ProcessPage implements OnInit {
     id: 0,
     token: "",
     orderId: "",
+    email: "",
+    first_name: "",
+    delivery_fee: 0,
+    delivery_name: "",
+    delivery_phone: "",
+    delivery_email: "",
+    delivery_city: "",
+    delivery_area: "",
+    delivery_street_address: "",
+    villa_number: "",
     merchantReference: "",
     paymentType: ""
   }
@@ -79,6 +100,14 @@ export class ProcessPage implements OnInit {
     avatar: "",
     location: "",
     delivery_address: "",
+    billing_name: "",
+    billing_phone: "",
+    billing_email: "",
+    billing_country: "",
+    billing_city: "",
+    billing_area: "",
+    billing_street: "",
+    villa_number: "",
     is_2fa: false,
     is_active: false,
     is_admin: false,

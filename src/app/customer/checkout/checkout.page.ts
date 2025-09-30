@@ -196,25 +196,25 @@ export class CheckoutPage implements OnInit, OnDestroy {
     },
     shipping: {
       address: {
-        street: "street 1, main road",
-        city: "Port Saeed",
-        stateProvince: "Dubai",
+        street: "",
+        city: "",
+        stateProvince: "",
         country: "AE",
         postalCode: null
       },
       contact: {
-        firstName: "John",
-        lastName: "Doe",
-        phone: "+971 041234567",
-        mobilePhone: "+971 551234567",
-        email: "test@domain.com"
+        firstName: "",
+        lastName: "",
+        phone: "",
+        mobilePhone: "",
+        email: ""
       }
     },
     configuration: {
       paymentAction: "SALE",
       tokenizeCc: "true",
       locale: "en",
-      returnUrl: "https://api.3bayti.com/customer/complete"
+      returnUrl: "https://api.3bayti.ae/customer/complete"
     },
     deliveryConfiguration: {
       link: {
@@ -298,7 +298,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.checkout.deliveryConfiguration.receipt.toRecipients.push(this.single_user.email);
 
     this.ui_controls.checking_out = true;
-    const returnUrlPrefix = 'https://api.3bayti.com/customer/complete';
+    const returnUrlPrefix = 'https://api.3bayti.ae/customer/complete';
     let listenerHandle: any = null;
     let processed = false; // ensure we only handle the redirect once
     this.networkService.post_request(this.checkout, GlobalComponent.initiatePayment)
@@ -331,6 +331,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
               const orderId = params.get('orderId');
               const merchantReference = params.get('merchantReference');
               const paymentType = params.get('paymentType');
+              const deliveryFee = this.bill.delivery;
               console.log('Captured redirect:', { orderId, merchantReference, paymentType });
               processed = true; // prevent re-entry
               try {
@@ -354,7 +355,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
                 } catch (e) {
                   console.warn('Error closing webview', e);
                 } finally {
-                  this.open_processing(orderId, merchantReference, paymentType);
+                  this.open_processing(orderId, merchantReference, paymentType, deliveryFee);
                 }
               };
               closeWebview().then(r => console.log(r));
@@ -422,10 +423,10 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.nav.navigateRoot('/addresses').then(r => console.log(r));
   }
 
-  open_processing(orderId: any, merchantReference: any, paymentType: any) {
+  open_processing(orderId: any, merchantReference: any, paymentType: any, deliveryFee: number) {
     this.router.navigate(
       ['/', 'process'],
-      { queryParams: { orderId, merchantReference, paymentType } }
+      { queryParams: { orderId, merchantReference, paymentType, deliveryFee } }
     ).then(r => console.log(r));
   }
 }

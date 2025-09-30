@@ -41,7 +41,14 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {ActionSheetController} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
+import {GlobalComponent} from "../../global-component";
 
+export interface StoreRecord {
+  store: number;
+  store_name: string;
+  store_address: string;
+  total_products: number;
+}
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
@@ -54,6 +61,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   private sub: Subscription;
   private backSub?: Subscription;
   @ViewChild(IonModal) modal!: IonModal;
+  stores: StoreRecord[] = [];
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -102,13 +110,15 @@ export class MessagesPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.getObject().then(r => console.log(r));
   }
+  IonOnViewDidEnter(){
+    this.getObject().then(r => console.log(r));
+  }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
   rqst_param = {
     id: 0,
-    token: "",
-    label: 4
+    token: ""
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -116,26 +126,25 @@ export class MessagesPage implements OnInit, OnDestroy {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.rqst_param.id = this.single_user.id
-      this.rqst_param.token = this.single_user.token
+      this.rqst_param.id = this.single_user.id;
+      this.rqst_param.token = this.single_user.token;
+      this.get_conversations();
     }
   }
-  cancel() {
-    this.modal.dismiss(null, 'cancel').then(r => console.log(r));
-  }
-  get_messaged(){
-
-  }
-
-  error_notification(message: string) {
-    this.toast.error(message, {
-      position: "bottom-center"
-    });
-  }
-  success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'bottom-center'
-    });
+  get_conversations() {
+    this.ui_controls.is_loading = true;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readMessages)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.stores =  response.data;
+            this.ui_controls.is_loading = false;
+          }else{
+            this.ui_controls.is_empty = true;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
   }
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
@@ -152,10 +161,9 @@ export class MessagesPage implements OnInit, OnDestroy {
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-  conversations(vendor: number, userId: number) {
-    this.router.navigate(['/', 'conversations']).then(r => console.log(r));
-  }
-  triggerBack() {
-    this.nav.back();
+  conversations(store: number, name: string) {
+    this.router.navigate(['/', 'conversations'],
+      { queryParams: { store, name } }
+    ).then(r => console.log(r));
   }
 }

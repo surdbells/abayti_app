@@ -2,7 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonAvatar, IonButtons,
+  IonAvatar, IonButtons, IonCard, IonCardContent,
   IonChip, IonCol,
   IonContent,
   IonFab,
@@ -12,30 +12,36 @@ import {
   IonTitle,
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
-import {TuiIcon} from "@taiga-ui/core";
+import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ActionSheetController} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
-
+import {GlobalComponent} from "../../global-component";
+export interface Conversations {
+  message: string;
+  timestamp: string;
+  currentId: number;
+}
 @Component({
   selector: 'app-conversations',
   templateUrl: './conversations.page.html',
   styleUrls: ['./conversations.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader]
 })
 export class ConversationsPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
-  @ViewChild(IonModal) modal!: IonModal;
+  conversations: Conversations[] = [];
   constructor(
     private nav: NavController,
     private net: ConnectionService,
+    private route: ActivatedRoute,
     private platform: Platform,
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
@@ -45,17 +51,8 @@ export class ConversationsPage implements OnInit, OnDestroy {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
-  @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
-    });
-  }
   ui_controls = {
-    is_empty: false,
-    is_loading: false,
-    is_creating: false,
-    is_deleting: false
+    is_loading: false
   }
   single_user = {
     id: 0,
@@ -79,15 +76,25 @@ export class ConversationsPage implements OnInit, OnDestroy {
     review: 0
   };
   ngOnInit() {
+    this.request.store = Number(this.route.snapshot.queryParamMap.get('store'));
+    this.request.store_name = this.route.snapshot.queryParamMap.get('name') || '';
     this.getObject().then(r => console.log(r));
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  rqst_param = {
+  request = {
     id: 0,
     token: "",
-    label: 4
+    store: 0,
+    store_name: ""
+  }
+  message = {
+    id: 0,
+    token: "",
+    storeId: 0,
+    userId: 0,
+    message: ""
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -95,36 +102,44 @@ export class ConversationsPage implements OnInit, OnDestroy {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.rqst_param.id = this.single_user.id
-      this.rqst_param.token = this.single_user.token
+      this.request.id = this.single_user.id;
+      this.request.token = this.single_user.token;
+
+      this.get_conversations(true);
     }
   }
-  cancel() {
-    this.modal.dismiss(null, 'cancel').then(r => console.log(r));
+  IonOnViewDidEnter(){
+    this.getObject().then(r => console.log(r));
   }
-  error_notification(message: string) {
-    this.toast.error(message, {
-      position: "bottom-center"
-    });
+  get_conversations(show_loading: boolean = false) {
+    if (show_loading){
+      this.ui_controls.is_loading = true;
+    }
+    this.networkService.post_request(this.request, GlobalComponent.readConversations)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.conversations =  response.data;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
   }
-  success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'bottom-center'
-    });
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-  orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  send_message(){
+    this.message.id = this.single_user.id;
+    this.message.token = this.single_user.token;
+    this.message.storeId = this.request.store;
+    this.message.userId = this.single_user.id;
+    this.networkService.post_request(this.message, GlobalComponent.sendMessage)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.message.message = "";
+            this.conversations =  response.data;
+            this.get_conversations();
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
   }
 }

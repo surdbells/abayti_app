@@ -1,6 +1,6 @@
 <ion-header style="background-color: #FEF8F3" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>Rick Astley Store Sharjah</ion-title>
+    <ion-title>{{ request.store_name }}</ion-title>
     <ion-buttons [routerLink]="['/messages']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -24,84 +24,47 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="page-bg">
+  @if (!ui_controls.is_loading){
   <div class="sheet ion-padding-horizontal">
-    <!--
     <ion-list class="contact-list">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="10">
-            <ion-item class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>
-                <ion-note color="medium" class="ion-text-wrap">
-                  Black Vintage Abaya, Size [ M ], Location: Duabi, Name: Maryam
-                </ion-note>
-              </ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col size="2">
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="2">
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="10">
-            <ion-item class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>
-                <ion-note color="medium" class="ion-text-wrap">
-                  I need an update about my order.
-                </ion-note>
-              </ion-label>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="10">
-            <ion-item class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>
-                <ion-note color="medium" class="ion-text-wrap">
-                  Your order is being processed at the moment.
-                </ion-note>
-              </ion-label>
-            </ion-item>
-          </ion-col>
-          <ion-col size="2">
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="2">
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-          </ion-col>
-          <ion-col size="10">
-            <ion-item class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>
-                <ion-note color="medium" class="ion-text-wrap">
-                  Thank you.
-                </ion-note>
-              </ion-label>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      @for(conversation of conversations; track $index){
+        <ion-grid>
+          <ion-row>
+            @if(conversation.currentId != single_user.id){
+              <ion-col size="2">
+                <ion-avatar>
+                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                </ion-avatar>
+              </ion-col>
+            }
+            <ion-col size="10">
+              <ion-item detail="false">
+                <ion-label>
+                  <ion-note  class="ion-text-wrap">
+                    {{conversation.message }}
+                  </ion-note>
+                </ion-label>
+              </ion-item>
+              <ion-text class="muted">{{conversation.timestamp}}</ion-text>
+            </ion-col>
+            @if(conversation.currentId == single_user.id){
+              <ion-col size="2">
+                <ion-avatar>
+                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                </ion-avatar>
+              </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+      }
     </ion-list>
--->
   </div>
+  }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+      @if (ui_controls.is_loading){
+        <tui-loader></tui-loader>
+      }
+   </span>
 </ion-content>
 <ion-footer collapse="none" style="padding-bottom: 35px; background-color: #FFFFFF" class="ion-padding ion-no-border chat-footer">
     <ion-toolbar class="chat-toolbar">
@@ -121,16 +84,14 @@
             </svg>
           </button>
         </div>
-
         <!-- CENTER: message box -->
         <div class="chat-input-wrap">
           <label class="sr-only" for="chatMessage">Type a message</label>
-          <input id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
+          <input [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
         </div>
-
         <!-- RIGHT: send -->
         <div class="chat-send-wrap">
-          <button class="send-btn" aria-label="Send message" title="Send">
+          <button (click)="send_message()" class="send-btn" aria-label="Send message" title="Send">
             <svg width="48" height="40" viewBox="0 0 48 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="40" rx="10" fill="url(#paint0_linear_81_530)"/>
               <path d="M13.089 32.858C12.5916 33.089 12.1191 33.0382 11.6714 32.7057C11.2238 32.3732 11 31.89 11 31.2562V23.4631L22.9369 19.9996L11 16.536V8.74301C11 8.10802 11.2238 7.62486 11.6714 7.29351C12.1191 6.96216 12.5916 6.91136 13.089 7.14111L36.0674 18.3977C36.6891 18.7152 37 19.2491 37 19.9996C37 20.75 36.6891 21.284 36.0674 21.6015L13.089 32.858Z" fill="white"/>

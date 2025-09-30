@@ -14,6 +14,7 @@ export class Cart {
     public price_formatted: string,
     public size: string,
     public color: string,
+    public status: string,
     public is_custom: boolean
   ){  }
 }

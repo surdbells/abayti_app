@@ -206,6 +206,9 @@ export class AccountPage implements OnInit, OnDestroy {
       this.get_featured_products();
     }
   }
+  ionViewDidEnter(){
+    this.getObject().then(r => console.log(r));
+  }
 
   ngOnDestroy(): void {
     this.blocker.unblock(); // ✅ restore when leaving

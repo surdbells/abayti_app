@@ -2,7 +2,7 @@ import {ReplaySubject} from "rxjs";
 
 export class GlobalComponent {
   constructor() {}
-  public static baseURL = 'https://api.3bayti.com/' // test
+  public static baseURL = 'https://api.3bayti.ae/' // test
   public static topexCitiesURL = 'https://shipperapi.topex.ae/api/CommonAPI/Cities?countryID=1' //
   public static topexAreaURL = 'https://shipperapi.topex.ae/api/CommonAPI/Areas?acityID=' //
 
@@ -39,6 +39,7 @@ export class GlobalComponent {
   public static filtered_products = GlobalComponent.baseURL + 'customer/filter_product';
   public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
   public static customerCart = GlobalComponent.baseURL + 'customer/read-cart';
+  public static customerOrder = GlobalComponent.baseURL + 'customer/read-orders';
   public static RemoveCartItem = GlobalComponent.baseURL + 'customer/removeFromCart';
   public static IncreaseItem = GlobalComponent.baseURL + 'customer/IncreaseItem';
   public static DecreaseItem = GlobalComponent.baseURL + 'customer/decreaseItem';
@@ -50,12 +51,15 @@ export class GlobalComponent {
   public static store_labels = GlobalComponent.baseURL + 'customer/read_vendor_collection';
   public static store_latest = GlobalComponent.baseURL + 'customer/store_latest';
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
+  public static readConversations = GlobalComponent.baseURL + 'customer/read-conversations';
+  public static readMessages = GlobalComponent.baseURL + 'customer/read-messages';
+  public static sendMessage = GlobalComponent.baseURL + 'customer/send-message';
 
 
   // ordering process
 
   public static initiatePayment = GlobalComponent.baseURL + 'customer/payment/initiate_payment';
-  public static finalizePayment = GlobalComponent.baseURL + 'customer/payment/finalize_payment';
+  public static finalizePayment = GlobalComponent.baseURL + 'customer/finalize_payment';
   public static getToken = GlobalComponent.baseURL + 'customer/getToken';
   public static sendOTP = GlobalComponent.baseURL + 'customer/sendOTP';
   public static validateOTP = GlobalComponent.baseURL + 'customer/validateOTP';

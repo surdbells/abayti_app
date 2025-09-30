@@ -192,7 +192,7 @@ export class SettingsPage implements OnInit {
         return;
       }
       this.ui_controls.updating_location = true;
-      this.networkService.post_request(this.u_location, GlobalComponent.UpdateLocation, )
+      this.networkService.post_request(this.u_location, GlobalComponent.UpdateLocation)
         .subscribe(({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
@@ -243,7 +243,7 @@ export class SettingsPage implements OnInit {
   }
 
   OpenEmail() {
-    const email = 'info@3bayti.com';
+    const email = 'info@3bayti.ae';
     window.open(`mailto:${email}`);
   }
 }

@@ -44,15 +44,15 @@
         <path d="M24.4803 31.01C25.1313 31.01 25.7226 30.6789 26.0622 30.1243C28.4416 26.2381 31.278 21.1163 31.278 18.7857C31.278 15.0441 28.2286 12 24.4803 12C20.732 12 17.6826 15.0441 17.6826 18.7857C17.6826 21.1163 20.519 26.2381 22.8985 30.1243C23.2381 30.6789 23.8294 31.01 24.4803 31.01ZM21.748 18.3198C21.748 16.8159 22.9737 15.5924 24.4803 15.5924C25.9869 15.5924 27.2126 16.8159 27.2126 18.3198C27.2126 19.8238 25.9869 21.0473 24.4803 21.0473C22.9737 21.0473 21.748 19.8238 21.748 18.3198Z" fill="#FB683E"/>
       </svg>
       <ion-label>
-        <ion-text> <strong>{{ single_user.location }}</strong></ion-text><br />
+        <ion-text> <strong>{{ single_user.billing_city }} - {{ single_user.billing_area }}</strong></ion-text><br />
         <ion-note color="medium" class="ion-text-wrap">
-          {{ single_user.delivery_address }}
+          {{ single_user.villa_number }} {{ single_user.billing_street }}
         </ion-note>
       </ion-label>
       <tui-icon (click)="open_delivery()" icon="@tui.square-pen"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
     </ion-item>
     <ion-item>
-      <ion-text>Ensure delivery information above is correct before checkout.</ion-text>
+      <ion-text class="ion-color-danger">Ensure delivery information above is correct before checkout.</ion-text>
     </ion-item>
   </ion-list>
 

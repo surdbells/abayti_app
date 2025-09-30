@@ -7,7 +7,7 @@ import {
   IonCard,
   IonCardContent, IonCol,
   IonContent, IonFooter, IonGrid,
-  IonHeader, IonIcon, IonRow, IonTabBar, IonTabButton,
+  IonHeader, IonIcon, IonImg, IonRow, IonTabBar, IonTabButton,
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
@@ -19,15 +19,9 @@ import {RouterLink} from "@angular/router";
   templateUrl: './success.page.html',
   styleUrls: ['./success.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonGrid, IonRow, IonCol, IonButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonImg]
 })
 export class SuccessPage implements OnInit {
-
   constructor() { }
-
   ngOnInit() {}
-  ui_controls = {
-    confirming_transaction: true,
-    isConfirmed: false
-  }
 }

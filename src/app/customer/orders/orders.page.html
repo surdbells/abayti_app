@@ -24,19 +24,71 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal">
-  <div class="empty-state">
-    <ion-card>
-      <ion-card-content class="ion-text-center">
-        <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
-        <h2>You haven't placed any orders yet</h2>
-        <p>Place your first order to discover amazing products and start filling your cart.</p>
-        <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
-          <tui-icon icon="tuiIconShoppingCart"></tui-icon>
-          <span>Start Shopping</span>
-        </button>
-      </ion-card-content>
-    </ion-card>
-  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  @for (cart of orders; track cart.id){
+    @if (!ui_controls.is_loading){
+      <ion-card class="cart-card">
+        <div class="card-row">
+          <div class="img-wrap" role="button" tabindex="0">
+            <img style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+          </div>
+          <div class="content-wrap">
+            <div class="row row-top">
+              <div class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
+<!--              <div class="icons">
+                <ion-button fill="clear" size="small" class="icon-btn">
+                  <tui-icon icon="@tui.message-square-plus" [style.color]="'var(&#45;&#45;text)'"/>
+                </ion-button>
+                <ion-button fill="clear" size="small" class="icon-btn">
+
+                </ion-button>
+              </div>-->
+            </div>
+            <!-- Row 2: description (now single line) -->
+            <div class="row row-mid">
+              <div class="desc" [innerHTML]="cart.description"></div>
+            </div>
+            <div class="row row-bottom">
+              <div class="left-meta">
+                <div class="price">
+                  {{ cart.color }}
+                </div>
+
+              </div>
+              <div class="size"><strong>{{ cart.size }}</strong></div>
+              <div class="qty-controls" aria-label="Quantity controls">
+                <ion-chip size="small" color="success">{{ cart.status }}</ion-chip>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card>
+    }
+  }
+  @if(ui_controls.is_empty){
+    <div class="empty-state">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+          <h2>You haven't placed any orders yet</h2>
+          <p>Place your first order to discover amazing products and start filling your cart.</p>
+          <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
+            <tui-icon icon="tuiIconShoppingCart"></tui-icon>
+            <span>Start Shopping</span>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+      @if (ui_controls.is_loading){
+        <tui-loader></tui-loader>
+      }
+   </span>
+
 </ion-content>
 <ion-footer style="padding-bottom: 35px;" class="ion-padding  ion-no-border ">
   <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom">

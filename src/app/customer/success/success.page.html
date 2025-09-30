@@ -1,8 +1,26 @@
 <ion-content fullscreen="true" class="ion-padding ion-padding-vertical ion-margin-vertical">
-  <ion-card style="margin-top: 25%;" class="ion-margin ion-text-center ion-padding">
-      <img src="assets/images/success.gif" alt="success" />
-      <h1>Your purchase was successful.</h1>
-      <ion-button [routerLink]="['/account']" expand="block" style="color: #ffffff;" class="ion-padding ion-margin">HOME</ion-button>
-    </ion-card>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <div class="empty-state">
+          <ion-card style="margin-top: 30%;">
+            <ion-card-content class="ion-text-center">
+              <ion-img src="assets/images/success.gif" alt="success"></ion-img>
+              <h1>Your purchase was successful.</h1>
+              <button appearance="floating" tuiButton size="m" class="ion-margin-vertical" [routerLink]="['/account']">
+                <tui-icon class="ion-padding-horizontal"  icon="house"></tui-icon>
+                <span>HOME</span>
+              </button>
+              <button appearance="floating" class="ion-margin-vertical"  tuiButton size="m" [routerLink]="['/messages']">
+                <tui-icon class="ion-padding-horizontal" icon="message-square-text"></tui-icon>
+                <span>MESSAGE VENDOR</span>
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
 

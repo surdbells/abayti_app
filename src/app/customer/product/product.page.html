@@ -98,17 +98,20 @@
         </div>
         <div class="quantity" style="padding-top: 5px; padding-bottom: 5px">
           <ion-label>
-            <ion-text class="ion-text-start ion-padding-bottom">Delivery: {{single.delivery_time}}</ion-text>
+            @if(single.delivery_time != 'custom'){
+              <ion-text class="ion-text-start ion-padding-bottom">Delivery: {{single.delivery_time}} days</ion-text>
+            } @else {
+              <ion-text class="ion-text-start ion-padding-bottom">Delivery: {{single.custom_delivery_time}} days</ion-text>
+            }
+
           </ion-label>
-            <ion-label>
-              @if(colors.length > 0){
-              <ion-select aria-label="Color" interface="action-sheet" class="float-end" [(ngModel)]="add_cart.color" placeholder="Select color">
-                @for(color of colors; track $index){
-                  <ion-select-option value="{{color}}">{{ color }}</ion-select-option>
-                }
-              </ion-select>
+          <ion-label>
+            <ion-select aria-label="Color" interface="action-sheet" class="float-end" [(ngModel)]="add_cart.color" placeholder="Select color">
+              @for(color of colors; track $index){
+                <ion-select-option value="{{color}}">{{ color }}</ion-select-option>
               }
-            </ion-label>
+            </ion-select>
+          </ion-label>
         </div>
         <div class="quantity ion-padding-bottom">
           <ion-label *ngIf="!single.size_custom" id="size_guide">

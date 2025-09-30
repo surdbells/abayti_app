@@ -1,0 +1,133 @@
+:host { display: block; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+/* Row containing avatar + bubble */
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: 85%;
+}
+
+/* Incoming (left) default */
+.message-row.incoming {
+  flex-direction: row; /* avatar | bubble */
+  align-self: flex-start;
+}
+
+/* Outgoing (right) - reverse order: bubble | avatar */
+.message-row.outgoing {
+  flex-direction: row-reverse; /* avatar appears on right */
+  align-self: flex-end;
+}
+
+/* Avatar (image) */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex: 0 0 36px;
+}
+
+/* Initials avatar */
+.avatar-initials {
+  /* background is set inline via style binding from component */
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+/* Bubble wrapper lets bubble size itself */
+.bubble-wrap {
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100% - 48px); /* leave space for avatar */
+}
+
+/* Message bubble */
+.bubble {
+  background: #f1f0f0;
+  color: #111;
+  padding: 0.5rem 0.75rem;
+  border-radius: 14px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.06);
+  word-wrap: break-word;
+}
+
+/* Style outgoing bubble differently */
+.message-row.outgoing .bubble {
+  background: #0b93f6; /* blue-ish */
+  color: white;
+}
+
+/* Small sender label above content (incoming) */
+.sender {
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.text {
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+/* Attachment image styling */
+.attachment {
+  display: block;
+  max-width: 240px;
+  max-height: 240px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 0.35rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* meta (time + status) */
+.meta {
+  font-size: 0.7rem;
+  color: rgba(0,0,0,0.45);
+  display: flex;
+  gap: 0.35rem;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
+/* lighter meta color for outgoing to contrast on blue bubble */
+.message-row.outgoing .meta { color: rgba(255,255,255,0.76); }
+
+/* small responsive tweak */
+@media (max-width: 420px) {
+  .attachment { max-width: 160px; max-height: 160px; }
+  .bubble { padding: 0.45rem 0.6rem; }
+}
+.conversation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+
+  max-height: 70vh;   /* or whatever height fits your layout */
+  overflow-y: auto;
+  scroll-behavior: smooth; /* nice smooth scrolling */
+}

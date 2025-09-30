@@ -224,6 +224,8 @@ export class ProductPage implements OnInit {
     product_name: "",
     product_desc: "",
     product_image: "",
+    customer_name: "",
+    customer_email: "",
     quantity: 1,
     price: 0,
     size: "",
@@ -247,8 +249,10 @@ export class ProductPage implements OnInit {
       this.rqst_param.token = this.single_user.token
       this.get_measurement();
       this.get_single();
-      this.add_cart.id = this.single_user.id
-      this.add_cart.token = this.single_user.token
+      this.add_cart.id = this.single_user.id;
+      this.add_cart.token = this.single_user.token;
+      this.add_cart.customer_name = this.single_user.first_name + " " + this.single_user.last_name;
+      this.add_cart.customer_email = this.single_user.email;
     }
   }
   get_measurement() {
@@ -330,6 +334,7 @@ export class ProductPage implements OnInit {
           if (response.response_code === 200 && response.status === "success") {
               this.success_notification(response.message);
               this.ui_controls.is_adding_to_cart = false;
+              this.user_cart();
           }else{
             this.ui_controls.is_empty = true;
             this.ui_controls.is_adding_to_cart = false;
@@ -355,12 +360,13 @@ export class ProductPage implements OnInit {
 
 
             this.apiSizes = {
-              'xxl': this.single.size_xxl,
-              'xl': this.single.size_xl,
-              'l': this.single.size_l,
-              'm': this.single.size_m,
+
               'xs': this.single.size_s,
               's': this.single.size_xs,
+              'm': this.single.size_m,
+              'l': this.single.size_l,
+              'xl': this.single.size_xl,
+              'xxl': this.single.size_xxl,
               '50': this.single.size_50,
               '52': this.single.size_52,
               '54': this.single.size_54,
