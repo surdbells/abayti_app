@@ -311,14 +311,14 @@
               <ion-col class="ion-no-padding">
                 <label class="animate__animated animate__fadeInDown" tuiLabel>BUST</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.bust" name="bust" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.bust" name="bust" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>WAIST</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>SHOULDER</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.waist" name="waist" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.shoulder" name="waist" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>
@@ -327,30 +327,30 @@
               <ion-col class="ion-no-padding">
                 <label class="animate__animated animate__fadeInDown" tuiLabel>HIP</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.hip" name="hip" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.hip" name="hip" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
                 <label class="animate__animated animate__fadeInDown" tuiLabel>LENGTH</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.length" name="length" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.length" name="length" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>
             </ion-row>
             <ion-row *ngIf="!ui_controls.is_loading_measurement" class="ion-padding-bottom">
               <ion-col class="ion-no-padding">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>NECK</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>ARMHOLE</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.neck" name="neck" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.armhole" name="neck" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
                 <label class="animate__animated animate__fadeInDown" tuiLabel>ARM</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input type="number" [(ngModel)]="update.arm" name="arm" tuiTextfield />
+                  <input type="text" [(ngModel)]="update.arm" name="arm" tuiTextfield />
                 </tui-textfield>
                 <ion-text class="ion-text-center">inches</ion-text>
               </ion-col>

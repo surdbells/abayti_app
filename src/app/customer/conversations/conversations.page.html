@@ -69,40 +69,20 @@
 <ion-footer collapse="none" style="padding-bottom: 35px; background-color: #FFFFFF" class="ion-padding ion-no-border chat-footer">
     <ion-toolbar class="chat-toolbar">
       <div class="chat-row">
-        <!-- LEFT: file + voice -->
-        <div class="chat-actions">
-          <button class="icon-btn" aria-label="Attach file" title="Attach file">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="25" height="25" rx="5" fill="#EF9278"/>
-              <path d="M10.9235 9.18019L10.791 13.4459C10.7802 13.8531 10.936 14.2343 11.2248 14.5064C11.5187 14.78 11.916 14.9198 12.3317 14.8956C12.7508 14.8733 13.1576 14.6899 13.4626 14.3866C13.6124 14.2387 13.7332 14.0642 13.8178 13.8734C13.9024 13.6826 13.9491 13.4793 13.9552 13.2756L14.0871 9.01051C14.0978 8.60646 14.0265 8.21011 13.8773 7.84549C13.7282 7.48088 13.5044 7.1556 13.2195 6.88941C12.6323 6.3417 11.8378 6.06166 11.0064 6.10934C10.1693 6.15373 9.35911 6.51889 8.74404 7.12907C8.44499 7.42494 8.20383 7.77362 8.03466 8.15475C7.86548 8.53588 7.77168 8.9418 7.75873 9.3488L7.62571 13.6162C7.60999 14.2222 7.71727 14.8165 7.94106 15.3633C8.16485 15.9101 8.50048 16.3979 8.92763 16.7973C9.80868 17.6182 11.0003 18.0378 12.247 17.966C13.5022 17.8996 14.7171 17.3524 15.6397 16.4378C16.0888 15.9942 16.4511 15.4712 16.7051 14.8993C16.9592 14.3275 17.1 13.7183 17.1194 13.1076L17.2507 8.84082" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button class="icon-btn" aria-label="Record voice note" title="Voice note">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="25" height="25" rx="5" fill="#EF9278"/>
-              <path d="M12 15C11.1667 15 10.4583 14.7083 9.875 14.125C9.29167 13.5417 9 12.8333 9 12V6C9 5.16667 9.29167 4.45833 9.875 3.875C10.4583 3.29167 11.1667 3 12 3C12.8333 3 13.5417 3.29167 14.125 3.875C14.7083 4.45833 15 5.16667 15 6V12C15 12.8333 14.7083 13.5417 14.125 14.125C13.5417 14.7083 12.8333 15 12 15ZM11 22V18.925C9.26667 18.6917 7.83333 17.9167 6.7 16.6C5.56667 15.2833 5 13.75 5 12H7C7 13.3833 7.48767 14.5627 8.463 15.538C9.43833 16.5133 10.6173 17.0007 12 17C13.3827 16.9993 14.562 16.5117 15.538 15.537C16.514 14.5623 17.0013 13.3833 17 12H19C19 13.75 18.4333 15.2833 17.3 16.6C16.1667 17.9167 14.7333 18.6917 13 18.925V22H11ZM12 13C12.2833 13 12.521 12.904 12.713 12.712C12.905 12.52 13.0007 12.2827 13 12V6C13 5.71667 12.904 5.47933 12.712 5.288C12.52 5.09667 12.2827 5.00067 12 5C11.7173 4.99933 11.48 5.09533 11.288 5.288C11.096 5.48067 11 5.718 11 6V12C11 12.2833 11.096 12.521 11.288 12.713C11.48 12.905 11.7173 13.0007 12 13Z" fill="black"/>
-            </svg>
-          </button>
-        </div>
-        <!-- CENTER: message box -->
         <div class="chat-input-wrap">
           <label class="sr-only" for="chatMessage">Type a message</label>
-          <input [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
+          <input [maxlength]="120" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
         </div>
-        <!-- RIGHT: send -->
         <div class="chat-send-wrap">
-          <button (click)="send_message()" class="send-btn" aria-label="Send message" title="Send">
-            <svg width="48" height="40" viewBox="0 0 48 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="40" rx="10" fill="url(#paint0_linear_81_530)"/>
-              <path d="M13.089 32.858C12.5916 33.089 12.1191 33.0382 11.6714 32.7057C11.2238 32.3732 11 31.89 11 31.2562V23.4631L22.9369 19.9996L11 16.536V8.74301C11 8.10802 11.2238 7.62486 11.6714 7.29351C12.1191 6.96216 12.5916 6.91136 13.089 7.14111L36.0674 18.3977C36.6891 18.7152 37 19.2491 37 19.9996C37 20.75 36.6891 21.284 36.0674 21.6015L13.089 32.858Z" fill="white"/>
-              <defs>
-                <linearGradient id="paint0_linear_81_530" x1="48" y1="20" x2="0" y2="20" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#7C2108"/>
-                  <stop offset="1" stop-color="#E23C0F"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </button>
+          @if(!ui_controls.sending){
+            <button (click)="send_message()" class="send-btn" aria-label="Send message" title="Send">
+              <tui-icon icon="@tui.send-horizontal" />
+            </button>
+          }
+
+          @if(ui_controls.sending){
+            <tui-loader></tui-loader>
+          }
         </div>
       </div>
     </ion-toolbar>

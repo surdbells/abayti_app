@@ -52,7 +52,8 @@ export class ConversationsPage implements OnInit, OnDestroy {
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
   ui_controls = {
-    is_loading: false
+    is_loading: false,
+    sending: false
   }
   single_user = {
     id: 0,
@@ -121,6 +122,8 @@ export class ConversationsPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.conversations =  response.data;
             this.ui_controls.is_loading = false;
+          }else{
+            this.ui_controls.is_loading = false;
           }
         }
       }))
@@ -130,16 +133,31 @@ export class ConversationsPage implements OnInit, OnDestroy {
     this.message.token = this.single_user.token;
     this.message.storeId = this.request.store;
     this.message.userId = this.single_user.id;
+    this.ui_controls.sending = true;
+    if (this.message.message.length == 0){
+      return;
+    }
     this.networkService.post_request(this.message, GlobalComponent.sendMessage)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.message.message = "";
-            this.conversations =  response.data;
-            this.get_conversations();
+            this.ui_controls.sending = false;
             this.ui_controls.is_loading = false;
+            this.get_conversations();
           }
         }
       }))
+  }
+
+  error_notification(message: string) {
+    this.toast.error(message, {
+      position: "bottom-center"
+    });
+  }
+  success_notification(message: string) {
+    this.toast.success(message, {
+      position: 'bottom-center'
+    });
   }
 }

@@ -40,6 +40,7 @@ export class GlobalComponent {
   public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
   public static customerCart = GlobalComponent.baseURL + 'customer/read-cart';
   public static customerOrder = GlobalComponent.baseURL + 'customer/read-orders';
+  public static orderDetails = GlobalComponent.baseURL + 'customer/read-order-details';
   public static RemoveCartItem = GlobalComponent.baseURL + 'customer/removeFromCart';
   public static IncreaseItem = GlobalComponent.baseURL + 'customer/IncreaseItem';
   public static DecreaseItem = GlobalComponent.baseURL + 'customer/decreaseItem';
@@ -54,6 +55,11 @@ export class GlobalComponent {
   public static readConversations = GlobalComponent.baseURL + 'customer/read-conversations';
   public static readMessages = GlobalComponent.baseURL + 'customer/read-messages';
   public static sendMessage = GlobalComponent.baseURL + 'customer/send-message';
+
+  public static createTicket = GlobalComponent.baseURL + 'customer/create_ticket';
+  public static readTicket = GlobalComponent.baseURL + 'customer/read_ticket';
+  public static readTicketMessages = GlobalComponent.baseURL + 'customer/read-ticket-messages';
+  public static sendTicketMessage = GlobalComponent.baseURL + 'customer/send-ticket-message';
 
 
   // ordering process

@@ -140,17 +140,18 @@
             </article>
           }
         </div>
-      } @else {
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="list-filter"></tui-icon>
-            <h2 class="ion-padding-vertical">No product for the selected filter</h2>
-            <button (click)="get_best_sellers()" appearance="floating" tuiButton size="m" class="mt-4">
-              <tui-icon icon="tuiIconShoppingCart"></tui-icon>
-              <span>Our best sellers</span>
-            </button>
-          </ion-card-content>
-        </ion-card>
+      }
+      @if (ui_controls.is_empty){
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="list-filter"></tui-icon>
+          <h2 class="ion-padding-vertical">No product for the selected filter</h2>
+          <button (click)="get_best_sellers()" appearance="floating" tuiButton size="m" class="mt-4">
+            <tui-icon icon="tuiIconShoppingCart"></tui-icon>
+            <span>Our best sellers</span>
+          </button>
+        </ion-card-content>
+      </ion-card>
       }
 
     </section>

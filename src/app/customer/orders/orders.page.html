@@ -21,6 +21,16 @@
         </defs>
       </svg>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/ticketlist']" fill="clear">
+        <ion-chip class="abayti_primary_background abayti_white">
+          <ion-avatar>
+            <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
+          </ion-avatar>
+          <ion-label>Support</ion-label>
+        </ion-chip>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal">
@@ -31,21 +41,16 @@
   @for (cart of orders; track cart.id){
     @if (!ui_controls.is_loading){
       <ion-card class="cart-card">
-        <div class="card-row">
+        <div (click)="open_details(cart.product_id)" class="card-row">
           <div class="img-wrap" role="button" tabindex="0">
             <img style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
           </div>
           <div class="content-wrap">
             <div class="row row-top">
               <div class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
-<!--              <div class="icons">
-                <ion-button fill="clear" size="small" class="icon-btn">
-                  <tui-icon icon="@tui.message-square-plus" [style.color]="'var(&#45;&#45;text)'"/>
-                </ion-button>
-                <ion-button fill="clear" size="small" class="icon-btn">
-
-                </ion-button>
-              </div>-->
+              <div class="price">
+                <span class="dirham"></span>{{ cart.price_formatted }}
+              </div>
             </div>
             <!-- Row 2: description (now single line) -->
             <div class="row row-mid">
@@ -88,7 +93,68 @@
         <tui-loader></tui-loader>
       }
    </span>
-
+  <ion-modal  [isOpen]="isOrderOpen" [initialBreakpoint]="0.7" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Summary</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isOrderOpen = false">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        @if (!ui_controls.is_loading_details){
+          <ion-card class="cart-card">
+          <ion-list lines="none" class="contact-list">
+          <!-- Email -->
+          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
+            <ion-text>{{single_product.name}}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
+            <ion-label>QUANTITY</ion-label>
+            {{ single_product.quantity }}
+          </ion-item>
+          <ion-item class="animate__animated animate__fadeInDown" detail="false">
+            <ion-label>PRICE</ion-label>
+            <ion-text slot="end">
+              <span class="dirham"></span>{{ single_product.price }}
+            </ion-text>
+          </ion-item>
+          <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
+            <ion-label>SIZE</ion-label>
+            <ion-text slot="end">
+              {{ single_product.size }}
+            </ion-text>
+          </ion-item>
+          <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
+            <ion-label>COLOR</ion-label>
+            <ion-text slot="end">
+              {{ single_product.color }}
+            </ion-text>
+          </ion-item>
+          <ion-item class="animate__animated animate__fadeInDown" detail="false">
+            <svg width="365" height="1" viewBox="0 0 365 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0.5" y1="0.5" x2="364.497" y2="0.5" stroke="#A9A6A6" stroke-linecap="round"/>
+            </svg>
+          </ion-item>
+          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
+            <ion-label>STATUS</ion-label>
+            <ion-text slot="end">
+              {{ single_product.status }}
+            </ion-text>
+          </ion-item>
+        </ion-list>
+          </ion-card>
+        }
+        <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+          @if (ui_controls.is_loading_details){
+            <tui-loader></tui-loader>
+          }
+       </span>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 <ion-footer style="padding-bottom: 35px;" class="ion-padding  ion-no-border ">
   <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom">

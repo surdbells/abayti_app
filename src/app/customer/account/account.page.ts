@@ -326,7 +326,7 @@ export class AccountPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.best_sellers = response.data;
             this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = true;
+            this.ui_controls.is_empty = false;
           }else {
             this.ui_controls.is_loading = false;
             this.ui_controls.is_empty = true;
@@ -358,7 +358,7 @@ export class AccountPage implements OnInit, OnDestroy {
   get_best_sellers() {
     this.best_sellers = [];
     this.ui_controls.is_loading = true;
-    this.ui_controls.is_empty = true;
+    this.ui_controls.is_empty = false;
     this.best_seller.id = this.single_user.id;
     this.best_seller.token = this.single_user.token;
     this.rqst_param_products_by_category.category = 0;

@@ -2,19 +2,20 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  IonAvatar,
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent, IonChip,
+  IonCardContent, IonChip, IonCol,
   IonContent,
   IonFooter,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
-  IonList,
+  IonList, IonModal,
   IonRefresher,
-  IonRefresherContent,
+  IonRefresherContent, IonRow,
   IonSearchbar,
   IonTabBar,
   IonTabButton, IonText,
@@ -30,23 +31,22 @@ import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
-import {Products} from "../../class/products";
 import {Cart} from "../../class/cart";
-import {Labels} from "../../class/labels";
 import {ActionSheetController} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
+import {CartIconComponent} from "../../cart-icon.component";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, TuiLoader, IonChip]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, TuiLoader, IonChip, CartIconComponent, IonAvatar, IonCol, IonModal, IonRow]
 })
 export class OrdersPage implements OnInit, OnDestroy {
   orders: Cart[] = [];
   isOnline = true;
-  isWishOpen = false; // or control this as you like
+  isOrderOpen = false; // or control this as you like
   private sub: Subscription;
   constructor(
     private nav: NavController,
@@ -63,7 +63,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   ui_controls = {
     is_loading: false,
     is_creating: false,
-    is_loading_category: false,
+    is_loading_details: false,
     is_empty: false
   }
   rqst_param = {
@@ -72,7 +72,8 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
   request = {
     id: 0,
-    token: ""
+    token: "",
+    product: 0
   }
   remove = {
     id: 0,
@@ -115,16 +116,21 @@ export class OrdersPage implements OnInit, OnDestroy {
     product_name: "",
     product_image: ""
   }
-  bill = {
-    count: 0,
-    discount: 0,
-    delivery: 0,
-    subtotal: 0,
-    total: 0,
-    f_discount: "",
-    f_delivery: "",
-    f_subtotal: "",
-    f_total: ""
+  single_product = {
+    id: 0,
+    token: "",
+    item: 0,
+    product: 0,
+    name: "",
+    image: "",
+    quantity: 0,
+    price: "",
+    total: "",
+    size: "",
+    color: "",
+    note: "",
+    extra_measurement: "",
+    status: ""
   };
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: CustomEvent) {
@@ -175,6 +181,19 @@ export class OrdersPage implements OnInit, OnDestroy {
         }
       }))
   }
+  load_order_details(product: number) {
+    this.ui_controls.is_loading_details = true;
+    this.request.product = product;
+    this.networkService.post_request(this.request, GlobalComponent.orderDetails)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200) {
+            this.single_product = response.data;
+            this.ui_controls.is_loading_details = false;
+          }
+        }
+      }))
+  }
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
@@ -216,5 +235,10 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
   triggerBack() {
     this.nav.back();
+  }
+
+  open_details(product: number) {
+    this.isOrderOpen = true;
+    this.load_order_details(product)
   }
 }

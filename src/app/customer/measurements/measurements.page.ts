@@ -123,12 +123,12 @@ export class MeasurementsPage implements OnInit, OnDestroy {
   update = {
     id: 0,
     token: '',
-    bust: 0,
-    neck: 0,
-    waist: 0,
-    length: 0,
-    hip: 0,
-    arm: 0
+    bust: "",
+    shoulder: "",
+    armhole: "",
+    length: "",
+    hip: "",
+    arm: ""
   };
   // Called when the page becomes active (Ionic RouterOutlet triggers this)
   ionViewDidEnter() {
@@ -164,8 +164,8 @@ export class MeasurementsPage implements OnInit, OnDestroy {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.update.bust =  response.data[0].bust
-            this.update.neck = response.data[0].neck
-            this.update.waist = response.data[0].waist
+            this.update.armhole = response.data[0].armhole
+            this.update.shoulder = response.data[0].shoulder
             this.update.length = response.data[0].length
             this.update.hip = response.data[0].hip
             this.update.arm = response.data[0].arm

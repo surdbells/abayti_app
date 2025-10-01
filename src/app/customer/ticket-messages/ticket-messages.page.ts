@@ -21,23 +21,23 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
-export interface Conversations {
+export interface Messages {
   message: string;
   timestamp: string;
   currentId: number;
 }
 @Component({
   selector: 'app-conversations',
-  templateUrl: './conversations.page.html',
-  styleUrls: ['./conversations.page.scss'],
+  templateUrl: './ticket-messages.page.html',
+  styleUrls: ['./ticket-messages.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader]
 })
-export class ConversationsPage implements OnInit, OnDestroy {
+export class TicketMessagesPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
-  conversations: Conversations[] = [];
+  messages: Messages[] = [];
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -52,7 +52,8 @@ export class ConversationsPage implements OnInit, OnDestroy {
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
   ui_controls = {
-    is_loading: false
+    is_loading: false,
+    sending: false
   }
   single_user = {
     id: 0,
@@ -76,8 +77,8 @@ export class ConversationsPage implements OnInit, OnDestroy {
     review: 0
   };
   ngOnInit() {
-    this.request.store = Number(this.route.snapshot.queryParamMap.get('store'));
-    this.request.store_name = this.route.snapshot.queryParamMap.get('name') || '';
+    this.request.ticket = Number(this.route.snapshot.queryParamMap.get('ticket'));
+    this.request.subject = this.route.snapshot.queryParamMap.get('subject') || '';
     this.getObject().then(r => console.log(r));
   }
   ngOnDestroy(): void {
@@ -86,13 +87,13 @@ export class ConversationsPage implements OnInit, OnDestroy {
   request = {
     id: 0,
     token: "",
-    store: 0,
-    store_name: ""
+    ticket: 0,
+    subject: ""
   }
   message = {
     id: 0,
     token: "",
-    storeId: 0,
+    ticket: 0,
     userId: 0,
     message: ""
   }
@@ -115,11 +116,13 @@ export class ConversationsPage implements OnInit, OnDestroy {
     if (show_loading){
       this.ui_controls.is_loading = true;
     }
-    this.networkService.post_request(this.request, GlobalComponent.readConversations)
+    this.networkService.post_request(this.request, GlobalComponent.readTicketMessages)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.conversations =  response.data;
+            this.messages =  response.data;
+            this.ui_controls.is_loading = false;
+          }else{
             this.ui_controls.is_loading = false;
           }
         }
@@ -128,14 +131,18 @@ export class ConversationsPage implements OnInit, OnDestroy {
   send_message(){
     this.message.id = this.single_user.id;
     this.message.token = this.single_user.token;
-    this.message.storeId = this.request.store;
+    this.message.ticket = this.request.ticket;
     this.message.userId = this.single_user.id;
-    this.networkService.post_request(this.message, GlobalComponent.sendMessage)
+    if (this.message.message.length == 0){
+      return;
+    }
+    this.ui_controls.sending = true;
+    this.networkService.post_request(this.message, GlobalComponent.sendTicketMessage)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.message.message = "";
-            this.conversations =  response.data;
+            this.ui_controls.sending = false;
             this.get_conversations();
             this.ui_controls.is_loading = false;
           }

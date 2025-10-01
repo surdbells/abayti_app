@@ -1,0 +1,98 @@
+.page-content {
+  --ion-background-color: var(--ion-color-light);
+  min-height: 100%;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+}
+
+/* Small meta text */
+.meta {
+  color: var(--ion-color-medium);
+}
+
+/* priority badge */
+.priority {
+  font-size: 0.75rem;
+  color: var(--ion-color-primary);
+}
+
+/* Overlay (create-ticket form) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+}
+
+.overlay-card {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background: var(--ion-background-color, #fff);
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.15);
+  transform: translateY(0);
+  padding-bottom: 12px;
+}
+
+/* Buttons area of overlay */
+.overlay-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+/* Make the fab slightly larger and keep accessible hit target */
+ion-fab-button {
+  --size: 56px;
+  --box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+ion-item.ticket-item {
+  background-color: #ffffff;
+  border-width: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  margin: 8px 0;
+  padding: 8px;
+  --ripple-color: transparent;
+}
+
+ion-item.ticket-item .priority {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+/* Priority colors */
+ion-item.ticket-item .priority.high {
+  color: #fff;
+  background: #e74c3c; /* Red */
+}
+
+ion-item.ticket-item .priority.medium {
+  color: #fff;
+  background: #f39c12; /* Orange */
+}
+
+ion-item.ticket-item .priority.low {
+  color: #fff;
+  background: #27ae60; /* Green */
+}

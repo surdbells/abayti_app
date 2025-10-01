@@ -64,4 +64,6 @@ export class CartIconComponent {
     if (!this.count || this.count <= 0) return '';
     return this.count > this.maxDisplay ? `${this.maxDisplay}+` : `${this.count}`;
   }
+
+
 }

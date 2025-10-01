@@ -110,5 +110,17 @@ export const routes: Routes = [
   {
     path: 'process',
     loadComponent: () => import('./customer/process/process.page').then( m => m.ProcessPage)
+  },
+  {
+    path: 'ticketlist',
+    loadComponent: () => import('./customer/ticket-list/ticket-list.page').then( m => m.TicketListPage)
+  },
+  {
+    path: 'ticketmessages',
+    loadComponent: () => import('./customer/ticket-messages/ticket-messages.page').then( m => m.TicketMessagesPage)
+  },
+  {
+    path: 'createticket',
+    loadComponent: () => import('./customer/create-ticket/create-ticket.page').then( m => m.CreateTicketPage)
   }
 ];

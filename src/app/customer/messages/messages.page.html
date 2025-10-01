@@ -21,10 +21,20 @@
         </defs>
       </svg>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/ticketlist']" fill="clear">
+        <ion-chip class="abayti_primary_background abayti_white">
+          <ion-avatar>
+            <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
+          </ion-avatar>
+          <ion-label>Support</ion-label>
+        </ion-chip>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="page-bg">
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+<!--  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <svg width="99" height="94" viewBox="0 0 99 94" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g filter="url(#filter0_d_81_330)">
         <rect x="12" y="12" width="75" height="70" rx="20" fill="url(#paint0_linear_81_330)"/>
@@ -48,7 +58,7 @@
         </linearGradient>
       </defs>
     </svg>
-  </ion-fab>
+  </ion-fab>-->
   @if (!ui_controls.is_loading){
   <div class="sheet ion-padding-horizontal">
     @for(store of stores; track $index){

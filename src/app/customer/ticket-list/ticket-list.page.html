@@ -1,0 +1,74 @@
+<ion-header class="ion-padding-top ion-no-border remove_nudge">
+  <ion-toolbar class="toolbar ion-no-border">
+    <ion-title>Support Tickets</ion-title>
+    <ion-buttons [routerLink]="['/orders']" aria-label="Back to account" slot="start">
+      <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_75_149)">
+          <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
+          <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
+        </g>
+        <defs>
+          <filter id="filter0_d_75_149" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset/>
+            <feGaussianBlur stdDeviation="8.55"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_75_149"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_75_149" result="shape"/>
+          </filter>
+        </defs>
+      </svg>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/createticket']">
+        <tui-icon icon="@tui.plus" [style.color]="'var(--text)'"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen class="page-bg ion-padding-horizontal">
+      @for(t of tickets; track $index){
+        <ion-item lines="none" class="ticket-item" (click)="openTicket(t.id, t.subject)">
+          <ion-avatar slot="start">
+            <tui-icon icon="@tui.tickets" [style.color]="'var(--text)'"/>
+          </ion-avatar>
+          <ion-label class="ion-no-margin">
+            <h2>{{ t.subject }}</h2>
+            <p class="muted">{{ t.summary }}</p>
+            <p class="meta">
+              <small>Status: {{ t.status }} • {{ t.created | date:'short' }}</small>
+            </p>
+          </ion-label>
+
+          @if(t.priority){
+            <ion-note
+              slot="end"
+              class="priority {{ t.priority.toLowerCase() }}">
+              {{ t.priority }}
+            </ion-note>
+          }
+        </ion-item>
+      }
+      @if(ui_controls.is_empty){
+        <div class="empty-state">
+          <ion-card>
+            <ion-card-content class="ion-text-center">
+              <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+              <h2>Your support ticket is Empty</h2>
+              <p>No tickets yet. Tap the + button to create one.</p>
+              <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/createticket']">
+                <tui-icon icon="tickets"></tui-icon>
+                <span>Create ticket</span>
+              </button>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+          @if (ui_controls.is_loading){
+            <tui-loader></tui-loader>
+          }
+   </span>
+</ion-content>
