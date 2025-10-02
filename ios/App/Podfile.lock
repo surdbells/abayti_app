@@ -16,6 +16,8 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (7.0.2):
     - Capacitor
+  - CapgoInappbrowser (6.15.0):
+    - Capacitor
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -27,6 +29,7 @@ DEPENDENCIES:
   - "CapacitorPreferences (from `../../node_modules/@capacitor/preferences`)"
   - "CapacitorScreenOrientation (from `../../node_modules/@capacitor/screen-orientation`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
+  - "CapgoInappbrowser (from `../../node_modules/@capgo/inappbrowser`)"
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -47,6 +50,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/screen-orientation"
   CapacitorStatusBar:
     :path: "../../node_modules/@capacitor/status-bar"
+  CapgoInappbrowser:
+    :path: "../../node_modules/@capgo/inappbrowser"
 
 SPEC CHECKSUMS:
   Capacitor: 156d98aba46ec01dde72c4bbb92fa626837cad29
@@ -58,7 +63,8 @@ SPEC CHECKSUMS:
   CapacitorPreferences: b583b5deb74e564c35968189d25d32c0fd41200d
   CapacitorScreenOrientation: f698d08d01a06dfe0b21392f6c6ba522b9f61773
   CapacitorStatusBar: 5526833b87fa9c96a2a90c1322bb1f663c04505f
+  CapgoInappbrowser: 81241d8b65080255e789b0a94950ff18e3cdcbff
 
-PODFILE CHECKSUM: 9296d27af1dc88d7b3e31b0294c01608434c2d2f
+PODFILE CHECKSUM: 6cff28dfa600f1ff1fdda4bbc792401dc55f0acd
 
 COCOAPODS: 1.16.2
