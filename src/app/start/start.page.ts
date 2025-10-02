@@ -29,7 +29,6 @@ export class StartPage implements AfterViewInit {
   ngAfterViewInit(): void {
     // Wait until the web component attaches the Swiper instance
     const el = this.swiperEl.nativeElement as any;
-
     const attach = () => {
       const sw: any = el.swiper;
       if (!sw) {
@@ -37,7 +36,6 @@ export class StartPage implements AfterViewInit {
         setTimeout(attach, 30);
         return;
       }
-
       // Set the initial index
       this.index.set(sw.activeIndex ?? 0);
 

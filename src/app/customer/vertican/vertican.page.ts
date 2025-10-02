@@ -43,7 +43,7 @@ import {
   IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
-import {Platform} from "@ionic/angular";
+import {Platform, ToastController} from "@ionic/angular";
 import {
   TuiButton,
   TuiIcon,
@@ -77,12 +77,13 @@ type DualRange = { lower: number; upper: number };
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, IonSkeletonText, IonThumbnail, TuiCarouselComponent, TuiItem, TuiCarouselButtons]
 })
-export class VerticanPage implements OnInit, OnDestroy {
+export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
   categories: Labels[] = [];
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('scroller', { read: ElementRef, static: true }) scroller!: ElementRef<HTMLDivElement>;
+  @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
   private pageWidth(): number {
     return window.innerWidth;
   }
@@ -108,6 +109,7 @@ export class VerticanPage implements OnInit, OnDestroy {
   constructor(
     private nav: NavController,
     private net: ConnectionService,
+    private toastController: ToastController,
     private platform: Platform,
     private router: Router,
     private networkService: NetworkService,
@@ -245,10 +247,10 @@ export class VerticanPage implements OnInit, OnDestroy {
             this.products = response.data;
             this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
-            this.ui_controls.is_empty = false;
           }else {
             this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = true;
+            this.presentToast('middle', "No product for the selected filter").then(r => console.log(r));
+            this.ui_controls.is_loaded =  true;
           }
         }
       }))
@@ -334,5 +336,50 @@ export class VerticanPage implements OnInit, OnDestroy {
 
   triggerBack() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
+
+  currentDot = 0;
+  dots = [0, 1, 2]; // always 3 dots
+
+  updateDots(activeIndex: number, totalSlides: number) {
+    if (totalSlides <= 3) {
+      this.currentDot = activeIndex;
+    } else {
+      const chunk = Math.floor(totalSlides / 3);
+      if (activeIndex < chunk) this.currentDot = 0;
+      else if (activeIndex < chunk * 2) this.currentDot = 1;
+      else this.currentDot = 2;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.ui_controls.is_empty){
+      const el = this.swiperEl.nativeElement as any;
+      const attach = () => {
+        const sw: any = el.swiper;
+        if (!sw) {
+          // instance not ready yet; try again shortly
+          setTimeout(attach, 30);
+          return;
+        }
+        // Set the initial index
+        this.index.set(sw.activeIndex ?? 0);
+        // Subscribe to slide change via Swiper API (most reliable)
+        sw.on('slideChange', () => {
+          this.updateDots(sw.activeIndex, sw.slides.length);
+          // this.index.set(sw.activeIndex ?? 0);
+        });
+      };
+
+      attach();
+    }
+  }
+  async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: position,
+    });
+    await toast.present();
   }
 }

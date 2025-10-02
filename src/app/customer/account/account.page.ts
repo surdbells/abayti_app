@@ -388,7 +388,18 @@ export class AccountPage implements OnInit, OnDestroy {
         }
       }))
   }
-
+  get_filter_featured_products() {
+    this.ui_controls.is_loading = true;
+    this.get_featured.id = this.single_user.id;
+    this.get_featured.token = this.single_user.token;
+    this.networkService.post_request(this.filter, GlobalComponent.filterfeatured)
+      .subscribe(({
+        next: (response) => {
+          this.vendor_featured = response.data;
+          this.ui_controls.is_loading = false;
+        }
+      }))
+  }
   get_label() {
     this.ui_controls.is_loading_category = true;
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
@@ -443,7 +454,6 @@ export class AccountPage implements OnInit, OnDestroy {
   openCart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
-
   open_reviews(id: any, name: any) {
     this.router.navigate(
       ['/', 'store_reviews'],
@@ -454,7 +464,6 @@ export class AccountPage implements OnInit, OnDestroy {
     const el = event.currentTarget as HTMLElement;
     el.classList.toggle('cat_active');
   }
-
   open_vendor(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendors'],

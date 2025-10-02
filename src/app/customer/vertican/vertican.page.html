@@ -1,10 +1,10 @@
 <ion-content [fullscreen]="true">
-  @if(!ui_controls.is_empty){
     <swiper-container
+      #swiper
       direction="vertical"
       slides-per-view="1"
-      pagination="true"
       class="slides"
+      allow-touch-move="true"
       style="height: 100%;">
       @if (ui_controls.is_loaded) {
         @for(product of products; track product.product_id; let i = $index){
@@ -37,6 +37,11 @@
                   <ion-button style="color: #fff;" (click)="open_vendor(product.store_id, product.store_name)" size="small">Go to Store</ion-button>
                 </div>
               </div>
+              <div class="pager">
+                <span class="dot" [class.active]="index()===0"></span>
+                <span class="dot" [class.active]="index()===1"></span>
+                <span class="dot" [class.active]="index()===2"></span>
+              </div>
             </div>
           </swiper-slide>
         }
@@ -57,24 +62,10 @@
           </div>
         </swiper-slide>
       }
-
     </swiper-container>
-  } @else {
-    <ion-card>
-      <ion-card-content class="ion-text-center">
-        <tui-icon [style.font-size.rem]="2" icon="list-filter"></tui-icon>
-        <h2 class="ion-padding-vertical">No product for the selected filter</h2>
-        <button (click)="explore_products()" appearance="floating" tuiButton size="m" class="mt-4">
-          <tui-icon icon="tuiIconShoppingCart"></tui-icon>
-          <span>Reset filter</span>
-        </button>
-      </ion-card-content>
-    </ion-card>
-  }
-
-
-
-
+    <div class="custom-pagination">
+    <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="i === currentDot"> </span>
+    </div>
   <ion-modal #filter_modal [isOpen]="isFilterOpen" [initialBreakpoint]="0.9" [backdropDismiss]="false" [breakpoints]="[0, 0.5, 0.8, 1]">
     <ng-template>
       <ion-header>

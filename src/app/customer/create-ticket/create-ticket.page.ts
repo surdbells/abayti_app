@@ -97,7 +97,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
   }
   get_vendors() {
     this.ui_controls.is_loading = true;
-    this.networkService.post_request(this.request, GlobalComponent.readMessages)
+    this.networkService.post_request(this.request, GlobalComponent.readCustomerOrders)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {

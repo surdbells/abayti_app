@@ -46,6 +46,7 @@ export class GlobalComponent {
   public static DecreaseItem = GlobalComponent.baseURL + 'customer/decreaseItem';
   public static explore = GlobalComponent.baseURL + 'customer/explore';
   public static featured = GlobalComponent.baseURL + 'customer/featured';
+  public static filterfeatured = GlobalComponent.baseURL + 'customer/filterfeatured';
   public static product_by_category = GlobalComponent.baseURL + 'customer/product_by_category';
   public static products_by_labels = GlobalComponent.baseURL + 'customer/products_by_labels';
   public static search = GlobalComponent.baseURL + 'customer/search';
@@ -54,6 +55,7 @@ export class GlobalComponent {
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
   public static readConversations = GlobalComponent.baseURL + 'customer/read-conversations';
   public static readMessages = GlobalComponent.baseURL + 'customer/read-messages';
+  public static readCustomerOrders = GlobalComponent.baseURL + 'customer/read-customer-orders';
   public static sendMessage = GlobalComponent.baseURL + 'customer/send-message';
 
   public static createTicket = GlobalComponent.baseURL + 'customer/create_ticket';

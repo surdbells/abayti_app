@@ -91,13 +91,10 @@ ion-content {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-
   /* enable native momentum scrolling on mobile webviews */
   -webkit-overflow-scrolling: touch;
-
   /* ALLOW horizontal panning on this element */
   touch-action: pan-x;
-
   scroll-behavior: smooth;
   &::-webkit-scrollbar { display: none; }
   -ms-overflow-style: none;
@@ -127,5 +124,30 @@ ion-content {
   /* allow the scroller to receive touches */
   pointer-events: auto;
 }
+
+.custom-pagination {
+  position: absolute;
+  right: 12px;     /* push to right */
+  top: 50%;        /* vertical center */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.custom-pagination .dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.custom-pagination .dot.active {
+  background: #fff;
+  transform: scale(1.3);
+}
+
 
 
