@@ -187,6 +187,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     id: 0,
     token: ""
   }
+  explore_more = {
+    id: 0,
+    token: "",
+    offset: 10
+  }
   rqst_param = {
     id: 0,
     token: ""
@@ -278,6 +283,22 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       }))
   }
+  load_more() {
+    this.explore_more.offset = (this.explore_more.offset || 0) + 10;
+    this.explore_more.id = this.single_user.id;
+    this.explore_more.token = this.single_user.token;
+    this.networkService.post_request(this.explore_more, GlobalComponent.explore)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.products = [...this.products, ...response.data];
+            if (response.data.images) {
+              this.images.push(...response.data.images.split(','));
+            }
+          }
+        }
+      });
+  }
   get_label() {
     this.ui_controls.is_loading_category = true;
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
@@ -368,6 +389,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         sw.on('slideChange', () => {
           this.updateDots(sw.activeIndex, sw.slides.length);
           // this.index.set(sw.activeIndex ?? 0);
+          const totalSlides = sw.slides.length;
+          const currentIndex = sw.activeIndex;
+          if (totalSlides - currentIndex <= 4) {
+            this.load_more();
+          }
         });
       };
 
@@ -382,4 +408,12 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
+
+  open_product(id: number) {
+    this.router.navigate(
+      ['/', 'product'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
+
 }

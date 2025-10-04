@@ -206,10 +206,6 @@ export class AccountPage implements OnInit, OnDestroy {
       this.get_featured_products();
     }
   }
-  ionViewDidEnter(){
-    this.getObject().then(r => console.log(r));
-  }
-
   ngOnDestroy(): void {
     this.blocker.unblock(); // ✅ restore when leaving
     this.sub?.unsubscribe();
@@ -356,7 +352,6 @@ export class AccountPage implements OnInit, OnDestroy {
       }))
   }
   get_best_sellers() {
-    this.best_sellers = [];
     this.ui_controls.is_loading = true;
     this.ui_controls.is_empty = false;
     this.best_seller.id = this.single_user.id;
@@ -389,14 +384,13 @@ export class AccountPage implements OnInit, OnDestroy {
       }))
   }
   get_filter_featured_products() {
-    this.ui_controls.is_loading = true;
     this.get_featured.id = this.single_user.id;
     this.get_featured.token = this.single_user.token;
     this.networkService.post_request(this.filter, GlobalComponent.filterfeatured)
       .subscribe(({
         next: (response) => {
+          this.vendor_featured = [];
           this.vendor_featured = response.data;
-          this.ui_controls.is_loading = false;
         }
       }))
   }

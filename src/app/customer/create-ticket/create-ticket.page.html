@@ -25,32 +25,26 @@
 </ion-header>
 <ion-content [fullscreen]="true" class="page-bg">
   @if (!ui_controls.is_loading){
-    <div class="sheet ion-padding-horizontal">
-          <ion-item lines="none">
-            <ion-label position="stacked">Subject</ion-label>
-            <ion-input [maxlength]="60" [(ngModel)]="create.subject" placeholder="Short subject"></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="stacked">Summary / Description</ion-label>
-            <ion-textarea [maxlength]="120" [(ngModel)]="create.message" rows="4" placeholder="Describe the issue"></ion-textarea>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-label position="stacked">Select store</ion-label>
+    <div class="sheet ion-padding-horizontal ion-margin-horizontal">
+            <tui-textfield  #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn ion-margin-bottom" style="width:100%">
+              <input style="border: 1px solid #FAC0B0" [maxlength]="60" [(ngModel)]="create.subject" placeholder="Short subject" type="text" name="subject" tuiTextfield />
+            </tui-textfield>
+            <tui-textfield style="width: 100%" [style.margin-block-end.rem]="1">
+              <label tuiLabel>Summary</label>
+              <textarea name="summary" placeholder="describe the issue" tuiTextarea [(ngModel)]="create.message" [limit]="160" [max]="120" [min]="5"></textarea>
+            </tui-textfield>
+            <ion-label position="stacked">Reference</ion-label>
             <ion-select [(ngModel)]="create.store" interface="action-sheet">
               @for(t of stores; track $index){
                 <ion-select-option [value]="t.store">{{ t.store_name }}</ion-select-option>
               }
             </ion-select>
-          </ion-item>
-          <ion-item lines="none">
             <button *ngIf="!ui_controls.is_loading" (click)="create_ticket()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
                     style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Create ticket
             </button>
             <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
                   @if (ui_controls.is_loading){ <tui-loader></tui-loader> }
            </span>
-          </ion-item>
     </div>
 
   }

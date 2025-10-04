@@ -18,6 +18,7 @@ export class GlobalComponent {
 
   // Measurement
   public static readMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/read-measurement';
+  public static readStoreMeasurement = GlobalComponent.baseURL + 'vendors/measurement/get-measurements';
   public static updateMeasurement = GlobalComponent.baseURL + 'customer/settings/measurement/update-measurement';
 
   public static readBilling = GlobalComponent.baseURL + 'customer/settings/billing/read-billings';

@@ -60,7 +60,21 @@ import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import {CartIconComponent} from "../../cart-icon.component";
 import {SizeChipsComponent} from "../../size-chips/size-chips.component";
-
+import {Cart} from "../../class/cart";
+export interface StoreMeasurement {
+  id: number;
+  token: string;
+  measurement: number;
+  size: string;
+  bust: number;
+  waist: number;
+  hip: number;
+  length: number;
+  neck: number;
+  arm: number;
+  armhole: number;
+  shoulder: number;
+}
 @Component({
   selector: 'app-product',
   templateUrl: './product.page.html',
@@ -70,6 +84,7 @@ import {SizeChipsComponent} from "../../size-chips/size-chips.component";
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip]
 })
 export class ProductPage implements OnInit {
+  store_measurement: StoreMeasurement[] = [];
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonModal) modal!: IonModal;
   index = signal(0);
@@ -214,6 +229,11 @@ export class ProductPage implements OnInit {
     product: 0,
     product_name: ""
   }
+  store_m = {
+    id: 0,
+    token: "",
+    store: 0
+  }
   add_cart = {
     id: 0,
     token: "",
@@ -247,6 +267,10 @@ export class ProductPage implements OnInit {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
       this.rqst_param.token = this.single_user.token
+
+      this.store_m.id = this.single_user.id
+      this.store_m.token = this.single_user.token
+
       this.get_measurement();
       this.get_single();
       this.add_cart.id = this.single_user.id;
@@ -276,6 +300,16 @@ export class ProductPage implements OnInit {
         }
       }))
   }
+  get_store_measurement() {
+    this.networkService.post_request(this.store_m, GlobalComponent.readStoreMeasurement)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.store_measurement = response.data;
+          }
+        }
+      }))
+  }
   addToCart() {
     if (this.add_cart.quantity == 0){
       this.error_notification("Quantity is require.")
@@ -283,9 +317,11 @@ export class ProductPage implements OnInit {
     }
 
       if (!this.single.size_custom){
-        if (this.add_cart.size.length == 0){
-          this.error_notification("Select your preferred size.")
-          return;
+        if(this.single.category_id != "4" && this.single.category_id != "5") {
+          if (this.add_cart.size.length == 0) {
+            this.error_notification("Select your preferred size.")
+            return;
+          }
         }
       }
     if (this.add_cart.color.length == 0){
@@ -357,10 +393,9 @@ export class ProductPage implements OnInit {
             this.add_cart.product_image = this.single.image_1;
             this.add_cart.price = this.single.price;
             this.add_cart.store = this.single.store;
-
-
+            this.store_m.store = this.single.store;
+            this.get_store_measurement();
             this.apiSizes = {
-
               'xs': this.single.size_s,
               's': this.single.size_xs,
               'm': this.single.size_m,

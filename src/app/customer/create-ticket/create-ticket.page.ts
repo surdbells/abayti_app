@@ -1,7 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule, NgIf} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TuiButton, TuiLoader} from "@taiga-ui/core";
+import {
+  TuiButton,
+  TuiLabel,
+  TuiLoader,
+  TuiTextfieldComponent,
+  TuiTextfieldDirective,
+  TuiTextfieldOptionsDirective
+} from "@taiga-ui/core";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -12,13 +19,14 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {StoreRecord} from "../messages/messages.page";
 import {NavController, Platform} from "@ionic/angular/standalone";
+import {TuiTextarea, TuiTextareaLimit} from "@taiga-ui/kit";
 
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, NgIf]
+  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, NgIf, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;
@@ -120,7 +128,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
       return;
     }
     if (this.create.store == 0){
-      this.error_notification("Store is required");
+      this.error_notification("Reference is required");
       return;
     }
     this.networkService.post_request(this.create, GlobalComponent.createTicket)

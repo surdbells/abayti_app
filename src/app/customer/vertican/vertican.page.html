@@ -30,7 +30,7 @@
                 </ion-button>
               </div>
               <div class="overlay-box">
-                <h2 class="title">{{product.product_name}} <span class="ion-float-end" style="background-color: #FFFFFF; color: #000000; border-radius: 3px; padding: 2px;"><span class="dirham"></span>{{product.price}}</span></h2>
+                <h2 (click)="open_product(product.product_id)" class="title">{{product.product_name}} <span class="ion-float-end" style="background-color: #FFFFFF; color: #000000; border-radius: 3px; padding: 2px;"><span class="dirham"></span>{{product.price}}</span></h2>
                 <div class="description" [innerHTML]="product.description"></div>
                 <div class="store-row">
                   <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">{{ product.store_name }}</span>
