@@ -190,7 +190,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore_more = {
     id: 0,
     token: "",
-    offset: 10
+    offset: 5
   }
   rqst_param = {
     id: 0,
@@ -284,7 +284,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }))
   }
   load_more() {
-    this.explore_more.offset = (this.explore_more.offset || 0) + 10;
+    this.explore_more.offset = (this.explore_more.offset || 0) + 5;
     this.explore_more.id = this.single_user.id;
     this.explore_more.token = this.single_user.token;
     this.networkService.post_request(this.explore_more, GlobalComponent.explore)
@@ -391,7 +391,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           // this.index.set(sw.activeIndex ?? 0);
           const totalSlides = sw.slides.length;
           const currentIndex = sw.activeIndex;
-          if (totalSlides - currentIndex <= 4) {
+          if (totalSlides - currentIndex <= 5) {
             this.load_more();
           }
         });
