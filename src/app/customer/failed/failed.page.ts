@@ -12,13 +12,14 @@ import {
   IonToolbar
 } from '@ionic/angular/standalone';
 import {RouterLink} from "@angular/router";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-failed',
   templateUrl: './failed.page.html',
   styleUrls: ['./failed.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
 })
 export class FailedPage implements OnInit {
 

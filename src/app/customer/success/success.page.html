@@ -6,14 +6,14 @@
           <ion-card style="margin-top: 30%;">
             <ion-card-content class="ion-text-center">
               <ion-img src="assets/images/success.gif" alt="success"></ion-img>
-              <h1>Your purchase was successful.</h1>
+              <h1>{{ 'text_purchase_successful' | translate }}</h1>
               <button appearance="floating" tuiButton size="m" class="ion-margin-vertical" [routerLink]="['/account']">
-                <tui-icon class="ion-padding-horizontal"  icon="house"></tui-icon>
-                <span>HOME</span>
+                <tui-icon class="ion-padding-horizontal" icon="house"></tui-icon>
+                <span>{{ 'button_home' | translate }}</span>
               </button>
-              <button appearance="floating" class="ion-margin-vertical"  tuiButton size="m" [routerLink]="['/messages']">
+              <button appearance="floating" class="ion-margin-vertical" tuiButton size="m" [routerLink]="['/messages']">
                 <tui-icon class="ion-padding-horizontal" icon="message-square-text"></tui-icon>
-                <span>MESSAGE VENDOR</span>
+                <span>{{ 'button_message_vendor' | translate }}</span>
               </button>
             </ion-card-content>
           </ion-card>
@@ -21,6 +21,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>
-

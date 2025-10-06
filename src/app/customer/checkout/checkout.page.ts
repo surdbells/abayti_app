@@ -29,6 +29,7 @@ import {
   TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {InAppBrowser} from "@capgo/inappbrowser";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-checkout',
@@ -58,7 +59,8 @@ import {InAppBrowser} from "@capgo/inappbrowser";
     IonRow,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
+    TuiTextfieldOptionsDirective,
+    TranslatePipe
   ],
   standalone: true
 })

@@ -23,7 +23,7 @@
   </ion-toolbar>
   <div class="sheet-header ion-margin-horizontal">
     <div class="welcome">
-      <div class="overline">WELCOME</div>
+      <div class="overline">{{ 'text_welcome' | translate }}</div>
       <h1 class="name">{{ single_user.first_name}}</h1>
     </div>
     <div class="avatar">
@@ -39,7 +39,7 @@
           <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
           <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
         </svg>
-        <span>My Account</span>
+        <span>{{ 'text_my_account' | translate }}</span>
       </div>
     </section>
     <div class="menu">
@@ -99,7 +99,7 @@
             <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
             <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
           </svg>
-          <span>My Information</span>
+          <span>{{ 'text_my_information' | translate }}</span>
         </div>
         <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -117,7 +117,7 @@
               </linearGradient>
             </defs>
           </svg>
-          <span>My Reviews</span>
+          <span>{{ 'text_my_reviews' | translate }}</span>
         </div>
         <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -135,7 +135,7 @@
               </linearGradient>
             </defs>
           </svg>
-          <span>Delivery Address</span>
+          <span>{{ 'text_delivery_address' | translate }}</span>
         </div>
         <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -154,7 +154,7 @@
               </linearGradient>
             </defs>
           </svg>
-          <span>Measurements</span>
+          <span>{{ 'text_measurements' | translate }}</span>
         </div>
         <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -167,7 +167,7 @@
           <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
           <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
         </svg>
-        <span>My Location</span>
+        <span>{{ 'text_my_location' | translate }}</span>
       </div>
     </section>
     <button id="open-location"   type="button" class="menu-item animate__animated animate__fadeInDown">
@@ -199,7 +199,7 @@
           <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
           <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
         </svg>
-        <span>My Language</span>
+        <span>{{ 'text_my_language' | translate }}</span>
       </div>
     </section>
     <app-language-switcher></app-language-switcher>
@@ -210,7 +210,7 @@
           <rect width="35" height="35" rx="17.5" fill="#7C2108"/>
           <path d="M10 28C10 25.8783 10.7902 23.8434 12.1967 22.3431C13.6032 20.8429 15.5109 20 17.5 20C19.4891 20 21.3968 20.8429 22.8033 22.3431C24.2098 23.8434 25 25.8783 25 28H23.125C23.125 26.4087 22.5324 24.8826 21.4775 23.7574C20.4226 22.6321 18.9918 22 17.5 22C16.0082 22 14.5774 22.6321 13.5225 23.7574C12.4676 24.8826 11.875 26.4087 11.875 28H10ZM17.5 19C14.3922 19 11.875 16.315 11.875 13C11.875 9.685 14.3922 7 17.5 7C20.6078 7 23.125 9.685 23.125 13C23.125 16.315 20.6078 19 17.5 19ZM17.5 17C19.5719 17 21.25 15.21 21.25 13C21.25 10.79 19.5719 9 17.5 9C15.4281 9 13.75 10.79 13.75 13C13.75 15.21 15.4281 17 17.5 17Z" fill="white"/>
         </svg>
-        <span>More</span>
+        <span>{{ 'text_more' | translate }}</span>
       </div>
     </section>
     <button id="open-support" type="button" class="menu-item animate__animated animate__fadeInDown">
@@ -231,7 +231,7 @@
           </defs>
         </svg>
 
-        <span>Help & Support</span>
+        <span>{{ 'text_help_support' | translate }}</span>
       </div>
       <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -272,7 +272,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Set location</ion-title>
+          <ion-title>{{ 'title_set_location' | translate }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="locationModal.dismiss()">Close</ion-button>
           </ion-buttons>
@@ -282,7 +282,7 @@
         <ion-card class="animate__animated ion-padding-bottom">
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Select Location: </ion-label>
+              <ion-label>{{ 'label_select_location' | translate }}</ion-label>
               <ion-select [(ngModel)]="u_location.location" interface="action-sheet">
                    <ion-select-option value="Dubai">Dubai</ion-select-option>
                   <ion-select-option value="Abu Dhabi">Abu Dhabi</ion-select-option>
@@ -296,7 +296,7 @@
             <ion-item>
               <button *ngIf="!ui_controls.updating_location" (click)="update_location()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
                       style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                      tuiButton type="button"> Update
+                      tuiButton type="button"> {{ 'button_update' | translate }}
               </button>
             </ion-item>
           </ion-card-content>
@@ -313,7 +313,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Help & Support</ion-title>
+          <ion-title>{{ 'title_help_support' | translate }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="contactModal.dismiss()">Close</ion-button>
           </ion-buttons>
@@ -324,7 +324,7 @@
           <!-- Email -->
           <ion-item class="animate__animated animate__fadeInDown" (click)="OpenEmail()" button detail="false">
             <tui-icon icon="@tui.mail-plus"  [style.color]="'var(--ion-color-secondary)'" slot="start" />
-            <ion-label>Send us an Email</ion-label>
+            <ion-label>{{ 'label_send_us_email' | translate }}</ion-label>
             <tui-icon icon="@tui.move-right"  [style.color]="'var(--ion-color-secondary)'" slot="end" />
           </ion-item>
           <!-- Phone -->

@@ -31,13 +31,14 @@ import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
 import {CartIconComponent} from "../../cart-icon.component";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.page.html',
   styleUrls: ['./addresses.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent, TranslatePipe]
 })
 export class AddressesPage implements OnInit, OnDestroy {
   billing: Billing[] = [];

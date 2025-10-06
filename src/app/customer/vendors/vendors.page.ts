@@ -30,13 +30,14 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
 import {Labels} from "../../class/labels";
 import {Products} from "../../class/products";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-vendors',
   templateUrl: './vendors.page.html',
   styleUrls: ['./vendors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe]
 })
 export class VendorsPage implements OnInit {
   latest: Products[] = [];

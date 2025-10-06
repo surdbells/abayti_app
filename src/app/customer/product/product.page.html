@@ -99,9 +99,9 @@
         <div class="quantity" style="padding-top: 5px; padding-bottom: 5px">
           <ion-label>
             @if(single.delivery_time != 'custom'){
-              <ion-text class="ion-text-start ion-padding-bottom">Delivery: {{single.delivery_time}} days</ion-text>
+              <ion-text class="ion-text-start ion-padding-bottom">{{ 'delivery' | translate }}: {{single.delivery_time}} {{ 'days' | translate }}</ion-text>
             } @else {
-              <ion-text class="ion-text-start ion-padding-bottom">Delivery: {{single.custom_delivery_time}} days</ion-text>
+              <ion-text class="ion-text-start ion-padding-bottom">{{ 'delivery' | translate }}: {{single.custom_delivery_time}} {{ 'days' | translate }}</ion-text>
             }
 
           </ion-label>
@@ -147,20 +147,20 @@
           </ion-label>
         </div>
         @if(single.category_id != "4" && single.category_id != "5"){
-        <ion-text *ngIf="!single.size_custom" class="ion-text-start ion-padding-bottom">Choose size</ion-text>
+        <ion-text *ngIf="!single.size_custom" class="ion-text-start ion-padding-bottom">{{ 'choose_size' | translate }}</ion-text>
         <app-size-chips *ngIf="!single.size_custom" [sizes]="apiSizes" (selected)="onSizeSelected($event)"></app-size-chips>
-        <p *ngIf="chosenSize">Selected: {{ chosenSize | uppercase }}</p>
+        <p *ngIf="chosenSize">{{ 'selected' | translate }}: {{ chosenSize | uppercase }}</p>
         }
         @if(single.category_id != "4" && single.category_id != "5"){
           @if(single.require_extra_msmt){
             <p class="instruction">{{ single.extra_msmt }}</p>
-              <label tuiLabel> Extra measurement required.</label>
+              <label tuiLabel> {{ 'extra_m_required' | translate }}</label>
               <tui-textfield style="width:100%">
                 <input [maxlength]="200" [(ngModel)]="add_cart.extra_measurement" type="text" name="extra_measurement" tuiTextfield />
               </tui-textfield>
           }
         }
-        <label tuiLabel> Note</label>
+        <label tuiLabel> {{ 'note'  | translate }}</label>
         <tui-textfield style="width:100%">
           <input [maxlength]="200" [(ngModel)]="add_cart.note" type="text" name="note" tuiTextfield />
         </tui-textfield>
@@ -172,7 +172,7 @@
 
         @if(!ui_controls.is_adding_to_cart){
           <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
-            Add to Cart <span class="dirham"></span>{{single.price_formated}}
+            {{ 'button_add_to_cart' | translate }} <span class="dirham"></span>{{single.price_formated}}
           </button>
         }
 
@@ -194,7 +194,7 @@
             (click)="onSelect(i)"
             [style.width.px]="thumbSize"
             [style.height.px]="thumbSize">
-            <img [src]="img" [alt]="'thumb-'+i" [style.width.px]="thumbSize" [style.height.px]="thumbSize" />
+            <img loading="lazy" [src]="img" [alt]="'thumb-'+i" [style.width.px]="thumbSize" [style.height.px]="thumbSize" />
           </button>
         }
 
@@ -205,7 +205,7 @@
     <ng-template>
       <ion-header class="gradient_bg">
         <ion-toolbar class="ion-padding-vertical">
-          <ion-title class="ion-text-center">Size Chart - find your perfect fit</ion-title>
+          <ion-title class="ion-text-center">{{ 'title_size_chart' | translate }}</ion-title>
           <ion-card-subtitle class="ion-text-center"></ion-card-subtitle>
           <ion-buttons slot="end">
             <svg (click)="size_guide_modal.dismiss()" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -218,15 +218,15 @@
       <ion-content class="ion-padding">
         <ion-grid class="size-guide">
           <ion-row class="header">
-            <ion-col>Size</ion-col>
-            <ion-col>Bust</ion-col>
-            <ion-col>Waist</ion-col>
-            <ion-col>Hip</ion-col>
-            <ion-col>Length</ion-col>
-            <ion-col>Neck</ion-col>
-            <ion-col>Arm</ion-col>
-            <ion-col>Armhole</ion-col>
-            <ion-col>Shoulder</ion-col>
+            <ion-col>{{ 'label_size' | translate }}</ion-col>
+            <ion-col>{{ 'label_bust' | translate }}</ion-col>
+            <ion-col>{{ 'label_waist' | translate }}</ion-col>
+            <ion-col>{{ 'label_hip' | translate }}</ion-col>
+            <ion-col>{{ 'label_length' | translate }}</ion-col>
+            <ion-col>{{ 'label_neck' | translate }}</ion-col>
+            <ion-col>{{ 'label_arm' | translate }}</ion-col>
+            <ion-col>{{ 'label_armhole' | translate }}</ion-col>
+            <ion-col>{{ 'label_shoulder' | translate }}</ion-col>
           </ion-row>
           @for(item of store_measurement; track $index){
             <ion-row>
@@ -241,7 +241,7 @@
               <ion-col>{{ item.shoulder }}</ion-col>
             </ion-row>
           } @empty {
-            <ion-text>This store hasn’t provided a size guide yet.</ion-text>
+            <ion-text>{{ 'text_no_size_guide' | translate }}</ion-text>
           }
         </ion-grid>
       </ion-content>
@@ -261,63 +261,67 @@
       </ion-header>
       <ion-content class="ion-margin-bottom">
         <ion-card>
-          <ion-card-header *ngIf="!ui_controls.is_loading_measurement">
-            <ion-card-title class="ion-text-center">Update measurement</ion-card-title>
-            <ion-card-subtitle class="ion-text-center">Update your measurements for perfect fit.</ion-card-subtitle>
+          <ion-card-header *ngIf="!ui_controls.is_loading">
+            <ion-card-title class="ion-text-center">
+              {{ 'title_update_measurement' | translate }}
+            </ion-card-title>
+            <ion-card-subtitle class="ion-text-center">
+              {{ 'subtitle_update_measurement' | translate }}
+            </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <ion-row *ngIf="!ui_controls.is_loading_measurement" class="ion-padding-bottom">
               <ion-col class="ion-no-padding">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>BUST</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_bust' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.bust" name="bust" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>SHOULDER</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_shoulder' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.shoulder" name="waist" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row *ngIf="!ui_controls.is_loading_measurement" class="ion-padding-bottom">
               <ion-col class="ion-no-padding">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>HIP</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_hip' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.hip" name="hip" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>LENGTH</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_length' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.length" name="length" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row *ngIf="!ui_controls.is_loading_measurement" class="ion-padding-bottom">
               <ion-col class="ion-no-padding">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>ARMHOLE</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_armhole' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.armhole" name="neck" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
               <ion-col class="ion-no-padding ion-padding-start">
-                <label class="animate__animated animate__fadeInDown" tuiLabel>ARM</label>
+                <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_arm' | translate }}</label>
                 <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                   <input type="text" [(ngModel)]="update.arm" name="arm" tuiTextfield />
                 </tui-textfield>
-                <ion-text class="ion-text-center">inches</ion-text>
+                <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col>
                 <button *ngIf="!ui_controls.is_loading_measurement" (click)="update_measurement()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                        style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Update
+                        style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{'button_update' | translate}}
                 </button>
                 <tui-loader *ngIf="ui_controls.is_loading_measurement"></tui-loader>
               </ion-col>

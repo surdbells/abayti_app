@@ -1,6 +1,6 @@
 <ion-header class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>Orders</ion-title>
+    <ion-title>{{ 'title_orders' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -27,7 +27,7 @@
           <ion-avatar>
             <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
           </ion-avatar>
-          <ion-label>Support</ion-label>
+          <ion-label>{{ 'support' | translate }}</ion-label>
         </ion-chip>
       </ion-button>
     </ion-buttons>
@@ -43,7 +43,7 @@
       <ion-card class="cart-card">
         <div (click)="open_details(cart.product_id)" class="card-row">
           <div class="img-wrap" role="button" tabindex="0">
-            <img style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+            <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
           </div>
           <div class="content-wrap">
             <div class="row row-top">

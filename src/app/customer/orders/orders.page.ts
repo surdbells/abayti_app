@@ -35,13 +35,14 @@ import {Cart} from "../../class/cart";
 import {ActionSheetController} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
 import {CartIconComponent} from "../../cart-icon.component";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, TuiLoader, IonChip, CartIconComponent, IonAvatar, IonCol, IonModal, IonRow]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiButton, TuiIcon, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, TuiLoader, IonChip, CartIconComponent, IonAvatar, IonCol, IonModal, IonRow, TranslatePipe]
 })
 export class OrdersPage implements OnInit, OnDestroy {
   orders: Cart[] = [];

@@ -1,6 +1,6 @@
 <ion-header style="background-color: #FBEDE2" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>My Cart</ion-title>
+    <ion-title>{{ 'title_my_cart' | translate }}</ion-title>
     <ion-buttons (click)="triggerBack()" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -37,14 +37,14 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   @if (!ui_controls.is_loading && !ui_controls.is_empty){
-  <ion-text style="font-size: 13px; padding-left: 12px;"> {{bill.count}} ITEM(S)</ion-text>
+  <ion-text style="font-size: 13px; padding-left: 12px;"> {{bill.count}} {{ 'label_item' | translate }}</ion-text>
   }
   @for (cart of carts; track cart.id){
     @if (!ui_controls.is_loading){
     <ion-card class="cart-card">
       <div class="card-row">
         <div class="img-wrap" role="button" tabindex="0">
-          <img style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
@@ -97,25 +97,24 @@
   }
     @if (!ui_controls.is_loading && !ui_controls.is_empty){
       <ion-card class="cart-card">
-        <ion-title style="color: #000000; font-size: 16px">Order summary</ion-title>
+        <ion-title style="color: #000000; font-size: 16px">{{ 'title_order_summary' | translate }}</ion-title>
         <ion-list lines="none" class="contact-list">
-            <!-- Email -->
             <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>Items</ion-label>
+              <ion-label>{{ 'label_items' | translate }}</ion-label>
               <ion-text slot="end">{{bill.count}}</ion-text>
             </ion-item>
           <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>Delivery fee</ion-label>
+            <ion-label>{{ 'label_delivery_fee' | translate }}</ion-label>
             <span class="dirham"></span>{{ bill.f_delivery }}
           </ion-item>
           <ion-item class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>Discount</ion-label>
+            <ion-label>{{ 'label_discount' | translate }}</ion-label>
             <ion-text slot="end">
               <span class="dirham"></span>{{ bill.f_discount }}
             </ion-text>
           </ion-item>
             <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
-              <ion-label>Sub total</ion-label>
+              <ion-label>{{ 'label_sub_total' | translate }}</ion-label>
               <ion-text slot="end">
                 <span class="dirham"></span>{{ bill.f_subtotal }}
               </ion-text>
@@ -126,7 +125,7 @@
               </svg>
             </ion-item>
             <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>Total</ion-label>
+              <ion-label>{{ 'label_total' | translate }}</ion-label>
               <ion-text slot="end">
                 <span class="dirham"></span>{{ bill.total }}
               </ion-text>
@@ -149,11 +148,11 @@
       <ion-card>
         <ion-card-content class="ion-text-center">
           <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
-          <h2>Your Cart is Empty</h2>
-          <p>Add items to your cart to continue to checkout.</p>
+          <h2>{{ 'cart_empty_title' | translate }}</h2>
+          <p>{{ 'cart_empty_message' | translate }}</p>
           <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/account']">
             <tui-icon icon="tuiIconShoppingCart"></tui-icon>
-            <span>Start Shopping</span>
+            <span>{{ 'button_start_shopping' | translate }}</span>
           </button>
         </ion-card-content>
       </ion-card>
@@ -168,7 +167,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Save {{ addCloset.product_name }} to </ion-title>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="isWishOpen = false">Close</ion-button>
           </ion-buttons>

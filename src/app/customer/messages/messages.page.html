@@ -1,6 +1,6 @@
 <ion-header style="background-color: #FBEDE2" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>Messages</ion-title>
+    <ion-title>{{ 'messages' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -27,7 +27,7 @@
           <ion-avatar>
             <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
           </ion-avatar>
-          <ion-label>Support</ion-label>
+          <ion-label>{{ 'support' | translate }}</ion-label>
         </ion-chip>
       </ion-button>
     </ion-buttons>

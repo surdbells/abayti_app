@@ -1,6 +1,6 @@
 <ion-header style="background-color: #FEF8F3" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>My Closet</ion-title>
+    <ion-title>{{ 'title_my_closet' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -39,7 +39,7 @@
             </linearGradient>
           </defs>
         </svg>
-        <span>Categories</span>
+        <span>{{ 'text_categories' | translate }}</span>
       </div>
     </section>
     <div *ngIf="!ui_controls.is_loading"  class="h-scroll categories">
@@ -50,14 +50,14 @@
           <path d="M29.5 45.612C28.2905 45.612 27.3105 44.632 27.3105 43.4225V15.5762C27.3105 14.3667 28.2905 13.3867 29.5 13.3867C30.7095 13.3867 31.6895 14.3667 31.6895 15.5762V43.4225C31.6895 44.632 30.7095 45.612 29.5 45.612Z" fill="white"/>
           <path d="M43.4235 31.6895H15.5771C14.3677 31.6895 13.3877 30.7095 13.3877 29.5C13.3877 28.2905 14.3677 27.3105 15.5771 27.3105H43.4235C44.6329 27.3105 45.6129 28.2905 45.6129 29.5C45.6129 30.7095 44.6329 31.6895 43.4235 31.6895Z" fill="white"/>
         </svg>
-        <h4>New Category</h4>
+        <h4>{{ 'heading_new_category' | translate }}</h4>
       </div>
       <div (click)="get_wishlist_by_label(cat.id, cat.name)" class="category-card more" *ngFor="let cat of categories">
         <div class="add-icon">
           <tui-icon icon="heart"></tui-icon>
         </div>
         <h4>{{ cat.name }}</h4>
-        <p class="item_count">{{ cat.count }} items</p>
+        <p class="item_count">{{ cat.count }} {{ 'text_items' | translate }}</p>
       </div>
     </div>
     <section *ngIf="!ui_controls.is_loading"  class="section">
@@ -92,7 +92,7 @@
       <ion-card>
         <ion-card-content class="ion-text-center">
           <tui-icon [style.font-size.rem]="2" icon="heart"></tui-icon>
-          <h2>No items in your wishlist</h2>
+          <h2>{{ 'heading_no_items_in_wishlist' | translate }}</h2>
         </ion-card-content>
       </ion-card>
     </div>
@@ -101,7 +101,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Add new</ion-title>
+          <ion-title>{{ 'button_add_new' | translate }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="wishlistModal.dismiss()">Close</ion-button>
           </ion-buttons>
@@ -110,14 +110,14 @@
       <ion-content class="ion-padding">
         <ion-row class="animate__animated ion-padding-bottom">
           <ion-col *ngIf="!ui_controls.is_creating" >
-            <label tuiLabel>Category name</label>
+            <label tuiLabel>{{ 'label_category_name' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input [maxlength]="25" [(ngModel)]="add_label.label_name" type="text" name="name" tuiTextfield />
             </tui-textfield>
           </ion-col>
           <button *ngIf="!ui_controls.is_creating" (click)="add_wishlist_label()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical abayti_primary_background ion-color-light"
                   style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                  tuiButton type="button"> Add
+                  tuiButton type="button"> {{ 'button_add' | translate }}
           </button>
         </ion-row>
         <ion-row>

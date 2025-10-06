@@ -29,13 +29,14 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Search} from "../../class/search";
 import {Labels} from "../../class/labels";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe]
 })
 export class SearchPage implements OnInit, OnDestroy {
   products: Search[] = [];
@@ -133,6 +134,7 @@ export class SearchPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
             this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = false;
           }else{
             this.ui_controls.is_loading = false;
             this.ui_controls.is_empty = true;

@@ -1,7 +1,7 @@
 <ion-content fullscreen="true" class="page-bg">
   <ion-header class="ion-padding-top ion-no-border remove_nudge">
     <ion-toolbar class="toolbar ion-no-border">
-      <ion-title>Your reviews</ion-title>
+      <ion-title>{{ 'title_your_reviews' | translate }}</ion-title>
       <ion-buttons [routerLink]="['/settings']" aria-label="Back to account" slot="start">
         <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_d_75_149)">
@@ -72,8 +72,8 @@
       <ion-card>
         <ion-card-content class="ion-text-center">
           <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
-          <h2>No Reviews Yet</h2>
-          <p>You haven’t reviewed any store yet.</p>
+          <h2>{{ 'heading_no_reviews' | translate }}</h2>
+          <p>{{ 'text_no_reviews_description' | translate }}</p>
         </ion-card-content>
       </ion-card>
     </div>

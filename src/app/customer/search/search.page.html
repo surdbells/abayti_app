@@ -1,6 +1,6 @@
-<ion-header class="ion-padding-top ion-no-border remove_nudge">
+<ion-header style="background-color: #FEF8F3" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>Search</ion-title>
+    <ion-title>{{ 'title_search' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_73_398)">
@@ -20,7 +20,6 @@
           </filter>
         </defs>
       </svg>
-
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="user_wishlist()" fill="clear">
@@ -35,7 +34,7 @@
           <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
             <input  [(ngModel)]="search.search"
                     (ngModelChange)="onInputChange($event)"
-                    style="border: 1px solid #FAC0B0" placeholder="Search" type="text" name="search" tuiTextfield />
+                    style="border: 1px solid #FAC0B0" placeholder="{{'title_search' | translate}}" type="text" name="search" tuiTextfield />
           </tui-textfield>
         </ion-col>
       </ion-row>
@@ -48,7 +47,7 @@
     <ion-card class="cart-card">
       <div class="card-row">
         <div class="img-wrap" role="button" tabindex="0">
-          <img style="object-fit: cover; object-position: top center" src="{{ product.product_image }}" alt="test" />
+          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ product.product_image }}" alt="test" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
@@ -80,16 +79,16 @@
       </div>
     </ion-card>
   }
-  @if(ui_controls.is_empty){
+  @if(!products){
     <div class="empty-state">
       <ion-card>
         <ion-card-content class="ion-text-center">
           <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
-          <h2>No product found</h2>
-          <p>No product match your search</p>
+          <h2>{{ 'heading_no_product_found' | translate }}</h2>
+          <p>{{ 'text_no_product_match' | translate }}</p>
           <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
             <tui-icon icon="@tui.brush-cleaning"></tui-icon>
-            <span>Explore stores</span>
+            <span>{{ 'button_explore_stores' | translate }}</span>
           </button>
         </ion-card-content>
       </ion-card>
@@ -104,9 +103,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Save {{ addCloset.product_name }} to </ion-title>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false">Close</ion-button>
+            <ion-button (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>

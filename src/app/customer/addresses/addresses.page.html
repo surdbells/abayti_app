@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="page-bg">
   <ion-header class="ion-padding-top ion-no-border remove_nudge">
     <ion-toolbar class="toolbar ion-no-border">
-      <ion-buttons [routerLink]="['/settings']" aria-label="Back to account" slot="start">
+      <ion-buttons [routerLink]="['/settings']" slot="start">
         <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_d_75_149)">
             <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
@@ -72,7 +72,7 @@
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Name</label>
+            <label tuiLabel>{{ 'label_name' | translate }}</label>
             <input  [(ngModel)]="update.name" name="name" maxlength="15" type="text" tuiTextfield />
           </tui-textfield>
         </ion-col>
@@ -80,20 +80,20 @@
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Phone</label>
+            <label tuiLabel>{{ 'label_phone' | translate }}</label>
             <input  [(ngModel)]="update.phone" name="phone" type="text" tuiTextfield />
           </tui-textfield>
         </ion-col>
         <ion-col>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>Email</label>
+            <label tuiLabel>{{ 'label_email' | translate }}</label>
             <input  [(ngModel)]="update.email" name="email" type="text" tuiTextfield />
           </tui-textfield>
         </ion-col>
       </ion-row>
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
-          <label tuiLabel class="ion-color-light">City</label>
+          <label tuiLabel class="ion-color-light">{{ 'label_city' | translate }}</label>
           <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-city">
             <span class="cc-code">{{ update.city }}</span>
             <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
@@ -101,7 +101,7 @@
         </ion-col>
         <ion-col>
           <tui-loader *ngIf="ui_controls.is_loading_area"></tui-loader>
-          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">Area</label>
+          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">{{ 'label_area' }}</label>
           <button *ngIf="!ui_controls.is_loading_area" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
             <span class="cc-code">{{ update.area }}</span>
             <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
@@ -110,7 +110,7 @@
       </ion-row>
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
-          <label tuiLabel>Street address</label>
+          <label tuiLabel>{{ 'label_street_address' | translate }}</label>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
             <input  [(ngModel)]="update.street" name="street" type="text" tuiTextfield />
           </tui-textfield>
@@ -118,7 +118,7 @@
       </ion-row>
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
-          <label tuiLabel>Villa number</label>
+          <label tuiLabel>{{ "label_villa_number" | translate }}</label>
           <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
             <input  [(ngModel)]="update.villa_number" name="villa_number" type="text" tuiTextfield />
           </tui-textfield>
@@ -127,7 +127,7 @@
       <ion-row>
         <ion-col>
           <button *ngIf="!ui_controls.is_updating" (click)="update_billing()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Update
+                  style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{ 'button_update' | translate }}
           </button>
           <tui-loader *ngIf="ui_controls.is_updating"></tui-loader>
         </ion-col>
@@ -138,9 +138,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Select city</ion-title>
+          <ion-title>{{ 'title_select_city' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="cityModal.dismiss()">Close</ion-button>
+            <ion-button (click)="cityModal.dismiss()">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -162,9 +162,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Select city</ion-title>
+          <ion-title>{{ 'title_select_area' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="areaModal.dismiss()">Close</ion-button>
+            <ion-button (click)="areaModal.dismiss()">{{ "button_close" | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>

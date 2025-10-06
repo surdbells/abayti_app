@@ -21,6 +21,7 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
+import {TranslatePipe} from "../../translate.pipe";
 export interface Conversations {
   message: string;
   timestamp: string;
@@ -31,7 +32,7 @@ export interface Conversations {
   templateUrl: './conversations.page.html',
   styleUrls: ['./conversations.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader, TranslatePipe]
 })
 export class ConversationsPage implements OnInit, OnDestroy {
   isOnline = true;

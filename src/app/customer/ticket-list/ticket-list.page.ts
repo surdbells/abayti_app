@@ -11,6 +11,7 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {Subscription} from "rxjs";
 import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
+import {TranslatePipe} from "../../translate.pipe";
 
 interface Ticket {
   id: number;
@@ -34,7 +35,8 @@ interface Ticket {
     ReactiveFormsModule,
     TuiIcon,
     TuiButton,
-    TuiLoader
+    TuiLoader,
+    TranslatePipe
   ]
 })
 export class TicketListPage implements OnInit {

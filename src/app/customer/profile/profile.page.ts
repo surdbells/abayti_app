@@ -30,13 +30,14 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {DIAL_CODES, DialCode} from "../../dial-codes";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton, TranslatePipe]
 })
 export class ProfilePage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

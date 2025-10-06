@@ -26,56 +26,60 @@
   <div class="sheet">
     <ion-card>
       <ion-card-header *ngIf="!ui_controls.is_loading">
-        <ion-card-title class="ion-text-center">Update measurement</ion-card-title>
-        <ion-card-subtitle class="ion-text-center">Provide your exact measurements for perfect fit.</ion-card-subtitle>
+        <ion-card-title class="ion-text-center">
+          {{ 'title_update_measurement' | translate }}
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          {{ 'subtitle_update_measurement' | translate }}
+        </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <ion-row *ngIf="!ui_controls.is_loading" class="animate__animated ion-padding-bottom animate__fadeInDown">
           <ion-col class="ion-no-padding">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>BUST</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_bust' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.bust" name="bust" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
           <ion-col class="ion-no-padding ion-padding-start">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>SHOULDER</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_shoulder' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.shoulder" name="waist" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="!ui_controls.is_loading" class="animate__animated ion-padding-bottom animate__fadeInDown">
           <ion-col class="ion-no-padding">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>HIP</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_hip' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.hip" name="hip" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
           <ion-col class="ion-no-padding ion-padding-start">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>LENGTH</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_length' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.length" name="length" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="!ui_controls.is_loading" class="animate__animated ion-padding-bottom animate__fadeInDown">
           <ion-col class="ion-no-padding">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>ARMHOLE</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_armhole' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.armhole" name="neck" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
           <ion-col class="ion-no-padding ion-padding-start">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>ARM</label>
+            <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_arm' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input type="text" [(ngModel)]="update.arm" name="arm" tuiTextfield />
             </tui-textfield>
-            <ion-text class="ion-text-center">inches</ion-text>
+            <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>

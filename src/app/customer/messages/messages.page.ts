@@ -42,6 +42,7 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {ActionSheetController} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
+import {TranslatePipe} from "../../translate.pipe";
 
 export interface StoreRecord {
   store: number;
@@ -54,7 +55,7 @@ export interface StoreRecord {
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiButton, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiButton, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   isOnline = true;

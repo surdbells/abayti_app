@@ -34,7 +34,7 @@ export class I18nService {
 
       // Make Ionic components respect direction
       document.documentElement.setAttribute('lang', lang);
-      document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('dir', lang === 'ar' ? 'ltr' : 'ltr');
     } catch (e) {
       console.error('i18n load failed', e);
       if (lang !== 'en') await this.use('en');

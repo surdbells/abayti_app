@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border gradient_bg">
   <ion-toolbar class="toolbar ion-margin-vertical ion-no-border">
-    <ion-title class="ion-text-center" style="color: #FFFFFF; font-size: 20px">Explore</ion-title>
+    <ion-title class="ion-text-center" style="color: #FFFFFF; font-size: 20px">{{ 'explore' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -135,9 +135,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title class="ion-text-center">Filter</ion-title>
+          <ion-title class="ion-text-center">{{ 'filter' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="closeFilter()">Close</ion-button>
+            <ion-button (click)="closeFilter()">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -145,7 +145,7 @@
         <ion-card>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Category</ion-label>
+              <ion-label>{{ 'category' | translate }}</ion-label>
               <ion-select multiple="true" [(ngModel)]="filter.category" interface="popover">
                 @for(cat of category; track  cat.name){
                   <ion-select-option [value]="cat.id">
@@ -158,7 +158,7 @@
         </ion-card>
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Price Range</ion-card-title>
+            <ion-card-title>{{ 'price_range' | translate }}</ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
@@ -212,7 +212,7 @@
         </ion-card>
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Delivery Time</ion-card-title>
+            <ion-card-title>{{ 'delivery_time' | translate }}</ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
@@ -223,7 +223,7 @@
                   <ion-item lines="none">
                     <label tuiLabel>
                       <input tuiRadio type="radio" [value]="'1 - 3'" [(ngModel)]="filter.delivery">
-                      1 - 3 days
+                      1 - 3 {{ 'days' | translate }}
                     </label>
                   </ion-item>
                 </ion-col>
@@ -232,7 +232,7 @@
                   <ion-item lines="none">
                     <label tuiLabel>
                       <input tuiRadio type="radio" [value]="'4 - 7'" [(ngModel)]="filter.delivery">
-                      4 - 7 days
+                      4 - 7 {{ 'days' | translate }}
                     </label>
                   </ion-item>
                 </ion-col>
@@ -241,7 +241,7 @@
                   <ion-item lines="none">
                     <label tuiLabel>
                       <input tuiRadio type="radio" [value]="'14 - 21'" [(ngModel)]="filter.delivery">
-                      14 - 21 days
+                      14 - 21 {{ 'days' | translate }}
                     </label>
                   </ion-item>
                 </ion-col>
@@ -250,7 +250,7 @@
                   <ion-item lines="none">
                     <label tuiLabel>
                       <input tuiRadio type="radio" [value]="'custom'" [(ngModel)]="filter.delivery">
-                      Any time
+                      {{ 'any_time' | translate }}
                     </label>
                   </ion-item>
                 </ion-col>
@@ -296,7 +296,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Save {{ addCloset.product_name }} to </ion-title>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="isWishOpen = false">Close</ion-button>
           </ion-buttons>

@@ -31,13 +31,14 @@ import {City} from "../../class/city";
 import {Area} from "../../class/area";
 import {Reviews} from "../../class/reviews";
 import {ActionSheetController} from "@ionic/angular";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.page.html',
   styleUrls: ['./reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText, TranslatePipe]
 })
 export class ReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

@@ -61,6 +61,7 @@ import {Preferences} from "@capacitor/preferences";
 import {CartIconComponent} from "../../cart-icon.component";
 import {SizeChipsComponent} from "../../size-chips/size-chips.component";
 import {Cart} from "../../class/cart";
+import {TranslatePipe} from "../../translate.pipe";
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -81,7 +82,7 @@ export interface StoreMeasurement {
   styleUrls: ['./product.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip, TranslatePipe]
 })
 export class ProductPage implements OnInit {
   store_measurement: StoreMeasurement[] = [];

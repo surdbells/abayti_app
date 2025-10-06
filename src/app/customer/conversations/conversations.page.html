@@ -70,12 +70,12 @@
     <ion-toolbar class="chat-toolbar">
       <div class="chat-row">
         <div class="chat-input-wrap">
-          <label class="sr-only" for="chatMessage">Type a message</label>
-          <input [maxlength]="120" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
+          <label class="sr-only" for="chatMessage">{{ 'placeholder_type_message' | translate }}</label>
+          <input [maxlength]="120" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="{{'type_a_message' | translate}}" autocomplete="off" />
         </div>
         <div class="chat-send-wrap">
           @if(!ui_controls.sending){
-            <button (click)="send_message()" class="send-btn" aria-label="Send message" title="Send">
+            <button (click)="send_message()" class="send-btn">
               <tui-icon icon="@tui.send-horizontal" />
             </button>
           }

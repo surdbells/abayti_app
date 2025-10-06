@@ -9,20 +9,20 @@
               <img style="max-width: 160px;" class="animate__animated animate__fadeIn" src="assets/images/logo.png" alt="">
             </span>
           </div>
-          <h1 class="title animate__animated ion-text-center animate__fadeInDown">Welcome Back</h1>
-          <p class="subtitle animate__animated animate__fadeInDown">To your closet is waiting for   you.</p>
+          <h1 class="title animate__animated ion-text-center animate__fadeInDown">{{ 'welcome_back' | translate }}</h1>
+          <p class="subtitle animate__animated animate__fadeInDown">{{ 'sub_title' | translate }}</p>
         </div>
-        <label class="animate__animated animate__fadeInDown " tuiLabel>Email address *</label>
+        <label class="animate__animated animate__fadeInDown " tuiLabel>{{ 'email_Address' | translate }} *</label>
         <tui-textfield #m tuiTextfieldSize="m" class="animate__animated animate__fadeInDown ion-margin-bottom" style="width:100%; color: #ffffff">
           <input [(ngModel)]="login.email" type="email" name="email" tuiTextfield />
         </tui-textfield>
-        <label class="animate__animated animate__fadeInDown " tuiLabel>Password *</label>
+        <label class="animate__animated animate__fadeInDown " tuiLabel>{{ 'password' | translate }} *</label>
         <tui-textfield #m tuiTextfieldSize="m" class="animate__animated animate__fadeInDown ion-margin-bottom" style="width:100%; color: #ffffff">
           <input [(ngModel)]="login.password" type="password" name="password" tuiTextfield />
           <tui-icon tuiPassword />
         </tui-textfield>
         <div *ngIf="!ui_controls.login_loading" class="ion-float-right ion-margin-bottom">
-          <ion-text class="ion-margin-top abayti_secondary_color animate__animated animate__fadeInDown" (click)="forgot_password()"> Forgot Password </ion-text>
+          <ion-text class="ion-margin-top abayti_secondary_color animate__animated animate__fadeInDown" (click)="forgot_password()">{{ 'forgot_password' | translate }} </ion-text>
         </div>
 
         <span *ngIf="!ui_controls.login_loading" >
@@ -68,7 +68,7 @@
         <div *ngIf="!ui_controls.login_loading" class="flex ion-text-center">
           <div class="flex ion-margin-top items-start">
             <div class="flex abayti_secondary_color animate__animated animate__fadeInDown items-center h-5">
-              Don’t have an account? <ion-text (click)="user_register()" style="font-weight: bolder;" type="button" class="abayti_secondary_color">Sign Up</ion-text>
+              {{ 'dont_have_an_account' | translate }} ? <ion-text (click)="user_register()" style="font-weight: bolder;" type="button" class="abayti_secondary_color">{{ 'sign_up' | translate }}</ion-text>
             </div>
           </div>
         </div>

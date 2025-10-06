@@ -24,6 +24,7 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
 import {BlockerService} from "../../blocker.service";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,8 @@ import {BlockerService} from "../../blocker.service";
     FormsModule,
     IonText,
     TuiPassword,
-    TuiLoader
+    TuiLoader,
+    TranslatePipe
   ]
 })
 export class LoginPage implements OnInit, OnDestroy {

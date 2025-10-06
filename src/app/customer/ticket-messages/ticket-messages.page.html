@@ -1,7 +1,7 @@
 <ion-header style="background-color: #FEF8F3" class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
     <ion-title>{{ request.subject }}</ion-title>
-    <ion-buttons [routerLink]="['/ticketlist']" aria-label="Back to account" slot="start">
+    <ion-buttons [routerLink]="['/ticketlist']" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
           <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
@@ -56,13 +56,13 @@
     <ion-toolbar class="chat-toolbar">
       <div class="chat-row">
         <div class="chat-input-wrap">
-          <label class="sr-only" for="chatMessage">Type a message</label>
-          <input [maxlength]="200" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" placeholder="Type a message..." aria-label="Message" autocomplete="off" />
+          <label class="sr-only" for="chatMessage">{{ 'label_type_message' | translate }}</label>
+          <input [maxlength]="200" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" aria-label="Message" autocomplete="off" />
         </div>
         <!-- RIGHT: send -->
         <div class="chat-send-wrap">
           @if(!ui_controls.sending){
-            <button (click)="send_message()" class="send-btn" aria-label="Send message" title="Send">
+            <button (click)="send_message()" class="send-btn">
               <tui-icon icon="@tui.send-horizontal" />
             </button>
           }

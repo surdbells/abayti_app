@@ -20,13 +20,14 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {TuiIcon, TuiLoader} from "@taiga-ui/core";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-store-reviews',
   templateUrl: './store-reviews.page.html',
   styleUrls: ['./store-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, TranslatePipe]
 })
 export class StoreReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

@@ -46,13 +46,14 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Labels} from "../../class/labels";
 import {Wishlist} from "../../class/wishlist";
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.page.html',
   styleUrls: ['./wishlist.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe]
 })
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];

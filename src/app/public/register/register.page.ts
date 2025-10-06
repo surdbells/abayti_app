@@ -47,6 +47,7 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {GlobalComponent} from "../../global-component";
 import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {getCountries} from "libphonenumber-js";
+import {TranslatePipe} from "../../translate.pipe";
 
 
 @Component({
@@ -54,7 +55,7 @@ import {getCountries} from "libphonenumber-js";
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonAccordionGroup, IonAccordion]
+  imports: [IonContent, CommonModule, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiButton, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiLoader, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonAccordionGroup, IonAccordion, TranslatePipe]
 })
 export class RegisterPage implements OnInit, OnDestroy {
   isOnline = true;
@@ -98,7 +99,7 @@ export class RegisterPage implements OnInit, OnDestroy {
     first_name: "",
     last_name: "",
     email: "",
-    phone: "50455997",
+    phone: "",
     password: "",
     confirm_password: "",
     countryCode: "+971",

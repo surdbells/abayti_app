@@ -26,19 +26,23 @@
   <div class="sheet ion-padding-horizontal">
     <ion-card>
       <ion-card-header *ngIf="!ui_controls.is_loading || !ui_controls.is_updating">
-        <ion-card-title class="ion-text-center">User profile</ion-card-title>
-        <ion-card-subtitle class="ion-text-center">Update your profile</ion-card-subtitle>
+        <ion-card-title class="ion-text-center">
+          {{ 'title_user_profile' | translate }}
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          {{ 'subtitle_update_profile' | translate }}
+        </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <ion-row *ngIf="!ui_controls.is_loading || !ui_controls.is_updating" class="animate__animated ion-padding-bottom animate__fadeInDown">
           <ion-col class="ion-no-padding">
-            <label tuiLabel>First name</label>
+            <label tuiLabel>{{ 'label_first_name' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input placeholder="Enter your first name" [(ngModel)]="update.first_name" type="text" name="first_name" tuiTextfield />
             </tui-textfield>
           </ion-col>
           <ion-col class="ion-no-padding ion-padding-start">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>Last name</label>
+            <label tuiLabel>{{ 'label_last_name' | translate }}</label>
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
               <input placeholder="Enter your last name" [(ngModel)]="update.last_name" type="text" name="first_name" tuiTextfield />
             </tui-textfield>
@@ -46,7 +50,7 @@
         </ion-row>
         <ion-row *ngIf="!ui_controls.is_loading || !ui_controls.is_updating" class="animate__animated animate__fadeInDown">
           <ion-col size="4" class="ion-no-padding">
-            <label class="animate__animated animate__fadeInDown" tuiLabel>Dial code</label>
+            <label tuiLabel>{{ 'label_dial_code' | translate }}</label>
             <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-dark"
                     style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-country-codes">
               <span class="cc-flag">{{ selectedDial?.flag }}</span>
@@ -55,17 +59,17 @@
             </button>
           </ion-col>
           <ion-col>
-            <label class="animate__animated animate__fadeInDown" tuiLabel>Phone number *</label>
+            <label tuiLabel>{{ 'label_phone_number' | translate }}</label>
 
             <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-              <input placeholder="Enter your phone number" type="tel" inputmode="numeric" maxlength="15" [(ngModel)]="update.phone" name="phone" tuiTextfield />
+              <input placeholder="{{ 'placeholder_phone_number' | translate }}" type="tel" inputmode="numeric" maxlength="15" [(ngModel)]="update.phone" name="phone" tuiTextfield />
             </tui-textfield>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
             <button *ngIf="!ui_controls.is_loading" (click)="update_profile()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                    style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> Update
+                    style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button">  {{ 'button_update' | translate }}
             </button>
             <tui-loader *ngIf="ui_controls.is_loading || ui_controls.is_updating"></tui-loader>
           </ion-col>
@@ -78,9 +82,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Select country code</ion-title>
+          <ion-title>{{ 'title_select_country_code' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="codeModal.dismiss()">Close</ion-button>
+            <ion-button (click)="codeModal.dismiss()">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
 
@@ -88,7 +92,7 @@
           <ion-searchbar
             [(ngModel)]="codeSearch"
             debounce="100"
-            placeholder="Search by country or +code"
+            placeholder="{{ 'placeholder_search_country_or_code' | translate }}"
           ></ion-searchbar>
         </ion-toolbar>
       </ion-header>
@@ -111,7 +115,7 @@
         </ion-list>
 
         <ion-item *ngIf="filteredDialCodes().length === 0">
-          <ion-label>No results</ion-label>
+          <ion-label>{{ 'label_no_results' | translate }}</ion-label>
         </ion-item>
       </ion-content>
     </ng-template>

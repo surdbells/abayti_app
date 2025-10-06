@@ -27,13 +27,13 @@
   @if (!ui_controls.is_loading){
     <section class="section ion-padding">
       <div class="section-head">
-        <h2>Latest</h2>
+        <h2>{{ 'heading_latest' | translate }}</h2>
       </div>
       <div class="h-scroll products">
         @for(best_seller of latest; track best_seller.product_id){
           <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
-              <img style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+              <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
             </div>
             <div class="info">
               <p class="desc">
@@ -67,7 +67,7 @@
           @if(category.id == product.collection){
             <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
               <div class="img-wrap" [style.background]="'#7A1C09'">
-                <img style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
+                <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
               </div>
               <div class="info">
                 <p class="desc">

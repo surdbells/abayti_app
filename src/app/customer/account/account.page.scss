@@ -238,14 +238,14 @@ ion-header {
   flex-direction: column;
   gap: 4px;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid $stroke;
   max-width: 100%;
 }
 
 .name {
   font-weight: 700;
   font-size: 16px;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 .rating {
@@ -293,4 +293,13 @@ ion-header {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
   }
+}
+
+.store_img {
+  border-radius: 12px;
+  padding: 9px 6px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }

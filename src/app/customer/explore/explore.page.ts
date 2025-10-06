@@ -40,6 +40,7 @@ import {GlobalComponent} from "../../global-component";
 import {Products} from "../../class/products";
 import {Preferences} from "@capacitor/preferences";
 import {Labels} from "../../class/labels";
+import {TranslatePipe} from "../../translate.pipe";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -51,7 +52,7 @@ type DualRange = { lower: number; upper: number };
   styleUrls: ['./explore.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton]
+  imports: [IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal, IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel, TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter, IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, TranslatePipe]
 })
 export class ExplorePage implements AfterViewInit, OnInit, OnDestroy {
   products: Products[] = [];

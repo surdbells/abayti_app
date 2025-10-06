@@ -28,6 +28,7 @@ import {List} from "../../class/list";
 import {TuiAccordionDirective, TuiCarouselComponent} from "@taiga-ui/kit";
 import {TuiItem} from "@taiga-ui/cdk";
 import {FormsModule} from "@angular/forms";
+import {TranslatePipe} from "../../translate.pipe";
 @Component({
   selector: 'app-measurements',
   standalone: true,
@@ -66,7 +67,8 @@ import {FormsModule} from "@angular/forms";
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
-    IonButton
+    IonButton,
+    TranslatePipe
   ]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {

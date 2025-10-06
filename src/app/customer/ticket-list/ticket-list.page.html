@@ -1,6 +1,6 @@
 <ion-header class="ion-padding-top ion-no-border remove_nudge">
   <ion-toolbar class="toolbar ion-no-border">
-    <ion-title>Support Tickets</ion-title>
+    <ion-title>{{ 'title_support_tickets' | translate }}</ion-title>
     <ion-buttons [routerLink]="['/orders']" aria-label="Back to account" slot="start">
       <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d_75_149)">
@@ -56,12 +56,13 @@
           <ion-card>
             <ion-card-content class="ion-text-center">
               <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
-              <h2>Your support ticket is Empty</h2>
-              <p>No tickets yet. Tap the + button to create one.</p>
+              <h2>{{ 'heading_support_ticket_empty' | translate }}</h2>
+              <p>{{ 'text_no_tickets_yet' | translate }}</p>
               <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/createticket']">
                 <tui-icon icon="tickets"></tui-icon>
-                <span>Create ticket</span>
+                <span>{{ 'button_create_ticket' | translate }}</span>
               </button>
+
             </ion-card-content>
           </ion-card>
         </div>

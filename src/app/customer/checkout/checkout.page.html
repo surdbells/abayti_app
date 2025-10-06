@@ -62,21 +62,21 @@
       <ion-list lines="none" class="contact-list">
         <!-- Email -->
         <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-          <ion-label>Items</ion-label>
+          <ion-label>{{ 'label_items' | translate }}</ion-label>
           <ion-text slot="end">{{bill.count}}</ion-text>
         </ion-item>
         <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-          <ion-label>Delivery fee</ion-label>
+          <ion-label>{{ 'label_delivery_fee' | translate }}</ion-label>
           <span class="dirham"></span>{{ bill.f_delivery }}
         </ion-item>
         <ion-item class="animate__animated animate__fadeInDown" detail="false">
-          <ion-label>Discount</ion-label>
+          <ion-label>{{ 'label_discount' | translate }}</ion-label>
           <ion-text slot="end">
             <span class="dirham"></span>{{ bill.f_discount }}
           </ion-text>
         </ion-item>
         <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
-          <ion-label>Sub total</ion-label>
+          <ion-label>{{ 'label_sub_total' | translate }}</ion-label>
           <ion-text slot="end">
             <span class="dirham"></span>{{ bill.f_subtotal }}
           </ion-text>
@@ -87,7 +87,7 @@
           </svg>
         </ion-item>
         <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-          <ion-label>Total</ion-label>
+          <ion-label>{{ 'label_total' | translate }}</ion-label>
           <ion-text slot="end">
             <span class="dirham"></span>{{ bill.total }}
           </ion-text>
