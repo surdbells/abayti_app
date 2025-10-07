@@ -38,14 +38,14 @@
 
 <ion-content fullscreen="true" class="home-bg">
   <section class="section ion-padding-horizontal">
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="section-head ion-padding-vertical">
       <h2>{{ 'category' | translate }}</h2>
     </div>
     <div class="h-scroll categories">
-      <svg (click)="get_best_sellers();" width="60" height="46" viewBox="0 0 60 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg (click)="refresh_products();" width="60" height="46" viewBox="0 0 60 46" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="60" height="46" rx="8" fill="#F98563"/>
         <path d="M11.334 21.6673H12.6673C14.0007 21.6673 14.6673 21.0007 14.6673 19.6673V18.334C14.6673 17.0007 14.0007 16.334 12.6673 16.334H11.334C10.0007 16.334 9.33398 17.0007 9.33398 18.334V19.6673C9.33398 21.0007 10.0007 21.6673 11.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M19.334 21.6673H20.6673C22.0007 21.6673 22.6673 21.0007 22.6673 19.6673V18.334C22.6673 17.0007 22.0007 16.334 20.6673 16.334H19.334C18.0007 16.334 17.334 17.0007 17.334 18.334V19.6673C17.334 21.0007 18.0007 21.6673 19.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -375,7 +375,7 @@
 </ion-content>
 <ion-footer style="padding-bottom: 35px;" class="ion-padding  ion-no-border ">
   <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom">
-    <ion-tab-button (click)="get_best_sellers()" tab="home">
+    <ion-tab-button (click)="refresh_products()" tab="home">
       <ion-icon style="font-size: 45px; background-color: rgba(255, 255, 255, 0.05); border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>
       <!--
             <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>

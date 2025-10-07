@@ -38,6 +38,7 @@ export class GlobalComponent {
   public static addToCart = GlobalComponent.baseURL + 'customer/addToCart';
 
   public static filtered_products = GlobalComponent.baseURL + 'customer/filter_product';
+  public static filterexplore = GlobalComponent.baseURL + 'customer/filterexplore';
   public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
   public static customerCart = GlobalComponent.baseURL + 'customer/read-cart';
   public static customerOrder = GlobalComponent.baseURL + 'customer/read-orders';
@@ -72,6 +73,14 @@ export class GlobalComponent {
   public static getToken = GlobalComponent.baseURL + 'customer/getToken';
   public static sendOTP = GlobalComponent.baseURL + 'customer/sendOTP';
   public static validateOTP = GlobalComponent.baseURL + 'customer/validateOTP';
+
+
+  public static featuredUtility = GlobalComponent.baseURL + 'utility/featured';
+  public static best_sellersUtility = GlobalComponent.baseURL + 'utility/best_sellers';
+  public static singleProductUtility = GlobalComponent.baseURL + 'utility/singleProduct';
+  public static product_by_categoryUtility = GlobalComponent.baseURL + 'utility/product_by_category';
+
+
 
   static validateEmail(email: string) {
     return !!email.match(/(?:[a-z0-9+!#$%&'*/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])/gi);

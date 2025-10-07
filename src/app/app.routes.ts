@@ -122,5 +122,13 @@ export const routes: Routes = [
   {
     path: 'createticket',
     loadComponent: () => import('./customer/create-ticket/create-ticket.page').then( m => m.CreateTicketPage)
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./public/home/home.page').then( m => m.HomePage)
+  },
+  {
+    path: 'single',
+    loadComponent: () => import('./public/single/single.page').then( m => m.SinglePage)
   }
 ];

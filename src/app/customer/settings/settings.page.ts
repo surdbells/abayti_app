@@ -2,36 +2,36 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {CommonModule, CurrencyPipe, DatePipe} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-    IonAvatar,
-    IonButton,
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonHeader,
-    IonList,
-    IonRow,
-    IonTitle,
-    IonImg,
-    IonToolbar,
-    IonItem,
-    IonLabel,
-    IonNote,
-    IonRadioGroup,
-    IonRadio,
-    NavController,
-    Platform,
-    IonButtons,
-    IonModal,
-    IonSearchbar,
-    IonFooter,
-    IonIcon,
-    IonTabBar,
-    IonTabButton,
-    IonText,
-    IonCard,
-    IonCardContent,
-    IonSelect,
-    IonSelectOption
+  IonAvatar,
+  IonButton,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonList,
+  IonRow,
+  IonTitle,
+  IonImg,
+  IonToolbar,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonRadioGroup,
+  IonRadio,
+  NavController,
+  Platform,
+  IonButtons,
+  IonModal,
+  IonSearchbar,
+  IonFooter,
+  IonIcon,
+  IonTabBar,
+  IonTabButton,
+  IonText,
+  IonCard,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption, IonSpinner
 } from '@ionic/angular/standalone';
 import {
     TuiButton, TuiFallbackSrcPipe,
@@ -46,7 +46,7 @@ import {Subscription} from "rxjs";
 import {Preferences} from "@capacitor/preferences";
 import {LanguageSwitcherComponent} from "../../language-switcher.component";
 import {TranslatePipe} from "../../translate.pipe";
-import {ActionSheetController} from "@ionic/angular";
+import {ActionSheetController, LoadingController, ToastController} from "@ionic/angular";
 import {GlobalComponent} from "../../global-component";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
@@ -58,20 +58,23 @@ import {BottomNavComponent} from "../../bottom-nav/bottom-nav.component";
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-    imports: [
-        CommonModule, DatePipe, CurrencyPipe,
-        IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
-        IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
-        TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText, BottomNavComponent, IonCard, IonCardContent, IonSelect, IonSelectOption
-    ],
+  imports: [
+    CommonModule, DatePipe, CurrencyPipe,
+    IonContent, IonGrid, IonRow, IonCol, IonAvatar, IonImg, IonButton,
+    IonList, IonItem, IonLabel, IonNote, IonRadioGroup, IonRadio,
+    TuiIcon, RouterModule, IonButtons, IonToolbar, IonHeader, LanguageSwitcherComponent, TranslatePipe, IonModal, IonSearchbar, IonTitle, FormsModule, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiButton, TuiLoader, TuiAvatar, TuiFallbackSrcPipe, IonFooter, IonIcon, IonTabBar, IonTabButton, IonText, BottomNavComponent, IonCard, IonCardContent, IonSelect, IonSelectOption, IonSpinner
+  ],
 })
 export class SettingsPage implements OnInit {
   private backSub?: Subscription;
   @ViewChild(IonModal) modal!: IonModal;
   isOnline = true;
   private sub: Subscription;
+  isLoading = false;
   constructor(
     private router: Router,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
     private platform: Platform,
     private nav: NavController,
     private actionSheetCtrl: ActionSheetController,
@@ -82,6 +85,7 @@ export class SettingsPage implements OnInit {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
+
   ui_controls = {
     is_loading: false,
     updating_location: false
@@ -108,35 +112,41 @@ export class SettingsPage implements OnInit {
     token: "",
     location: ""
   }
+
   ngOnInit() {
     this.getObject().then(r => console.log(r));
   }
+
   async getObject() {
-    const ret: any = await Preferences.get({ key: 'user' });
-    if (ret.value == null){
+    const ret: any = await Preferences.get({key: 'user'});
+    if (ret.value == null) {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
-    }else{
+    } else {
       this.single_user = JSON.parse(ret.value);
-      this.u_location.id =  this.single_user.id
-      this.u_location.token =  this.single_user.token
-      this.u_location.location =  this.single_user.location
+      this.u_location.id = this.single_user.id
+      this.u_location.token = this.single_user.token
+      this.u_location.location = this.single_user.location
       console.log(this.single_user);
     }
   }
 
-  user = signal({ name: 'User', avatar: 'assets/img/avatar-placeholder.jpg', points: 0, pending: 0 });
+  user = signal({name: 'User', avatar: 'assets/img/avatar-placeholder.jpg', points: 0, pending: 0});
   language = signal<'en' | 'ar'>('en');
 
-  openReturns() {}
+  openReturns() {
+  }
+
   openReviews() {
     this.router.navigate(['/', 'reviews']).then(r => console.log(r));
 
   }
+
   openHelp() {
     const phone = '971504559975';
     const msg = encodeURIComponent('Hello 3bayti, I need assistance.');
     window.open(`https://wa.me/${phone}?text=${msg}`, '_system');
   }
+
   openMeasurement() {
     this.router.navigate(['/', 'measurements']).then(r => console.log(r));
   }
@@ -144,6 +154,7 @@ export class SettingsPage implements OnInit {
   openProfile() {
     this.router.navigate(['/', 'profile']).then(r => console.log(r));
   }
+
   async signOut() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Are you sure you want to sign out of this account?',
@@ -154,7 +165,7 @@ export class SettingsPage implements OnInit {
           handler: () => {
             Preferences.remove({key: 'keep_session'}).then(r => console.log(r));
             Preferences.remove({key: 'user'}).then(r => console.log(r));
-            this.router.navigate(['/', 'login']).then(r => console.log(r));
+            this.router.navigate(['/', 'home']).then(r => console.log(r));
           }
         }, {
           text: 'Cancel',
@@ -185,8 +196,9 @@ export class SettingsPage implements OnInit {
   openAddresses() {
     this.router.navigate(['/', 'addresses']).then(r => console.log(r));
   }
+
   async update_location() {
-    if(this.isOnline){
+    if (this.isOnline) {
       if (this.u_location.location.length == 0) {
         this.show_error("Location must be set");
         return;
@@ -208,26 +220,31 @@ export class SettingsPage implements OnInit {
             }
           }
         }))
-    }else {
+    } else {
       this.show_error("You are not online, check your connection")
     }
   }
+
   cancel() {
     this.modal.dismiss(null, 'cancel').then(r => console.log(r));
   }
+
   show_error(message: string) {
     this.toast.error(message, {
       position: 'bottom-center'
     });
   }
+
   show_success(message: string) {
     this.toast.success(message, {
       position: 'bottom-center'
     });
   }
+
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
+
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
@@ -235,9 +252,11 @@ export class SettingsPage implements OnInit {
   user_cart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
+
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
+
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
@@ -245,5 +264,9 @@ export class SettingsPage implements OnInit {
   OpenEmail() {
     const email = 'info@3bayti.ae';
     window.open(`mailto:${email}`);
+  }
+
+  async confirmDelete() {
+    this.show_success('Your account has been scheduled for removal successfully');
   }
 }

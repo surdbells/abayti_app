@@ -299,3 +299,12 @@ ion-list {
 ion-tab-button  {
   background-color: transparent;
 }
+h2 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.warning {
+  color: var(--ion-color-danger);
+  margin-top: 15px;
+}

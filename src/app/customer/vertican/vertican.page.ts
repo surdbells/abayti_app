@@ -245,13 +245,14 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     this.ui_controls.is_empty = false;
     this.filter.id = this.single_user.id;
     this.filter.token = this.single_user.token;
-    this.networkService.post_request(this.filter, GlobalComponent.filtered_products)
+    this.networkService.post_request(this.filter, GlobalComponent.filterexplore)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
             this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
+            this.images = response.data.images.split(',');
           }else {
             this.ui_controls.is_loading = false;
             this.presentToast('middle', "No product for the selected filter").then(r => console.log(r));

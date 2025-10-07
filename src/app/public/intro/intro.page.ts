@@ -47,7 +47,7 @@ export class IntroPage implements OnInit, OnDestroy {
     setTimeout(async () => {
       const ret: any = await Preferences.get({key: 'user'});
       if (ret.value == null) {
-        this.router.navigate(['/', 'login']).then(r => console.log(r));
+        this.router.navigate(['/', 'home']).then(r => console.log(r));
       } else {
         this.single_user = JSON.parse(ret.value);
         this.router.navigate(['/', 'account']).then(r => console.log(r));

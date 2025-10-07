@@ -237,6 +237,30 @@
         <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+    <button id="delete_account" type="button" class="menu-item animate__animated animate__fadeInDown">
+      <div class="left">
+        <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_174_548)">
+            <rect width="43" height="43" rx="21.5" fill="url(#paint0_linear_174_548)"/>
+            <path d="M17.648 23.776L17.12 22.544H13.424L12.848 23.872C12.624 24.384 12.512 24.72 12.512 24.88C12.512 25.296 12.9387 25.5307 13.792 25.584V26H10.048V25.584C10.464 25.5307 10.7733 25.4187 10.976 25.248C11.2107 25.0453 11.4613 24.64 11.728 24.032L15.776 15.168H16.304L20.112 23.808C20.432 24.5013 20.72 24.9707 20.976 25.216C21.2533 25.4507 21.5947 25.5733 22 25.584V26H16.896V25.584C17.6107 25.5733 17.968 25.3333 17.968 24.864C17.968 24.6187 17.8613 24.256 17.648 23.776ZM13.792 21.76H16.784L15.28 18.32L13.792 21.76ZM28.5674 16.176H26.1674V20.048H27.9434C28.7007 20.048 29.1807 19.952 29.3834 19.76C29.618 19.5467 29.7567 19.1253 29.7994 18.496H30.2154V22.448H29.7994C29.7354 21.8187 29.5967 21.3973 29.3834 21.184C29.1807 20.9813 28.7007 20.88 27.9434 20.88H26.1674V24.688C26.1674 25.072 26.402 25.264 26.8714 25.264H28.8554C29.5167 25.264 30.018 25.12 30.3594 24.832C30.69 24.5547 31.0954 24.016 31.5754 23.216H31.9914L31.0954 26H22.4394V25.584C23.09 25.584 23.506 25.488 23.6874 25.296C23.858 25.1147 23.9434 24.6293 23.9434 23.84V17.936C23.9434 16.976 23.8634 16.384 23.7034 16.16C23.5434 15.936 23.122 15.824 22.4394 15.824V15.408H31.0794L31.2234 17.888H30.8074C30.6474 17.1733 30.4287 16.7093 30.1514 16.496C29.874 16.2827 29.346 16.176 28.5674 16.176Z" fill="white"/>
+          </g>
+          <defs>
+            <linearGradient id="paint0_linear_174_548" x1="0" y1="21.5" x2="43" y2="21.5" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#7C2108"/>
+              <stop offset="1" stop-color="#E23C0F"/>
+            </linearGradient>
+            <clipPath id="clip0_174_548">
+              <rect width="43" height="43" rx="21.5" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+
+        <span>{{ 'delete_account' | translate }}</span>
+      </div>
+      <svg width="28" height="18" viewBox="0 0 28 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M27 9L1 9M27 9L19 17M27 9L19 1" stroke="#747373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
     <div class="ion-text-center">
       <svg (click)="signOut()"  width="202" height="74" viewBox="0 0 202 74" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g filter="url(#filter0_d_207_1841)">
@@ -274,7 +298,7 @@
         <ion-toolbar>
           <ion-title>{{ 'title_set_location' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="locationModal.dismiss()">Close</ion-button>
+            <ion-button (click)="locationModal.dismiss()">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -315,7 +339,7 @@
         <ion-toolbar>
           <ion-title>{{ 'title_help_support' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="contactModal.dismiss()">Close</ion-button>
+            <ion-button (click)="contactModal.dismiss()">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -340,6 +364,44 @@
             <tui-icon icon="@tui.move-right"  [style.color]="'var(&#45;&#45;ion-color-secondary)'" slot="end" />
           </ion-item>-->
         </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [backdropDismiss]="false"  #deleteModal trigger="delete_account" [initialBreakpoint]="0.8" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ 'delete_account' | translate }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="deleteModal.dismiss()">{{ 'close' | translate }}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h2>{{ 'delete_account_title' | translate }}</h2>
+
+        <p>{{ 'delete_account_intro' | translate }}</p>
+        <ul>
+          <li>{{ 'delete_account_point1' | translate }}</li>
+          <li>{{ 'delete_account_point2' | translate }}</li>
+          <li>{{ 'delete_account_point3' | translate }}</li>
+        </ul>
+
+        <p class="warning">
+          <strong>{{ 'delete_account_warning' | translate }}</strong>
+        </p>
+
+        <ion-button expand="block" color="medium" (click)="deleteModal.dismiss()" [disabled]="isLoading">
+          {{ 'cancel' | translate }}
+        </ion-button>
+
+        <ion-button expand="block" color="danger" (click)="confirmDelete(); deleteModal.dismiss()" [disabled]="isLoading">
+          <ng-container *ngIf="!isLoading">{{ 'schedule_deletion' | translate }}</ng-container>
+          <ng-container *ngIf="isLoading">
+            <ion-spinner name="crescent" slot="start"></ion-spinner>
+            {{ 'scheduling' | translate }}
+          </ng-container>
+        </ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>

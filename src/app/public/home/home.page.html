@@ -1,0 +1,169 @@
+<ion-header  class="ion-padding-top ion-no-border remove_nudge">
+  <ion-toolbar class="toolbar ion-margin-vertical ion-no-border">
+    <ion-buttons slot="start">
+      <ion-button (click)="user_register()" fill="clear">
+        {{ 'sign_up' | translate }}
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="user_login()" fill="clear">
+        {{ 'sign_in' | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="app-bg">
+  <ion-grid class="h-100">
+    <ion-row class="h-100 ion-justify-content-center">
+      <ion-col class="ion-padding" size="12">
+        <div class="stack">
+          <div class="brand-badge">
+              <span> <img style="max-width: 160px;" class="animate__animated animate__fadeIn" src="assets/images/logo.png" alt="">  </span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <section class="section ion-padding-horizontal">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="section-head ion-padding-vertical">
+      <h2>{{ 'category' | translate }}</h2>
+    </div>
+    <div class="h-scroll categories">
+      <svg (click)="refresh_products();" width="60" height="46" viewBox="0 0 60 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="60" height="46" rx="8" fill="#F98563"/>
+        <path d="M11.334 21.6673H12.6673C14.0007 21.6673 14.6673 21.0007 14.6673 19.6673V18.334C14.6673 17.0007 14.0007 16.334 12.6673 16.334H11.334C10.0007 16.334 9.33398 17.0007 9.33398 18.334V19.6673C9.33398 21.0007 10.0007 21.6673 11.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.334 21.6673H20.6673C22.0007 21.6673 22.6673 21.0007 22.6673 19.6673V18.334C22.6673 17.0007 22.0007 16.334 20.6673 16.334H19.334C18.0007 16.334 17.334 17.0007 17.334 18.334V19.6673C17.334 21.0007 18.0007 21.6673 19.334 21.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M19.334 29.6673H20.6673C22.0007 29.6673 22.6673 29.0007 22.6673 27.6673V26.334C22.6673 25.0007 22.0007 24.334 20.6673 24.334H19.334C18.0007 24.334 17.334 25.0007 17.334 26.334V27.6673C17.334 29.0007 18.0007 29.6673 19.334 29.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.334 29.6673H12.6673C14.0007 29.6673 14.6673 29.0007 14.6673 27.6673V26.334C14.6673 25.0007 14.0007 24.334 12.6673 24.334H11.334C10.0007 24.334 9.33398 25.0007 9.33398 26.334V27.6673C9.33398 29.0007 10.0007 29.6673 11.334 29.6673Z" stroke="#FDFDFD" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29.144 28L32.234 19.12H34.058L37.148 28H35.876L33.05 19.702H33.224L30.404 28H29.144ZM30.914 25.276L31.202 24.238H35.084L35.372 25.276H30.914ZM38.1429 28V18.304H39.3969V28H38.1429ZM41.0843 28V18.304H42.3383V28H41.0843Z" fill="#FDFDFD"/>
+      </svg>
+      <!-- Dynamic categories -->
+      <button class="chip" type="button" (click)="products_by_category(1); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'abayas' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(2); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'mukhawars' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(3); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'kaftans' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(4); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/bag.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'bags' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(5); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'accessories' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(6); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/modest.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'modest_clothes' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="products_by_category(7); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/dress.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'dresses' | translate }}</span>
+      </button>
+      <!--      <button class="chip" type="button" (click)="products_by_category(8); toggleClass($event)">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/activewear.svg"></ion-icon>
+          </span>
+        <span class="chip-text">Active wear</span>
+      </button>-->
+    </div>
+  </section>
+  @if (!ui_controls.is_loading){
+    <section class="section ion-padding-horizontal">
+      <div class="section-head">
+        <h2>{{ 'best_seller' | translate }}</h2>
+        <!--        <ion-button [style.color]="'#FF3D00'" fill="clear" size="small">Show All</ion-button>-->
+      </div>
+      @if(!ui_controls.is_empty){
+        <div  class="h-scroll products">
+          @for(best_seller of best_sellers; track best_seller.product_id){
+            <article   class="product-card">
+              <div class="img-wrap" [style.background]="'#7A1C09'">
+                <img loading="lazy" (click)="open_product(best_seller.product_id)"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+                <button style="z-index: 999" (click)="SignInContinue()" class="like" type="button">
+                  <tui-icon icon="@tui.heart-plus" />
+                </button>
+                <span class="tag">{{best_seller.store_name}}</span>
+              </div>
+              <div (click)="open_product(best_seller.product_id)"  class="info">
+                <p class="desc">
+                  {{best_seller.product_name}} - <span [innerHTML]="best_seller.description"></span>
+                </p>
+                <ion-row>
+                  <ion-col>
+                    <span class="dirham"></span>{{best_seller.price}}
+                  </ion-col>
+                  <ion-col>
+                    <svg class="ion-float-end" (click)="open_product(best_seller.product_id)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="19" height="19" rx="6" fill="#7C2108"/>
+                      <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
+                    </svg>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </article>
+          }
+        </div>
+      }
+      @if (ui_controls.is_empty){
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <tui-icon [style.font-size.rem]="2" icon="list-filter"></tui-icon>
+            <h2 class="ion-padding-vertical">{{ 'empty_filter' | translate }}</h2>
+            <button (click)="get_best_sellers()" appearance="floating" tuiButton size="m" class="mt-4">
+              <tui-icon icon="tuiIconShoppingCart"></tui-icon>
+              <span>{{ 'our_best_sellers' | translate }}</span>
+            </button>
+          </ion-card-content>
+        </ion-card>
+      }
+
+    </section>
+  }
+  @if (!ui_controls.is_loading){
+    @for (vendor_feature of vendor_featured; track vendor_feature.store_id){
+      @if(vendor_feature.products.length > 0){
+        <section  class="boutique ion-margin-bottom ion-padding-horizontal">
+          <div class="store-box" style="margin-bottom: 5px;">
+            <div class="name">{{ vendor_feature.store_name }}</div>
+            <div class="rating">⭐ {{ vendor_feature.rating }} ({{ vendor_feature.rating_count }} ratings)</div>
+          </div>
+          <div class="thumbs store_img h-scroll">
+            @for(vendor_products of vendor_feature.products;  track vendor_products.product_id ){
+              <img loading="lazy" (click)="open_product(vendor_products.product_id)" style="object-fit: cover; object-position: top center;" src="{{vendor_products.image}}" alt="b1"/>
+            }
+          </div>
+        </section>
+      }
+    }
+  }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+      @if (ui_controls.is_loading){
+        <tui-loader></tui-loader>
+      }
+  </span>
+</ion-content>

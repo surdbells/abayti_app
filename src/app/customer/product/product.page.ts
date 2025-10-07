@@ -397,8 +397,8 @@ export class ProductPage implements OnInit {
             this.store_m.store = this.single.store;
             this.get_store_measurement();
             this.apiSizes = {
-              'xs': this.single.size_s,
-              's': this.single.size_xs,
+              'xs': this.single.size_xs,
+              's': this.single.size_s,
               'm': this.single.size_m,
               'l': this.single.size_l,
               'xl': this.single.size_xl,

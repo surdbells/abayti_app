@@ -101,7 +101,7 @@
         </ion-col>
         <ion-col>
           <tui-loader *ngIf="ui_controls.is_loading_area"></tui-loader>
-          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">{{ 'label_area' }}</label>
+          <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
           <button *ngIf="!ui_controls.is_loading_area" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
             <span class="cc-code">{{ update.area }}</span>
             <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>

@@ -187,4 +187,8 @@ export class LoginPage implements OnInit, OnDestroy {
   apple_signin(): void {
     this.show_error("Apple sign in is currently unavailable");
   }
+
+  goHome() {
+    this.router.navigate(['/', 'home']).then(r => console.log(r));
+  }
 }

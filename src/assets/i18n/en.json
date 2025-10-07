@@ -154,5 +154,15 @@
   "button_add_new": "Add new",
   "text_my_reviews": "My Reviews",
   "title_my_cart": "My Cart",
-  "title_orders": "Orders"
+  "title_orders": "Orders",
+  "delete_account": "Delete account",
+  "delete_account_title": "Are you sure you want to delete your account?",
+  "delete_account_intro": "Deleting your account will:",
+  "delete_account_point1": "❌ Permanently remove all your personal information and data after the 24-hour waiting period.",
+  "delete_account_point2": "🧾 Delete all your saved preferences, orders, and records.",
+  "delete_account_point3": "🚫 Revoke your access to all services linked to your account.",
+  "delete_account_warning": "This action cannot be undone once deletion is complete. Your account will be permanently deleted within 24 hours.",
+  "cancel": "Cancel",
+  "schedule_deletion": "Yes, Schedule Account Deletion",
+  "scheduling": "Scheduling..."
 }

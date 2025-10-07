@@ -82,6 +82,7 @@ export interface Store {
 export class AccountPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
   vendor_featured: Store[] = [];
+  @ViewChild('myRefresher') refresher!: IonRefresher;
   isOnline = true;
   categories: Labels[] = [];
   isWishOpen = false; // or control this as you like
@@ -464,5 +465,11 @@ export class AccountPage implements OnInit, OnDestroy {
       ['/', 'vendors'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
+  }
+
+  refresh_products() {
+    if(this.refresher){
+      this.handleRefresh({refresher: this.refresher});
+    }
   }
 }
