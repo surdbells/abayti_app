@@ -169,6 +169,17 @@ export class AccountPage implements OnInit, OnDestroy {
     product_name: "",
     product_image: ""
   }
+  bill = {
+    count: 0,
+    discount: 0,
+    delivery: 0,
+    subtotal: 0,
+    total: 0,
+    f_discount: "",
+    f_delivery: "",
+    f_subtotal: "",
+    f_total: ""
+  };
   filter = {
     id: 0,
     token: "",
@@ -206,7 +217,11 @@ export class AccountPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.get_best_sellers();
       this.get_featured_products();
+      this.load_cart();
     }
+  }
+  ionViewDidEnter(){
+    this.load_cart();
   }
   ngOnDestroy(): void {
     this.blocker.unblock(); // ✅ restore when leaving
@@ -471,5 +486,19 @@ export class AccountPage implements OnInit, OnDestroy {
     if(this.refresher){
       this.handleRefresh({refresher: this.refresher});
     }
+  }
+
+  load_cart() {
+    this.rqst_param.id = this.single_user.id;
+    this.rqst_param.token = this.single_user.token;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.customerCart)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200) {
+            this.bill = response.message;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
   }
 }

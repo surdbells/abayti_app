@@ -178,6 +178,7 @@ export class CartPage implements OnInit, OnDestroy {
           if (response.response_code === 200) {
             this.carts = response.data;
             this.bill = response.message;
+            Preferences.set({key: 'count', value: String(this.bill.count)}).then(r => console.log(r));
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_loading = false;

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import {TuiIcon} from "@taiga-ui/core";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-cart-icon',
@@ -57,13 +58,11 @@ import {TuiIcon} from "@taiga-ui/core";
 })
 export class CartIconComponent {
   /** number of items in cart */
-  @Input() count = 0;
+  @Input() count = 3;
   /** Maximum number to show before displaying 'max+' */
   @Input() maxDisplay = 99;
   get displayCount(): string {
     if (!this.count || this.count <= 0) return '';
     return this.count > this.maxDisplay ? `${this.maxDisplay}+` : `${this.count}`;
   }
-
-
 }

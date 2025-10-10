@@ -190,7 +190,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore_more = {
     id: 0,
     token: "",
-    offset: 5
+    offset: 20
   }
   rqst_param = {
     id: 0,
@@ -392,7 +392,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           // this.index.set(sw.activeIndex ?? 0);
           const totalSlides = sw.slides.length;
           const currentIndex = sw.activeIndex;
-          if (totalSlides - currentIndex <= 5) {
+          if (totalSlides - currentIndex <= 10) {
             this.load_more();
           }
         });

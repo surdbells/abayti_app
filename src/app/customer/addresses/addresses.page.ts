@@ -127,6 +127,7 @@ export class AddressesPage implements OnInit, OnDestroy {
       this.update.email = this.single_user.email;
       this.get_billing();
       this.getCities();
+      this.getArea(2);
     }
   }
   get_billing() {
