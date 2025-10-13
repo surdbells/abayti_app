@@ -110,8 +110,6 @@ export class RegisterPage implements OnInit, OnDestroy {
     password: "",
     confirm_password: "",
     countryCode: "+971",
-    business_name: "",
-    license_number: "",
     accepted_terms: false
   };
 

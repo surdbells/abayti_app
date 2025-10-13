@@ -6,7 +6,6 @@
       class="slides"
       allow-touch-move="true"
       style="height: 100%;">
-      @if (ui_controls.is_loaded) {
         @for(product of products; track product.product_id; let i = $index){
           <swiper-slide class="slide">
             <div class="hero">
@@ -45,7 +44,6 @@
             </div>
           </swiper-slide>
         }
-      }
     </swiper-container>
     <div class="custom-pagination">
     <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="i === currentDot"> </span>

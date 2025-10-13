@@ -55,6 +55,7 @@ import {BlockerService} from "../../blocker.service";
 import {StoreRatingSimpleComponent} from "../../store_rating";
 import {TranslatePipe} from "../../translate.pipe";
 import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
+import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -209,6 +210,26 @@ export class AccountPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
     this.getObject().then(r => console.log(r));
+    PushNotifications.requestPermissions().then((result) => {
+      if (result.receive === 'granted') {
+        PushNotifications.register();
+      } else {
+        this.error_notification("You’ve chosen not to receive notifications.\n" +
+          "You can always change this in Settings if you’d like to stay informed.")
+      }
+    });
+    PushNotifications.addListener('registration', (token: Token) => {
+      alert('Push registration success, token: ' + token.value);
+    });
+    PushNotifications.addListener('registrationError', (error: any) => {
+      alert('Error on registration: ' + JSON.stringify(error));
+    });
+    PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+      alert('Push received: ' + JSON.stringify(notification));
+    });
+    PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
+      alert('Push action performed: ' + JSON.stringify(notification));
+    });
   }
 
   async getObject() {

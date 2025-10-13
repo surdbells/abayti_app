@@ -32,10 +32,6 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/messages/messages.page').then( m => m.MessagesPage)
   },
   {
-    path: 'vertican',
-    loadComponent: () => import('./customer/explore/explore.page').then( m => m.ExplorePage)
-  },
-  {
     path: 'cart',
     loadComponent: () => import('./customer/cart/cart.page').then( m => m.CartPage)
   },
