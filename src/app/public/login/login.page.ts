@@ -130,7 +130,7 @@ export class LoginPage implements OnInit, OnDestroy {
       }
       console.log(this.login);
       this.ui_controls.login_loading = true;
-      this.networkService.post_request(this.login, GlobalComponent.UserLogin, )
+      this.networkService.post_request(this.login, GlobalComponent.UserLogin)
         .subscribe(({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
@@ -166,12 +166,12 @@ export class LoginPage implements OnInit, OnDestroy {
   }
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   show_success(message: string, position: any) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 

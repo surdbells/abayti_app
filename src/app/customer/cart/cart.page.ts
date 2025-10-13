@@ -308,12 +308,12 @@ export class CartPage implements OnInit, OnDestroy {
 
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
 
@@ -322,5 +322,15 @@ export class CartPage implements OnInit, OnDestroy {
   }
   triggerBack() {
     this.nav.back();
+  }
+  open_product(id: number) {
+    this.router.navigate(
+      ['/', 'product'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
+
+  onDismiss() {
+    this.isWishOpen= false;
   }
 }

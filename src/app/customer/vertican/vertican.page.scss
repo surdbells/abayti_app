@@ -113,16 +113,10 @@ ion-content {
 }
 
 /* image styling — do NOT block horizontal pans here */
-.slide ion-img {
+.slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  user-select: none;
-  -webkit-user-drag: none;
-  /* prevent the image from starting its own gesture that interferes with horizontal pan */
-  touch-action: none;
-  /* allow the scroller to receive touches */
-  pointer-events: auto;
 }
 
 .custom-pagination {
@@ -148,6 +142,11 @@ ion-content {
   background: #fff;
   transform: scale(1.3);
 }
+
+ion-modal ion-content {
+  --background: var(--profile-bg);
+}
+
 
 
 

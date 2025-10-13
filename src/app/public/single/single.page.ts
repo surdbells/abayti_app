@@ -212,12 +212,12 @@ product = {
   }
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   show_success(message: string, position: any) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 }

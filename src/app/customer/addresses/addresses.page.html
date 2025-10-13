@@ -36,38 +36,6 @@
   </ion-header>
   <div class="sheet ion-padding-horizontal">
     <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
-    <div *ngIf="!ui_controls.is_loading" class="menu">
-      <ion-card *ngFor="let item of billing; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
-        <ion-card-content *ngIf="item.name.length != 0">
-          <!-- Name -->
-          <div class="row-top">
-            <tui-icon icon="user-round"></tui-icon>
-            <div class="name">{{ item?.name || '' }}</div>
-          </div>
-
-          <!-- Contact -->
-          <div class="contact">
-            <div class="item">
-              <tui-icon icon="phone"></tui-icon>
-              <a class="value" [href]="'tel:' + (item?.phone || '')">{{ item?.phone || '' }}</a>
-            </div>
-            <span class="dot" aria-hidden="true">•</span>
-            <div class="item">
-              <tui-icon icon="mail"></tui-icon>
-              <a class="value" [href]="'mailto:' + (item?.email || '')">{{ item?.email || '' }}</a>
-            </div>
-          </div>
-
-          <!-- Horizontal Address Row -->
-          <div class="address-row">
-            <div class="chip">
-              <tui-icon icon="@tui.map-pin" [style.color]="'var(--text)'" />
-              <span>{{ item?.city || 'Dubai' }} {{ item?.area || 'Al Marmoom' }} {{ item?.street || '' }}</span>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
     @if (!ui_controls.is_loading){
       <ion-row class="animate__animated ion-padding-bottom">
         <ion-col>
@@ -158,7 +126,7 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-  <ion-modal  *ngIf="!ui_controls.is_loading_area" #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
+  <ion-modal *ngIf="!ui_controls.is_loading_area" #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>

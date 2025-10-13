@@ -19,10 +19,12 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
     { provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true },
-    provideIonicAngular({ animated: false }),
+    provideIonicAngular({ animated: true }),
     provideHttpClient(),
-    provideHotToastConfig(),
-
+    provideHotToastConfig({
+      position: 'top-center', // any base position
+      className: 'hot-toast-container'
+    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });

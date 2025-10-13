@@ -53,7 +53,7 @@
   color: #fff !important;
 }
 .abayti_secondary_background {
-  background-color: #8E2508;
+  background-color: #8E2508 !important;
 }
 
 .abayti_secondary_color {
@@ -204,5 +204,45 @@ ion-content.page-bg {
 
 ion-tab-button  {
   background-color: transparent;
+}
+.custom-list {
+  background: transparent !important;
+  ion-item {
+    --background: #ffffff;
+    --inner-border-width: 0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --min-height: 54px;
+    border-radius: 12px;
+    margin: 8px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    ion-icon[slot="start"] {
+      font-size: 22px;
+      color: #BA2E06; // your brand color
+      margin-right: 12px;
+    }
+
+    ion-icon[slot="end"] {
+      font-size: 18px;
+      color: #999;
+    }
+
+    ion-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #222;
+    }
+  }
+}
+.hot-toast-container {
+  margin-top: 100px !important;
 }
 

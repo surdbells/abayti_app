@@ -198,40 +198,6 @@ ion-content.start-bg {
    height: 100%;
 }
 
-.custom-list {
-  margin: 16px;
-  border-radius: 16px;
-  overflow: hidden; /* keep rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  background: var(--ion-color-light);
-
-  ion-item {
-    --background: transparent;
-    --inner-padding-start: 16px;
-    --inner-padding-end: 16px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    --min-height: 56px;
-
-    h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    p {
-      font-size: 0.85rem;
-      color: var(--ion-color-medium);
-      margin: 2px 0 0 0;
-    }
-
-    &:hover {
-      --background: var(--ion-color-light-shade);
-      transition: background 0.2s ease;
-    }
-  }
-}
-
 
 .gradient_bg {
   background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));

@@ -89,10 +89,8 @@ ion-content.start-bg {
 }
 
 .product-card {
-  margin-top: -40px;
+  margin-top: 0;
   z-index: 9999;
-  border-top-left-radius: 35px;
-  border-top-right-radius: 35px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   ion-card-header {
     text-align: left;
@@ -108,7 +106,6 @@ ion-content.start-bg {
     }
   }
   ion-card-content {
-    padding: 16px;
     .size-guide {
       margin-bottom: 6px;
       a {
@@ -312,66 +309,4 @@ ion-content.start-bg {
 
 ion-header {
   background-color: #FBEDE2
-}
-.floating-thumbs {
-  position: fixed;
-  top: 40%;
-  transform: translateY(-50%);
-  right: 12px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* a subtle card look */
-  background: rgba(255, 255, 255, 0.93);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
-  padding: 10px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-}
-
-
-.thumbs-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-}
-
-
-.thumb-btn {
-  display: block;
-  border: none;
-  padding: 0;
-  background: transparent;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: transform 160ms ease, box-shadow 160ms ease;
-  cursor: pointer;
-}
-
-
-.thumb-btn:active,
-.thumb-btn:focus {
-  outline: none;
-  transform: scale(0.98);
-}
-
-
-.thumb-btn img {
-  display: block;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-
-/* a small responsive tweak */
-@media (max-width: 520px) {
-  .floating-thumbs {
-    right: 8px;
-    padding: 6px;
-    border-radius: 10px;
-  }
 }

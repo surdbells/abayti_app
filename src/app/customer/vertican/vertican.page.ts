@@ -98,8 +98,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     {id: 4, name: 'Bags'},
     {id: 5, name: 'Accessories'},
     {id: 6, name: 'Modest clothes'},
-    {id: 7, name: 'Dresses'},
-    {id: 8, name: 'Active wear'}
+    {id: 7, name: 'Dresses'}
   ];
   protected value: Category | null = {id: 1, name: 'Abayas'}; // !== this.users[0]
   isFilterOpen = false; // or control this as you like
@@ -139,7 +138,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   filter = {
     id: 0,
     token: "",
-    category: 1,
+    category: [1],
     price_start: this.range().lower,
     price_end: this.range().upper,
     delivery: "1 - 3"
@@ -181,7 +180,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
   closeFilter() {
     this.isFilterOpen = false;
-    this.filterModal?.nativeElement.dismiss(undefined, 'cancel'); // role optional
   }
   explore = {
     id: 0,
@@ -190,7 +188,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore_more = {
     id: 0,
     token: "",
-    offset: 20
+    offset: 10
   }
   rqst_param = {
     id: 0,
@@ -205,7 +203,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     product_image: ""
   }
   readonly min = 1;
-  readonly max = 1500;
+  readonly max = 5000;
   readonly step = 5;
   // Fired when user moves either knob
   onRangeChange(ev: any) {
@@ -214,6 +212,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     const lower = this.clamp(v.lower, this.min, Math.min(v.upper, this.max));
     const upper = this.clamp(v.upper, Math.max(v.lower, this.min), this.max);
     this.range.set({ lower: this.snap(lower), upper: this.snap(upper) });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   // Inputs -> Range (lower)
@@ -221,6 +221,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     const raw = Number(ev?.target?.value ?? this.range().lower);
     const snapped = this.snap(this.clamp(raw, this.min, this.range().upper));
     this.range.set({ lower: snapped, upper: this.range().upper });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   // Inputs -> Range (upper)
@@ -228,6 +230,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     const raw = Number(ev?.target?.value ?? this.range().upper);
     const snapped = this.snap(this.clamp(raw, this.range().lower, this.max));
     this.range.set({ lower: this.range().lower, upper: snapped });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   private clamp(n: number, lo: number, hi: number) {
@@ -341,12 +345,12 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   open_vendor(id: number, name: string) {
@@ -355,14 +359,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       { queryParams: { id, name } }
     ).then(r => console.log(r));
   }
-
   triggerBack() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
+    this.nav.back();
   }
-
   currentDot = 0;
   dots = [0, 1, 2]; // always 3 dots
-
   updateDots(activeIndex: number, totalSlides: number) {
     if (totalSlides <= 3) {
       this.currentDot = activeIndex;
@@ -373,7 +374,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       else this.currentDot = 2;
     }
   }
-
   ngAfterViewInit(): void {
     if (!this.ui_controls.is_empty){
       const el = this.swiperEl.nativeElement as any;
@@ -392,7 +392,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           // this.index.set(sw.activeIndex ?? 0);
           const totalSlides = sw.slides.length;
           const currentIndex = sw.activeIndex;
-          if (totalSlides - currentIndex <= 10) {
+          if (totalSlides - currentIndex <= 4) {
             this.load_more();
           }
         });
@@ -409,12 +409,16 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
-
   open_product(id: number) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
   }
-
+  closeWish() {
+    this.isWishOpen = false;
+  }
+  openHome(){
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
 }

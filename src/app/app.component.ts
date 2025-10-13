@@ -20,8 +20,7 @@ export class AppComponent {
       // } catch {}
       });
   }
-
   initializeApp() {
-    ScreenOrientation.lock({ orientation: 'portrait' });
+    ScreenOrientation.lock({orientation: 'portrait'}).then(r => console.log('ScreenOrientation loaded'));
   }
 }

@@ -227,7 +227,6 @@ export class AddressesPage implements OnInit, OnDestroy {
       this.error_notification("You are not online, check your connection")
     }
   }
-
   user_wishlist() {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
   }
@@ -239,12 +238,12 @@ export class AddressesPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
 }

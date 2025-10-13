@@ -1,14 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Cart} from "../../class/cart";
 import {Labels} from "../../class/labels";
 import {Subscription} from "rxjs";
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonButton, IonButtons,
   IonCard, IonCol, IonContent,
   IonFooter, IonGrid, IonHeader,
   IonItem,
   IonLabel,
-  IonList, IonNote, IonRefresher, IonRefresherContent, IonRow,
+  IonList, IonModal, IonNote, IonRefresher, IonRefresherContent, IonRow,
   IonText,
   IonTitle, IonToolbar,
   NavController,
@@ -22,14 +24,20 @@ import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {
-  TuiIcon,
-  TuiLoader,
+  TuiButton,
+  TuiIcon, TuiLabel,
+  TuiLoader, TuiNotification,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {InAppBrowser} from "@capgo/inappbrowser";
 import {TranslatePipe} from "../../translate.pipe";
+import {Billing} from "../../class/billing";
+import {City} from "../../class/city";
+import {Area} from "../../class/area";
+import {NgForOf, NgIf} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-checkout',
@@ -60,16 +68,31 @@ import {TranslatePipe} from "../../translate.pipe";
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,
-    TranslatePipe
+    TranslatePipe,
+    IonAccordionGroup,
+    IonAccordion,
+    TuiNotification,
+    NgIf,
+    ReactiveFormsModule,
+    TuiButton,
+    TuiLabel,
+    FormsModule,
+    IonModal,
+    NgForOf
   ],
   standalone: true
 })
 export class CheckoutPage implements OnInit, OnDestroy {
   carts: Cart[] = [];
+  billing: Billing[] = [];
+  city: City[] = [];
+  area: Area[] = [];
   categories: Labels[] = [];
   isOnline = true;
   isWishOpen = false; // or control this as you like
+  isConfirmBilling = false;
   private sub: Subscription;
+  @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -86,6 +109,8 @@ export class CheckoutPage implements OnInit, OnDestroy {
     is_loading: false,
     is_creating: false,
     checking_out: false,
+    is_loading_area: false,
+    is_updating: false,
     is_loading_category: false,
     is_empty: false
   }
@@ -166,6 +191,17 @@ export class CheckoutPage implements OnInit, OnDestroy {
     is_vendor: false,
     is_customer: false
   }
+  update = {
+    id: 0,
+    token: '',
+    name: '',
+    phone: '',
+    email: '',
+    city: 'Dubai',
+    area: 'Al Marmoom',
+    street: '',
+    villa_number: ''
+  };
   addCloset = {
     id: 0,
     token: "",
@@ -257,7 +293,17 @@ export class CheckoutPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id
       this.request.token = this.single_user.token
+
+      this.rqst_param.id = this.single_user.id
+      this.rqst_param.token = this.single_user.token
+      this.update.name = this.single_user.first_name + " " + this.single_user.last_name;
+      this.update.phone = this.single_user.phone;
+      this.update.email = this.single_user.email;
+
       this.load_cart();
+      this.get_billing();
+      this.getCities();
+      this.getArea(2);
     }
   }
   load_cart() {
@@ -282,6 +328,11 @@ export class CheckoutPage implements OnInit, OnDestroy {
   }
 
   checkout_initiate() {
+    if (!this.isConfirmBilling){
+      this.toggleAccordion();
+      this.error_notification("Confirm your billing information to  proceed!")
+      return;
+    }
     this.checkout.order.amount = this.bill.total;
     this.checkout.order.reference = GlobalComponent.generateTransactionReference();
     this.checkout.order.name = this.single_user.first_name + " " + this.single_user.last_name;
@@ -412,23 +463,125 @@ export class CheckoutPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
-
-  open_delivery() {
-    this.nav.navigateRoot('/addresses').then(r => console.log(r));
-  }
-
   open_processing(orderId: any, merchantReference: any, paymentType: any, deliveryFee: number) {
     this.router.navigate(
       ['/', 'process'],
       { queryParams: { orderId, merchantReference, paymentType, deliveryFee } }
     ).then(r => console.log(r));
+  }
+  toggleAccordion = () => {
+    const nativeEl = this.accordionGroup;
+    if (nativeEl.value === 'first') {
+      nativeEl.value = undefined;
+    } else {
+      nativeEl.value = 'first';
+    }
+  };
+
+
+  get_billing() {
+    this.ui_controls.is_loading = true;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readBilling)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.update = response.data;
+            this.ui_controls.is_loading = false;
+          }else{
+            this.ui_controls.is_empty = true;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
+  }
+  getCities() {
+    this.ui_controls.is_loading = true;
+    this.networkService.get_request(GlobalComponent.topexCities)
+      .subscribe(({
+        next: (response) => {
+          this.city = response.data;
+          this.ui_controls.is_loading = false;
+        }
+      }))
+  }
+  getArea(city: number) {
+    this.ui_controls.is_loading_area = true;
+    this.networkService.get_request(GlobalComponent.topexAreaURL+city)
+      .subscribe(({
+        next: (response) => {
+          this.area = response.data;
+          this.ui_controls.is_loading_area = false;
+        }
+      }))
+  }
+  selectCode(d: string, id: number) {
+    this.update.city = d;
+    this.getArea(id);
+  }
+  selectArea(d: string) {
+    this.update.area = d;
+  }
+  update_billing() {
+    if(this.isOnline){
+      this.update.id = this.single_user.id;
+      this.update.token = this.single_user.token;
+      if (this.update.city.length == 0) {
+        this.error_notification("City is require");
+        return;
+      }
+      if (this.update.area.length == 0) {
+        this.error_notification("Area is require");
+        return;
+      }
+      if (this.update.street.length == 0) {
+        this.error_notification("Street is required");
+        return;
+      }
+      if (this.update.villa_number.length == 0) {
+        this.error_notification("Villa number is required is required");
+        return;
+      }
+      this.ui_controls.is_updating = true;
+      this.networkService.post_request(this.update, GlobalComponent.updateBilling, )
+        .subscribe(({
+          next: (response) => {
+            if (response.response_code === 200 && response.status === "success") {
+              this.ui_controls.is_updating = false;
+              this.isConfirmBilling = true;
+              this.success_notification(response.message);
+              this.single_user.delivery_address = this.update.city + ", " + this.update.area + ", " + this.update.street;
+              this.single_user.billing_name = this.update.name;
+              this.single_user.billing_phone = this.update.phone;
+              this.single_user.billing_email = this.update.email;
+              this.single_user.billing_city = this.update.city;
+              this.single_user.billing_area = this.update.area;
+              this.single_user.billing_street = this.update.street;
+              this.single_user.villa_number = this.update.villa_number;
+              Preferences.set({
+                key: 'user',
+                value: JSON.stringify(this.single_user)
+              }).then(r => console.log(r));
+              this.toggleAccordion();
+            }else{
+              this.ui_controls.is_updating = false
+              this.error_notification(response.message);
+            }
+          },
+          error: () => {
+            this.ui_controls.is_updating = false;
+            this.error_notification("unable to save billing address");
+          }
+        }))
+    }else {
+      this.error_notification("You are not online, check your connection")
+    }
   }
 }

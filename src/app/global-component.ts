@@ -9,6 +9,7 @@ export class GlobalComponent {
   /* POST REQUEST */
   public static UserLogin = GlobalComponent.baseURL + 'users/login';
   public static UserRegister = GlobalComponent.baseURL + 'users/register';
+  public static UserReset = GlobalComponent.baseURL + 'users/resetMobile';
   public static UserValidate = GlobalComponent.baseURL + 'users/validate';
   public static EmailValidate = GlobalComponent.baseURL + 'users/validate-email';
   public static ProductCategory = GlobalComponent.baseURL + 'customer/category';
@@ -72,6 +73,7 @@ export class GlobalComponent {
   public static finalizePayment = GlobalComponent.baseURL + 'customer/finalize_payment';
   public static getToken = GlobalComponent.baseURL + 'customer/getToken';
   public static sendOTP = GlobalComponent.baseURL + 'customer/sendOTP';
+  public static sendOOTP = GlobalComponent.baseURL + 'users/sendOTP';
   public static validateOTP = GlobalComponent.baseURL + 'customer/validateOTP';
 
 

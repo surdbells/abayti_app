@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
@@ -50,7 +49,7 @@ import {
   TuiTextfieldDirective, TuiTextfieldOptionsDirective,
   TuiTitle
 } from "@taiga-ui/core";
-import {single, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Platform} from "@ionic/angular";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
@@ -62,6 +61,7 @@ import {CartIconComponent} from "../../cart-icon.component";
 import {SizeChipsComponent} from "../../size-chips/size-chips.component";
 import {Cart} from "../../class/cart";
 import {TranslatePipe} from "../../translate.pipe";
+import {Products} from "../../class/products";
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -86,10 +86,13 @@ export interface StoreMeasurement {
 })
 export class ProductPage implements OnInit {
   store_measurement: StoreMeasurement[] = [];
+  product: Products[] = [];
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonModal) modal!: IonModal;
   index = signal(0);
   isOnline = true;
+  isMeasureOpen = false;
+  itemExists = false;
   private sub: Subscription;
   thumbSize = 65;
   visibleCount = 3;
@@ -192,6 +195,17 @@ export class ProductPage implements OnInit {
     try_on_active: false,
     label: 0
   };
+  bill = {
+    count: 0,
+    discount: 0,
+    delivery: 0,
+    subtotal: 0,
+    total: 0,
+    f_discount: "",
+    f_delivery: "",
+    f_subtotal: "",
+    f_total: ""
+  };
   update = {
     id: 0,
     token: '',
@@ -208,6 +222,10 @@ export class ProductPage implements OnInit {
     is_adding_to_cart: false,
     is_loading_measurement: false,
     is_empty: false
+  }
+  process_controls = {
+    is_custom: false,
+    confirmed_measurement: false
   }
   single_user = {
     id: 0,
@@ -258,7 +276,7 @@ export class ProductPage implements OnInit {
     quantity: 1,
     price: 0,
     size: "",
-    color: "black",
+    color: "",
     is_custom: false,
     measurement: "",
     extra_measurement: "",
@@ -267,6 +285,9 @@ export class ProductPage implements OnInit {
   @Output() select = new EventEmitter<number>();
   onSelect(i: number) {
     this.select.emit(i);
+  }
+  ionViewDidEnter(){
+    this.load_cart();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
@@ -286,6 +307,7 @@ export class ProductPage implements OnInit {
       this.add_cart.token = this.single_user.token;
       this.add_cart.customer_name = this.single_user.first_name + " " + this.single_user.last_name;
       this.add_cart.customer_email = this.single_user.email;
+
     }
   }
   get_measurement() {
@@ -324,8 +346,7 @@ export class ProductPage implements OnInit {
       this.error_notification("Quantity is require.")
       return;
     }
-
-      if (!this.single.size_custom){
+    if (!this.single.size_custom){
         if(this.single.category_id != "4" && this.single.category_id != "5") {
           if (this.add_cart.size.length == 0) {
             this.error_notification("Select your preferred size.")
@@ -333,44 +354,15 @@ export class ProductPage implements OnInit {
           }
         }
       }
-    if (this.add_cart.color.length == 0){
-      this.error_notification("Select your preferred color.")
-      return;
-    }
-    if (this.add_cart.size == 'custom'){
-      this.add_cart.is_custom = true;
-    }
-    if (this.add_cart.is_custom){
-      if (this.update.arm == 0){
-        this.error_notification("Update your measurement to proceed")
-        return;
+      if(this.single.category_id != "5") {
+        if (this.add_cart.color.length == 0) {
+          this.error_notification("Select your preferred color.")
+          return;
+        }
       }
-      if (this.update.length == 0){
-        this.error_notification("Update your measurement to proceed")
+    if (this.single.size_custom && !this.process_controls.confirmed_measurement){
+        this.isMeasureOpen = true;
         return;
-      }
-      if (this.update.hip == 0){
-        this.error_notification("Update your measurement to proceed")
-        return;
-      }
-      if (this.update.bust == 0){
-        this.error_notification("Update your measurement to proceed")
-        return;
-      }
-      if (this.update.armhole == 0){
-        this.error_notification("Update your measurement to proceed")
-        return;
-      }
-      if (this.update.shoulder == 0){
-        this.error_notification("Update your measurement to proceed")
-        return;
-      }
-    }
-    if (this.single.require_extra_msmt){
-      if (this.add_cart.extra_measurement.length == 0){
-        this.error_notification("provide extra measurement to proceed")
-        return;
-      }
     }
     this.ui_controls.is_adding_to_cart = true;
     this.networkService.post_request(this.add_cart, GlobalComponent.addToCart)
@@ -427,14 +419,23 @@ export class ProductPage implements OnInit {
               '63': this.single.size_63,
               '64': this.single.size_64,
             };
-            console.log(this.single);
+            if (this.single.size_custom){
+              this.process_controls.is_custom = true;
+            }
             this.ui_controls.is_loading = false;
           }
+          this.load_cart();
         }
       }))
   }
   update_measurement() {
     if(this.isOnline){
+      if (this.single.require_extra_msmt){
+        if (this.add_cart.extra_measurement.length == 0){
+          this.error_notification("provide extra measurement to proceed")
+          return;
+        }
+      }
       this.update.id = this.single_user.id;
       this.update.token = this.single_user.token;
       this.ui_controls.is_loading_measurement = true;
@@ -442,10 +443,12 @@ export class ProductPage implements OnInit {
         .subscribe(({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
-              this.success_notification(response.message);
+              this.success_notification("Measurement confirmed successfully..");
               this.ui_controls.is_loading_measurement = false;
+              this.process_controls.confirmed_measurement = true;
               this.get_measurement();
-              this.cancel();
+              this.addToCart();
+              this.isMeasureOpen = false;
             }else{
               this.ui_controls.is_loading_measurement = false
               this.error_notification(response.message);
@@ -460,17 +463,15 @@ export class ProductPage implements OnInit {
       this.error_notification("You are not online, check your connection")
     }
   }
-  cancel() {
-    this.modal.dismiss(null, 'cancel').then(r => console.log(r));
-  }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
+
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   imgLoaded: boolean[] = [false, false, false, false];
@@ -499,5 +500,30 @@ export class ProductPage implements OnInit {
 
   triggerBack() {
     this.nav.back();
+  }
+
+  onDismiss() {
+    this.isMeasureOpen = false;
+  }
+  load_cart() {
+    this.rqst_param.id = this.single_user.id;
+    this.rqst_param.token = this.single_user.token;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.customerCart)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200) {
+            this.bill = response.message;
+            this.product = response.data;
+            this.ui_controls.is_loading = false;
+            console.log(this.single);
+            this.itemExists = response.data.some((item: any) => item.product_id === this.single.product);
+            console.log(this.itemExists);
+          }
+        }
+      }))
+  }
+
+  openCart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
 }

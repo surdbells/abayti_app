@@ -102,21 +102,4 @@
         <tui-loader></tui-loader>
   </span>
   }
-  @if(images.length > 1){
-    <div class="floating-thumbs" [style.right.px]="20">
-      <div class="thumbs-wrapper" [style.height.px]="(thumbSize * visibleCount + (visibleCount - 1) * 8)">
-        @for(img of images; track img.length; let i = $index){
-          <button
-            type="button"
-            class="thumb-btn"
-            (click)="onSelect(i)"
-            [style.width.px]="thumbSize"
-            [style.height.px]="thumbSize">
-            <img loading="lazy" [src]="img" [alt]="'thumb-'+i" [style.width.px]="thumbSize" [style.height.px]="thumbSize" />
-          </button>
-        }
-
-      </div>
-    </div>
-  }
 </ion-content>

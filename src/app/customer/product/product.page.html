@@ -27,8 +27,8 @@
       <ion-button (click)="user_messages()" fill="clear">
         <tui-icon icon="@tui.message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
       </ion-button>
-      <ion-button (click)="user_cart()" fill="clear">
-        <app-cart-icon [count]="0"></app-cart-icon>
+      <ion-button (click)="openCart()" fill="clear">
+        <app-cart-icon [count]="bill.count"></app-cart-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -103,15 +103,22 @@
             } @else {
               <ion-text class="ion-text-start ion-padding-bottom">{{ 'delivery' | translate }}: {{single.custom_delivery_time}} {{ 'days' | translate }}</ion-text>
             }
-
           </ion-label>
 
           <ion-label>
-            <ion-select aria-label="Color" interface="action-sheet" class="float-end" [(ngModel)]="add_cart.color" placeholder="Select color">
-              @for(color of colors; track $index){
-                <ion-select-option value="{{color}}">{{ color }}</ion-select-option>
-              }
-            </ion-select>
+            @if(this.single.category_id != "5"){
+              <ion-item lines="none">
+                <div class="selected-swatch" [ngStyle]="{'background-color': add_cart.color || 'transparent'}" [class.empty]="!add_cart.color" aria-hidden="true"></div>
+                <ion-select [(ngModel)]="add_cart.color" interface="action-sheet" placeholder="Choose color">
+                  <ion-select-option *ngFor="let c of colors" [value]="c">
+                    <div class="option-row">
+                      <span class="option-swatch" [ngStyle]="{'background-color': c}"></span>
+                      <span class="option-label">{{ c | titlecase }}</span>
+                    </div>
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            }
           </ion-label>
         </div>
         <div class="quantity ion-padding-bottom">
@@ -151,30 +158,10 @@
         <app-size-chips *ngIf="!single.size_custom" [sizes]="apiSizes" (selected)="onSizeSelected($event)"></app-size-chips>
         <p *ngIf="chosenSize">{{ 'selected' | translate }}: {{ chosenSize | uppercase }}</p>
         }
-        @if(single.category_id != "4" && single.category_id != "5"){
-          @if(single.require_extra_msmt){
-            <p class="instruction">{{ single.extra_msmt }}</p>
-              <label tuiLabel> {{ 'extra_m_required' | translate }}</label>
-              <tui-textfield style="width:100%">
-                <input [maxlength]="200" [(ngModel)]="add_cart.extra_measurement" type="text" name="extra_measurement" tuiTextfield />
-              </tui-textfield>
-          }
-        }
         <label tuiLabel> {{ 'note'  | translate }}</label>
         <tui-textfield style="width:100%">
           <input [maxlength]="200" [(ngModel)]="add_cart.note" type="text" name="note" tuiTextfield />
         </tui-textfield>
-        <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-              @if(ui_controls.is_adding_to_cart){
-                <tui-loader></tui-loader>
-              }
-          </span>
-
-        @if(!ui_controls.is_adding_to_cart){
-          <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
-            {{ 'button_add_to_cart' | translate }} <span class="dirham"></span>{{single.price_formated}}
-          </button>
-        }
 
       </ion-card-content>
     </ion-card>
@@ -183,23 +170,6 @@
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
         <tui-loader></tui-loader>
   </span>
-  }
-  @if(images.length > 1){
-    <div class="floating-thumbs" [style.right.px]="20">
-      <div class="thumbs-wrapper" [style.height.px]="(thumbSize * visibleCount + (visibleCount - 1) * 8)">
-        @for(img of images; track img.length; let i = $index){
-          <button
-            type="button"
-            class="thumb-btn"
-            (click)="onSelect(i)"
-            [style.width.px]="thumbSize"
-            [style.height.px]="thumbSize">
-            <img loading="lazy" [src]="img" [alt]="'thumb-'+i" [style.width.px]="thumbSize" [style.height.px]="thumbSize" />
-          </button>
-        }
-
-      </div>
-    </div>
   }
   <ion-modal swipeToClose="true" *ngIf="!ui_controls.is_loading" #size_guide_modal trigger="size_guide" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
     <ng-template>
@@ -247,7 +217,7 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-  <ion-modal swipeToClose="true" *ngIf="!ui_controls.is_loading" #measurement trigger="measurement" [initialBreakpoint]="0.8" [breakpoints]="[0, 0.5, 0.8, 1]">
+  <ion-modal [isOpen]="isMeasureOpen" (didDismiss)="onDismiss()" swipeToClose="true" *ngIf="!ui_controls.is_loading" #measurement trigger="measurement" [initialBreakpoint]="0.8" [breakpoints]="[0, 0.5, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -318,10 +288,17 @@
                 <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
               </ion-col>
             </ion-row>
+            @if(single.require_extra_msmt && !ui_controls.is_loading_measurement){
+              <p style="color: #7C2108; font-weight: bolder">{{ single.extra_msmt }}</p>
+              <label tuiLabel> {{ 'extra_m_required' | translate }}</label>
+              <tui-textfield style="width:100%">
+                <input [maxlength]="200" [(ngModel)]="add_cart.extra_measurement" type="text" name="extra_measurement" tuiTextfield />
+              </tui-textfield>
+            }
             <ion-row>
               <ion-col>
                 <button *ngIf="!ui_controls.is_loading_measurement" (click)="update_measurement()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                        style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{'button_update' | translate}}
+                        style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{'c_measure' | translate}}
                 </button>
                 <tui-loader *ngIf="ui_controls.is_loading_measurement"></tui-loader>
               </ion-col>
@@ -363,3 +340,33 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+<ion-footer style="padding-bottom: 35px; background-color: #FFFFFF" class="ion-padding ion-no-border">
+        <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+            @if(ui_controls.is_adding_to_cart){
+              <tui-loader></tui-loader>
+            }
+        </span>
+        @if(!ui_controls.is_adding_to_cart){
+          @if(single.stock_status == 'out_of_stock'){
+            <button disabled style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
+              {{ 'out_of_stock' | translate }}
+            </button>
+          }
+          @if(single.stock_status == 'on_backorder'){
+            <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
+              {{ 'back_order' | translate }} <span class="dirham"></span>{{single.price_formated}}
+            </button>
+          }
+          @if(itemExists){
+            <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="openCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
+              {{ 'already_in_cart' | translate }}
+            </button>
+          } @else {
+            @if(single.stock_status == 'in_stock'){
+              <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
+                {{ 'button_add_to_cart' | translate }} <span class="dirham"></span>{{single.price_formated}}
+              </button>
+            }
+          }
+        }
+</ion-footer>

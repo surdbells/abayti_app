@@ -8,31 +8,15 @@ import {Preferences} from "@capacitor/preferences";
   selector: 'app-cart-icon',
   standalone: true,
   imports: [CommonModule, IonicModule, TuiIcon],
-  template: `
-    <button class="cart-wrapper" fill="clear" aria-label="Open cart">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--text)'" aria-hidden="true"></tui-icon>
-      <span class="cart-badge" *ngIf="count && count > 0" [attr.aria-label]="count + ' items in cart'">
-        {{ displayCount }}
-      </span>
-    </button>
-  `,
+  template: `<tui-icon icon="@tui.shopping-cart" [style.color]="'var(--text)'" aria-hidden="true"></tui-icon>
+            <span class="cart-badge" *ngIf="count && count > 0" [attr.aria-label]="count + ' items in cart'">
+              {{ displayCount }}
+            </span>`,
   styles: [`
-    .cart-wrapper {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      height: 44px; /* adjust to match your header icon size */
-      width: 44px;
-    }
     /* badge */
     .cart-badge {
       position: absolute;
-      top: 4px;      /* tweak to move up/down */
+      top: 0;      /* tweak to move up/down */
       right: 2px;    /* tweak to move left/right */
       transform: translate(25%, -25%);
       display: inline-flex;
@@ -40,7 +24,6 @@ import {Preferences} from "@capacitor/preferences";
       justify-content: center;
       min-width: 18px;
       height: 18px;
-      padding: 0 6px;
       font-size: 11px;
       line-height: 1;
       border-radius: 999px;

@@ -207,12 +207,12 @@ export class SearchPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 
@@ -224,5 +224,9 @@ export class SearchPage implements OnInit, OnDestroy {
 
   user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
+
+  onDismiss() {
+    this.isWishOpen= false;
   }
 }

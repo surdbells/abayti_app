@@ -16,7 +16,7 @@ import {TuiResponsiveDialogService} from '@taiga-ui/addon-mobile';
 import {
   IonAvatar,
   IonButton,
-  IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol,
+  IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol,
   IonContent,
   IonFooter, IonGrid,
   IonHeader, IonIcon, IonInput, IonItem,
@@ -43,7 +43,7 @@ import { ConnectionService } from '../../service/connection.service';
 import {GlobalComponent} from "../../global-component";
 import {
   TuiAvatar,
-  TuiChevron,
+  TuiChevron, TuiChip,
   TuiDataListWrapperComponent, tuiItemsHandlersProvider, TuiRadioComponent,
   TuiSelectDirective,
   TuiShimmer
@@ -54,6 +54,7 @@ import {CartIconComponent} from "../../cart-icon.component";
 import {BlockerService} from "../../blocker.service";
 import {StoreRatingSimpleComponent} from "../../store_rating";
 import {TranslatePipe} from "../../translate.pipe";
+import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -62,11 +63,13 @@ type DualRange = { lower: number; upper: number };
 export interface Product {
   product_id: number;
   product_name: string;
+  price: string;
   image: string;
 }
 export interface Store {
   store_id: number;
   store_name: string;
+  store_desc: string;
   rating: number | null;        // allow null if no rating yet
   rating_count: number;
   products: Product[];
@@ -76,7 +79,7 @@ export interface Store {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, TuiButton, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip]
 })
 
 export class AccountPage implements OnInit, OnDestroy {
@@ -117,8 +120,7 @@ export class AccountPage implements OnInit, OnDestroy {
     {id: 4, name: 'Bags'},
     {id: 5, name: 'Accessories'},
     {id: 6, name: 'Modest clothes'},
-    {id: 7, name: 'Dresses'},
-    {id: 8, name: 'Active wear'}
+    {id: 7, name: 'Dresses'}
   ];
   protected value: Category | null = {id: 1, name: 'Abayas'}; // !== this.users[0]
   private sub: Subscription;
@@ -183,7 +185,7 @@ export class AccountPage implements OnInit, OnDestroy {
   filter = {
     id: 0,
     token: "",
-    category: 1,
+    category: [1],
     price_start: this.range().lower,
     price_end: this.range().upper,
     delivery: "1 - 3"
@@ -294,7 +296,7 @@ export class AccountPage implements OnInit, OnDestroy {
 }
 
   readonly min = 1;
-  readonly max = 1500;
+  readonly max = 5000;
   readonly step = 5;
   // Fired when user moves either knob
   onRangeChange(ev: any) {
@@ -303,6 +305,8 @@ export class AccountPage implements OnInit, OnDestroy {
     const lower = this.clamp(v.lower, this.min, Math.min(v.upper, this.max));
     const upper = this.clamp(v.upper, Math.max(v.lower, this.min), this.max);
     this.range.set({ lower: this.snap(lower), upper: this.snap(upper) });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   // Inputs -> Range (lower)
@@ -310,6 +314,8 @@ export class AccountPage implements OnInit, OnDestroy {
     const raw = Number(ev?.target?.value ?? this.range().lower);
     const snapped = this.snap(this.clamp(raw, this.min, this.range().upper));
     this.range.set({ lower: snapped, upper: this.range().upper });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   // Inputs -> Range (upper)
@@ -317,6 +323,8 @@ export class AccountPage implements OnInit, OnDestroy {
     const raw = Number(ev?.target?.value ?? this.range().upper);
     const snapped = this.snap(this.clamp(raw, this.range().lower, this.max));
     this.range.set({ lower: this.range().lower, upper: snapped });
+    this.filter.price_start = this.range().lower;
+    this.filter.price_end = this.range().upper;
   }
 
   private clamp(n: number, lo: number, hi: number) {
@@ -325,48 +333,6 @@ export class AccountPage implements OnInit, OnDestroy {
   private snap(n: number) {
     // snap to step
     return Math.round(n / this.step) * this.step;
-  }
-
-  get_filtered_products() {
-    this.isFilterOpen = false;
-    this.ui_controls.is_loading = true;
-    this.ui_controls.is_empty = false;
-    this.filter.id = this.single_user.id;
-    this.filter.token = this.single_user.token;
-    this.networkService.post_request(this.filter, GlobalComponent.filtered_products)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.best_sellers = response.data;
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = false;
-          }else {
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = true;
-          }
-        }
-      }))
-  }
-  products_by_category(category: number) {
-    this.ui_controls.is_loading = true;
-    this.ui_controls.is_empty = false;
-    this.rqst_param_products_by_category.id = this.single_user.id;
-    this.rqst_param_products_by_category.token = this.single_user.token;
-    this.rqst_param_products_by_category.category = category;
-    this.networkService.post_request(this.rqst_param_products_by_category, GlobalComponent.product_by_category)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.best_sellers = response.data;
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = false;
-            console.log(this.ui_controls.is_loading);
-          }else{
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = true;
-          }
-        }
-      }))
   }
   get_best_sellers() {
     this.ui_controls.is_loading = true;
@@ -403,6 +369,8 @@ export class AccountPage implements OnInit, OnDestroy {
   get_filter_featured_products() {
     this.get_featured.id = this.single_user.id;
     this.get_featured.token = this.single_user.token;
+    this.filter.id = this.single_user.id;
+    this.filter.token = this.single_user.token;
     this.networkService.post_request(this.filter, GlobalComponent.filterfeatured)
       .subscribe(({
         next: (response) => {
@@ -453,12 +421,12 @@ export class AccountPage implements OnInit, OnDestroy {
 
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 
@@ -500,5 +468,13 @@ export class AccountPage implements OnInit, OnDestroy {
           }
         }
       }))
+  }
+
+  OnDidDismiss() {
+    this.isWishOpen = false;
+  }
+
+  onDidDismiss() {
+    this.isFilterOpen = false;
   }
 }

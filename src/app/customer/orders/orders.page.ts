@@ -222,12 +222,12 @@ export class OrdersPage implements OnInit, OnDestroy {
 
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
 

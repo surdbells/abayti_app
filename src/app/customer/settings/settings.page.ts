@@ -231,13 +231,13 @@ export class SettingsPage implements OnInit {
 
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 
   show_success(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 
@@ -262,7 +262,7 @@ export class SettingsPage implements OnInit {
   }
 
   OpenEmail() {
-    const email = 'info@3bayti.ae';
+    const email = 'support@3bayti.com';
     window.open(`mailto:${email}`);
   }
 

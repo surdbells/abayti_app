@@ -48,6 +48,8 @@ import {GlobalComponent} from "../../global-component";
 import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {getCountries} from "libphonenumber-js";
 import {TranslatePipe} from "../../translate.pipe";
+import {Preferences} from "@capacitor/preferences";
+import {BlockerService} from "../../blocker.service";
 
 
 @Component({
@@ -68,6 +70,7 @@ export class RegisterPage implements OnInit, OnDestroy {
   constructor(
     private net: ConnectionService,
     private platform: Platform,
+    private blocker: BlockerService,
     private router: Router,
     private networkService: NetworkService,
     private toast: HotToastService,
@@ -77,6 +80,7 @@ export class RegisterPage implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
   }
   ngOnInit() {
     if (this.isOnline) {
@@ -94,7 +98,10 @@ export class RegisterPage implements OnInit, OnDestroy {
     termsArabic: true,
     termsEnglish: false
   };
-
+  login = {
+    email: "",
+    password: ""
+  };
   register = {
     first_name: "",
     last_name: "",
@@ -192,7 +199,7 @@ export class RegisterPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.ui_controls.loading = false;
             this.success_notification(response.message);
-            this.router.navigate(['/login']).then(r => console.log(r));
+            this.signIn();
           }
         },
         error: (e) => {
@@ -204,6 +211,23 @@ export class RegisterPage implements OnInit, OnDestroy {
           console.info('complete');
         }
       }))
+  }
+  signIn() {
+      this.login.email = this.register.email;
+      this.login.password = this.register.password;
+      this.networkService.post_request(this.login, GlobalComponent.UserLogin)
+        .subscribe(({
+          next: (response) => {
+            if (response.response_code === 200 && response.status === "success") {
+              Preferences.set({
+                key: 'user',
+                value: JSON.stringify(response.data)
+              }).then(r => console.log(r));
+              this.router.navigate(['/account'], { replaceUrl: true });
+              this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
+            }
+          }
+        }))
   }
   getAuthToken() {
     this.ui_controls.loading = true;
@@ -297,12 +321,12 @@ export class RegisterPage implements OnInit, OnDestroy {
   }
   error_notification(message: string) {
     this.toast.error(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   sign_in() {
@@ -311,5 +335,4 @@ export class RegisterPage implements OnInit, OnDestroy {
   forgot_password() {
     this.router.navigate(['/', 'reset']).then(r => console.log(r));
   }
-
 }

@@ -2,29 +2,29 @@ import {Component, Input, OnDestroy, OnInit, signal, ViewChild} from '@angular/c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonCol,
-    IonContent,
-    IonFooter,
-    IonGrid,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonModal,
-    IonRange,
-    IonRefresher,
-    IonRefresherContent,
-    IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton,
-    IonTitle,
-    IonToolbar
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle, IonChip,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonModal,
+  IonRange,
+  IonRefresher,
+  IonRefresherContent,
+  IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton,
+  IonTitle,
+  IonToolbar
 } from '@ionic/angular/standalone';
 import {CartIconComponent} from "../../cart-icon.component";
 import {TranslatePipe} from "../../translate.pipe";
@@ -49,6 +49,7 @@ import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
+import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -57,11 +58,14 @@ type DualRange = { lower: number; upper: number };
 export interface Product {
   product_id: number;
   product_name: string;
+  price: string;
   image: string;
 }
 export interface Store {
   store_id: number;
   store_name: string;
+  store_desc: string;
+  price: string;
   rating: number | null;        // allow null if no rating yet
   rating_count: number;
   products: Product[];
@@ -71,7 +75,7 @@ export interface Store {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiButton, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiButton, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip]
 })
 export class HomePage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
@@ -287,12 +291,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   error_notification(message: string) {
     this.toast.error(message, {
-      position: "bottom-center"
+      position: "top-center"
     });
   }
   success_notification(message: string) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   toggleClass(event: Event) {
@@ -316,12 +320,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
   show_error(message: string) {
     this.toast.error(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
   show_success(message: string, position: any) {
     this.toast.success(message, {
-      position: 'bottom-center'
+      position: 'top-center'
     });
   }
 }

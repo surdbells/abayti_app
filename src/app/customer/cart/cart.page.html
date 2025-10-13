@@ -43,12 +43,12 @@
     @if (!ui_controls.is_loading){
     <ion-card class="cart-card">
       <div class="card-row">
-        <div class="img-wrap" role="button" tabindex="0">
+        <div (click)="open_product(cart.product_id)" class="img-wrap" role="button" tabindex="0">
           <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
-            <div class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
+            <div (click)="open_product(cart.product_id)" class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
             <div class="icons">
               <ion-button (click)="startAddToCloset(cart.product_id, cart.product_name, cart.product_image)" fill="clear" size="small" class="icon-btn">
                 <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,12 +69,12 @@
             </div>
           </div>
           <!-- Row 2: description (now single line) -->
-          <div class="row row-mid">
+          <div (click)="open_product(cart.product_id)" class="row row-mid">
             <div class="desc" [innerHTML]="cart.description"></div>
           </div>
           <div class="row row-bottom">
             <div class="left-meta">
-              <div class="price">
+              <div (click)="open_product(cart.product_id)" class="price">
                 <span class="dirham"></span>{{ cart.price_formatted }}
               </div>
 
@@ -163,7 +163,7 @@
         <tui-loader></tui-loader>
       }
    </span>
-  <ion-modal  [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+  <ion-modal swipeToClose="true" [backdropDismiss]="true" (didDismiss)="onDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>

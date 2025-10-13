@@ -58,16 +58,12 @@
               </ion-button>
             </div>
           </div>
-          <!-- Row 2: description (now single line) -->
           <div class="row row-mid">
-            <div class="desc"></div>
-          </div>
-          <div class="row row-mid">
-            <div class="desc"></div>
+            <div class="desc">&#64;{{ product.store_name }}</div>
           </div>
           <div class="row row-bottom">
             <div class="left-meta">
-              <div class="price">{{ product.price_formatted }}</div>
+              <div class="price"><span class="dirham"></span>{{ product.price_formatted }}</div>
             </div>
             <div class="qty-controls" aria-label="Quantity controls">
               <ion-button  (click)="open_product(product.product_id, product.product_name)" fill="outline" size="small" class="qty-btn">
@@ -99,7 +95,7 @@
         <tui-loader></tui-loader>
       }
    </span>
-  <ion-modal  [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+  <ion-modal swipeToClose="true" [isOpen]="isWishOpen" (didDismiss)="onDismiss()" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>

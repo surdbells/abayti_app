@@ -29,7 +29,7 @@
       <div class="section-head">
         <h2>{{ 'heading_latest' | translate }}</h2>
       </div>
-      <div class="h-scroll products">
+        <app-h-scroll-progress>
         @for(best_seller of latest; track best_seller.product_id){
           <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
@@ -53,16 +53,16 @@
             </div>
           </article>
         }
-      </div>
+        </app-h-scroll-progress>
     </section>
   }
   <div *ngIf="!ui_controls.is_loading" class="sheet ion-padding-horizontal">
     @for(category of categories; track category.id){
-    <section class="section">
-      <div class="section-head">
+    <section class="section ion-margin-top">
+      <div class="section-head ion-margin-bottom">
         <h2>{{category.name}}</h2>
       </div>
-      <div class="h-scroll products">
+        <app-h-scroll-progress>
         @for(product of products; track product.product_id){
           @if(category.id == product.collection){
             <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
@@ -88,7 +88,7 @@
             </article>
           }
         }
-      </div>
+        </app-h-scroll-progress>
     </section>
     }
   </div>

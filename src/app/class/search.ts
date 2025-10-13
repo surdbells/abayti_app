@@ -6,6 +6,7 @@ export class Search {
     public product_id: number,
     public product_name: string,
     public product_image: string,
+    public store_name: string,
     public description: string,
     public price_formatted: string,
     public size: string,
