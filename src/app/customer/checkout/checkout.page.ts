@@ -282,9 +282,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
       console.log('You are offline');
     }
   }
-  ionViewWillEnter() {
-    this.getObject().then(r => console.log(r));
-  }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
@@ -330,7 +328,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
   checkout_initiate() {
     if (!this.isConfirmBilling){
       this.toggleAccordion();
-      this.error_notification("Confirm your billing information to  proceed!")
+      this.error_notification("Confirm your delivery information to  proceed!")
       return;
     }
     this.checkout.order.amount = this.bill.total;

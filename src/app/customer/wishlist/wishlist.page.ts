@@ -210,7 +210,7 @@ export class WishlistPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
             this.ui_controls.is_loading = false;
-            this.get_wishlist_by_label(4, 'Favorite');
+            this.get_wishlist_by_label(2, 'Favorite');
           }else{
             this.ui_controls.is_empty = true;
             this.ui_controls.is_loading = false;

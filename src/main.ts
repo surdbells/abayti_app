@@ -15,11 +15,10 @@ function initI18n(i18n: I18nService) {
 }
 register();
 bootstrapApplication(AppComponent, {
-  providers: [ NG_EVENT_PLUGINS,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-
-    { provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true },
-    provideIonicAngular({ animated: true }),
+  providers: [NG_EVENT_PLUGINS,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
+    provideIonicAngular({animated: false}),
     provideHttpClient(),
     provideHotToastConfig({
       position: 'top-center', // any base position
@@ -27,4 +26,4 @@ bootstrapApplication(AppComponent, {
     }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
-});
+}).then(r =>console.log(r));

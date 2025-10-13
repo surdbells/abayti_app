@@ -32,7 +32,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal">
-
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -43,8 +42,8 @@
     @if (!ui_controls.is_loading){
     <ion-card class="cart-card">
       <div class="card-row">
-        <div (click)="open_product(cart.product_id)" class="img-wrap" role="button" tabindex="0">
-          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+        <div (click)="open_product(cart.product_id)" class="img-wrap" role="button">
+          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
@@ -68,7 +67,6 @@
               </ion-button>
             </div>
           </div>
-          <!-- Row 2: description (now single line) -->
           <div (click)="open_product(cart.product_id)" class="row row-mid">
             <div class="desc" [innerHTML]="cart.description"></div>
           </div>
@@ -77,10 +75,9 @@
               <div (click)="open_product(cart.product_id)" class="price">
                 <span class="dirham"></span>{{ cart.price_formatted }}
               </div>
-
             </div>
             <div class="size"><strong>{{ cart.size }}</strong></div>
-            <div class="qty-controls" aria-label="Quantity controls">
+            <div class="qty-controls">
               <ion-button [disabled]="cart.quantity == 1"  (click)="DecreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
                 <tui-icon icon="@tui.minus" [style.color]="'var(--text)'"/>
               </ion-button>

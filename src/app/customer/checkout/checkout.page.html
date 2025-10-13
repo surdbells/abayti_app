@@ -43,14 +43,14 @@
   <button appearance="neutral" size="m"  tuiNotification type="button">
     {{ 'review_info' | translate }}
   </button>
-  <ion-accordion-group class="ion-margin-vertical" #accordionGroup [value]="['second']">
+  <ion-accordion-group class="ion-margin-vertical" #accordionGroup [value]="['first']">
     <ion-accordion value="first">
       <ion-item slot="header" color="light">
         <ion-label>{{ 'delivery_info' | translate }}</ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
         @if (!ui_controls.is_loading){
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="animate__animated">
             <ion-col>
               <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
                 <label tuiLabel>{{ 'label_name' | translate }}</label>
@@ -58,7 +58,7 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="animate__animated">
             <ion-col>
               <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
                 <label tuiLabel>{{ 'label_phone' | translate }}</label>
@@ -72,7 +72,7 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="animate__animated">
             <ion-col>
               <label tuiLabel class="ion-color-light">{{ 'label_city' | translate }}</label>
               <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-city">
@@ -89,7 +89,7 @@
               </button>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="animate__animated">
             <ion-col>
               <label tuiLabel>{{ 'label_street_address' | translate }}</label>
               <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
@@ -97,7 +97,7 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="animate__animated">
             <ion-col>
               <label tuiLabel>{{ "label_villa_number" | translate }}</label>
               <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">

@@ -53,7 +53,12 @@
   color: #fff !important;
 }
 .abayti_secondary_background {
+  color: #fff !important;
   background-color: #8E2508 !important;
+}
+.abayti_light_background {
+  color: #fff !important;
+  background-color: #b37a6b !important;
 }
 
 .abayti_secondary_color {
@@ -243,6 +248,10 @@ ion-tab-button  {
   }
 }
 .hot-toast-container {
-  margin-top: 100px !important;
+  margin-top: 120px !important;
+}
+.abayti_border {
+  border: 2px solid #b37a6b;
+  border-radius: var(--radius-2xl);
 }
 

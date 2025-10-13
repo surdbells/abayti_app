@@ -108,14 +108,17 @@
           <ion-label>
             @if(this.single.category_id != "5"){
               <ion-item lines="none">
-                <div class="selected-swatch" [ngStyle]="{'background-color': add_cart.color || 'transparent'}" [class.empty]="!add_cart.color" aria-hidden="true"></div>
-                <ion-select [(ngModel)]="add_cart.color" interface="action-sheet" placeholder="Choose color">
-                  <ion-select-option *ngFor="let c of colors" [value]="c">
-                    <div class="option-row">
-                      <span class="option-swatch" [ngStyle]="{'background-color': c}"></span>
-                      <span class="option-label">{{ c | titlecase }}</span>
-                    </div>
-                  </ion-select-option>
+                <div class="selected-swatch" [ngStyle]="{'background-color': selectedHex || 'transparent'}" [class.empty]="!selectedHex" aria-hidden="true"></div>
+                <ion-select (ionChange)="onColorSelect($event)" [(ngModel)]="add_cart.color" interface="action-sheet" placeholder="Choose color">
+                  @for (c of colors; track $index){
+                    <ion-select-option [value]="c">
+                      <div class="option-row">
+                        <span class="option-swatch" [ngStyle]="{'background-color': c}"></span>
+                        <span class="option-label">{{ c | titlecase }}</span>
+                      </div>
+                    </ion-select-option>
+                  }
+
                 </ion-select>
               </ion-item>
             }

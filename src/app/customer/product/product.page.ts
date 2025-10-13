@@ -94,7 +94,7 @@ export class ProductPage implements OnInit {
   isMeasureOpen = false;
   itemExists = false;
   private sub: Subscription;
-  thumbSize = 65;
+  selectedHex = "";
   visibleCount = 3;
   constructor(
     private nav: NavController,
@@ -133,6 +133,56 @@ export class ProductPage implements OnInit {
   images: string[] = [];
   apiSizes = { };
   chosenSize: string | null = null;
+  colorOptions = [
+    { id: 'black', text: 'Black', hex: '#000000' },
+    { id: 'white', text: 'White', hex: '#FFFFFF' },
+    { id: 'off-white', text: 'Off White', hex: '#FAF9F6' },
+    { id: 'charcoal', text: 'Charcoal', hex: '#333333' },
+    { id: 'gray', text: 'Gray', hex: '#808080' },
+    { id: 'light-gray', text: 'Light Gray', hex: '#D3D3D3' },
+    { id: 'beige', text: 'Beige', hex: '#F5F5DC' },
+    { id: 'tan', text: 'Tan', hex: '#D2B48C' },
+    { id: 'camel', text: 'Camel', hex: '#C19A6B' },
+    { id: 'brown', text: 'Brown', hex: '#8B4513' },
+    { id: 'chocolate', text: 'Chocolate', hex: '#5D3A00' },
+    { id: 'navy', text: 'Navy', hex: '#001F3F' },
+    { id: 'blue', text: 'Blue', hex: '#1F75FE' },
+    { id: 'light-blue', text: 'Light Blue', hex: '#87CEEB' },
+    { id: 'sky-blue', text: 'Sky Blue', hex: '#00BFFF' },
+    { id: 'denim', text: 'Denim', hex: '#274472' },
+    { id: 'teal', text: 'Teal', hex: '#008080' },
+    { id: 'aqua', text: 'Aqua', hex: '#00FFFF' },
+    { id: 'mint', text: 'Mint', hex: '#98FF98' },
+    { id: 'green', text: 'Green', hex: '#2E8B57' },
+    { id: 'lime', text: 'Lime', hex: '#32CD32' },
+    { id: 'olive', text: 'Olive', hex: '#808000' },
+    { id: 'forest', text: 'Forest Green', hex: '#228B22' },
+    { id: 'red', text: 'Red', hex: '#C0392B' },
+    { id: 'crimson', text: 'Crimson', hex: '#DC143C' },
+    { id: 'burgundy', text: 'Burgundy', hex: '#800020' },
+    { id: 'pink', text: 'Pink', hex: '#FFC0CB' },
+    { id: 'hot-pink', text: 'Hot Pink', hex: '#FF69B4' },
+    { id: 'rose', text: 'Rose', hex: '#FF007F' },
+    { id: 'purple', text: 'Purple', hex: '#800080' },
+    { id: 'lavender', text: 'Lavender', hex: '#E6E6FA' },
+    { id: 'violet', text: 'Violet', hex: '#8A2BE2' },
+    { id: 'orange', text: 'Orange', hex: '#FF8C00' },
+    { id: 'peach', text: 'Peach', hex: '#FFDAB9' },
+    { id: 'coral', text: 'Coral', hex: '#FF7F50' },
+    { id: 'yellow', text: 'Yellow', hex: '#FFD200' },
+    { id: 'mustard', text: 'Mustard', hex: '#FFDB58' },
+    { id: 'gold', text: 'Gold (Metallic)', hex: '#D4AF37' },
+    { id: 'silver', text: 'Silver (Metallic)', hex: '#C0C0C0' },
+    { id: 'bronze', text: 'Bronze', hex: '#CD7F32' },
+    { id: 'champagne', text: 'Champagne', hex: '#F7E7CE' },
+    { id: 'ivory', text: 'Ivory', hex: '#FFFFF0' },
+
+    // ✅ New option
+    { id: 'multicolor', text: 'Multicolor', hex: 'linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)' }
+  ];
+  getColorById(id: string) {
+    return this.colorOptions.find(color => color.id === id);
+  }
   single = {
     id: 0,
     token: "",
@@ -522,8 +572,13 @@ export class ProductPage implements OnInit {
         }
       }))
   }
-
   openCart() {
     this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+
+  onColorSelect(event: any) {
+    const colorId = event.detail.value;
+    const selected = this.getColorById(colorId);
+    this.selectedHex = selected ? selected.hex : 'transparent';
   }
 }

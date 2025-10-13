@@ -59,7 +59,10 @@
             </div>
           </div>
           <div class="row row-mid">
-            <div class="desc">&#64;{{ product.store_name }}</div>
+            <tui-chip>
+              <div (click)="open_vendor(product.store, product.store_name)" class="desc">&#64;{{ product.store_name }}</div>
+            </tui-chip>
+
           </div>
           <div class="row row-bottom">
             <div class="left-meta">

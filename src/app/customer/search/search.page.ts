@@ -24,7 +24,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {TuiAvatar} from "@taiga-ui/kit";
+import {TuiAvatar, TuiChip} from "@taiga-ui/kit";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Search} from "../../class/search";
@@ -36,7 +36,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe, TuiChip]
 })
 export class SearchPage implements OnInit, OnDestroy {
   products: Search[] = [];
@@ -51,7 +51,6 @@ export class SearchPage implements OnInit, OnDestroy {
     price: "",
     quantity: "",
     size: undefined
-
   };
   constructor(
     private nav: NavController,
@@ -224,6 +223,12 @@ export class SearchPage implements OnInit, OnDestroy {
 
   user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
+  }
+  open_vendor(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'vendors'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
   }
 
   onDismiss() {

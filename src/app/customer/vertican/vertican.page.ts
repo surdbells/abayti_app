@@ -188,7 +188,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore_more = {
     id: 0,
     token: "",
-    offset: 10
+    offset: 15
   }
   rqst_param = {
     id: 0,
@@ -289,7 +289,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }))
   }
   load_more() {
-    this.explore_more.offset = (this.explore_more.offset || 0) + 5;
+    this.explore_more.offset = (this.explore_more.offset || 0) + 15;
     this.explore_more.id = this.single_user.id;
     this.explore_more.token = this.single_user.token;
     this.networkService.post_request(this.explore_more, GlobalComponent.explore)
