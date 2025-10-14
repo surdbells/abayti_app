@@ -48,6 +48,9 @@ ion-content {
 }
 
 .title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   font-size: 1.2rem;
   min-height: 40px;
   margin: 0;
@@ -67,8 +70,8 @@ ion-content {
 /* Floating buttons wrapper */
 .floating-buttons {
   position: absolute;
-  bottom: 228px; /* adjust so it floats above overlay-box */
-  left: 37%;
+  bottom: 200px; /* adjust so it floats above overlay-box */
+  left: 29%;
   transform: translateX(-50%);
   display: flex;
   gap: 12px;
@@ -78,7 +81,7 @@ ion-content {
   margin: 0;
   color: #ffffff;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-size: 0.9rem;
