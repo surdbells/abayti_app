@@ -44,10 +44,10 @@ export class AppComponent {
       });
       await PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
         console.log('Received in foreground:', notification);
-        this.toastCtrl.create({
-          message: `Received: ${notification.title || ''}`,
-          duration: 3000
-        }).then(t => t.present());
+        /*        this.toastCtrl.create({
+                  message: `Received: ${notification.title || ''}`,
+                  duration: 3000
+                }).then(t => t.present());*/
       });
       await PushNotifications.addListener('pushNotificationActionPerformed', (action: ActionPerformed) => {
         console.log('Action performed:', action);
