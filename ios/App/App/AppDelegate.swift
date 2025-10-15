@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       Messaging.messaging().apnsToken = deviceToken
       Messaging.messaging().token(completion: { (token, error) in
         if let error = error {
-            NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
+           // NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
         } else if let token = token {
           //  NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: token)
         }
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-      NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
+     // NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
