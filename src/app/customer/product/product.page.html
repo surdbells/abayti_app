@@ -156,7 +156,7 @@
             </svg>
           </ion-label>
         </div>
-        @if(single.category_id != "4" && single.category_id != "5"){
+        @if(single.category_id != "4" && single.category_id != "5" && single.category_id != "2"){
         <ion-text *ngIf="!single.size_custom" class="ion-text-start ion-padding-bottom">{{ 'choose_size' | translate }}</ion-text>
         <app-size-chips *ngIf="!single.size_custom" [sizes]="apiSizes" (selected)="onSizeSelected($event)"></app-size-chips>
         <p *ngIf="chosenSize">{{ 'selected' | translate }}: {{ chosenSize | uppercase }}</p>
@@ -357,7 +357,7 @@
           }
           @if(single.stock_status == 'on_backorder'){
             <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
-              {{ 'back_order' | translate }} <span class="dirham"></span>{{single.price_formated}}
+              {{ 'back_order' | translate }} Ð{{single.price_formated}}
             </button>
           }
           @if(itemExists){
@@ -367,7 +367,7 @@
           } @else {
             @if(single.stock_status == 'in_stock'){
               <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="addToCart()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
-                {{ 'button_add_to_cart' | translate }} <span class="dirham"></span>{{single.price_formated}}
+                {{ 'button_add_to_cart' | translate }} Ð{{single.price_formated}}
               </button>
             }
           }

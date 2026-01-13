@@ -1,0 +1,176 @@
+<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
+  <ion-toolbar class="toolbar ion-padding-top">
+    <ion-buttons slot="start">
+      <div (click)="triggerBack()" class="icon_left">
+        <tui-icon icon="@tui.corner-up-left"></tui-icon>
+      </div>
+    </ion-buttons>
+    <ion-title class="title ion-text-center">Create Style</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-card class="form-card">
+
+      <div class="field">
+        <label class="field__label">TITLE</label>
+        <ion-item class="input-frame" lines="none">
+          <ion-input [(ngModel)]="create_style.name" placeholder="e.g Summer collection" class="input-box"></ion-input>
+        </ion-item>
+      </div>
+    <div class="field">
+      <label class="field__label">CATEGORY</label>
+      <ion-item lines="none" class="sort-item">
+        <ion-select interface="action-sheet"  placeholder="Select a category" [(ngModel)]="create_style.category">
+            <!-- Classic & Timeless -->
+            <ion-select-option value="classic">Classic</ion-select-option>
+            <ion-select-option value="minimalist">Minimalist</ion-select-option>
+            <ion-select-option value="preppy">Preppy</ion-select-option>
+            <ion-select-option value="elegant">Elegant</ion-select-option>
+
+            <!-- Casual & Street -->
+            <ion-select-option value="casual">Casual</ion-select-option>
+            <ion-select-option value="streetwear">Streetwear</ion-select-option>
+            <ion-select-option value="athleisure">Athleisure</ion-select-option>
+            <ion-select-option value="normcore">Normcore</ion-select-option>
+
+            <!-- Artistic & Expressive -->
+            <ion-select-option value="bohemian">Bohemian</ion-select-option>
+            <ion-select-option value="vintage">Vintage</ion-select-option>
+            <ion-select-option value="retro">Retro</ion-select-option>
+            <ion-select-option value="artsy">Artsy</ion-select-option>
+
+            <!-- Bold & Alternative -->
+            <ion-select-option value="gothic">Gothic</ion-select-option>
+            <ion-select-option value="punk">Punk</ion-select-option>
+            <ion-select-option value="grunge">Grunge</ion-select-option>
+            <ion-select-option value="emo">Emo</ion-select-option>
+
+            <!-- Cultural & Lifestyle -->
+            <ion-select-option value="traditional">Traditional / Cultural</ion-select-option>
+            <ion-select-option value="modest">Modest Fashion</ion-select-option>
+            <ion-select-option value="afrocentric">Afrocentric</ion-select-option>
+            <ion-select-option value="western">Western</ion-select-option>
+
+            <!-- Modern & Trend -->
+            <ion-select-option value="high-fashion">High Fashion</ion-select-option>
+            <ion-select-option value="chic">Chic</ion-select-option>
+            <ion-select-option value="glam">Glam</ion-select-option>
+            <ion-select-option value="y2k">Y2K</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="field">
+    <label class="field__label">TYPE</label>
+    <ion-item lines="none" class="sort-item" justify="space-between">
+        <ion-label>Private Style</ion-label>
+        <ion-toggle color="success" [(ngModel)]="create_style.isPrivate"></ion-toggle>
+      </ion-item>
+    </div>
+      <ion-item lines="none" class="input-field">
+        <div class="section-label">
+          Selected Products ({{ selectedProducts.length }})
+        </div>
+      </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" sizeSm="6" *ngFor="let p of selectedProducts">
+          <ion-card (click)="removeProduct(p.product_id)"  class="product-card">
+            <ion-img [src]="p.image_1" class="product-image"></ion-img>
+            <button style="z-index: 999" class="like" type="button">
+              <tui-icon icon="@tui.x" />
+            </button>
+            <ion-card-header class="ion-no-padding">
+              <ion-card-title class="product-title">{{ p.product_name }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="product-price">Ð{{ p.price }}</ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+      <div class="button-row">
+        <ion-button (click)="isProductsOpen = true" expand="block" class="secondary-btn">
+            + Add Products
+        </ion-button>
+        @if (!ui_controls.is_creating){
+        <ion-button (click)="createStyle()" expand="block" class="primary-btn">
+          Create Style
+        </ion-button>
+        }
+        @if (ui_controls.is_creating){
+          <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+              <tui-loader></tui-loader>
+           </span>
+        }
+      </div>
+  </ion-card>
+
+  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()"  [isOpen]="isProductsOpen" [initialBreakpoint]="1" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title> Select Products </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isProductsOpen = false">{{ 'close' | translate }}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="review-content select-products ion-padding">
+        <div class="card">
+          <div class="divider"></div>
+           <ion-accordion-group>
+              <ion-accordion  *ngFor="let store of stores" [value]="store.store_id" class="store-accordion">
+                <ion-item (click)="get_vendor_product(store.store_id)" slot="header" class="store-header">
+                  <ion-label>{{ store.store_name }}</ion-label>
+                </ion-item>
+                <div slot="content" class="store-content">
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col size="6" sizeSm="6" *ngFor="let p of products">
+                        <ion-card class="product-card" (click)="addProductToStyle(create_style, p)">
+                          <ion-img [src]="p.image_1" class="product-image"></ion-img>
+                          <ion-card-header class="ion-no-padding">
+                            <ion-card-title class="product-title">{{ p.product_name }}</ion-card-title>
+                          </ion-card-header>
+                          <ion-card-content class="product-price">Ð{{ p.price }}</ion-card-content>
+                        </ion-card>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </div>
+              </ion-accordion>
+            </ion-accordion-group>
+        </div>
+        @if(!ui_controls.is_empty){
+          <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+            <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        }
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
+  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_styles()" tab="sketch">
+      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

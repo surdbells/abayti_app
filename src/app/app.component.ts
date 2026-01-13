@@ -3,6 +3,7 @@ import {IonApp, IonRouterOutlet, Platform} from '@ionic/angular/standalone';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import {ActionPerformed, PushNotifications, PushNotificationSchema, Token} from "@capacitor/push-notifications";
 import {ToastController} from "@ionic/angular";
+import {fadeTransition} from "../fade.transition";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {ToastController} from "@ionic/angular";
   standalone: true
 })
 export class AppComponent {
+  fadeTransition = fadeTransition;
   constructor(private platform: Platform,private toastCtrl: ToastController) {
       this.initializeApp();
       this.platform.ready().then(async () => {

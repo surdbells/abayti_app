@@ -1,0 +1,111 @@
+<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
+  <ion-toolbar class="toolbar ion-padding-top">
+    <ion-buttons slot="start">
+      <div (click)="goBack()" class="icon_left">
+        <tui-icon icon="@tui.corner-up-left"></tui-icon>
+      </div>
+    </ion-buttons>
+    <ion-title class="title ion-text-center abayti_white">My Orders</ion-title>
+  </ion-toolbar>
+<!--
+  &lt;!&ndash; Horizontal scroll filter chips &ndash;&gt;
+  <div class="status-filter" role="tablist" aria-label="Order status filters">
+    @for (s of statuses; track $index){
+      <button class="chip" [class.active]="selectedStatus === s" (click)="selectStatus(s)"
+              role="tab" [attr.aria-selected]="selectedStatus === s">
+        {{ s | titlecase }}
+      </button>
+    }
+  </div>-->
+</ion-header>
+
+<ion-content fullscreen="true" class="home-bg ion-padding">
+  @if (ui_controls.is_loading){
+    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+        <tui-loader></tui-loader>
+   </span>
+  }
+  @if (!ui_controls.is_loading && orders.length == 0){
+    <div class="empty-state">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="shopping-cart"></tui-icon>
+          <h2>{{ 'heading_no_orders' | translate }}</h2>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  } @else {
+    <ng-container *ngFor="let order of orders; let i = index">
+      <ion-card class="order-card">
+        <!-- Order Header -->
+        <div class="order-header">
+          <div class="order-info">
+            <h4 class="order-id">{{ order.id }}</h4>
+            <span class="order-date">{{ order.date | date:'MMM d, y' }}</span>
+          </div>
+          <span class="status" [ngClass]="order.status">{{ order.status | uppercase }}</span>
+        </div>
+        <!-- Collapsible items section -->
+        <div class="items-list horizontal-scroll" *ngIf="order.showItems">
+          <div (click)="open_vendor(item.store, item.product_name)" class="product-card" *ngFor="let item of order.items">
+            <div class="product-image-wrapper">
+              <img loading="lazy" [src]="item.product_image" alt="{{ item.product_name }}" class="product-image" />
+              <!-- Item status badge -->
+              <span class="item-status" [ngClass]="item.status">{{ item.status | uppercase }}</span>
+            </div>
+            <h5 class="product-name">{{ item.product_name }}</h5>
+            <p class="qty">Qty: {{ item.quantity }}</p>
+            <p class="price">₦{{ item.price }}</p>
+          </div>
+        </div>
+        <!-- Footer with toggle -->
+        <div class="order-footer">
+          <div class="total">
+            <span>TOTAL</span>
+            <strong>Ð{{ order.total }}</strong>
+          </div>
+          <div class="actions">
+            <ion-button size="small" fill="outline" (click)="toggleItems(i)">
+              {{ order.showItems ? 'Hide Items' : 'View Items' }}
+              <ion-icon slot="end" [name]="order.showItems ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+      </ion-card>
+    </ng-container>
+  }
+
+
+
+
+  @if(!ui_controls.is_empty){
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+</ion-content>
+<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
+  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_cart()" tab="explore">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_styles()" tab="sketch">
+      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

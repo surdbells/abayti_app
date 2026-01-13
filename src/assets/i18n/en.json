@@ -38,7 +38,8 @@
   "accessories": "Accessories",
   "modest_clothes": "Modest clothes",
   "dresses": "Dresses",
-  "best_seller": "Best sellers",
+  "best_seller": "Best Sellers",
+  "new_arrivals": "New Arrivals",
   "empty_filter": "No product for the selected filter",
   "our_best_sellers": "Our best sellers",
   "filter": "Filter",
@@ -119,6 +120,9 @@
   "heading_no_reviews": "No Reviews Yet",
   "text_no_reviews_description": "You haven’t reviewed any store yet.",
   "heading_no_product_found": "No product found",
+  "heading_no_styles": "No styles found",
+  "you_no_styles": "You have no styles create",
+  "heading_no_orders": "You have no orders yet",
   "text_no_product_match": "No product match your search",
   "button_explore_stores": "Explore stores",
   "title_search": "Search",
@@ -179,5 +183,6 @@
   "review_info": "Confirm delivery info before checkout.",
   "confirm_delivery_info": "Confirm delivery information.",
   "delivery_info": "Confirm delivery information.",
-  "order_summary": "Order summary"
+  "order_summary": "Order summary",
+  "show_all": "Show All"
 }

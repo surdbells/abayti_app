@@ -1,0 +1,127 @@
+<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
+  <ion-toolbar class="toolbar ion-padding-top">
+    <ion-buttons slot="start">
+      <div (click)="triggerBack()" class="icon_left">
+        <tui-icon icon="@tui.corner-up-left"></tui-icon>
+      </div>
+    </ion-buttons>
+    <ion-title class="title ion-text-center">Style details</ion-title>
+  </ion-toolbar>
+
+  <ion-card class="transparent-card">
+    <ion-card-header class="ion-no-padding">
+      <ion-card-title class="title">{{ style.style_name }}</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card class="summary_card">
+    <ion-card-header class="summary-header">
+      <div class="title-row">
+        <h2>STYLE SUMMARY</h2>
+        <div class="item-badge">{{ style.products.length }} items</div>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      @for(item of style.products; track $index){
+        <div class="item-row">
+          <span class="item-name">{{ item.product_name }}</span>
+          <span class="item-price">Ð{{ item.price | number:'1.2-2' }}</span>
+        </div>
+      }
+
+      <div class="divider"></div>
+      <div class="total-row">
+        <span class="total-label">Total Style Price</span>
+        <span class="total-price">Ð{{ getTotal() | number:'1.2-2' }}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-card class="transparent-card">
+    <ion-card-header>
+      <ion-card-title class="section_title">Products in this style</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  @for(item of style.products; track $index){
+    <ion-card class="product-card">
+      <div class="image-wrapper">
+        <img loading="lazy" [src]="item.image" alt="{{ item.product_name }}" class="product-image" />
+      </div>
+      <ion-card-content class="card-content">
+        <h2 class="title_p">{{ item.product_name }}</h2>
+        <p class="description">
+          Beautiful floral summer dress with flowing fabric
+        </p>
+        <p class="price">Ð{{ item.price }}</p>
+        <div class="actions">
+          <ion-button (click)="open_product(item.product_id)" fill="solid" class="btn secondary">
+            <tui-icon icon="@tui.shopping-cart"></tui-icon> + Cart
+          </ion-button>
+          <ion-button (click)="startAddToCloset(item.product_id, item.product_name, item.image)" fill="solid" class="btn primary">
+            <tui-icon icon="@tui.columns-3"></tui-icon> + Closet
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()"  [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        @if (!ui_controls.is_loading_category){
+          <ion-list class="custom-list">
+            @for(category of categories; track category.id; let i = $index){
+              <ion-item (click)="addToCloset(category.id)" button detail="false">
+                <tui-icon icon="@tui.plus"  [style.color]="'var(--ion-color-secondary)'" slot="start" />
+                <ion-label>{{category.name}}</ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        }
+        <ion-row>
+          <ion-col>
+              <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+                @if (ui_controls.is_loading_category){
+                  <tui-loader></tui-loader>
+                }
+              </span>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
+  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_styles()" tab="sketch">
+      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

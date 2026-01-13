@@ -275,7 +275,7 @@ export class ProductPage implements OnInit {
   }
   process_controls = {
     is_custom: false,
-    confirmed_measurement: false
+    confirmed_measurement: true
   }
   single_user = {
     id: 0,
@@ -397,7 +397,7 @@ export class ProductPage implements OnInit {
       return;
     }
     if (!this.single.size_custom){
-        if(this.single.category_id != "4" && this.single.category_id != "5") {
+        if(this.single.category_id != "4" && this.single.category_id != "5" && this.single.category_id != "2") {
           if (this.add_cart.size.length == 0) {
             this.error_notification("Select your preferred size.")
             return;
@@ -410,10 +410,10 @@ export class ProductPage implements OnInit {
           return;
         }
       }
-    if (this.single.size_custom && !this.process_controls.confirmed_measurement){
+    /*if (this.single.size_custom && !this.process_controls.confirmed_measurement){
         this.isMeasureOpen = true;
         return;
-    }
+    }*/
     this.ui_controls.is_adding_to_cart = true;
     this.networkService.post_request(this.add_cart, GlobalComponent.addToCart)
       .subscribe(({

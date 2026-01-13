@@ -41,6 +41,10 @@ export class GlobalComponent {
   public static filtered_products = GlobalComponent.baseURL + 'customer/filter_product';
   public static filterexplore = GlobalComponent.baseURL + 'customer/filterexplore';
   public static best_sellers = GlobalComponent.baseURL + 'customer/best_sellers';
+  public static best_sellers_listing = GlobalComponent.baseURL + 'customer/best_sellers_listing';
+  public static category_listing = GlobalComponent.baseURL + 'customer/category_listing';
+  public static new_arrivals = GlobalComponent.baseURL + 'customer/new_arrivals';
+  public static new_arrivals_listing = GlobalComponent.baseURL + 'customer/new_arrivals_listing';
   public static customerCart = GlobalComponent.baseURL + 'customer/read-cart';
   public static customerOrder = GlobalComponent.baseURL + 'customer/read-orders';
   public static orderDetails = GlobalComponent.baseURL + 'customer/read-order-details';
@@ -55,6 +59,9 @@ export class GlobalComponent {
   public static search = GlobalComponent.baseURL + 'customer/search';
   public static store_labels = GlobalComponent.baseURL + 'customer/read_vendor_collection';
   public static store_latest = GlobalComponent.baseURL + 'customer/store_latest';
+  public static read_vendor = GlobalComponent.baseURL + 'customer/read-vendor';
+  public static follow_vendor = GlobalComponent.baseURL + 'customer/follow';
+  public static unfollow_vendor = GlobalComponent.baseURL + 'customer/unfollow';
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
   public static readConversations = GlobalComponent.baseURL + 'customer/read-conversations';
   public static readMessages = GlobalComponent.baseURL + 'customer/read-messages';
@@ -65,6 +72,15 @@ export class GlobalComponent {
   public static readTicket = GlobalComponent.baseURL + 'customer/read_ticket';
   public static readTicketMessages = GlobalComponent.baseURL + 'customer/read-ticket-messages';
   public static sendTicketMessage = GlobalComponent.baseURL + 'customer/send-ticket-message';
+
+  public static store_reviews = GlobalComponent.baseURL + 'customer/store-reviews';
+  public static add_review = GlobalComponent.baseURL + 'customer/add-review';
+  public static make_helpful = GlobalComponent.baseURL + 'customer/helpful';
+  public static vendors_listing = GlobalComponent.baseURL + 'customer/vendors_list';
+  public static styles_list = GlobalComponent.baseURL + 'customer/styles_list';
+  public static create_style = GlobalComponent.baseURL + 'customer/create_style';
+  public static vendors_products_listing = GlobalComponent.baseURL + 'customer/vendors_products';
+  public static read_orders_listing = GlobalComponent.baseURL + 'customer/read_orders_listing';
 
 
   // ordering process

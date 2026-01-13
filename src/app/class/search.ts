@@ -10,6 +10,7 @@ export class Search {
     public store: number,
     public description: string,
     public price_formatted: string,
+    public price: string,
     public size: string,
     public color: string,
     public is_custom: boolean

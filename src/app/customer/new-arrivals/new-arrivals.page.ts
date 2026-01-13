@@ -5,11 +5,26 @@ import {
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent, IonCol,
-  IonContent, IonFooter, IonGrid,
-  IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton,
+  IonCardContent,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonModal, IonRefresher, IonRefresherContent,
+  IonRow,
+  IonTabBar,
+  IonTabButton, IonText,
   IonTitle,
-  IonToolbar, NavController, Platform
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
 import {
   TuiButton,
@@ -30,16 +45,18 @@ import {GlobalComponent} from "../../global-component";
 import {Search} from "../../class/search";
 import {Labels} from "../../class/labels";
 import {TranslatePipe} from "../../translate.pipe";
+import {Products} from "../../class/products";
+import {InfiniteScrollCustomEvent} from "@ionic/angular";
 
 @Component({
   selector: 'app-search',
-  templateUrl: './best-sellers.page.html',
-  styleUrls: ['./best-sellers.page.scss'],
+  templateUrl: './new-arrivals.page.html',
+  styleUrls: ['./new-arrivals.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe, TuiChip]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, IonRefresher, IonRefresherContent, IonText]
 })
-export class BestSellersPage implements OnInit, OnDestroy {
-  products: Search[] = [];
+export class NewArrivalsPage implements OnInit, OnDestroy {
+  new_arrivals: Products[] = [];
   categories: Labels[] = [];
   isOnline = true;
   isWishOpen = false; // or control this as you like
@@ -78,15 +95,14 @@ export class BestSellersPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  rqst_param = {
-    id: 0,
-    token: ""
-  }
-  search = {
+  initial = {
     id: 0,
     token: "",
-    search: ""
+    limit: 10,
+    offset: 0,
+    maxPrice: 20000
   }
+
   single_user = {
     id: 0,
     token: "",
@@ -120,48 +136,31 @@ export class BestSellersPage implements OnInit, OnDestroy {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.search.id = this.single_user.id
-      this.search.token = this.single_user.token
+      this.initial.id = this.single_user.id;
+      this.initial.token = this.single_user.token;
+      this.newArrivals();
     }
   }
-  searchProduct() {
+  newArrivals() {
     this.ui_controls.is_loading = true;
     this.ui_controls.is_empty = false;
-    this.networkService.post_request(this.search, GlobalComponent.search)
+    this.initial.limit = 10;
+    this.initial.offset = 0;
+    this.initial.maxPrice = 20000;
+    this.networkService.post_request(this.initial, GlobalComponent.new_arrivals_listing)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.products = response.data;
+            this.new_arrivals = response.data;
             this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = false;
-          }else{
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_empty = true;
           }
         }
       }))
   }
-  user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-  user_support() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
-  }
+
   get_label() {
     this.ui_controls.is_loading_category = true;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
+    this.networkService.post_request(this.initial, GlobalComponent.readWishlistLabel)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
@@ -193,8 +192,8 @@ export class BestSellersPage implements OnInit, OnDestroy {
     this.addCloset.product_id = product;
     this.addCloset.product_name = product_name;
     this.addCloset.product_image = image_1;
-    this.rqst_param.id = this.single_user.id;
-    this.rqst_param.token = this.single_user.token;
+    this.initial.id = this.single_user.id;
+    this.initial.token = this.single_user.token;
     this.get_label();
     this.isWishOpen = true;
   }
@@ -214,24 +213,64 @@ export class BestSellersPage implements OnInit, OnDestroy {
       position: 'top-center'
     });
   }
-
-  onInputChange(value: string) {
-    this.search.search = value;
-    this.searchProduct()
-
-  }
-
-  user_orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
-  }
-  open_vendor(id: number, name: string) {
-    this.router.navigate(
-      ['/', 'vendors'],
-      { queryParams: { id, name } }
-    ).then(r => console.log(r));
-  }
-
   onDismiss() {
     this.isWishOpen= false;
+  }
+  triggerBack() {
+    this.nav.back();
+  }
+
+
+  getMoreItems() {
+    this.initial.id = this.single_user.id;
+    this.initial.token = this.single_user.token;
+    this.initial.offset = this.initial.offset + this.initial.limit
+    this.networkService.post_request(this.initial, GlobalComponent.new_arrivals_listing)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.new_arrivals.push(...response.data);
+          }else{
+            this.ui_controls.is_empty = true;
+          }
+        }
+      }))
+  }
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    this.getMoreItems();
+    setTimeout(() => {
+      event.target.complete().then(r => console.log(r));
+    }, 500);
+  }
+
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      this.ui_controls.is_loading = true;
+      this.newArrivals();
+      event.target.complete();
+    }, 200);
+  }
+
+  filterByPrice(number: number) {
+    this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
+    this.initial.maxPrice = number;
+    this.initial.offset = 0;
+    this.networkService.post_request(this.initial, GlobalComponent.new_arrivals_listing)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.new_arrivals = response.data;
+            this.ui_controls.is_loading = false;
+          }
+        }
+      }))
+  }
+
+  toggleClass(event: Event) {
+    document.querySelectorAll('.cat_active')
+      .forEach(el => el.classList.remove('cat_active'));
+    const el = event.currentTarget as HTMLElement;
+    el.classList.add('cat_active');
   }
 }

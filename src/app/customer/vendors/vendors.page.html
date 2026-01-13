@@ -1,39 +1,50 @@
-<ion-header class="ion-padding-vertical ion-no-border gradient_bg remove_nudge">
-  <ion-toolbar class="toolbar ion-no-border">
-    <ion-title style="color: #FFFFFF; font-size: 15px">{{ rqst_param.store_name }}</ion-title>
-    <ion-buttons (click)="triggerBack()" aria-label="Back to account" slot="start">
-      <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g filter="url(#filter0_d_75_149)">
-          <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
-          <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
-        </g>
-        <defs>
-          <filter id="filter0_d_75_149" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset/>
-            <feGaussianBlur stdDeviation="8.55"/>
-            <feComposite in2="hardAlpha" operator="out"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_75_149"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_75_149" result="shape"/>
-          </filter>
-        </defs>
-      </svg>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-header class="vendor-header ion-no-border">
+  <!-- COVER IMAGE -->
+  <div class="vendor-cover-wrapper">
+    <img loading="lazy" class="vendor-cover"  [src]="view_vendor.cover || 'assets/images/vendor-cover-default.png'" alt="Vendor cover" />
+    <!-- LOGO + META -->
+    <div class="vendor-overlay">
+      <div class="vendor-logo">
+        @if (view_vendor.logo) {
+          <img loading="lazy" [src]="view_vendor.logo" alt="{{ view_vendor.name }}" />
+        } @else {
+          <span class="logo-initial">
+            {{ view_vendor.name | slice:0:1 }}
+          </span>
+        }
+      </div>
+      <div class="vendor-meta">
+        <h2>{{ view_vendor.name }}</h2>
+        <p [innerHTML]="view_vendor.tagline || 'A trusted vendor on our platform'"></p>
+      </div>
+    </div>
+  </div>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg">
+  <!-- ACTION BUTTONS -->
+  <div class="vendor-actions ion-padding">
+    <ion-button expand="block" shape="round" [fill]="view_vendor.following ? 'outline' : 'solid'" (click)="toggleFollow()">
+      @if (view_vendor.following){
+        <tui-icon class="ion-margin-end" icon="@tui.user-check" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      } @else {
+        <tui-icon class="ion-margin-end" icon="@tui.user-minus" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      }
+      {{ view_vendor.following ? 'Followed' : 'Follow' }}
+    </ion-button>
+    <ion-button expand="block" shape="round" [fill]="'outline'" (click)="goToReviews(read_vendor.store_id, view_vendor.name)">
+      <tui-icon class="ion-margin-end" icon="@tui.star" [style.color]="'var(--ion-color-secondary-contrast)'"/> Reviews
+    </ion-button>
+  </div>
   @if (!ui_controls.is_loading){
-    <section class="section ion-padding">
-      <div class="section-head">
+    <section class="section ion-padding-horizontal">
+      <div class="section-head ion-padding-bottom">
         <h2>{{ 'heading_latest' | translate }}</h2>
       </div>
         <app-h-scroll-progress>
         @for(best_seller of latest; track best_seller.product_id){
           <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
-              <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+              <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
             </div>
             <div class="info">
               <p class="desc">
@@ -41,7 +52,7 @@
               </p>
               <ion-row>
                 <ion-col class="ion-text-start">
-                  <span class="dirham"></span>{{best_seller.price}}
+                  Ð{{best_seller.price}}
                 </ion-col>
                 <ion-col class="ion-text-end">
                   <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +78,7 @@
           @if(category.id == product.collection){
             <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
               <div class="img-wrap" [style.background]="'#7A1C09'">
-                <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
+                <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
               </div>
               <div class="info">
                 <p class="desc">
@@ -75,7 +86,7 @@
                 </p>
                 <ion-row>
                   <ion-col class="ion-text-start">
-                    <span class="dirham"></span>{{product.price}}
+                    Ð{{product.price}}
                   </ion-col>
                   <ion-col class="ion-text-end">
                     <svg (click)="open_product(product.product_id, product.product_name)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,37 +110,27 @@
     </span>
 </ion-content>
 
-<ion-footer style="padding-bottom: 35px; background-color: transparent" class="ion-padding">
-  <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom" class="tabs">
-    <ion-tab-button style="" (click)="user_home()" tab="home">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>
-      -->
+<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
+  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="go_home()" tab="home">
+      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Explore</ion-label>
-      -->
+      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_cart()" tab="cart">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">My Cart</ion-label>
-      -->
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="orders()" tab="sketch">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/orders.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Orders</ion-label>
-      -->
+    <ion-tab-button (click)="user_styles()" tab="sketch">
+      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
-      <!--
-            <ion-label  style="font-weight: 900"  [style.color]="'var(&#45;&#45;ion-color-secondary)'">Profile</ion-label>
-      -->
+      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

@@ -260,6 +260,9 @@ export class CartPage implements OnInit, OnDestroy {
   user_messages() {
     this.router.navigate(['/', 'messages']).then(r => console.log(r));
   }
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
   handleRefresh(event: any) {
     setTimeout(() => {
       this.load_cart();

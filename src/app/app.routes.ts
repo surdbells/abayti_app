@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {provideIonicAngular} from "@ionic/angular/standalone";
 
 export const routes: Routes = [
   { path: '', redirectTo: 'intro', pathMatch: 'full' },
@@ -126,5 +127,37 @@ export const routes: Routes = [
   {
     path: 'single',
     loadComponent: () => import('./public/single/single.page').then( m => m.SinglePage)
+  },
+  {
+    path: 'styles',
+    loadComponent: () => import('./customer/styles/styles.page').then( m => m.StylesPage)
+  },
+  {
+    path: 'style-view',
+    loadComponent: () => import('./customer/styles/style-view/style-view.page').then( m => m.StyleViewPage)
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./customer/styles/create/create.page').then( m => m.CreatePage)
+  },
+  {
+    path: 'best-sellers',
+    loadComponent: () => import('./customer/best-sellers/best-sellers.page').then( m => m.BestSellersPage)
+  },
+  {
+    path: 'new-arrivals',
+    loadComponent: () => import('./customer/new-arrivals/new-arrivals.page').then( m => m.NewArrivalsPage)
+  },
+  {
+    path: 'category',
+    loadComponent: () => import('./customer/category/category.page').then( m => m.CategoryPage)
+  },
+  {
+    path: 'vendor-reviews',
+    loadComponent: () => import('./customer/vendor-reviews/vendor-reviews.page').then( m => m.VendorReviewsPage)
+  },
+  {
+    path: 'my-orders',
+    loadComponent: () => import('./customer/my-orders/my-orders.page').then( m => m.MyOrdersPage)
   }
 ];

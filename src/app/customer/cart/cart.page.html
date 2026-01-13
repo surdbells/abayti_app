@@ -43,7 +43,7 @@
     <ion-card class="cart-card">
       <div class="card-row">
         <div (click)="open_product(cart.product_id)" class="img-wrap" role="button">
-          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" />
+          <img loading="lazy" loading="lazy"  style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
@@ -73,7 +73,7 @@
           <div class="row row-bottom">
             <div class="left-meta">
               <div (click)="open_product(cart.product_id)" class="price">
-                <span class="dirham"></span>{{ cart.price_formatted }}
+                Ð{{ cart.price_formatted }}
               </div>
             </div>
             <div class="size"><strong>{{ cart.size }}</strong></div>
@@ -102,18 +102,18 @@
             </ion-item>
           <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
             <ion-label>{{ 'label_delivery_fee' | translate }}</ion-label>
-            <span class="dirham"></span>{{ bill.f_delivery }}
+            Ð{{ bill.f_delivery }}
           </ion-item>
           <ion-item class="animate__animated animate__fadeInDown" detail="false">
             <ion-label>{{ 'label_discount' | translate }}</ion-label>
             <ion-text slot="end">
-              <span class="dirham"></span>{{ bill.f_discount }}
+              Ð{{ bill.f_discount }}
             </ion-text>
           </ion-item>
             <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
               <ion-label>{{ 'label_sub_total' | translate }}</ion-label>
               <ion-text slot="end">
-                <span class="dirham"></span>{{ bill.f_subtotal }}
+                Ð{{ bill.f_subtotal }}
               </ion-text>
             </ion-item>
             <ion-item class="animate__animated animate__fadeInDown" detail="false">
@@ -124,7 +124,7 @@
             <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
               <ion-label>{{ 'label_total' | translate }}</ion-label>
               <ion-text slot="end">
-                <span class="dirham"></span>{{ bill.total }}
+                Ð{{ bill.total }}
               </ion-text>
             </ion-item>
           </ion-list>
@@ -195,37 +195,27 @@
     </ng-template>
   </ion-modal>
 </ion-content>
-<ion-footer style="padding-bottom: 35px;" class="ion-padding  ion-no-border ">
-  <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom" class="tabs">
-    <ion-tab-button style="" (click)="user_home()" tab="home">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>
-      -->
+<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
+  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Explore</ion-label>
-      -->
+      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_cart()" tab="cart">
-      <ion-icon style="font-size: 45px; background-color: rgba(255, 255, 255, 0.05); border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">My Cart</ion-label>
-      -->
+    <ion-tab-button style="text-decoration: underline"  (click)="user_cart()" tab="explore">
+      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_orders()" tab="sketch">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/orders.svg"></ion-icon>
-      <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Orders</ion-label>
-      -->
+    <ion-tab-button (click)="user_styles()" tab="sketch">
+      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
-      <!--
-            <ion-label  style="font-weight: 900"  [style.color]="'var(&#45;&#45;ion-color-secondary)'">Profile</ion-label>
-      -->
+      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

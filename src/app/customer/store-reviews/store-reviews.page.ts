@@ -73,10 +73,11 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
     is_vendor: false,
     is_customer: false
   }
-  delete = {
+  add_review = {
     id: 0,
     token: '',
-    review: 0
+    store_id: 0,
+    customer_name: ""
   };
 
   ngOnInit() {
@@ -90,7 +91,7 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
   }
   // Called when the page becomes active (Ionic RouterOutlet triggers this)
   ionViewDidEnter() {
-    //  this.getObject().then(r => console.log(r));
+     this.getObject().then(r => console.log(r));
     this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
       this.nav.navigateRoot('/settings').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
     });
@@ -99,7 +100,6 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
   ionViewWillLeave() {
     this.backSub?.unsubscribe();
   }
-  star_items = Array(5).fill(0);
   rqst_param = {
     id: 0,
     store: 0,
@@ -111,6 +111,7 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
     store: 0,
     token: "",
   }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
@@ -119,8 +120,11 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
       this.rqst_param.token = this.single_user.token
+
       this.store_reviews.id = this.single_user.id
       this.store_reviews.token = this.single_user.token
+
+
       this.get_reviews();
     }
   }

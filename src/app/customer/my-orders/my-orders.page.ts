@@ -1,0 +1,198 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {
+  IonButton,
+  IonButtons,
+  IonCard, IonCardContent,
+  IonContent, IonFooter,
+  IonHeader,
+  IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItemDivider, IonLabel, IonTabBar, IonTabButton,
+  IonTitle,
+  IonToolbar, NavController, Platform
+} from '@ionic/angular/standalone';
+import {TranslatePipe} from "../../translate.pipe";
+import {TuiIcon, TuiLoader} from "@taiga-ui/core";
+import {ConnectionService} from "../../service/connection.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActionSheetController, InfiniteScrollCustomEvent} from "@ionic/angular";
+import {NetworkService} from "../../service/network.service";
+import {HotToastService} from "@ngxpert/hot-toast";
+import {Preferences} from "@capacitor/preferences";
+import {GlobalComponent} from "../../global-component";
+import {Products} from "../../class/products";
+
+type OrderStatus = 'processing' | 'shipping' | 'delivered';
+type FilterStatus = 'all' | OrderStatus;
+interface OrderItem {
+  product_id: number;
+  store: number;
+  product_name: string;
+  price: number;
+  quantity: number;
+  status: string;
+  product_image: string;
+}
+
+interface Order {
+  id: string;
+  date: Date;
+  status: OrderStatus;
+  items: OrderItem[];  // list of items in the order
+  total: number;
+  showItems?: boolean;// order total
+}
+
+@Component({
+  selector: 'app-my-orders',
+  templateUrl: './my-orders.page.html',
+  styleUrls: ['./my-orders.page.scss'],
+  standalone: true,
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader]
+})
+export class MyOrdersPage implements OnInit {
+  orders: Order[] = [];
+  // filter chips
+  statuses: FilterStatus[] = ['all', 'processing', 'shipping', 'delivered'];
+  selectedStatus: FilterStatus = 'all';
+  constructor(
+    private nav: NavController,
+    private net: ConnectionService,
+    private platform: Platform,
+    private router: Router,
+    private route: ActivatedRoute,
+    private actionSheetCtrl: ActionSheetController,
+    private networkService: NetworkService,
+    private toast: HotToastService,
+  ) {}
+  ui_controls = {
+    is_empty: false,
+    is_loading: false,
+    is_creating: false
+  }
+  ngOnInit() {
+    this.getObject().then(r => console.log(r));
+  }
+  async getObject() {
+    const ret: any = await Preferences.get({ key: 'user' });
+    if (ret.value == null){
+      this.router.navigate(['/', 'login']).then(r => console.log(r));
+    }else{
+      this.single_user = JSON.parse(ret.value);
+      this.initial.id = this.single_user.id;
+      this.initial.token = this.single_user.token;
+      this.order_listing();
+    }
+  }
+  initial = {
+    id: 0,
+    token: "",
+    limit: 10,
+    offset: 0
+  }
+  single_user = {
+    id: 0,
+    token: "",
+    first_name: "",
+    last_name: "",
+    user_type: "",
+    email: "",
+    phone: "",
+    avatar: "",
+    location: "",
+    is_2fa: false,
+    is_active: false,
+    is_admin: false,
+    is_vendor: false,
+    is_customer: false
+  }
+  // mock orders
+  order_listing() {
+    this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
+    this.initial.limit = 10;
+    this.initial.offset = 0;
+    this.networkService.post_request(this.initial, GlobalComponent.read_orders_listing)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.orders = response.data;
+            this.ui_controls.is_loading = false;
+          }else {
+            this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = true;
+          }
+        }
+      }))
+  }
+  toggleItems(index: number) {
+    this.orders[index].showItems = !this.orders[index].showItems;
+  }
+  selectStatus(s: FilterStatus) {
+    this.selectedStatus = s;
+  }
+
+  goBack() {
+    this.nav.back();
+  }
+
+  onView(order: Order) {
+    // navigate to order details or modal
+    console.log('View order', order.id);
+  }
+
+  onReview(order: Order) {
+    // open review modal / route
+    console.log('Review order', order.id);
+  }
+
+  getMoreItems() {
+    this.initial.id = this.single_user.id;
+    this.initial.token = this.single_user.token;
+    this.initial.offset = this.initial.offset + this.initial.limit
+    this.networkService.post_request(this.initial, GlobalComponent.read_orders_listing)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.orders.push(...response.data);
+          }else{
+            this.ui_controls.is_empty = true;
+          }
+        }
+      }))
+  }
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    this.getMoreItems();
+    setTimeout(() => {
+      event.target.complete().then(r => console.log(r));
+    }, 500);
+  }
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+  user_messages() {
+    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+  }
+  search() {
+    this.router.navigate(['/', 'search']).then(r => console.log(r));
+  }
+
+  user_explore() {
+    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+  }
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
+  user_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
+  open_vendor(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'vendor-reviews'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
+  }
+}

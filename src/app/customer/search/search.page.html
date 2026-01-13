@@ -47,7 +47,7 @@
     <ion-card class="cart-card">
       <div class="card-row">
         <div class="img-wrap" role="button" tabindex="0">
-          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ product.product_image }}" alt="test" />
+          <img loading="lazy"  style="object-fit: cover; object-position: top center" src="{{ product.product_image }}" alt="test" />
         </div>
         <div class="content-wrap">
           <div class="row row-top">
@@ -66,7 +66,7 @@
           </div>
           <div class="row row-bottom">
             <div class="left-meta">
-              <div class="price"><span class="dirham"></span>{{ product.price_formatted }}</div>
+              <div class="price">Ð{{ product.price_formatted }}</div>
             </div>
             <div class="qty-controls" aria-label="Quantity controls">
               <ion-button  (click)="open_product(product.product_id, product.product_name)" fill="outline" size="small" class="qty-btn">

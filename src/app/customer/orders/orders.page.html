@@ -43,13 +43,13 @@
       <ion-card class="cart-card">
         <div (click)="open_details(cart.product_id)" class="card-row">
           <div class="img-wrap" role="button" tabindex="0">
-            <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+            <img loading="lazy"  style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
           </div>
           <div class="content-wrap">
             <div class="row row-top">
               <div class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
               <div class="price">
-                <span class="dirham"></span>{{ cart.price_formatted }}
+                Ð{{ cart.price_formatted }}
               </div>
             </div>
             <!-- Row 2: description (now single line) -->
@@ -118,7 +118,7 @@
           <ion-item class="animate__animated animate__fadeInDown" detail="false">
             <ion-label>PRICE</ion-label>
             <ion-text slot="end">
-              <span class="dirham"></span>{{ single_product.price }}
+              Ð{{ single_product.price }}
             </ion-text>
           </ion-item>
           <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">

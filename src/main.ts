@@ -18,7 +18,7 @@ bootstrapApplication(AppComponent, {
   providers: [NG_EVENT_PLUGINS,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
-    provideIonicAngular({animated: false}),
+    provideIonicAngular({animated: true}),
     provideHttpClient(),
     provideHotToastConfig({
       position: 'top-center', // any base position

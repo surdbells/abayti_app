@@ -7,7 +7,7 @@ import {
   IonCol,
   IonContent,
   IonFooter,
-  IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton,
+  IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, IonText,
   IonTitle,
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
@@ -38,7 +38,7 @@ import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progres
   templateUrl: './vendors.page.html',
   styleUrls: ['./vendors.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText]
 })
 export class VendorsPage implements OnInit {
   latest: Products[] = [];
@@ -53,7 +53,7 @@ export class VendorsPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: HotToastService,
-  ) { }
+  ) {}
   ui_controls = {
     best_seller_empty: false,
     is_empty: false,
@@ -67,6 +67,45 @@ export class VendorsPage implements OnInit {
     label: 4,
     store_id: 0,
     store_name: ""
+  }
+  read_vendor = {
+    id: 0,
+    token: "",
+    store_id: 0
+  }
+  view_vendor = {
+    name: "",
+    logo: "assets/images/placeholder.png",
+    cover: "assets/images/placeholder.png",
+    description: "",
+    tagline: "",
+    following: false
+  }
+  follow_vendor = {
+    id: 0,
+    token: "",
+    store_id: 0,
+    store_name: ""
+  }
+  unfollow_vendor = {
+    id: 0,
+    token: "",
+    store_id: 0,
+    store_name: ""
+  }
+  isFollowing = false;
+
+  toggleFollow() {
+    if (this.view_vendor.following ){
+      this.user_unfollow_vendor();
+    }else{  this.user_follow_vendor(); }
+  }
+
+goToReviews(id: number, name: string) {
+    this.router.navigate(
+      ['/', 'vendor-reviews'],
+      { queryParams: { id, name } }
+    ).then(r => console.log(r));
   }
   single_user = {
     id: 0,
@@ -86,8 +125,10 @@ export class VendorsPage implements OnInit {
   }
   ngOnInit() {
     this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
-    this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
     this.rqst_param.store_name = this.route.snapshot.queryParamMap.get('name') || '';
+  }
+  ionViewDidEnter(){
+    this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
     this.getObject().then(r => console.log(r));
   }
   async getObject() {
@@ -96,9 +137,24 @@ export class VendorsPage implements OnInit {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.rqst_param.id = this.single_user.id
-      this.rqst_param.token = this.single_user.token
+      this.rqst_param.id = this.single_user.id;
+      this.rqst_param.token = this.single_user.token;
+
+      this.read_vendor.id = this.single_user.id;
+      this.read_vendor.token = this.single_user.token;
+      this.read_vendor.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
+
+      this.follow_vendor.id = this.single_user.id;
+      this.follow_vendor.token = this.single_user.token;
+      this.follow_vendor.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
+      this.follow_vendor.store_name = this.route.snapshot.queryParamMap.get('name') || '';
+
+      this.unfollow_vendor.id = this.single_user.id;
+      this.unfollow_vendor.token = this.single_user.token;
+      this.unfollow_vendor.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
+      this.unfollow_vendor.store_name = this.route.snapshot.queryParamMap.get('name') || '';
       this.get_latest();
+      this.get_vendor();
     }
   }
   get_latest() {
@@ -114,6 +170,42 @@ export class VendorsPage implements OnInit {
           }else{
             this.ui_controls.best_seller_empty = true;
             this.ui_controls.is_loading = false;
+          }
+        }
+      }))
+  }
+  get_vendor() {
+    this.networkService.post_request(this.rqst_param, GlobalComponent.read_vendor)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.view_vendor = response.data;
+          }
+        }
+      }))
+  }
+  user_follow_vendor() {
+    this.networkService.post_request(this.rqst_param, GlobalComponent.follow_vendor)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.success_notification(response.message);
+            this.get_vendor();
+          }else {
+            this.error_notification(response.message);
+          }
+        }
+      }))
+  }
+  user_unfollow_vendor() {
+    this.networkService.post_request(this.rqst_param, GlobalComponent.unfollow_vendor)
+      .subscribe(({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.success_notification(response.message);
+            this.get_vendor();
+          }else {
+            this.error_notification(response.message);
           }
         }
       }))
@@ -155,13 +247,6 @@ export class VendorsPage implements OnInit {
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
   user_explore() {
     this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
@@ -174,9 +259,23 @@ export class VendorsPage implements OnInit {
       { queryParams: { id, name } }
     ).then(r => console.log(r));
   }
-
+  error_notification(message: string) {
+    this.toast.error(message, {
+      position: "top-center"
+    });
+  }
+  success_notification(message: string) {
+    this.toast.success(message, {
+      position: 'top-center'
+    });
+  }
   triggerBack() {
     this.nav.back();
   }
-
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
+  go_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
 }

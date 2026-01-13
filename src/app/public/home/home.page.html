@@ -29,7 +29,7 @@
           @for(best_seller of best_sellers; track best_seller.product_id){
             <article class="product-card">
               <div class="img-wrap" [style.background]="'#7A1C09'">
-                <img loading="lazy" (click)="open_product(best_seller.product_id)"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+                <img  (click)="open_product(best_seller.product_id)"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
                 <span class="tag">{{best_seller.store_name}}</span>
               </div>
               <div (click)="open_product(best_seller.product_id)"  class="info">
@@ -38,7 +38,7 @@
                 </p>
                 <ion-row>
                   <ion-col>
-                    <span class="dirham"></span>{{best_seller.price}}
+                    Ð{{best_seller.price}}
                   </ion-col>
                   <ion-col>
                     <svg class="ion-float-end" (click)="open_product(best_seller.product_id)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,8 +90,8 @@
           <div class="thumb-row" role="list" aria-label="products">
             @for(vendor_products of vendor_feature.products;  track vendor_products.product_id ){
               <div class="thumb" role="listitem">
-                <img (click)="open_product(vendor_products.product_id)" loading="lazy" style="object-fit: cover; object-position: top center;" src="{{vendor_products.image}}" alt="product 1" />
-                <span class="price-tag"><span class="dirham"></span>{{ vendor_products.price }}</span>
+                <img (click)="open_product(vendor_products.product_id)"  style="object-fit: cover; object-position: top center;" src="{{vendor_products.image}}" alt="product 1" />
+                <span class="price-tag">Ð{{ vendor_products.price }}</span>
               </div>
             }
           </div>

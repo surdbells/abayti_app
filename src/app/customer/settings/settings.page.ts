@@ -260,6 +260,9 @@ export class SettingsPage implements OnInit {
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
+  my_orders() {
+    this.router.navigate(['/', 'my-orders']).then(r => console.log(r));
+  }
 
   OpenEmail() {
     const email = 'support@3bayti.com';
@@ -268,5 +271,9 @@ export class SettingsPage implements OnInit {
 
   async confirmDelete() {
     this.show_success('Your account has been scheduled for removal successfully');
+  }
+
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
 }

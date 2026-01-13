@@ -77,7 +77,7 @@
       </div>
       <div class="recent-grid">
         <div (click)="open_product(a_wishlist.product)" class="recent-card" *ngFor="let a_wishlist of wishlists">
-          <img style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
+          <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
           <h5>{{ a_wishlist.name }}</h5>
         </div>
       </div>
