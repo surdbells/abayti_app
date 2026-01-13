@@ -1,0 +1,364 @@
+:host {
+  --bg: #f6efe9;
+  --card: #fff;
+  --text: #000;
+  --muted: #4C4C4C;
+  --accent: #b37a6b; // warm brown-pink
+}
+
+/* ===== Brand palette (from your designs) ===== */
+$peach-0: #FBF0E6;  // very light peach background
+$peach-1: #F8D1B9;
+$peach-2: #F2C3AB;
+$ink:     #000000;
+$muted:   rgba(0,0,0,.68);
+$stroke:  #FAC0B0;
+$chip:    rgba(0,0,0,.10);
+$cta-1:   #A92B07;
+$cta-2:   #AF2C06;
+
+/* Header */
+.toolbar {
+  --background: #fff;
+  --border-width: 0 0 0.5px 0;
+  --border-color: rgba(0,0,0,0.06);
+  padding-inline: 8px;
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+  }
+
+  .hello {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+
+    .hey { font-weight: 600; font-size: 12px; color: var(--text); padding-left: 10px; }
+    .loc { font-size: 12px; padding-bottom: 5px; color: var(--muted); padding-left: 10px; }
+  }
+}
+
+.page {
+  --background: var(--home-bg-image);
+}
+
+
+/* Horizontal scroll utility */
+.h-scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+
+  /* hide scrollbar (mobile) */
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ===== Category chips ===== */
+.categories {
+  .chip {
+    display: inline-grid; grid-template-columns: auto 1fr; align-items: center;
+    padding: 0px 7px; border-radius: 16px;
+    background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.02) inset; color: $ink;
+    .chip-ico { font-size: 30px; color: #000000; margin-top: 7px; }
+    .chip-text { font-size: 14px; font-weight: 600; }
+    &.active {
+      background: $peach-1; border-color: transparent;
+      .chip-ico tui-icon { color: #fff; }
+    }
+  }
+}
+.cat_active{
+  border: 2px solid $stroke;
+}
+/* Product cards */
+.product-card {
+  width: 200px;
+  background: #fff;
+  border-radius: 22px;
+  border: 2px solid $stroke;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  overflow: hidden;
+
+  &.loading {
+    opacity: .6; pointer-events: none;
+  }
+
+  .img-wrap {
+    position: relative;
+    height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    border-top-left-radius: 20px; border-top-right-radius: 20px;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: contain; }
+
+    .tag {
+      position: absolute; left: 10px; top: 10px;
+      --color: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      font-weight: 700; letter-spacing: .4px;
+      padding: 6px 6px; border-radius: 999px; font-size: 12px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.35);
+    }
+
+    .like {
+      position: absolute; top: 10px; right: 10px;
+      width: 36px; height: 36px; border-radius: 999px;
+      background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.6);
+      display: grid; place-items: center;
+      tui-icon { font-size: 18px; color: #fff; filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); }
+      /* dark icon on light bubble */
+      background: #fff; border-color: $stroke;
+      tui-icon { color: $cta-2; }
+    }
+  }
+
+  .info {
+    padding: 12px 14px 16px;
+    .desc {
+      font-size: 11px; font-weight: 400; color: #000000; margin: 0 0 10px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .cta {
+      --padding-start: 16px; --padding-end: 16px; --border-radius: 14px;
+      --background: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      --background-activated: linear-gradient(90deg, #872308 0%, #B02C06 100%);
+      height: 28px; text-transform: none; font-weight: 700; letter-spacing: .2px; color: #ffffff;
+    }
+  }
+}
+
+/* Brand strip */
+.brand-strip {
+  margin: 8px 16px 84px; // space above tabs
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+
+  .logo { letter-spacing: 6px; font-weight: 700; color: var(--text); }
+  small { color: var(--muted); }
+}
+
+/* Tabs */
+.tabs {
+  --background: #fff;
+  --color: #8a7d79;
+  --color-selected: var(--accent);
+  border-top: 1px solid rgba(0,0,0,0.06);
+
+  ion-tab-button {
+    padding-top: 6px;
+    ion-icon { font-size: 20px; }
+    ion-label { font-size: 11px; }
+  }
+}
+
+
+ion-content.home-bg {
+  /* Ionic supports setting background via a CSS var */
+  --background: var(--home-bg-image) center / cover no-repeat;
+}
+
+/* Dark mode swap (optional) */
+@media (prefers-color-scheme: dark) {
+  ion-content.home-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Landscape override (optional) */
+@media (orientation: landscape) {
+  ion-content.home-bg {
+    --background: var(--home-bg-image) center / cover no-repeat;
+  }
+}
+
+/* Tablet-specific tweaks (optional) */
+@media (min-width: 768px) {
+  ion-content.home-bg {
+    /* you can choose a tablet-optimized asset here if needed */
+    /* --background: var(--home-bg-image) center / cover no-repeat; */
+  }
+}
+
+/* ===== Boutique strip ===== */
+.boutique {
+  .b-title { margin: 0; font-size: 16px; font-weight: 700; color: $ink; letter-spacing: .8px; }
+  .b-sub { margin: 2px 0 14px; color: $muted; font-size: 16px; font-weight: 400; letter-spacing: .6px; }
+  .thumbs {
+    img { width: 83px; height: 132px; border-radius: 18px; object-fit: cover; }
+  }
+}
+
+ion-card {
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+.inputs {
+  margin-bottom: 8px;
+
+  ion-item {
+    --inner-padding-top: 8px;
+    --inner-padding-bottom: 8px;
+  }
+
+  .notes {
+    display: flex;
+    gap: 12px;
+    padding: 4px 8px 0;
+  }
+}
+
+
+.cart-card {
+  --ion-background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
+  overflow: hidden;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.card-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Left image */
+.img-wrap {
+  flex: 0 0 110px;
+  height: 110px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  cursor: pointer;
+  display: block;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right content */
+.content-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
+
+/* Generic row */
+.row {
+  display: flex;
+  align-items: center;
+}
+
+/* Top row: title + icons */
+.row-top {
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;       /* allow 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 8px;
+  max-height: 2.4em;           /* prevents overflow beyond 2 lines */
+}
+
+/* action icons */
+.icons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.icon-btn {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+}
+
+/* Middle row: description (2 lines max) */
+.row-mid .desc {
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(0,0,0,0.65);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: clip;
+}
+
+/* Bottom row: price/size + qty */
+.row-bottom {
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.left-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.size {
+  font-size: 13px;
+  color: rgba(0,0,0,0.7);
+}
+
+/* Quantity controls */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+  --padding-start: 6px;
+  --padding-end: 6px;
+}
+
+.qty {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 420px) {
+  .img-wrap { flex-basis: 90px; height: 90px; }
+  .title { font-size: 15px; }
+  .price { font-size: 14px; }
+  .cart-card { padding: 10px; border-radius: 10px; }
+  .qty { min-width: 24px; font-size: 13px; }
+}

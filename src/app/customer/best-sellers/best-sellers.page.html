@@ -1,0 +1,169 @@
+<ion-header style="background-color: #FEF8F3" class="ion-padding-top ion-no-border remove_nudge">
+  <ion-toolbar class="toolbar ion-no-border">
+    <ion-title>{{ 'title_search' | translate }}</ion-title>
+    <ion-buttons [routerLink]="['/account']" aria-label="Back to account" slot="start">
+      <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_73_398)">
+          <rect x="18" y="18" width="51" height="51" rx="25.5" fill="white"/>
+          <path d="M31.2269 40.9251L30.1134 42.0307L29 40.9251L30.1134 39.8194L31.2269 40.9251ZM58 53.4361C58 53.8509 57.8341 54.2487 57.5387 54.542C57.2434 54.8352 56.8428 55 56.4251 55C56.0074 55 55.6068 54.8352 55.3115 54.542C55.0161 54.2487 54.8502 53.8509 54.8502 53.4361H58ZM37.9879 49.8501L30.1134 42.0307L32.3403 39.8194L40.2148 47.6388L37.9879 49.8501ZM30.1134 39.8194L37.9879 32L40.2148 34.2113L32.3403 42.0307L30.1134 39.8194ZM31.2269 39.3612H46.9758V42.489H31.2269V39.3612ZM58 50.3084V53.4361H54.8502V50.3084H58ZM46.9758 39.3612C49.8996 39.3612 52.7036 40.5145 54.7711 42.5675C56.8385 44.6205 58 47.405 58 50.3084H54.8502C54.8502 48.2345 54.0206 46.2456 52.5439 44.7792C51.0671 43.3128 49.0642 42.489 46.9758 42.489V39.3612Z" fill="black"/>
+        </g>
+        <defs>
+          <filter id="filter0_d_73_398" x="0.9" y="0.9" width="85.2" height="85.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset/>
+            <feGaussianBlur stdDeviation="8.55"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_73_398"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_73_398" result="shape"/>
+          </filter>
+        </defs>
+      </svg>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="user_wishlist()" fill="clear">
+        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="search-wrap">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+            <input  [(ngModel)]="search.search"
+                    (ngModelChange)="onInputChange($event)"
+                    style="border: 1px solid #FAC0B0" placeholder="{{'title_search' | translate}}" type="text" name="search" tuiTextfield />
+          </tui-textfield>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-header>
+<ion-content fullscreen="true" class="page-bg ion-padding-horizontal">
+
+  @for (product of products; track product.id){
+    <ion-card class="cart-card">
+      <div class="card-row">
+        <div class="img-wrap" role="button" tabindex="0">
+          <img loading="lazy" style="object-fit: cover; object-position: top center" src="{{ product.product_image }}" alt="test" />
+        </div>
+        <div class="content-wrap">
+          <div class="row row-top">
+            <div class="title" title="{{ product.product_name }}">{{ product.product_name }}</div>
+            <div class="icons">
+              <ion-button (click)="startAddToCloset(product.product_id, product.product_name, product.product_image)" fill="clear" size="small" class="icon-btn">
+                <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+              </ion-button>
+            </div>
+          </div>
+          <div class="row row-mid">
+            <tui-chip>
+              <div (click)="open_vendor(product.store, product.store_name)" class="desc">&#64;{{ product.store_name }}</div>
+            </tui-chip>
+
+          </div>
+          <div class="row row-bottom">
+            <div class="left-meta">
+              <div class="price"><span class="dirham"></span>{{ product.price_formatted }}</div>
+            </div>
+            <div class="qty-controls" aria-label="Quantity controls">
+              <ion-button  (click)="open_product(product.product_id, product.product_name)" fill="outline" size="small" class="qty-btn">
+                <tui-icon icon="@tui.chevron-right" [style.color]="'var(--text)'"/>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  }
+  @if(!products){
+    <div class="empty-state">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+          <h2>{{ 'heading_no_product_found' | translate }}</h2>
+          <p>{{ 'text_no_product_match' | translate }}</p>
+          <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
+            <tui-icon icon="@tui.brush-cleaning"></tui-icon>
+            <span>{{ 'button_explore_stores' | translate }}</span>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+      @if (ui_controls.is_loading){
+        <tui-loader></tui-loader>
+      }
+   </span>
+  <ion-modal swipeToClose="true" [isOpen]="isWishOpen" (didDismiss)="onDismiss()" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        @if (!ui_controls.is_loading_category){
+          <ion-list class="custom-list">
+            @for(category of categories; track category.id; let i = $index){
+              <ion-item (click)="addToCloset(category.id)" lines="none">
+                <ion-label>
+                  <h2>{{category.name}}</h2>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        }
+        <ion-row>
+          <ion-col>
+              <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+                @if (ui_controls.is_loading_category){
+                  <tui-loader></tui-loader>
+                }
+              </span>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+<ion-footer style="padding-bottom: 35px;" class="ion-padding  ion-no-border ">
+  <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home">
+      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>
+      <!--
+            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>
+      -->
+    </ion-tab-button>
+    <ion-tab-button (click)="user_explore()" tab="explore">
+      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
+      <!--
+            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Explore</ion-label>
+      -->
+    </ion-tab-button>
+    <ion-tab-button (click)="user_cart()" tab="cart">
+      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
+      <!--
+            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">My Cart</ion-label>
+      -->
+    </ion-tab-button>
+    <ion-tab-button (click)="user_orders()" tab="sketch">
+      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/orders.svg"></ion-icon>
+      <!--
+            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Orders</ion-label>
+      -->
+    </ion-tab-button>
+    <ion-tab-button (click)="user_profile()" tab="profile">
+      <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
+      <!--
+            <ion-label  style="font-weight: 900"  [style.color]="'var(&#45;&#45;ion-color-secondary)'">Profile</ion-label>
+      -->
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
