@@ -1,3 +1,22 @@
 {
-  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular"]
+  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular"],
+
+  // Preferred build command for WebNative extension (fallbacks included)
+  "webnative.buildCommand": "npm run wn-build",
+  "webnative.build.command": "npm run wn-build",
+  "webnative.build": "npm run wn-build",
+
+  // Make integrated/extension shells run zsh as a login shell so they source ~/.zshrc
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "/bin/zsh",
+      "args": ["-l"]
+    }
+  },
+  // Ensure VS Code tasks inherit environment (so nvm + PATH are available)
+  "terminal.integrated.env.osx": {},
+  "terminal.integrated.inheritEnv": true
 }
+
+
