@@ -431,7 +431,7 @@ export class ProductPage implements OnInit {
   }
   get_single() {
     this.ui_controls.is_loading = true;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.singleProduct)
+    this.networkService.post_request(this.rqst_param, GlobalComponent.single_product)
       .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {

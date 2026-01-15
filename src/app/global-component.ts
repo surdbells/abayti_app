@@ -52,6 +52,7 @@ export class GlobalComponent {
   public static IncreaseItem = GlobalComponent.baseURL + 'customer/IncreaseItem';
   public static DecreaseItem = GlobalComponent.baseURL + 'customer/decreaseItem';
   public static explore = GlobalComponent.baseURL + 'customer/explore';
+  public static explore_listing = GlobalComponent.baseURL + 'customer/explore_listing';
   public static featured = GlobalComponent.baseURL + 'customer/featured';
   public static filterfeatured = GlobalComponent.baseURL + 'customer/filterfeatured';
   public static product_by_category = GlobalComponent.baseURL + 'customer/product_by_category';
@@ -63,6 +64,7 @@ export class GlobalComponent {
   public static follow_vendor = GlobalComponent.baseURL + 'customer/follow';
   public static unfollow_vendor = GlobalComponent.baseURL + 'customer/unfollow';
   public static singleProduct = GlobalComponent.baseURL + 'customer/singleProduct';
+  public static single_product = GlobalComponent.baseURL + 'customer/single_product';
   public static readConversations = GlobalComponent.baseURL + 'customer/read-conversations';
   public static readMessages = GlobalComponent.baseURL + 'customer/read-messages';
   public static readCustomerOrders = GlobalComponent.baseURL + 'customer/read-customer-orders';

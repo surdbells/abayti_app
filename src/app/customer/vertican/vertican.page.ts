@@ -322,7 +322,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   explore = {
     id: 0,
-    token: ""
+    token: "",
+    limit: 10,
+    offset: 0
   }
 
   explore_more = {
@@ -426,7 +428,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     this.explore.id = this.single_user.id;
     this.explore.token = this.single_user.token;
 
-    this.networkService.post_request(this.explore, GlobalComponent.explore)
+    this.networkService.post_request(this.explore, GlobalComponent.explore_listing)
       .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
@@ -445,19 +447,21 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  load_more() {
-    this.explore_more.offset = (this.explore_more.offset || 0) + 15;
-    this.explore_more.id = this.single_user.id;
-    this.explore_more.token = this.single_user.token;
 
-    this.networkService.post_request(this.explore_more, GlobalComponent.explore)
-      .subscribe({
+  getMoreItems() {
+    this.explore.id = this.single_user.id;
+    this.explore.token = this.single_user.token;
+    this.explore.offset = this.explore.offset + this.explore.limit
+    this.networkService.post_request(this.explore, GlobalComponent.explore_listing)
+      .subscribe(({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
-            this.products = [...this.products, ...response.data];
+            this.products.push(...response.data);
+          }else{
+            this.ui_controls.is_empty = true;
           }
         }
-      });
+      }))
   }
 
   get_label() {
@@ -573,8 +577,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
         const totalSlides = sw.slides.length;
         const currentIndex = sw.activeIndex;
-        if (totalSlides - currentIndex <= 4) {
-          this.load_more();
+        if (totalSlides - currentIndex <= 3) {
+          this.getMoreItems();
         }
       });
     };
