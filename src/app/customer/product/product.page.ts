@@ -437,7 +437,7 @@ export class ProductPage implements OnInit {
           if (response.response_code === 200 && response.status === "success") {
             this.single = response.data;
             this.colors = response.data.colors.split(',');
-            this.images = response.data.images.split(',');
+            this.images = response.data.images;
             this.add_cart.product_id = this.single.product;
             this.add_cart.product_name = this.single.name;
             this.add_cart.product_desc = this.single.description;
