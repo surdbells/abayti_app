@@ -1,33 +1,44 @@
-<ion-content [fullscreen]="true">
-  <!-- Main Vertical Swiper - scroll through products -->
-  <swiper-container
-    #swiper
-    [observer]="false"
-    [observeParents]="false"
-    [observeSlideChildren]="false"
-    direction="vertical"
-    slides-per-view="1"
-    class="vertical-slides"
-    allow-touch-move="true"
-    style="height: 100%;">
+<ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false" [forceOverscroll]="false">
+  <!-- Touch blocker overlay - prevents iOS pull-to-refresh -->
+  <div class="touch-blocker"
+       (touchstart)="onTouchStart($event)"
+       (touchmove)="onTouchMove($event)"
+       (touchend)="onTouchEnd($event)">
 
-    @for(product of products; track productIndex; let productIndex = $index){
+    <!-- Main Vertical Swiper - scroll through products -->
+    <swiper-container
+      #swiper
+      class="vertical-slides"
+      direction="vertical"
+      slides-per-view="1"
+      speed="300"
+      resistance="true"
+      resistance-ratio="0"
+      touch-start-prevent-default="false"
+      touch-move-stop-propagation="true"
+      css-mode="false"
+      allow-touch-move="true"
+      simulate-touch="true"
+      threshold="15"
+      follow-finger="true"
+      (swiperslidechange)="onVerticalSlideChange($event)">
+
+      @for(product of products; track product.product_id; let productIndex = $index){
         <swiper-slide class="product-slide">
           <div class="hero">
             <!-- Nested Horizontal Swiper - scroll through product images -->
             <swiper-container
-              #horizontalSwiper
-              [observer]="false"
-              [observeParents]="false"
-              [observeSlideChildren]="false"
               class="horizontal-slides"
               direction="horizontal"
               slides-per-view="1"
-              [attr.nested]="true"
+              nested="true"
+              speed="300"
+              resistance="true"
+              resistance-ratio="0.85"
               allow-touch-move="true"
               simulate-touch="true"
-              touch-ratio="1"
               threshold="5"
+              follow-finger="true"
               (swiperslidechange)="onImageSlideChange($event, productIndex)">
 
               @for(image of getProductImages(product); track $index; let imgIndex = $index){
@@ -38,9 +49,9 @@
                   </div>
                   <!-- Actual image -->
                   <img
-                    [attr.loading]="'lazy'"
+                    loading="lazy"
                     decoding="async"
-                    [src]="getActiveImageIndex(productIndex) === imgIndex ? image : null"
+                    [src]="image"
                     alt="{{product.product_name}} - Image {{imgIndex + 1}}"
                     class="model"
                     [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
@@ -57,10 +68,11 @@
                   <span
                     class="image-dot"
                     [class.active]="getActiveImageIndex(productIndex) === i">
-                </span>
+                  </span>
                 }
               </div>
             }
+
             <!-- Floating action buttons -->
             <div class="floating-buttons">
               <ion-button (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
@@ -74,19 +86,37 @@
               </ion-button>
             </div>
 
+            <!-- Navigation buttons (Up/Down) -->
+            <div class="nav-buttons">
+              <ion-button
+                (click)="goToPreviousProduct()"
+                [disabled]="currentProductIndex === 0"
+                fill="clear"
+                class="nav-btn nav-up">
+                <tui-icon style="color: #fff" icon="@tui.chevron-up" />
+              </ion-button>
+              <ion-button
+                (click)="goToNextProduct()"
+                [disabled]="currentProductIndex >= products.length - 1"
+                fill="clear"
+                class="nav-btn nav-down">
+                <tui-icon style="color: #fff" icon="@tui.chevron-down" />
+              </ion-button>
+            </div>
+
             <!-- Product info overlay -->
             <div class="overlay-box">
               <h2 (click)="open_product(product.product_id)" class="title">
                 {{product.product_name}}
                 <span class="price-tag">
-                Ð{{product.price}}
-              </span>
+                  Ð{{product.price}}
+                </span>
               </h2>
               <div class="description" [innerHTML]="product.description"></div>
               <div class="store-row">
-              <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">
-                {{ product.store_name }}
-              </span>
+                <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">
+                  {{ product.store_name }}
+                </span>
                 <ion-button
                   style="--background: rgba(255,255,255,0.2); --color: #fff;"
                   (click)="open_vendor(product.store_id, product.store_name)"
@@ -95,11 +125,12 @@
                 </ion-button>
               </div>
             </div>
-
           </div>
         </swiper-slide>
-    }
-  </swiper-container>
+      }
+    </swiper-container>
+  </div>
+
   <!-- Vertical scroll indicator (right side) -->
   <div class="vertical-pagination">
     @for(dot of verticalDots; track dot; let i = $index){

@@ -4,10 +4,44 @@
   --text: #000;
   --muted: #4C4C4C;
   --accent: #b37a6b;
+
+  // Lock the entire component
+  display: block;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden !important;
+  touch-action: none;
 }
 
+/* ========================================
+   TOUCH BLOCKER - Intercepts all touches
+   ======================================== */
+.touch-blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ========================================
+   ION-CONTENT OVERRIDES
+   ======================================== */
 ion-content {
   --background: #000;
+  --overflow: hidden;
+
+  &::part(scroll) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
 }
 
 /* ========================================
@@ -16,6 +50,10 @@ ion-content {
 .vertical-slides {
   height: 100%;
   width: 100%;
+  overflow: hidden;
+  touch-action: pan-x;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .product-slide {
@@ -29,6 +67,7 @@ ion-content {
   height: 100%;
   width: 100%;
   background: #000;
+  overflow: hidden;
 }
 
 /* ========================================
@@ -43,6 +82,7 @@ ion-content {
   height: 100%;
   width: 100%;
   z-index: 1;
+  touch-action: pan-y;
 }
 
 .image-slide {
@@ -52,6 +92,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
 }
 
 /* ========================================
@@ -109,6 +150,9 @@ ion-content {
   display: block;
   opacity: 0;
   transition: opacity 0.3s ease;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 
   &.loaded {
     opacity: 1;
@@ -116,7 +160,7 @@ ion-content {
 }
 
 /* ========================================
-   CUSTOM IMAGE PAGINATION (Horizontal dots at top)
+   CUSTOM IMAGE PAGINATION (Horizontal dots)
    ======================================== */
 .image-pagination {
   position: absolute;
@@ -130,6 +174,8 @@ ion-content {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: none;
 }
 
 .image-dot {
@@ -158,6 +204,7 @@ ion-content {
   flex-direction: column;
   gap: 8px;
   z-index: 1000;
+  pointer-events: none;
 }
 
 .vertical-pagination .dot {
@@ -175,7 +222,7 @@ ion-content {
 }
 
 /* ========================================
-   FLOATING ACTION BUTTONS
+   FLOATING ACTION BUTTONS (Right side)
    ======================================== */
 .floating-buttons {
   position: absolute;
@@ -198,9 +245,55 @@ ion-content {
   width: 48px;
   height: 48px;
   min-height: 48px;
+
   tui-icon {
     font-size: 20px;
   }
+}
+
+/* ========================================
+   NAVIGATION BUTTONS (Up/Down - Left side)
+   ======================================== */
+.nav-buttons {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 50;
+}
+
+.nav-btn {
+  --background: rgba(0, 0, 0, 0.5);
+  --background-hover: rgba(0, 0, 0, 0.7);
+  --background-activated: rgba(0, 0, 0, 0.8);
+  --border-radius: 50%;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+
+  &:disabled {
+    --background: rgba(0, 0, 0, 0.2);
+    opacity: 0.4;
+  }
+
+  tui-icon {
+    font-size: 24px;
+  }
+}
+
+.nav-up {
+  // Up button specific styles if needed
+}
+
+.nav-down {
+  // Down button specific styles if needed
 }
 
 /* ========================================
@@ -391,10 +484,19 @@ ion-modal ion-content {
   }
 }
 
-ion-modal ion-content {
-  --background: var(--profile-bg);
+/* ========================================
+   iOS SAFE AREA
+   ======================================== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .overlay-box {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+
+  .floating-buttons {
+    bottom: calc(200px + env(safe-area-inset-bottom));
+  }
+
+  .image-pagination {
+    bottom: calc(200px + env(safe-area-inset-bottom));
+  }
 }
-
-
-
-

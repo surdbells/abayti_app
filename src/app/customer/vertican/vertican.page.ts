@@ -4,14 +4,13 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   HostListener,
+  NgZone,
   OnDestroy,
   OnInit,
-  QueryList,
   signal,
   ViewChild,
-  ViewChildren
 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -84,23 +83,68 @@ type DualRange = { lower: number; upper: number };
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader,
-    IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal,
-    IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel,
-    TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent,
-    TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter,
-    IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, IonSkeletonText,
-    IonThumbnail, TuiCarouselComponent, TuiItem, TuiCarouselButtons, NgOptimizedImage
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    FormsModule,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    TuiIcon,
+    RouterLink,
+    IonCardHeader,
+    IonCardTitle,
+    IonCol,
+    IonGrid,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonRange,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    TuiLabel,
+    TuiRadioComponent,
+    IonImg,
+    IonText,
+    TuiLoader,
+    TuiButton,
+    TuiTextfieldComponent,
+    TuiTextfieldDirective,
+    TuiTextfieldOptionsDirective,
+    IonList,
+    IonFooter,
+    IonIcon,
+    IonTabBar,
+    IonTabButton,
+    IonFab,
+    IonFabButton,
+    IonSkeletonText,
+    IonThumbnail,
+    TuiCarouselComponent,
+    TuiItem,
+    TuiCarouselButtons,
+    NgOptimizedImage
   ]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
   categories: Labels[] = [];
   private swiperInitialized = false;
+
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
+  @ViewChild(IonContent, { static: false }) ionContent!: IonContent;
+
+  // Touch tracking for iOS pull-to-refresh prevention
+  private touchStartY = 0;
+  private touchStartX = 0;
+  private isSwiping = false;
+  private swipeDirection: 'vertical' | 'horizontal' | null = null;
 
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
@@ -145,6 +189,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private networkService: NetworkService,
     private toast: HotToastService,
+    private ngZone: NgZone
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -152,14 +197,14 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
-    const customEvent = ev as CustomEvent;
-    customEvent.detail.register(100, () => {
+    (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.restoreBodyScroll();
     for (const swiper of this.horizontalSwipers.values()) {
       swiper.destroy();
     }
@@ -203,13 +248,154 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     if (!this.isOnline) {
       console.log('You are offline');
-    }else{
-      this.getObject().then(r => console.log(r));
     }
   }
 
   ionViewWillEnter() {
+    this.lockBodyScroll();
+    this.getObject().then(r => console.log(r));
+  }
 
+  ionViewWillLeave() {
+    this.restoreBodyScroll();
+  }
+
+  // ========================================
+  // Body scroll lock for iOS
+  // ========================================
+
+  private lockBodyScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = '0';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.bottom = '0';
+    document.body.style.touchAction = 'none';
+
+    // Also lock html
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.touchAction = 'none';
+  }
+
+  private restoreBodyScroll() {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.bottom = '';
+    document.body.style.touchAction = '';
+
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.position = '';
+    document.documentElement.style.touchAction = '';
+  }
+
+  // ========================================
+  // Touch event handlers - iOS pull-to-refresh prevention
+  // ========================================
+
+  onTouchStart(event: TouchEvent) {
+    this.touchStartY = event.touches[0].clientY;
+    this.touchStartX = event.touches[0].clientX;
+    this.isSwiping = false;
+    this.swipeDirection = null;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    const touchY = event.touches[0].clientY;
+    const touchX = event.touches[0].clientX;
+    const deltaY = touchY - this.touchStartY;
+    const deltaX = touchX - this.touchStartX;
+
+    // Determine swipe direction on first significant movement
+    if (!this.swipeDirection && (Math.abs(deltaY) > 10 || Math.abs(deltaX) > 10)) {
+      this.swipeDirection = Math.abs(deltaY) > Math.abs(deltaX) ? 'vertical' : 'horizontal';
+      this.isSwiping = true;
+    }
+
+    // Get current swiper state
+    const swiperEl = this.swiperEl?.nativeElement as any;
+    const swiper = swiperEl?.swiper;
+
+    if (this.swipeDirection === 'vertical') {
+      // ALWAYS prevent default on vertical swipes to stop iOS pull-to-refresh
+      // The swiper will still work because we're not stopping propagation
+
+      if (swiper) {
+        const isAtTop = swiper.activeIndex === 0;
+        const isAtBottom = swiper.activeIndex >= swiper.slides.length - 1;
+
+        // Pulling down at top (deltaY > 0 means finger moving down = pulling content down)
+        if (isAtTop && deltaY > 0) {
+          event.preventDefault();
+          return;
+        }
+
+        // Pulling up at bottom
+        if (isAtBottom && deltaY < 0) {
+          event.preventDefault();
+          return;
+        }
+      }
+
+      // For any vertical movement, prevent default to be safe
+      // This stops iOS from interpreting it as scroll/refresh
+      event.preventDefault();
+    }
+    // Horizontal swipes pass through to nested swiper
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    this.isSwiping = false;
+    this.swipeDirection = null;
+  }
+
+  // ========================================
+  // Navigation button methods
+  // ========================================
+
+  goToNextProduct() {
+    const swiperEl = this.swiperEl?.nativeElement as any;
+    const swiper = swiperEl?.swiper;
+    if (swiper) {
+      swiper.slideNext();
+    }
+  }
+
+  goToPreviousProduct() {
+    const swiperEl = this.swiperEl?.nativeElement as any;
+    const swiper = swiperEl?.swiper;
+    if (swiper) {
+      swiper.slidePrev();
+    }
+  }
+
+  // ========================================
+  // Vertical swiper slide change handler
+  // ========================================
+
+  onVerticalSlideChange(event: any) {
+    const swiper = event?.target?.swiper;
+    if (swiper) {
+      this.ngZone.run(() => {
+        const totalSlides = swiper.slides.length;
+        const currentIndex = swiper.activeIndex;
+
+        this.currentProductIndex = currentIndex;
+        this.updateVerticalPagination(currentIndex, totalSlides);
+        this.index.set(currentIndex);
+
+        // Fetch more items when near end
+        if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
+          this.getMoreItems();
+        }
+
+        this.cdr.markForCheck();
+      });
+    }
   }
 
   async getObject() {
@@ -229,33 +415,30 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   onImageLoad(productId: number, imageIndex: number) {
     const key = `${productId}-${imageIndex}`;
     this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
   }
 
   onImageError(productId: number, imageIndex: number) {
-    // Mark as loaded even on error to hide skeleton
     const key = `${productId}-${imageIndex}`;
     this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
   }
 
   /**
    * Get product images as array
-   * Handles: array, comma-separated string, or single string
    */
   getProductImages(product: any): string[] {
     if (!product) return [];
 
-    // If images is already an array
     if (Array.isArray(product.images) && product.images.length > 0) {
       return product.images;
     }
 
-    // If images is a comma-separated string
     if (typeof product.images === 'string' && product.images.length > 0) {
       const imgs = product.images.split(',').map((img: string) => img.trim()).filter((img: string) => img.length > 0);
       if (imgs.length > 0) return imgs;
     }
 
-    // Fallback to image_1
     if (product.image_1) {
       return [product.image_1];
     }
@@ -271,6 +454,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     const swiper = event?.target?.swiper;
     if (swiper) {
       this.activeImageIndices.set(productIndex, swiper.activeIndex);
+      this.cdr.markForCheck();
     }
   }
 
@@ -402,6 +586,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   get_filtered_products() {
     this.isFilterOpen = false;
+    this.swiperInitialized = false;
     this.ui_controls = {
       ...this.ui_controls,
       is_loading: true
@@ -426,7 +611,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             this.horizontalSwipers.clear();
-            setTimeout(() => this.initializeSwipers(), 100);
+            this.currentProductIndex = 0;
+            setTimeout(() => this.initializeSwipers(), 150);
           } else {
             this.ui_controls = {
               ...this.ui_controls,
@@ -442,9 +628,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   explore_products() {
     this.products = [];
+    this.swiperInitialized = false;
+    this.explore.offset = 0;
+    this.currentProductIndex = 0;
     this.ui_controls = {
       ...this.ui_controls,
-      is_loading: true
+      is_loading: true,
+      hasMore: true
     };
     this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
@@ -468,7 +658,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             this.horizontalSwipers.clear();
-            setTimeout(() => this.initializeSwipers(), 100);
+            setTimeout(() => this.initializeSwipers(), 150);
           } else {
             this.ui_controls = {
               ...this.ui_controls,
@@ -480,7 +670,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
 
   getMoreItems() {
     if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
@@ -500,21 +689,17 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
-          // 1️⃣ Append new products
           this.products = [...this.products, ...response.data];
 
           const el: any = this.swiperEl?.nativeElement;
           const sw = el?.swiper;
 
-          // 2️⃣ Calculate how many can be safely removed
           const excess = this.products.length - MAX_RENDERED_PRODUCTS;
 
           if (excess > 0 && sw) {
             const currentIndex = sw.activeIndex;
 
-            // 🔥 Only remove items the user already passed
             if (currentIndex > excess) {
-              // Destroy swipers for removed products
               for (let i = 0; i < excess; i++) {
                 const product = this.products[i];
                 const swiper = this.horizontalSwipers.get(product.product_id);
@@ -524,17 +709,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
                 }
               }
               this.products.splice(0, excess);
-
-              // Fix swiper index
               sw.slideTo(currentIndex - excess, 0);
               sw.update();
-
               this.activeImageIndices.clear();
               this.imageLoaded = {};
             }
           }
 
-          // 3️⃣ No more data
           if (response.data.length < this.explore.limit) {
             this.ui_controls = { ...this.ui_controls, hasMore: false };
           }
@@ -551,8 +732,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
-
 
   get_label() {
     this.ui_controls.is_loading_category = true;
@@ -666,20 +845,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }
 
       this.index.set(sw.activeIndex ?? 0);
+      this.currentProductIndex = sw.activeIndex ?? 0;
       this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? 0);
-
-      sw.on('slideChange', () => {
-        const totalSlides = sw.slides.length;
-        const currentIndex = sw.activeIndex;
-
-        this.updateVerticalPagination(currentIndex, totalSlides);
-        this.index.set(currentIndex);
-
-        // Only fetch more if near the end, not loading, and more data exists
-        if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
-          requestAnimationFrame(() => this.getMoreItems());
-        }
-      });
+      this.cdr.markForCheck();
     };
 
     attachVertical();
@@ -691,6 +859,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         const product = this.products[index];
         if (!product) return;
         const key = product.product_id;
+
         const attachHorizontal = () => {
           const sw = hSwiper.swiper;
           if (!sw) {
@@ -699,18 +868,15 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           }
 
           this.horizontalSwipers.set(key, sw);
-          sw.on('slideChange', () => {
-            this.activeImageIndices.set(index, sw.activeIndex);
-          });
         };
 
         attachHorizontal();
       });
-    }, 200);
+    }, 250);
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.initializeSwipers(), 100);
+    setTimeout(() => this.initializeSwipers(), 150);
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
@@ -721,6 +887,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
+
   updateSwiper() {
     requestAnimationFrame(() => {
       const el: any = this.swiperEl?.nativeElement;
@@ -730,5 +897,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
+
   protected readonly Math = Math;
 }

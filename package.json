@@ -60,6 +60,7 @@
     "@taiga-ui/styles": "^4.50.0",
     "angular-cd-timer": "^3.0.0",
     "animate.css": "^4.1.1",
+    "disable-ios-scrolling": "^1.0.1",
     "ionicons": "^7.0.0",
     "libphonenumber-js": "^1.12.10",
     "rxjs": "~7.8.0",

@@ -9,7 +9,8 @@ const config: CapacitorConfig = {
     },
   },
   ios: {
-  scrollEnabled: false
+  scrollEnabled: false,
+  webContentsDebuggingEnabled: true,
 }
 };
 
