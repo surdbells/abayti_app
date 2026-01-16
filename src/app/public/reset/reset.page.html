@@ -24,8 +24,8 @@
           <ion-row>
             <ion-col>
               <button (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                      style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                      tuiButton type="button">
+                style="width: 100%; outline-color: #000000; color: #000000" size="m"
+                tuiButton type="button">
                 {{ 'request_otp' | translate }}
               </button>
             </ion-col>
@@ -41,8 +41,8 @@
             </ion-col>
           </ion-row>
           <button (click)="validate_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                  tuiButton type="button">
+            style="width: 100%; outline-color: #000000; color: #000000" size="m"
+            tuiButton type="button">
             {{ 'validate' | translate }}
           </button>
           <ion-row class="ion-padding-top">
@@ -55,7 +55,7 @@
             <ion-col>
               @if(this.showResendToken){
                 <button (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                        style="width: 100%; outline-color: #000000; color: #000000" size="s" tuiButton type="button">
+                  style="width: 100%; outline-color: #000000; color: #000000" size="s" tuiButton type="button">
                   {{ 'resend_otp' | translate }}
                 </button>
               }
@@ -81,11 +81,13 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <button *ngIf="ui_controls.otpValidated" (click)="reset_password()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                  tuiButton type="button">
-            {{ 'reset_button' | translate }}
-          </button>
+          @if (ui_controls.otpValidated) {
+            <button (click)="reset_password()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+              style="width: 100%; outline-color: #000000; color: #000000" size="m"
+              tuiButton type="button">
+              {{ 'reset_button' | translate }}
+            </button>
+          }
         }
         @if(!ui_controls.loading){
           <div class="flex ion-text-center ion-margin-vertical">
@@ -98,9 +100,11 @@
             </div>
           </div>
         }
-        <span  *ngIf="ui_controls.loading" class="ion-text-center ion-padding-vertical">
-          <tui-loader></tui-loader>
-        </span>
+        @if (ui_controls.loading) {
+          <span  class="ion-text-center ion-padding-vertical">
+            <tui-loader></tui-loader>
+          </span>
+        }
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -41,7 +41,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe]
 })
 export class CartPage implements OnInit, OnDestroy {
   carts: Cart[] = [];
@@ -128,8 +128,8 @@ export class CartPage implements OnInit, OnDestroy {
     f_total: ""
   };
   @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
+  onHardwareBack(ev: Event) {
+    (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }

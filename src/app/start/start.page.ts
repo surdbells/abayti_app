@@ -6,7 +6,7 @@ import {
   ViewChild,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IonContent, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { register } from 'swiper/element/bundle';
@@ -17,7 +17,7 @@ register();
 @Component({
   standalone: true,
   selector: 'app-start',
-  imports: [CommonModule, IonContent, IonButton, IonIcon, TuiIcon],
+  imports: [IonContent, IonButton, IonIcon, TuiIcon],
   templateUrl: './start.page.html',
   styleUrls: ['./start.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

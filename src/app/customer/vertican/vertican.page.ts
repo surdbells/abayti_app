@@ -11,7 +11,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -84,15 +84,52 @@ type DualRange = { lower: number; upper: number };
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    IonButton, IonContent, IonHeader, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonCard, IonCardContent, TuiIcon, RouterLink, IonCardHeader,
-    IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonModal,
-    IonRange, IonRow, IonSelect, IonSelectOption, IonTitle, TuiLabel,
-    TuiRadioComponent, IonImg, IonText, TuiLoader, TuiButton, TuiTextfieldComponent,
-    TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonList, IonFooter,
-    IonIcon, IonTabBar, IonTabButton, IonFab, IonFabButton, IonSkeletonText,
-    IonThumbnail, TuiCarouselComponent, TuiItem, TuiCarouselButtons, NgOptimizedImage
-  ]
+    IonButton,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    FormsModule,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    TuiIcon,
+    RouterLink,
+    IonCardHeader,
+    IonCardTitle,
+    IonCol,
+    IonGrid,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonRange,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    TuiLabel,
+    TuiRadioComponent,
+    IonImg,
+    IonText,
+    TuiLoader,
+    TuiButton,
+    TuiTextfieldComponent,
+    TuiTextfieldDirective,
+    TuiTextfieldOptionsDirective,
+    IonList,
+    IonFooter,
+    IonIcon,
+    IonTabBar,
+    IonTabButton,
+    IonFab,
+    IonFabButton,
+    IonSkeletonText,
+    IonThumbnail,
+    TuiCarouselComponent,
+    TuiItem,
+    TuiCarouselButtons,
+    NgOptimizedImage
+]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
@@ -151,8 +188,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
+  onHardwareBack(ev: Event) {
+    (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }
@@ -477,8 +514,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
-
   getMoreItems() {
     if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
 
@@ -548,9 +583,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
-
-
   get_label() {
     this.ui_controls.is_loading_category = true;
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
@@ -563,7 +595,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
   addToCloset(label: number) {
     this.ui_controls.is_loading_category = true;
     this.addCloset.label_id = label;
@@ -581,7 +612,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
   startAddToCloset(product: number, product_name: string, image_1: string) {
     this.addCloset.id = this.single_user.id;
     this.addCloset.token = this.single_user.token;

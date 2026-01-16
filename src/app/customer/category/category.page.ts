@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -37,7 +37,7 @@ import {InfiniteScrollCustomEvent} from "@ionic/angular";
   templateUrl: './category.page.html',
   styleUrls: ['./category.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonGrid, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonModal, IonRefresher, IonRefresherContent, IonRow, IonText, TranslatePipe, TuiIcon, TuiLoader]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButton, IonButtons, IonCol, IonGrid, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonModal, IonRefresher, IonRefresherContent, IonRow, IonText, TranslatePipe, TuiIcon, TuiLoader]
 })
 export class CategoryPage implements OnInit, OnDestroy {
   category_listing: Products[] = [];
@@ -66,8 +66,8 @@ export class CategoryPage implements OnInit, OnDestroy {
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
   @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
+  onHardwareBack(ev: Event) {
+    (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }

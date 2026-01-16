@@ -9,13 +9,13 @@ import {NG_EVENT_PLUGINS} from "@taiga-ui/event-plugins";
 import {provideHttpClient} from "@angular/common/http";
 import {provideHotToastConfig} from "@ngxpert/hot-toast";
 import {I18nService} from "./app/i18n.service";
-import {APP_INITIALIZER} from "@angular/core";
+import {APP_INITIALIZER, provideZoneChangeDetection} from "@angular/core";
 function initI18n(i18n: I18nService) {
   return () => i18n.init();
 }
 register();
 bootstrapApplication(AppComponent, {
-  providers: [NG_EVENT_PLUGINS,
+  providers: [provideZoneChangeDetection(),NG_EVENT_PLUGINS,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
     provideIonicAngular({animated: true}),

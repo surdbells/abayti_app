@@ -40,7 +40,7 @@
       <div class="section-head ion-padding-bottom">
         <h2>{{ 'heading_latest' | translate }}</h2>
       </div>
-        <app-h-scroll-progress>
+      <app-h-scroll-progress>
         @for(best_seller of latest; track best_seller.product_id){
           <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
             <div class="img-wrap" [style.background]="'#7A1C09'">
@@ -64,50 +64,52 @@
             </div>
           </article>
         }
-        </app-h-scroll-progress>
+      </app-h-scroll-progress>
     </section>
   }
-  <div *ngIf="!ui_controls.is_loading" class="sheet ion-padding-horizontal">
-    @for(category of categories; track category.id){
-    <section class="section ion-margin-top">
-      <div class="section-head ion-margin-bottom">
-        <h2>{{category.name}}</h2>
-      </div>
-        <app-h-scroll-progress>
-        @for(product of products; track product.product_id){
-          @if(category.id == product.collection){
-            <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
-              <div class="img-wrap" [style.background]="'#7A1C09'">
-                <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
-              </div>
-              <div class="info">
-                <p class="desc">
-                  {{product.product_name}} - <span [innerHTML]="product.description"></span>
-                </p>
-                <ion-row>
-                  <ion-col class="ion-text-start">
-                    Ð{{product.price}}
-                  </ion-col>
-                  <ion-col class="ion-text-end">
-                    <svg (click)="open_product(product.product_id, product.product_name)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="19" height="19" rx="6" fill="#7C2108"/>
-                      <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
-                    </svg>
-                  </ion-col>
-                </ion-row>
-              </div>
-            </article>
-          }
-        }
-        </app-h-scroll-progress>
-    </section>
-    }
-  </div>
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
+  @if (!ui_controls.is_loading) {
+    <div class="sheet ion-padding-horizontal">
+      @for(category of categories; track category.id){
+        <section class="section ion-margin-top">
+          <div class="section-head ion-margin-bottom">
+            <h2>{{category.name}}</h2>
+          </div>
+          <app-h-scroll-progress>
+            @for(product of products; track product.product_id){
+              @if(category.id == product.collection){
+                <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
+                  <div class="img-wrap" [style.background]="'#7A1C09'">
+                    <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
+                  </div>
+                  <div class="info">
+                    <p class="desc">
+                      {{product.product_name}} - <span [innerHTML]="product.description"></span>
+                    </p>
+                    <ion-row>
+                      <ion-col class="ion-text-start">
+                        Ð{{product.price}}
+                      </ion-col>
+                      <ion-col class="ion-text-end">
+                        <svg (click)="open_product(product.product_id, product.product_name)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect width="19" height="19" rx="6" fill="#7C2108"/>
+                          <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
+                        </svg>
+                      </ion-col>
+                    </ion-row>
+                  </div>
+                </article>
+              }
+            }
+          </app-h-scroll-progress>
+        </section>
       }
-    </span>
+    </div>
+  }
+  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+    @if (ui_controls.is_loading){
+      <tui-loader></tui-loader>
+    }
+  </span>
 </ion-content>
 
 <ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">

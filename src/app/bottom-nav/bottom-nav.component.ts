@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -15,7 +15,7 @@ export interface NavItem {
 @Component({
   selector: 'app-bottom-nav',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [IonicModule],
   templateUrl: './bottom-nav.component.html',
   styleUrls: ['./bottom-nav.component.scss']
 })

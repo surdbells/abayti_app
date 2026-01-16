@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -19,7 +19,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './failed.page.html',
   styleUrls: ['./failed.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
 })
 export class FailedPage implements OnInit {
 

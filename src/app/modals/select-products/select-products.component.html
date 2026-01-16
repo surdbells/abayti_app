@@ -21,7 +21,7 @@
       tuiTextfieldLabelOutside
       [searchable]="true"
       [tuiStringMatcher]="true"
-    >
+      >
       <ng-template let-item>{{ item }}</ng-template>
     </tui-select>
   </ion-item>
@@ -38,26 +38,27 @@
       [tuiLabelField]="'name'"
       [tuiItemContent]="'name'"
       [multiple]="true"
-    >
+      >
     </tui-select>
   </ion-item>
 
   <!-- Products Grid -->
   <div class="products-grid">
-    <div
-      class="product-card"
-      *ngFor="let product of filteredProducts"
-      (click)="toggleSelect(product)"
-      [class.selected]="product.selected"
-    >
-      <img [src]="product.image" alt="{{ product.name }}">
-      <div class="overlay">
-        <ion-checkbox [checked]="product.selected"></ion-checkbox>
+    @for (product of filteredProducts; track product) {
+      <div
+        class="product-card"
+        (click)="toggleSelect(product)"
+        [class.selected]="product.selected"
+        >
+        <img [src]="product.image" alt="{{ product.name }}">
+        <div class="overlay">
+          <ion-checkbox [checked]="product.selected"></ion-checkbox>
+        </div>
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+        </div>
       </div>
-      <div class="product-info">
-        <h3>{{ product.name }}</h3>
-      </div>
-    </div>
+    }
   </div>
 
 </ion-content>

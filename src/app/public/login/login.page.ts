@@ -9,7 +9,7 @@ import {
 import { Preferences } from '@capacitor/preferences';
 import { ConnectionService } from '../../service/connection.service';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {TuiPassword} from '@taiga-ui/kit';
 import {
@@ -37,7 +37,6 @@ import {TranslatePipe} from "../../translate.pipe";
     IonRow,
     TuiIcon,
     IonCol,
-    CommonModule,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,
@@ -48,7 +47,7 @@ import {TranslatePipe} from "../../translate.pipe";
     TuiPassword,
     TuiLoader,
     TranslatePipe
-  ]
+]
 })
 export class LoginPage implements OnInit, OnDestroy {
     isOnline = true;

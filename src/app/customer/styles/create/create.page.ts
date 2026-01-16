@@ -1,5 +1,5 @@
 import {Component, OnInit, Type} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
@@ -41,7 +41,7 @@ export interface selectedProduct {
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
   standalone: true,
-  imports: [IonicModule, SelectProductsComponent, CommonModule, FormsModule, TuiIcon, TuiLoader, TranslatePipe]
+  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe]
 })
 export class CreatePage implements OnInit {
   stores: Store[] = [];

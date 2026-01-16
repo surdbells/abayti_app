@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IonicModule } from '@ionic/angular';
 import {TuiIcon} from "@taiga-ui/core";
 import {Preferences} from "@capacitor/preferences";
@@ -7,11 +7,13 @@ import {Preferences} from "@capacitor/preferences";
 @Component({
   selector: 'app-cart-icon',
   standalone: true,
-  imports: [CommonModule, IonicModule, TuiIcon],
+  imports: [IonicModule, TuiIcon],
   template: `<tui-icon icon="@tui.shopping-cart" [style.color]="'var(--text)'" aria-hidden="true"></tui-icon>
-            <span class="cart-badge" *ngIf="count && count > 0" [attr.aria-label]="count + ' items in cart'">
-              {{ displayCount }}
-            </span>`,
+            @if (count && count > 0) {
+              <span class="cart-badge" [attr.aria-label]="count + ' items in cart'">
+                {{ displayCount }}
+              </span>
+            }`,
   styles: [`
     /* badge */
     .cart-badge {

@@ -6,16 +6,18 @@
 
   <div class="description-wrap">
     <p #desc
-       class="description"
-       [class.clamped]="!expanded"
-       [attr.aria-hidden]="expanded ? 'false' : 'true'">
+      class="description"
+      [class.clamped]="!expanded"
+      [attr.aria-hidden]="expanded ? 'false' : 'true'">
       {{ description }}
     </p>
   </div>
 
-  <div class="actions" *ngIf="showToggle">
-    <button ion-button fill="clear" (click)="toggleExpand()" class="toggle-btn" [attr.aria-expanded]="expanded">
-      {{ expanded ? 'Read less' : 'Read more' }}
-    </button>
-  </div>
+  @if (showToggle) {
+    <div class="actions">
+      <button ion-button fill="clear" (click)="toggleExpand()" class="toggle-btn" [attr.aria-expanded]="expanded">
+        {{ expanded ? 'Read less' : 'Read more' }}
+      </button>
+    </div>
+  }
 </div>

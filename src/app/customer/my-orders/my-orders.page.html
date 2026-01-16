@@ -7,12 +7,12 @@
     </ion-buttons>
     <ion-title class="title ion-text-center abayti_white">My Orders</ion-title>
   </ion-toolbar>
-<!--
+  <!--
   &lt;!&ndash; Horizontal scroll filter chips &ndash;&gt;
   <div class="status-filter" role="tablist" aria-label="Order status filters">
     @for (s of statuses; track $index){
       <button class="chip" [class.active]="selectedStatus === s" (click)="selectStatus(s)"
-              role="tab" [attr.aria-selected]="selectedStatus === s">
+        role="tab" [attr.aria-selected]="selectedStatus === s">
         {{ s | titlecase }}
       </button>
     }
@@ -22,8 +22,8 @@
 <ion-content fullscreen="true" class="home-bg ion-padding">
   @if (ui_controls.is_loading){
     <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-        <tui-loader></tui-loader>
-   </span>
+      <tui-loader></tui-loader>
+    </span>
   }
   @if (!ui_controls.is_loading && orders.length == 0){
     <div class="empty-state">
@@ -35,7 +35,7 @@
       </ion-card>
     </div>
   } @else {
-    <ng-container *ngFor="let order of orders; let i = index">
+    @for (order of orders; track order; let i = $index) {
       <ion-card class="order-card">
         <!-- Order Header -->
         <div class="order-header">
@@ -46,18 +46,22 @@
           <span class="status" [ngClass]="order.status">{{ order.status | uppercase }}</span>
         </div>
         <!-- Collapsible items section -->
-        <div class="items-list horizontal-scroll" *ngIf="order.showItems">
-          <div (click)="open_vendor(item.store, item.product_name)" class="product-card" *ngFor="let item of order.items">
-            <div class="product-image-wrapper">
-              <img loading="lazy" [src]="item.product_image" alt="{{ item.product_name }}" class="product-image" />
-              <!-- Item status badge -->
-              <span class="item-status" [ngClass]="item.status">{{ item.status | uppercase }}</span>
-            </div>
-            <h5 class="product-name">{{ item.product_name }}</h5>
-            <p class="qty">Qty: {{ item.quantity }}</p>
-            <p class="price">₦{{ item.price }}</p>
+        @if (order.showItems) {
+          <div class="items-list horizontal-scroll">
+            @for (item of order.items; track item) {
+              <div (click)="open_vendor(item.store, item.product_name)" class="product-card">
+                <div class="product-image-wrapper">
+                  <img loading="lazy" [src]="item.product_image" alt="{{ item.product_name }}" class="product-image" />
+                  <!-- Item status badge -->
+                  <span class="item-status" [ngClass]="item.status">{{ item.status | uppercase }}</span>
+                </div>
+                <h5 class="product-name">{{ item.product_name }}</h5>
+                <p class="qty">Qty: {{ item.quantity }}</p>
+                <p class="price">₦{{ item.price }}</p>
+              </div>
+            }
           </div>
-        </div>
+        }
         <!-- Footer with toggle -->
         <div class="order-footer">
           <div class="total">
@@ -71,9 +75,8 @@
             </ion-button>
           </div>
         </div>
-
       </ion-card>
-    </ng-container>
+    }
   }
 
 

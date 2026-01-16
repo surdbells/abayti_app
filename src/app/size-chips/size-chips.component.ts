@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
+
 
 type SizesObject = Record<string, boolean>;
 
 @Component({
   selector: 'app-size-chips',
   standalone: true,
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule],
   templateUrl: './size-chips.component.html',
   styleUrls: ['./size-chips.component.scss'],
 })

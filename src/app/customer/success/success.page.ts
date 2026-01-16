@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -20,7 +20,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './success.page.html',
   styleUrls: ['./success.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonImg, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiIcon, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonImg, TranslatePipe]
 })
 export class SuccessPage implements OnInit {
   constructor() { }

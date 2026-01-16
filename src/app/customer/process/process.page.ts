@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonCard,
@@ -26,7 +26,7 @@ import {GlobalComponent} from "../../global-component";
   templateUrl: './process.page.html',
   styleUrls: ['./process.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonGrid, IonRow, IonCol, IonCard]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonGrid, IonRow, IonCol, IonCard]
 })
 export class ProcessPage implements OnInit {
   isOnline = true;

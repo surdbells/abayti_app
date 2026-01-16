@@ -36,7 +36,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
-import {NgForOf, NgIf} from "@angular/common";
+
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
@@ -72,14 +72,12 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     IonAccordionGroup,
     IonAccordion,
     TuiNotification,
-    NgIf,
     ReactiveFormsModule,
     TuiButton,
     TuiLabel,
     FormsModule,
-    IonModal,
-    NgForOf
-  ],
+    IonModal
+],
   standalone: true
 })
 export class CheckoutPage implements OnInit, OnDestroy {

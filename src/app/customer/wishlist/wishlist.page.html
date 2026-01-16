@@ -26,139 +26,161 @@
 <ion-content [fullscreen]="true" class="page-bg">
   <div class="sheet ion-padding-horizontal">
     <!-- Category -->
-    <section *ngIf="!ui_controls.is_loading"  class="section">
-      <div class="section-title ion-margin-bottom">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
-          <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#7C2108"/>
-              <stop offset="1" stop-color="#E23C0F"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <span>{{ 'text_categories' | translate }}</span>
-      </div>
-    </section>
-    <div *ngIf="!ui_controls.is_loading"  class="h-scroll categories">
-      <!-- Add New Category -->
-      <div id="add_wish_list" class="category-card add">
-        <svg width="59" height="59" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="29.5" cy="29.5" r="29.5" fill="#7C2108"/>
-          <path d="M29.5 45.612C28.2905 45.612 27.3105 44.632 27.3105 43.4225V15.5762C27.3105 14.3667 28.2905 13.3867 29.5 13.3867C30.7095 13.3867 31.6895 14.3667 31.6895 15.5762V43.4225C31.6895 44.632 30.7095 45.612 29.5 45.612Z" fill="white"/>
-          <path d="M43.4235 31.6895H15.5771C14.3677 31.6895 13.3877 30.7095 13.3877 29.5C13.3877 28.2905 14.3677 27.3105 15.5771 27.3105H43.4235C44.6329 27.3105 45.6129 28.2905 45.6129 29.5C45.6129 30.7095 44.6329 31.6895 43.4235 31.6895Z" fill="white"/>
-        </svg>
-        <h4>{{ 'heading_new_category' | translate }}</h4>
-      </div>
-      <div (click)="get_wishlist_by_label(cat.id, cat.name)" class="category-card more" *ngFor="let cat of categories">
-        <div class="add-icon">
-          <tui-icon icon="heart"></tui-icon>
+    @if (!ui_controls.is_loading) {
+      <section  class="section">
+        <div class="section-title ion-margin-bottom">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
+            <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>{{ 'text_categories' | translate }}</span>
         </div>
-        <h4>{{ cat.name }}</h4>
-        <p class="item_count">{{ cat.count }} {{ 'text_items' | translate }}</p>
-      </div>
-    </div>
-    <section *ngIf="!ui_controls.is_loading"  class="section">
-      <div class="section-title ion-margin-bottom">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
-          <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-          <defs>
-            <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#7C2108"/>
-              <stop offset="1" stop-color="#E23C0F"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <span *ngIf="!ui_controls.is_loading">{{ selected_label }}</span>
-      </div>
-      <div class="recent-grid">
-        <div (click)="open_product(a_wishlist.product)" class="recent-card" *ngFor="let a_wishlist of wishlists">
-          <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
-          <h5>{{ a_wishlist.name }}</h5>
+      </section>
+    }
+    @if (!ui_controls.is_loading) {
+      <div  class="h-scroll categories">
+        <!-- Add New Category -->
+        <div id="add_wish_list" class="category-card add">
+          <svg width="59" height="59" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="29.5" cy="29.5" r="29.5" fill="#7C2108"/>
+            <path d="M29.5 45.612C28.2905 45.612 27.3105 44.632 27.3105 43.4225V15.5762C27.3105 14.3667 28.2905 13.3867 29.5 13.3867C30.7095 13.3867 31.6895 14.3667 31.6895 15.5762V43.4225C31.6895 44.632 30.7095 45.612 29.5 45.612Z" fill="white"/>
+            <path d="M43.4235 31.6895H15.5771C14.3677 31.6895 13.3877 30.7095 13.3877 29.5C13.3877 28.2905 14.3677 27.3105 15.5771 27.3105H43.4235C44.6329 27.3105 45.6129 28.2905 45.6129 29.5C45.6129 30.7095 44.6329 31.6895 43.4235 31.6895Z" fill="white"/>
+          </svg>
+          <h4>{{ 'heading_new_category' | translate }}</h4>
         </div>
+        @for (cat of categories; track cat) {
+          <div (click)="get_wishlist_by_label(cat.id, cat.name)" class="category-card more">
+            <div class="add-icon">
+              <tui-icon icon="heart"></tui-icon>
+            </div>
+            <h4>{{ cat.name }}</h4>
+            <p class="item_count">{{ cat.count }} {{ 'text_items' | translate }}</p>
+          </div>
+        }
       </div>
-    </section>
+    }
+    @if (!ui_controls.is_loading) {
+      <section  class="section">
+        <div class="section-title ion-margin-bottom">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
+            <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7C2108"/>
+                <stop offset="1" stop-color="#E23C0F"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          @if (!ui_controls.is_loading) {
+            <span>{{ selected_label }}</span>
+          }
+        </div>
+        <div class="recent-grid">
+          @for (a_wishlist of wishlists; track a_wishlist) {
+            <div (click)="open_product(a_wishlist.product)" class="recent-card">
+              <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
+              <h5>{{ a_wishlist.name }}</h5>
+            </div>
+          }
+        </div>
+      </section>
+    }
 
     <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       @if (ui_controls.is_loading){
         <tui-loader></tui-loader>
       }
     </span>
-    <div *ngIf="ui_controls.is_empty && !ui_controls.is_loading" class="empty-state">
-      <ion-card>
-        <ion-card-content class="ion-text-center">
-          <tui-icon [style.font-size.rem]="2" icon="heart"></tui-icon>
-          <h2>{{ 'heading_no_items_in_wishlist' | translate }}</h2>
-        </ion-card-content>
-      </ion-card>
-    </div>
+    @if (ui_controls.is_empty && !ui_controls.is_loading) {
+      <div class="empty-state">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <tui-icon [style.font-size.rem]="2" icon="heart"></tui-icon>
+            <h2>{{ 'heading_no_items_in_wishlist' | translate }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    }
   </div>
-  <ion-modal *ngIf="!ui_controls.is_loading"  [backdropDismiss]="false" #wishlistModal trigger="add_wish_list" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'button_add_new' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="wishlistModal.dismiss()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-row class="animate__animated ion-padding-bottom">
-          <ion-col *ngIf="!ui_controls.is_creating" >
-            <label tuiLabel>{{ 'label_category_name' | translate }}</label>
-            <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-              <input [maxlength]="25" [(ngModel)]="add_label.label_name" type="text" name="name" tuiTextfield />
-            </tui-textfield>
-          </ion-col>
-          <button *ngIf="!ui_controls.is_creating" (click)="add_wishlist_label()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                  tuiButton type="button"> {{ 'button_add' | translate }}
-          </button>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <tui-loader *ngIf="ui_controls.is_creating"></tui-loader>
-          </ion-col>
-        </ion-row>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+  @if (!ui_controls.is_loading) {
+    <ion-modal  [backdropDismiss]="false" #wishlistModal trigger="add_wish_list" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ 'button_add_new' | translate }}</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="wishlistModal.dismiss()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-row class="animate__animated ion-padding-bottom">
+            @if (!ui_controls.is_creating) {
+              <ion-col >
+                <label tuiLabel>{{ 'label_category_name' | translate }}</label>
+                <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
+                  <input [maxlength]="25" [(ngModel)]="add_label.label_name" type="text" name="name" tuiTextfield />
+                </tui-textfield>
+              </ion-col>
+            }
+            @if (!ui_controls.is_creating) {
+              <button (click)="add_wishlist_label()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical abayti_primary_background ion-color-light"
+                style="width: 100%; outline-color: #000000; color: #000000" size="m"
+                tuiButton type="button"> {{ 'button_add' | translate }}
+              </button>
+            }
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              @if (ui_controls.is_creating) {
+                <tui-loader></tui-loader>
+              }
+            </ion-col>
+          </ion-row>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  }
 </ion-content>
 <ion-footer style="padding-bottom: 35px; background-color: #F9E4D5" class="ion-padding">
   <ion-tab-bar style="background-color: #7C2108; border-radius: 44px; padding-top: 2px; padding-bottom: 2px" slot="bottom" class="tabs">
     <ion-tab-button style="" (click)="user_home()" tab="home">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--card)'" src="assets/icon/home.svg"></ion-icon>
       <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>
+      <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Home</ion-label>
       -->
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/explore.svg"></ion-icon>
       <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Explore</ion-label>
+      <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Explore</ion-label>
       -->
     </ion-tab-button>
     <ion-tab-button (click)="user_cart()" tab="cart">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/cart.svg"></ion-icon>
       <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">My Cart</ion-label>
+      <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">My Cart</ion-label>
       -->
     </ion-tab-button>
     <ion-tab-button (click)="orders()" tab="sketch">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/orders.svg"></ion-icon>
       <!--
-            <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Orders</ion-label>
+      <ion-label [style.color]="'var(&#45;&#45;ion-color-secondary)'">Orders</ion-label>
       -->
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
       <ion-icon style="font-size: 45px; border-radius: 100%" [style.color]="'var(--ion-color-secondary)'" src="assets/icon/profile.svg"></ion-icon>
       <!--
-            <ion-label  style="font-weight: 900"  [style.color]="'var(&#45;&#45;ion-color-secondary)'">Profile</ion-label>
+      <ion-label  style="font-weight: 900"  [style.color]="'var(&#45;&#45;ion-color-secondary)'">Profile</ion-label>
       -->
     </ion-tab-button>
   </ion-tab-bar>

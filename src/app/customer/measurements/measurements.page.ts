@@ -21,7 +21,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {HotToastService} from "@ngxpert/hot-toast";
-import {CommonModule} from "@angular/common";
+
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {List} from "../../class/list";
@@ -36,7 +36,6 @@ import {TranslatePipe} from "../../translate.pipe";
   styleUrls: ['./measurements.page.scss'],
   imports: [
     IonHeader,
-    CommonModule,
     IonToolbar,
     IonButtons,
     TuiIcon,
@@ -69,7 +68,7 @@ import {TranslatePipe} from "../../translate.pipe";
     IonCardTitle,
     IonButton,
     TranslatePipe
-  ]
+]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {
   list: List[] = [];
@@ -89,8 +88,8 @@ export class MeasurementsPage implements OnInit, OnDestroy {
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
   @HostListener('window:ionBackButton', ['$event'])
-  onHardwareBack(ev: CustomEvent) {
-    ev.detail.register(100, () => {
+  onHardwareBack(ev: Event) {
+    (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/settings').then(r => console.log(r));
     });
   }

@@ -25,57 +25,67 @@
     </ion-toolbar>
   </ion-header>
   <div class="sheet ion-padding-horizontal">
-    <tui-loader *ngIf="ui_controls.is_loading"></tui-loader>
-    <div *ngIf="!ui_controls.is_loading" class="menu">
-      <ion-card *ngFor="let item of reviews; index as i;" class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
-        <ion-card-content>
-          <div class="row-top">
-            <tui-icon icon="@tui.user"></tui-icon>
-            <div class="name">{{ item?.customer || '—' }}</div>
-          </div>
-          <div class="address-row">
-            <ion-text>
-              <span>{{ item?.comment || '' }}</span>
-            </ion-text>
-            <div *ngIf="item.star != 0"  class="chip" slot="end">
-              @if (item.star == 1){
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-              }
-              @if (item.star == 2){
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-              }
-              @if (item.star == 3){
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-              }
-              @if (item.star == 4){
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-              }
-              @if (item.star == 5){
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-              }
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
-    <div *ngIf="ui_controls.is_empty && !ui_controls.is_loading" class="empty-state">
-      <ion-card>
-        <ion-card-content class="ion-text-center">
-          <tui-icon [style.font-size.rem]="2" icon="star"></tui-icon>
-          <h2>{{ 'heading_no_reviews_yet' | translate }}</h2>
-          <p>{{ 'text_store_has_no_reviews_yet' | translate }}</p>
-        </ion-card-content>
-      </ion-card>
-    </div>
+    @if (ui_controls.is_loading) {
+      <tui-loader></tui-loader>
+    }
+    @if (!ui_controls.is_loading) {
+      <div class="menu">
+        @for (item of reviews; track item; let i = $index) {
+          <ion-card class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
+            <ion-card-content>
+              <div class="row-top">
+                <tui-icon icon="@tui.user"></tui-icon>
+                <div class="name">{{ item?.customer || '—' }}</div>
+              </div>
+              <div class="address-row">
+                <ion-text>
+                  <span>{{ item?.comment || '' }}</span>
+                </ion-text>
+                @if (item.star != 0) {
+                  <div  class="chip" slot="end">
+                    @if (item.star == 1){
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                    }
+                    @if (item.star == 2){
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                    }
+                    @if (item.star == 3){
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                    }
+                    @if (item.star == 4){
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                    }
+                    @if (item.star == 5){
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                    }
+                  </div>
+                }
+              </div>
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
+    }
+    @if (ui_controls.is_empty && !ui_controls.is_loading) {
+      <div class="empty-state">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <tui-icon [style.font-size.rem]="2" icon="star"></tui-icon>
+            <h2>{{ 'heading_no_reviews_yet' | translate }}</h2>
+            <p>{{ 'text_store_has_no_reviews_yet' | translate }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    }
   </div>
 </ion-content>

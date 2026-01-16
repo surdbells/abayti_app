@@ -36,10 +36,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
-      }
-   </span>
+    @if (ui_controls.is_loading){
+      <tui-loader></tui-loader>
+    }
+  </span>
   <button appearance="neutral" size="m"  tuiNotification type="button">
     {{ 'review_info' | translate }}
   </button>
@@ -81,12 +81,18 @@
               </button>
             </ion-col>
             <ion-col>
-              <tui-loader *ngIf="ui_controls.is_loading_area"></tui-loader>
-              <label *ngIf="!ui_controls.is_loading_area" tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
-              <button *ngIf="!ui_controls.is_loading_area" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
-                <span class="cc-code">{{ update.area }}</span>
-                <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
-              </button>
+              @if (ui_controls.is_loading_area) {
+                <tui-loader></tui-loader>
+              }
+              @if (!ui_controls.is_loading_area) {
+                <label tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
+              }
+              @if (!ui_controls.is_loading_area) {
+                <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
+                  <span class="cc-code">{{ update.area }}</span>
+                  <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+                </button>
+              }
             </ion-col>
           </ion-row>
           <ion-row class="animate__animated">
@@ -107,10 +113,14 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button *ngIf="!ui_controls.is_updating" (click)="update_billing()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                      style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{ 'confirm_delivery_info' | translate }}
-              </button>
-              <tui-loader *ngIf="ui_controls.is_updating"></tui-loader>
+              @if (!ui_controls.is_updating) {
+                <button (click)="update_billing()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
+                  style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{ 'confirm_delivery_info' | translate }}
+                </button>
+              }
+              @if (ui_controls.is_updating) {
+                <tui-loader></tui-loader>
+              }
             </ion-col>
           </ion-row>
         }
@@ -173,56 +183,62 @@
     </svg>
   </div>
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-              @if (ui_controls.checking_out){
-                <tui-loader></tui-loader>
-              }
-           </span>
-  <ion-modal *ngIf="!ui_controls.is_loading" #cityModal trigger="open-city" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'title_select_city' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="cityModal.dismiss()">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <ion-list>
-          <ion-item  button detail *ngFor="let cities of city" (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()" >
-            <ion-label>
-              <div class="code-line">
-                <span class="name">{{ cities.name }}</span>
-              </div>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
-  <ion-modal *ngIf="!ui_controls.is_loading_area" #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'title_select_area' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="areaModal.dismiss()">{{ "button_close" | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <ion-list>
-          <ion-item  button detail *ngFor="let areas of area" (click)="selectArea(areas.name); areaModal.dismiss()" >
-            <ion-label>
-              <div class="code-line">
-                <span class="name">{{ areas.name }}</span>
-              </div>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+    @if (ui_controls.checking_out){
+      <tui-loader></tui-loader>
+    }
+  </span>
+  @if (!ui_controls.is_loading) {
+    <ion-modal #cityModal trigger="open-city" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ 'title_select_city' | translate }}</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="cityModal.dismiss()">{{ 'close' | translate }}</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            @for (cities of city; track cities) {
+              <ion-item  button detail (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()" >
+                <ion-label>
+                  <div class="code-line">
+                    <span class="name">{{ cities.name }}</span>
+                  </div>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  }
+  @if (!ui_controls.is_loading_area) {
+    <ion-modal #areaModal trigger="open-area" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8, 1]">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ 'title_select_area' | translate }}</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="areaModal.dismiss()">{{ "button_close" | translate }}</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            @for (areas of area; track areas) {
+              <ion-item  button detail (click)="selectArea(areas.name); areaModal.dismiss()" >
+                <ion-label>
+                  <div class="code-line">
+                    <span class="name">{{ areas.name }}</span>
+                  </div>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  }
 </ion-content>

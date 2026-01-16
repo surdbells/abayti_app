@@ -48,43 +48,46 @@
     </div>
     <!-- Reviews list -->
     <div class="reviews-list">
-      <ion-card class="review-card ion-no-margin" *ngFor="let r of reviews">
-        <div class="review-header">
-          <div class="avatar">{{ r.authorInitial }}</div>
-          <div class="name-date">
-            <div class="name">{{ r.author }}</div>
-            <div class="date">{{ r.relativeDate }}</div>
+      @for (r of reviews; track r) {
+        <ion-card class="review-card ion-no-margin">
+          <div class="review-header">
+            <div class="avatar">{{ r.authorInitial }}</div>
+            <div class="name-date">
+              <div class="name">{{ r.author }}</div>
+              <div class="date">{{ r.relativeDate }}</div>
+            </div>
+            <div class="rating-stars">
+              <tui-rating size="s" class="rating" [(ngModel)]="r.rating" [readOnly]="true" />
+            </div>
           </div>
-          <div class="rating-stars">
-            <tui-rating size="s" class="rating" [(ngModel)]="r.rating" [readOnly]="true" />
+          <div class="review-title">
+            {{ r.title }}
           </div>
-        </div>
-        <div class="review-title">
-          {{ r.title }}
-        </div>
-        <div class="review-text">
-          {{ r.text }}
-        </div>
-        <ion-item-divider></ion-item-divider>
-        <div class="review-actions">
-          <button class="action-btn left" (click)="toggleHelpful(r.id)">
-            <tui-icon icon="@tui.heart"></tui-icon>
-            Helpful ({{ r.helpfulCount }})
-          </button>
-
-          <button class="badge-btn right" *ngIf="r.verified">
-            <tui-icon icon="@tui.check-check"></tui-icon>
-            Verified Purchase
-          </button>
-        </div>
-      </ion-card>
+          <div class="review-text">
+            {{ r.text }}
+          </div>
+          <ion-item-divider></ion-item-divider>
+          <div class="review-actions">
+            <button class="action-btn left" (click)="toggleHelpful(r.id)">
+              <tui-icon icon="@tui.heart"></tui-icon>
+              Helpful ({{ r.helpfulCount }})
+            </button>
+            @if (r.verified) {
+              <button class="badge-btn right">
+                <tui-icon icon="@tui.check-check"></tui-icon>
+                Verified Purchase
+              </button>
+            }
+          </div>
+        </ion-card>
+      }
     </div>
   }
 
   @if (ui_controls.is_loading){
     <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       <tui-loader></tui-loader>
-   </span>
+    </span>
   }
   @if (!ui_controls.is_loading && reviews.length == 0){
     <div class="empty-state">
@@ -154,7 +157,7 @@
             }
             @if (ui_controls.is_creating){
               <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-                  <tui-loader></tui-loader>
+                <tui-loader></tui-loader>
               </span>
             }
           </div>

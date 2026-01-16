@@ -11,7 +11,7 @@ import {
   IonTitle,
   IonToolbar
 } from "@ionic/angular/standalone";
-import {CommonModule} from "@angular/common";
+
 import {FormsModule} from "@angular/forms";
 import {TuiIcon} from "@taiga-ui/core";
 export interface Product {
@@ -26,7 +26,6 @@ export interface Product {
   templateUrl: './select-products.component.html',
   styleUrls: ['./select-products.component.scss'],
   imports: [
-    CommonModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -40,7 +39,7 @@ export interface Product {
     FormsModule,
     IonButton,
     TuiIcon
-  ],
+],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   standalone: true
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -52,7 +52,7 @@ type Review = {
   templateUrl: './vendor-reviews.page.html',
   styleUrls: ['./vendor-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe]
 })
 export class VendorReviewsPage implements OnInit {
   reviews: Review[] = [];

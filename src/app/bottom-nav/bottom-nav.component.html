@@ -11,7 +11,9 @@
           [attr.aria-selected]="isActive(it)"
           type="button">
           <ion-icon [name]="it.icon" class="nav-icon" aria-hidden="true"></ion-icon>
-          <span *ngIf="it.badge" class="badge" aria-hidden="true">{{ it.badge }}</span>
+          @if (it.badge) {
+            <span class="badge" aria-hidden="true">{{ it.badge }}</span>
+          }
         </button>
       }
     </div>

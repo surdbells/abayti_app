@@ -18,7 +18,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ConnectionService } from '../../service/connection.service';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   TuiButton, TuiIcon,
@@ -46,7 +46,6 @@ import {GlobalComponent} from "../../global-component";
     IonGrid,
     IonCol,
     IonRow,
-    CommonModule,
     TuiTextfieldComponent,
     FormsModule,
     TuiLabel,
@@ -72,7 +71,7 @@ import {GlobalComponent} from "../../global-component";
     TuiIcon,
     TuiLoader,
     TuiPassword
-  ]
+]
 })
 export class ResetPage implements OnInit, OnDestroy {
   isOnline = true;

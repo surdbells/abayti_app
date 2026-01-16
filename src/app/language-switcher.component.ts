@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { I18nService, LangCode } from './i18n.service';
 import { IonicModule } from '@ionic/angular';
 import {TranslatePipe} from "./translate.pipe";
@@ -8,19 +8,21 @@ import {TuiIcon} from "@taiga-ui/core";
 @Component({
   selector: 'app-language-switcher',
   standalone: true,
-  imports: [IonicModule, NgFor, AsyncPipe, TranslatePipe, TuiIcon],
+  imports: [IonicModule, AsyncPipe, TranslatePipe, TuiIcon],
   template: `
       <div class="language-pills">
-      <button
-        *ngFor="let l of langs" [value]="l.code"
-        type="button"
-        class="lang-pill"
-        [class.active]="this.i18n.lang === l.code"
-        (click)="select(l.code)">
-        <span><span style="font-size: 32px; font-weight: bolder;">{{ l.flag }}</span><br> {{ l.native }}</span>
-      </button>
-    </div>
-  `,
+        @for (l of langs; track l) {
+          <button
+            [value]="l.code"
+            type="button"
+            class="lang-pill"
+            [class.active]="this.i18n.lang === l.code"
+            (click)="select(l.code)">
+            <span><span style="font-size: 32px; font-weight: bolder;">{{ l.flag }}</span><br> {{ l.native }}</span>
+          </button>
+        }
+      </div>
+      `,
   styles: [`
     .language-pills {
       display: grid;

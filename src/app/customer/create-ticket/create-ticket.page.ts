@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CommonModule, NgIf} from '@angular/common';
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   TuiButton,
@@ -27,7 +27,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, NgIf, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe]
+  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;
