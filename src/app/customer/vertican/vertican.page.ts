@@ -73,7 +73,7 @@ interface Category {
   readonly id: number;
   readonly name: string;
 }
-const MAX_RENDERED_PRODUCTS = 10;
+const MAX_RENDERED_PRODUCTS = 8;
 type DualRange = { lower: number; upper: number };
 
 @Component({
@@ -107,6 +107,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   // Track image loading states: key = "productId-imageIndex"
   imageLoaded: { [key: string]: boolean } = {};
+
+  // Track horizontal swiper instances: key = product_id
+  horizontalSwipers: Map<number, any> = new Map();
 
   // Vertical pagination
   verticalDots: number[] = [0, 1, 2];
@@ -156,6 +159,10 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    for (const swiper of this.horizontalSwipers.values()) {
+      swiper.destroy();
+    }
+    this.horizontalSwipers.clear();
   }
 
   ui_controls = {
@@ -415,6 +422,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.ui_controls.is_loaded = true;
             this.activeImageIndices.clear();
             this.imageLoaded = {};
+            this.horizontalSwipers.clear();
             setTimeout(() => this.initializeSwipers(), 100);
           } else {
             this.ui_controls = {
@@ -456,6 +464,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.ui_controls.is_empty = false;
             this.activeImageIndices.clear();
             this.imageLoaded = {};
+            this.horizontalSwipers.clear();
             setTimeout(() => this.initializeSwipers(), 100);
           } else {
             this.ui_controls = {
@@ -502,6 +511,15 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
             // 🔥 Only remove items the user already passed
             if (currentIndex > excess) {
+              // Destroy swipers for removed products
+              for (let i = 0; i < excess; i++) {
+                const product = this.products[i];
+                const swiper = this.horizontalSwipers.get(product.product_id);
+                if (swiper) {
+                  swiper.destroy();
+                  this.horizontalSwipers.delete(product.product_id);
+                }
+              }
               this.products.splice(0, excess);
 
               // Fix swiper index
@@ -667,6 +685,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       const horizontalSwipers = document.querySelectorAll('.horizontal-slides');
       horizontalSwipers.forEach((hSwiper: any, index: number) => {
+        const product = this.products[index];
+        if (!product) return;
+        const key = product.product_id;
         const attachHorizontal = () => {
           const sw = hSwiper.swiper;
           if (!sw) {
@@ -674,6 +695,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
+          this.horizontalSwipers.set(key, sw);
           sw.on('slideChange', () => {
             this.activeImageIndices.set(index, sw.activeIndex);
           });
