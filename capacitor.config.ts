@@ -8,6 +8,9 @@ const config: CapacitorConfig = {
       presentationOptions: ["badge", "sound", "alert"],
     },
   },
+  ios: {
+  scrollEnabled: false
+}
 };
 
 export default config;
