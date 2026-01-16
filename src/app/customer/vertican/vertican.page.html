@@ -1,135 +1,126 @@
 <ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false" [forceOverscroll]="false">
-  <!-- Touch blocker overlay - prevents iOS pull-to-refresh -->
-  <div class="touch-blocker"
-       (touchstart)="onTouchStart($event)"
-       (touchmove)="onTouchMove($event)"
-       (touchend)="onTouchEnd($event)">
 
-    <!-- Main Vertical Swiper - scroll through products -->
-    <swiper-container
-      #swiper
-      class="vertical-slides"
-      direction="vertical"
-      slides-per-view="1"
-      speed="300"
-      resistance="true"
-      resistance-ratio="0"
-      touch-start-prevent-default="false"
-      touch-move-stop-propagation="true"
-      css-mode="false"
-      allow-touch-move="true"
-      simulate-touch="true"
-      threshold="15"
-      follow-finger="true"
-      (swiperslidechange)="onVerticalSlideChange($event)">
+  <!-- Main Vertical Swiper - scroll through products -->
+  <swiper-container
+    #swiper
+    class="vertical-slides"
+    direction="vertical"
+    slides-per-view="1"
+    speed="300"
+    resistance="true"
+    resistance-ratio="0.85"
+    css-mode="false"
+    allow-touch-move="true"
+    threshold="10">
 
-      @for(product of products; track product.product_id; let productIndex = $index){
-        <swiper-slide class="product-slide">
-          <div class="hero">
-            <!-- Nested Horizontal Swiper - scroll through product images -->
-            <swiper-container
-              class="horizontal-slides"
-              direction="horizontal"
-              slides-per-view="1"
-              nested="true"
-              speed="300"
-              resistance="true"
-              resistance-ratio="0.85"
-              allow-touch-move="true"
-              simulate-touch="true"
-              threshold="5"
-              follow-finger="true"
-              (swiperslidechange)="onImageSlideChange($event, productIndex)">
+    @for(product of products; track product.product_id){
+      <swiper-slide class="product-slide">
+        <div class="hero">
+          <!-- Nested Horizontal Swiper - scroll through product images -->
+          <swiper-container
+            class="horizontal-slides"
+            [attr.data-product-id]="product.product_id"
+            direction="horizontal"
+            slides-per-view="1"
+            nested="true"
+            speed="300"
+            resistance="true"
+            resistance-ratio="0.85"
+            allow-touch-move="true"
+            threshold="5">
 
-              @for(image of getProductImages(product); track $index; let imgIndex = $index){
-                <swiper-slide class="image-slide">
-                  <!-- Loading skeleton -->
-                  <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + imgIndex]">
-                    <div class="skeleton-shimmer"></div>
-                  </div>
-                  <!-- Actual image -->
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    [src]="image"
-                    alt="{{product.product_name}} - Image {{imgIndex + 1}}"
-                    class="model"
-                    [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
-                    (load)="onImageLoad(product.product_id, imgIndex)"
-                    (error)="onImageError(product.product_id, imgIndex)">
-                </swiper-slide>
-              }
-            </swiper-container>
-
-            <!-- Image pagination dots (horizontal) - only show if multiple images -->
-            @if(getProductImages(product).length > 1){
-              <div class="image-pagination">
-                @for(img of getProductImages(product); track $index; let i = $index){
-                  <span
-                    class="image-dot"
-                    [class.active]="getActiveImageIndex(productIndex) === i">
-                  </span>
-                }
-              </div>
+            @for(image of getProductImages(product); track $index; let imgIndex = $index){
+              <swiper-slide class="image-slide">
+                <!-- Loading skeleton -->
+                <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + imgIndex]">
+                  <div class="skeleton-shimmer"></div>
+                </div>
+                <!-- Actual image -->
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  [src]="image"
+                  alt="{{product.product_name}} - Image {{imgIndex + 1}}"
+                  class="model"
+                  [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
+                  (load)="onImageLoad(product.product_id, imgIndex)"
+                  (error)="onImageError(product.product_id, imgIndex)">
+              </swiper-slide>
             }
+          </swiper-container>
 
-            <!-- Floating action buttons -->
-            <div class="floating-buttons">
-              <ion-button (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
-                <tui-icon style="color: #fff" icon="@tui.arrow-left" />
-              </ion-button>
-              <ion-button (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
-                <tui-icon style="color: #fff" icon="@tui.heart" />
-              </ion-button>
-              <ion-button (click)="openHome()" fill="clear" class="action-btn">
-                <tui-icon style="color: #fff" icon="@tui.home" />
-              </ion-button>
-            </div>
-
-            <!-- Navigation buttons (Up/Down) -->
-            <div class="nav-buttons">
-              <ion-button
-                (click)="goToPreviousProduct()"
-                [disabled]="currentProductIndex === 0"
-                fill="clear"
-                class="nav-btn nav-up">
-                <tui-icon style="color: #fff" icon="@tui.chevron-up" />
-              </ion-button>
-              <ion-button
-                (click)="goToNextProduct()"
-                [disabled]="currentProductIndex >= products.length - 1"
-                fill="clear"
-                class="nav-btn nav-down">
-                <tui-icon style="color: #fff" icon="@tui.chevron-down" />
-              </ion-button>
-            </div>
-
-            <!-- Product info overlay -->
-            <div class="overlay-box">
-              <h2 (click)="open_product(product.product_id)" class="title">
-                {{product.product_name}}
-                <span class="price-tag">
-                  Ð{{product.price}}
+          <!-- Image pagination dots (horizontal) - only show if multiple images -->
+          @if(getProductImages(product).length > 1){
+            <div class="image-pagination">
+              @for(img of getProductImages(product); track $index; let i = $index){
+                <span
+                  class="image-dot"
+                  [class.active]="getActiveImageIndex(product.product_id) === i">
                 </span>
-              </h2>
-              <div class="description" [innerHTML]="product.description"></div>
-              <div class="store-row">
-                <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">
-                  {{ product.store_name }}
-                </span>
-                <ion-button
-                  style="--background: rgba(255,255,255,0.2); --color: #fff;"
-                  (click)="open_vendor(product.store_id, product.store_name)"
-                  size="small">
-                  Go to Store
-                </ion-button>
-              </div>
+              }
+            </div>
+          }
+
+          <!-- Floating action buttons -->
+          <div class="floating-buttons">
+            <ion-button type="button" (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
+              <tui-icon style="color: #fff" icon="@tui.arrow-left" />
+            </ion-button>
+            <ion-button type="button" (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
+              <tui-icon style="color: #fff" icon="@tui.heart" />
+            </ion-button>
+            <ion-button type="button" (click)="openHome()" fill="clear" class="action-btn">
+              <tui-icon style="color: #fff" icon="@tui.home" />
+            </ion-button>
+          </div>
+
+          <!-- Navigation buttons (Up/Down) -->
+          <div class="nav-buttons">
+            <ion-button
+              type="button"
+              (click)="goToPrevious($event)"
+              [disabled]="currentProductIndex === 0"
+              fill="clear"
+              class="nav-btn">
+              <tui-icon style="color: #fff" icon="@tui.chevron-up" />
+            </ion-button>
+            <span class="nav-counter">{{currentProductIndex + 1}}/{{products.length}}</span>
+            <ion-button
+              type="button"
+              (click)="goToNext($event)"
+              [disabled]="currentProductIndex >= products.length - 1"
+              fill="clear"
+              class="nav-btn">
+              <tui-icon style="color: #fff" icon="@tui.chevron-down" />
+            </ion-button>
+          </div>
+
+          <!-- Product info overlay -->
+          <div class="overlay-box">
+            <h2 (click)="open_product(product.product_id)" class="title">
+              {{product.product_name}}
+              <span class="price-tag">
+                Ð{{product.price}}
+              </span>
+            </h2>
+            <div class="description" [innerHTML]="product.description"></div>
+            <div class="store-row">
+              <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">
+                {{ product.store_name }}
+              </span>
+              <ion-button
+                type="button"
+                style="--background: rgba(255,255,255,0.2); --color: #fff;"
+                (click)="open_vendor(product.store_id, product.store_name)"
+                size="small">
+                Go to Store
+              </ion-button>
             </div>
           </div>
-        </swiper-slide>
-      }
-    </swiper-container>
-  </div>
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
 
   <!-- Vertical scroll indicator (right side) -->
   <div class="vertical-pagination">
@@ -155,7 +146,7 @@
     <div class="empty-state">
       <tui-icon icon="@tui.package" style="font-size: 48px; color: #999;"></tui-icon>
       <p>No products available</p>
-      <ion-button (click)="explore_products()">Refresh</ion-button>
+      <ion-button type="button" (click)="explore_products()">Refresh</ion-button>
     </div>
   }
 
@@ -173,7 +164,7 @@
         <ion-toolbar>
           <ion-title class="ion-text-center">Filter</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="closeFilter()">Close</ion-button>
+            <ion-button type="button" (click)="closeFilter()">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -185,6 +176,7 @@
               <div class="category-chips">
                 @for(cat of category; track cat.id){
                   <ion-button
+                    type="button"
                     [fill]="isCategorySelected(cat.id) ? 'solid' : 'outline'"
                     size="small"
                     (click)="toggleCategory(cat.id)">
@@ -226,12 +218,12 @@
 
           <ion-row class="ion-margin-top">
             <ion-col size="6">
-              <ion-button expand="block" fill="outline" (click)="resetFilters()">
+              <ion-button type="button" expand="block" fill="outline" (click)="resetFilters()">
                 Reset
               </ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button expand="block" (click)="get_filtered_products()">
+              <ion-button type="button" expand="block" (click)="get_filtered_products()">
                 Apply Filters
               </ion-button>
             </ion-col>
@@ -254,7 +246,7 @@
         <ion-toolbar>
           <ion-title>Save {{ addCloset.product_name }} to</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false">Close</ion-button>
+            <ion-button type="button" (click)="isWishOpen = false">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
