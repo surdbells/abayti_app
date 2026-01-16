@@ -160,6 +160,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     is_loading: false,
     is_loaded: false,
     is_empty: false,
+    hasMore: true,
     is_loading_category: false
   }
 
@@ -323,14 +324,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 10,
+    limit: 20,
     offset: 0
-  }
-
-  explore_more = {
-    id: 0,
-    token: "",
-    offset: 15
   }
 
   rqst_param = {
@@ -449,19 +444,35 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
 
   getMoreItems() {
+    if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
+    this.ui_controls.is_loading = true;
+    this.ui_controls.is_loading = true;
     this.explore.id = this.single_user.id;
     this.explore.token = this.single_user.token;
-    this.explore.offset = this.explore.offset + this.explore.limit
+    this.explore.offset = this.explore.offset + this.explore.limit;
     this.networkService.post_request(this.explore, GlobalComponent.explore_listing)
-      .subscribe(({
-        next: (response) => {
+      .subscribe({
+        next: (response: any) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products.push(...response.data);
-          }else{
+            // Stop further calls if fewer items returned
+            if (response.data.length < this.explore.limit) {
+              this.ui_controls.hasMore = false;
+              this.ui_controls.is_empty = true;
+            }
+          } else {
+            this.ui_controls.hasMore = false;
             this.ui_controls.is_empty = true;
           }
+        },
+        error: (err) => {
+          console.error('Pagination request failed:', err);
+          this.ui_controls.hasMore = false;
+        },
+        complete: () => {
+          this.ui_controls.is_loading = false;
         }
-      }))
+      });
   }
 
   get_label() {
@@ -572,12 +583,14 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? 0);
 
       sw.on('slideChange', () => {
-        this.updateVerticalPagination(sw.activeIndex, sw.slides.length);
-        this.index.set(sw.activeIndex ?? 0);
-
         const totalSlides = sw.slides.length;
         const currentIndex = sw.activeIndex;
-        if (totalSlides - currentIndex <= 3) {
+
+        this.updateVerticalPagination(currentIndex, totalSlides);
+        this.index.set(currentIndex);
+
+        // Only fetch more if near the end, not loading, and more data exists
+        if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
           this.getMoreItems();
         }
       });
