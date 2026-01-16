@@ -103,7 +103,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonContent, { read: ElementRef })
   ionContentEl!: ElementRef<HTMLElement>;
-
+  slideOpts = {
+    direction: 'vertical',
+    initialSlide: 0,
+    speed: 400,
+    // Optional: add threshold if vertical scrolling content causes issues on iOS
+    // threshold: 10,
+  };
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
 
