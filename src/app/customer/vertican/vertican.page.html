@@ -1,63 +1,73 @@
 <ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false" [forceOverscroll]="false">
 
   <!-- Main Vertical Swiper - scroll through products -->
+  <!-- CRITICAL: virtual="true" reduces DOM elements -->
   <swiper-container
     #swiper
     class="vertical-slides"
     direction="vertical"
     slides-per-view="1"
     speed="300"
-    resistance="true"
-    resistance-ratio="0.85"
+    virtual="true"
     css-mode="false"
     allow-touch-move="true"
-    threshold="10">
+    threshold="10"
+    (swiperslidechange)="onVerticalSlideChange($event)">
 
-    @for(product of products; track product.product_id){
-      <swiper-slide class="product-slide">
+    @for(product of products; track product.product_id; let idx = $index){
+      <swiper-slide class="product-slide" [attr.data-swiper-slide-index]="idx">
         <div class="hero">
-          <!-- Nested Horizontal Swiper - scroll through product images -->
-          <swiper-container
-            class="horizontal-slides"
-            [attr.data-product-id]="product.product_id"
-            direction="horizontal"
-            slides-per-view="1"
-            nested="true"
-            speed="300"
-            resistance="true"
-            resistance-ratio="0.85"
-            allow-touch-move="true"
-            threshold="5">
 
-            @for(image of getProductImages(product); track $index; let imgIndex = $index){
-              <swiper-slide class="image-slide">
-                <!-- Loading skeleton -->
-                <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + imgIndex]">
-                  <div class="skeleton-shimmer"></div>
-                </div>
-                <!-- Actual image -->
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  [src]="image"
-                  alt="{{product.product_name}} - Image {{imgIndex + 1}}"
-                  class="model"
-                  [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
-                  (load)="onImageLoad(product.product_id, imgIndex)"
-                  (error)="onImageError(product.product_id, imgIndex)">
-              </swiper-slide>
+          <!-- SIMPLIFIED: Only show single image, no nested swiper -->
+          <!-- This dramatically reduces memory usage -->
+          <div class="image-container">
+            <!-- Loading skeleton -->
+            <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id]">
+              <div class="skeleton-shimmer"></div>
+            </div>
+
+            <!-- Only load image if within render range (current ± 2) -->
+            @if(shouldRenderSlide(idx)){
+              <img
+                [src]="getCurrentImage(product)"
+                alt="{{product.product_name}}"
+                class="model"
+                [class.loaded]="imageLoaded[product.product_id]"
+                (load)="onImageLoad(product.product_id)"
+                (error)="onImageError(product.product_id)">
             }
-          </swiper-container>
+          </div>
 
-          <!-- Image pagination dots (horizontal) - only show if multiple images -->
+          <!-- Image pagination dots - tap to change image -->
           @if(getProductImages(product).length > 1){
             <div class="image-pagination">
               @for(img of getProductImages(product); track $index; let i = $index){
                 <span
                   class="image-dot"
-                  [class.active]="getActiveImageIndex(product.product_id) === i">
+                  [class.active]="getActiveImageIndex(product.product_id) === i"
+                  (click)="setActiveImage(product.product_id, i, $event)">
                 </span>
               }
+            </div>
+          }
+
+          <!-- Left/Right image navigation for multiple images -->
+          @if(getProductImages(product).length > 1){
+            <div class="image-nav">
+              <button
+                type="button"
+                class="image-nav-btn prev"
+                (click)="prevImage(product.product_id, $event)"
+                [disabled]="getActiveImageIndex(product.product_id) === 0">
+                ‹
+              </button>
+              <button
+                type="button"
+                class="image-nav-btn next"
+                (click)="nextImage(product.product_id, $event)"
+                [disabled]="getActiveImageIndex(product.product_id) >= getProductImages(product).length - 1">
+                ›
+              </button>
             </div>
           }
 
@@ -158,7 +168,7 @@
     [isOpen]="isFilterOpen"
     [initialBreakpoint]="0.9"
     [backdropDismiss]="true"
-    [breakpoints]="[0, 0.5, 0.8, 1]">
+    [breakpoints]="[0, 0.5, 0.8, 0.9, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>

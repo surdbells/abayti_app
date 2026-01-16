@@ -72,7 +72,11 @@ interface Category {
   readonly id: number;
   readonly name: string;
 }
-const MAX_RENDERED_PRODUCTS = 8;
+
+// REDUCED: Only keep 5 products rendered at a time to prevent memory crash
+const RENDER_RANGE = 2; // Render current ± 2 slides
+const MAX_PRODUCTS_IN_MEMORY = 10;
+
 type DualRange = { lower: number; upper: number };
 
 @Component({
@@ -141,10 +145,10 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonContent, { static: false }) ionContent!: IonContent;
 
-  // Track active image index for each product BY PRODUCT_ID (not array index)
+  // Track active image index for each product BY PRODUCT_ID
   activeImageIndices: Map<number, number> = new Map();
 
-  // Track image loading states: key = "productId-imageIndex"
+  // Track image loading states: key = productId
   imageLoaded: { [key: string]: boolean } = {};
 
   // Vertical pagination
@@ -250,10 +254,98 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
     } else {
       this.single_user = JSON.parse(ret.value);
-      // Only load products if not already loaded
       if (this.products.length === 0) {
         this.explore_products();
       }
+    }
+  }
+
+  // ========================================
+  // MEMORY OPTIMIZATION: Only render nearby slides
+  // ========================================
+
+  shouldRenderSlide(slideIndex: number): boolean {
+    // Only render slides within RENDER_RANGE of current index
+    return Math.abs(slideIndex - this.currentProductIndex) <= RENDER_RANGE;
+  }
+
+  // ========================================
+  // Image navigation (replaces nested swiper)
+  // ========================================
+
+  getCurrentImage(product: any): string {
+    const images = this.getProductImages(product);
+    const activeIndex = this.activeImageIndices.get(product.product_id) || 0;
+    return images[activeIndex] || product.image_1 || '';
+  }
+
+  setActiveImage(productId: number, index: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.activeImageIndices.set(productId, index);
+    // Reset loaded state for new image
+    this.imageLoaded[productId] = false;
+    this.cdr.markForCheck();
+  }
+
+  nextImage(productId: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const product = this.products.find(p => p.product_id === productId);
+    if (!product) return;
+
+    const images = this.getProductImages(product);
+    const currentIndex = this.activeImageIndices.get(productId) || 0;
+
+    if (currentIndex < images.length - 1) {
+      this.activeImageIndices.set(productId, currentIndex + 1);
+      this.imageLoaded[productId] = false;
+      this.cdr.markForCheck();
+    }
+  }
+
+  prevImage(productId: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentIndex = this.activeImageIndices.get(productId) || 0;
+
+    if (currentIndex > 0) {
+      this.activeImageIndices.set(productId, currentIndex - 1);
+      this.imageLoaded[productId] = false;
+      this.cdr.markForCheck();
+    }
+  }
+
+  // ========================================
+  // Vertical swiper slide change handler
+  // ========================================
+
+  onVerticalSlideChange(event: any) {
+    try {
+      const swiper = event?.target?.swiper;
+      if (swiper) {
+        this.ngZone.run(() => {
+          const totalSlides = swiper.slides?.length || this.products.length;
+          const currentIndex = swiper.activeIndex || 0;
+
+          console.log('[Swiper] Slide changed to:', currentIndex);
+
+          this.currentProductIndex = currentIndex;
+          this.index.set(currentIndex);
+          this.updateVerticalPagination(currentIndex, totalSlides);
+
+          // Fetch more items when near end
+          if (totalSlides - currentIndex <= 3 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
+            this.getMoreItems();
+          }
+
+          this.cdr.markForCheck();
+        });
+      }
+    } catch (error) {
+      console.error('[Swiper] Error in slide change:', error);
     }
   }
 
@@ -265,7 +357,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('[Nav] goToNext clicked, current index:', this.currentProductIndex);
+    console.log('[Nav] goToNext clicked');
 
     if (!this.verticalSwiper) {
       const el = this.swiperEl?.nativeElement as any;
@@ -274,7 +366,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.verticalSwiper && this.currentProductIndex < this.products.length - 1) {
       this.verticalSwiper.slideNext();
-      console.log('[Nav] Called slideNext');
     }
   }
 
@@ -282,7 +373,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('[Nav] goToPrevious clicked, current index:', this.currentProductIndex);
+    console.log('[Nav] goToPrevious clicked');
 
     if (!this.verticalSwiper) {
       const el = this.swiperEl?.nativeElement as any;
@@ -291,7 +382,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.verticalSwiper && this.currentProductIndex > 0) {
       this.verticalSwiper.slidePrev();
-      console.log('[Nav] Called slidePrev');
     }
   }
 
@@ -299,21 +389,16 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // Image loading handlers
   // ========================================
 
-  onImageLoad(productId: number, imageIndex: number) {
-    const key = `${productId}-${imageIndex}`;
-    this.imageLoaded[key] = true;
+  onImageLoad(productId: number) {
+    this.imageLoaded[productId] = true;
     this.cdr.markForCheck();
   }
 
-  onImageError(productId: number, imageIndex: number) {
-    const key = `${productId}-${imageIndex}`;
-    this.imageLoaded[key] = true;
+  onImageError(productId: number) {
+    this.imageLoaded[productId] = true;
     this.cdr.markForCheck();
   }
 
-  /**
-   * Get product images as array
-   */
   getProductImages(product: any): string[] {
     if (!product) return [];
 
@@ -332,10 +417,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
     return [];
   }
-
-  // ========================================
-  // Image slide tracking - BY PRODUCT_ID
-  // ========================================
 
   getActiveImageIndex(productId: number): number {
     return this.activeImageIndices.get(productId) || 0;
@@ -397,7 +478,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 20,
+    limit: 10, // REDUCED from 20 to reduce memory
     offset: 0
   }
 
@@ -568,20 +649,28 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
+          // Add new products
           this.products = [...this.products, ...response.data];
 
-          const sw = this.verticalSwiper;
-          const excess = this.products.length - MAX_RENDERED_PRODUCTS;
+          // MEMORY MANAGEMENT: Remove old products if too many
+          if (this.products.length > MAX_PRODUCTS_IN_MEMORY && this.currentProductIndex > 3) {
+            const removeCount = Math.min(this.currentProductIndex - 2, this.products.length - MAX_PRODUCTS_IN_MEMORY);
+            if (removeCount > 0) {
+              // Remove old products from beginning
+              const removedProducts = this.products.splice(0, removeCount);
 
-          if (excess > 0 && sw) {
-            const currentIndex = sw.activeIndex;
+              // Clean up image tracking for removed products
+              removedProducts.forEach(p => {
+                this.activeImageIndices.delete(p.product_id);
+                delete this.imageLoaded[p.product_id];
+              });
 
-            if (currentIndex > excess) {
-              this.products.splice(0, excess);
-              sw.slideTo(currentIndex - excess, 0);
-              sw.update();
-              this.activeImageIndices.clear();
-              this.imageLoaded = {};
+              // Adjust swiper index
+              if (this.verticalSwiper) {
+                const newIndex = this.currentProductIndex - removeCount;
+                this.verticalSwiper.slideTo(newIndex, 0);
+                this.currentProductIndex = newIndex;
+              }
             }
           }
 
@@ -677,10 +766,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   open_product(id: number) {
-    this.products = this.products.slice(
-      Math.max(0, this.index() - 1),
-      this.index() + 2
-    );
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id } }
@@ -703,7 +788,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     if (this.swiperInitialized) return;
     this.swiperInitialized = true;
 
-    console.log('[Swiper] Initializing swipers...');
+    console.log('[Swiper] Initializing...');
 
     const el = this.swiperEl?.nativeElement as any;
     if (!el) {
@@ -711,80 +796,23 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const attachVertical = () => {
+    const attachSwiper = () => {
       const sw: any = el.swiper;
       if (!sw) {
-        setTimeout(attachVertical, 100);
+        setTimeout(attachSwiper, 100);
         return;
       }
 
-      console.log('[Swiper] Vertical swiper attached');
+      console.log('[Swiper] Attached, slides:', sw.slides?.length);
       this.verticalSwiper = sw;
 
       this.index.set(sw.activeIndex ?? 0);
       this.currentProductIndex = sw.activeIndex ?? 0;
-      this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? 0);
+      this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? this.products.length);
       this.cdr.markForCheck();
-
-      // Listen for vertical slide changes
-      sw.on('slideChange', () => {
-        this.ngZone.run(() => {
-          const totalSlides = sw.slides.length;
-          const currentIndex = sw.activeIndex;
-
-          console.log('[Swiper] Vertical slide changed to:', currentIndex);
-
-          this.currentProductIndex = currentIndex;
-          this.index.set(currentIndex);
-          this.updateVerticalPagination(currentIndex, totalSlides);
-
-          // Fetch more items when near end
-          if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
-            this.getMoreItems();
-          }
-
-          this.cdr.markForCheck();
-        });
-      });
     };
 
-    attachVertical();
-
-    // Initialize nested horizontal swipers
-    setTimeout(() => {
-      this.initializeHorizontalSwipers();
-    }, 300);
-  }
-
-  initializeHorizontalSwipers() {
-    const horizontalSwipers = document.querySelectorAll('.horizontal-slides');
-    console.log('[Swiper] Found horizontal swipers:', horizontalSwipers.length);
-
-    horizontalSwipers.forEach((hSwiper: any) => {
-      const productId = hSwiper.getAttribute('data-product-id');
-      if (!productId) return;
-
-      const attachHorizontal = () => {
-        const sw = hSwiper.swiper;
-        if (!sw) {
-          setTimeout(attachHorizontal, 100);
-          return;
-        }
-
-        // Listen for horizontal slide changes - use product ID for tracking
-        sw.on('slideChange', () => {
-          this.ngZone.run(() => {
-            const imageIndex = sw.activeIndex;
-            const pid = parseInt(productId, 10);
-            console.log('[Swiper] Horizontal slide changed, product:', pid, 'image:', imageIndex);
-            this.activeImageIndices.set(pid, imageIndex);
-            this.cdr.markForCheck();
-          });
-        });
-      };
-
-      attachHorizontal();
-    });
+    attachSwiper();
   }
 
   ngAfterViewInit(): void {

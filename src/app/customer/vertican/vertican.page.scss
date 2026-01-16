@@ -11,15 +11,12 @@
   width: 100%;
 }
 
-/* ========================================
-   ION-CONTENT
-   ======================================== */
 ion-content {
   --background: #000;
 }
 
 /* ========================================
-   MAIN VERTICAL SWIPER (Products)
+   MAIN VERTICAL SWIPER
    ======================================== */
 .vertical-slides {
   height: 100%;
@@ -41,27 +38,18 @@ ion-content {
 }
 
 /* ========================================
-   NESTED HORIZONTAL SWIPER (Product Images)
+   SINGLE IMAGE CONTAINER (replaces nested swiper)
    ======================================== */
-.horizontal-slides {
+.image-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-}
-
-.image-slide {
-  height: 100%;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  z-index: 1;
 }
 
 /* ========================================
@@ -76,11 +64,11 @@ ion-content {
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   z-index: 2;
   overflow: hidden;
+  transition: opacity 0.3s ease;
 
   &.hidden {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
   }
 }
 
@@ -121,7 +109,6 @@ ion-content {
   transition: opacity 0.3s ease;
   -webkit-user-drag: none;
   user-select: none;
-  pointer-events: none;
 
   &.loaded {
     opacity: 1;
@@ -129,7 +116,60 @@ ion-content {
 }
 
 /* ========================================
-   CUSTOM IMAGE PAGINATION (Horizontal dots)
+   IMAGE NAVIGATION BUTTONS (Left/Right)
+   ======================================== */
+.image-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.image-nav-btn {
+  pointer-events: auto;
+  width: 44px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  &.prev {
+    margin-left: 4px;
+  }
+
+  &.next {
+    margin-right: 4px;
+  }
+}
+
+/* ========================================
+   IMAGE PAGINATION DOTS (tappable)
    ======================================== */
 .image-pagination {
   position: absolute;
@@ -137,32 +177,37 @@ ion-content {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 8px;
   z-index: 50;
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  pointer-events: none;
 }
 
 .image-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   transition: all 0.3s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    transform: scale(1.2);
+  }
 
   &.active {
     background: #fff;
-    width: 20px;
-    border-radius: 4px;
+    width: 24px;
+    border-radius: 5px;
   }
 }
 
 /* ========================================
-   VERTICAL SCROLL INDICATOR (Right side)
+   VERTICAL SCROLL INDICATOR
    ======================================== */
 .vertical-pagination {
   position: fixed;
@@ -191,7 +236,7 @@ ion-content {
 }
 
 /* ========================================
-   FLOATING ACTION BUTTONS (Right side)
+   FLOATING ACTION BUTTONS
    ======================================== */
 .floating-buttons {
   position: absolute;
@@ -221,7 +266,7 @@ ion-content {
 }
 
 /* ========================================
-   NAVIGATION BUTTONS (Up/Down - Left side)
+   NAVIGATION BUTTONS (Up/Down)
    ======================================== */
 .nav-buttons {
   position: absolute;
