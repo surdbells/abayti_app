@@ -2,13 +2,12 @@
   <!-- Main Vertical Swiper - scroll through products -->
   <swiper-container
     #swiper
-    [observer]="false"
-    [observeParents]="false"
-    [observeSlideChildren]="false"
-    [touchReleaseOnEdges]="false"
-    [resistanceRatio]="0"
-    [direction]="'vertical'"
+    direction="vertical"
     slides-per-view="1"
+    resistanceRatio="0"
+    touchReleaseOnEdges="false"
+    preventInteractionOnTransition="true"
+    nested="true"
     class="vertical-slides"
     allow-touch-move="true"
     style="height: 100%;">

@@ -714,6 +714,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => this.initializeSwipers(), 100);
+    this.disableIOSPullToRefresh();
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
@@ -733,5 +734,18 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
-  protected readonly Math = Math;
+
+  private disableIOSPullToRefresh() {
+    const el = this.swiperEl.nativeElement;
+
+    el.addEventListener(
+      'touchmove',
+      (event: TouchEvent) => {
+        if (event.cancelable) {
+          event.preventDefault();
+        }
+      },
+      { passive: false } // 🔴 REQUIRED for iOS
+    );
+  }
 }

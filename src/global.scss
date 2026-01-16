@@ -251,6 +251,12 @@ ion-tab-button  {
 }
 
 
-html, body, ion-app, ion-content {
+html,
+body,
+ion-app,
+ion-content,
+.vertical-slides,
+.product-slide {
   overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: auto;
 }
