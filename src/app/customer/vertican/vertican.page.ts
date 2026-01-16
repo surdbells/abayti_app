@@ -324,7 +324,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 20,
+    limit: 120,
     offset: 0
   }
 
