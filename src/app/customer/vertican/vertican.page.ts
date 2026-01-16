@@ -101,6 +101,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
+  @ViewChild(IonContent, { read: ElementRef })
+  ionContentEl!: ElementRef<HTMLElement>;
 
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
@@ -736,7 +738,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private disableIOSPullToRefresh() {
-    const el = this.swiperEl.nativeElement;
+    const el = this.ionContentEl.nativeElement;
 
     el.addEventListener(
       'touchmove',
@@ -745,7 +747,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           event.preventDefault();
         }
       },
-      { passive: false } // 🔴 REQUIRED for iOS
+      { passive: false }
     );
   }
 }
