@@ -89,7 +89,7 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/vendors/vendors.page').then( m => m.VendorsPage)
   },
   {
-    path: 'stream',
+    path: 'explore',
     loadComponent: () => import('./customer/vertican/vertican.page').then( m => m.VerticanPage)
   },
   {
@@ -161,7 +161,7 @@ export const routes: Routes = [
     loadComponent: () => import('./customer/my-orders/my-orders.page').then( m => m.MyOrdersPage)
   },
   {
-    path: 'explore',
+    path: 'stream',
     loadComponent: () => import('./customer/explore/explore.page').then( m => m.ExplorePage)
   }
 ];

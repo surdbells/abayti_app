@@ -101,15 +101,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
-  @ViewChild(IonContent, { read: ElementRef })
-  ionContentEl!: ElementRef<HTMLElement>;
-  slideOpts = {
-    direction: 'vertical',
-    initialSlide: 0,
-    speed: 400,
-    // Optional: add threshold if vertical scrolling content causes issues on iOS
-    // threshold: 10,
-  };
+
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
 
@@ -160,7 +152,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
-    (ev as CustomEvent).detail.register(100, () => {
+    const customEvent = ev as CustomEvent;
+    customEvent.detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }
@@ -210,11 +203,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     if (!this.isOnline) {
       console.log('You are offline');
+    }else{
+      this.getObject().then(r => console.log(r));
     }
   }
 
   ionViewWillEnter() {
-    this.getObject().then(r => console.log(r));
+
   }
 
   async getObject() {
@@ -560,19 +555,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
 
   get_label() {
-    this.ui_controls = {
-      ...this.ui_controls,
-      is_loading_category: true
-    };
+    this.ui_controls.is_loading_category = true;
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
       .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading_category: false
-            };
+            this.ui_controls.is_loading_category = false;
           }
         }
       });
@@ -722,7 +711,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => this.initializeSwipers(), 100);
-    this.disableIOSPullToRefresh();
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
@@ -742,18 +730,5 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
-
-  private disableIOSPullToRefresh() {
-    const el = this.ionContentEl.nativeElement;
-
-    el.addEventListener(
-      'touchmove',
-      (event: TouchEvent) => {
-        if (event.cancelable) {
-          event.preventDefault();
-        }
-      },
-      { passive: false }
-    );
-  }
+  protected readonly Math = Math;
 }

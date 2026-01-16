@@ -1,19 +1,17 @@
 <ion-content fullscreen="true" class="no-scroll">
-
   <swiper-container
     direction="vertical"
     slides-per-view="1"
     mousewheel="true"
     resistance-ratio="0"
-    class="full-swiper"
-  >
-  @for (item of images; track $index) {
-    <swiper-slide>
-      <div class="slide">
-        <img alt="image" [src]="item" />
-      </div>
-    </swiper-slide>
-  }
+    class="full-swiper">
+      @for (item of images; track $index) {
+        <swiper-slide>
+          <div class="slide">
+            <img alt="image" [src]="item" />
+          </div>
+        </swiper-slide>
+      }
   </swiper-container>
 
 </ion-content>
