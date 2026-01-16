@@ -1,5 +1,13 @@
-<ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false">
-  <!-- Main Vertical Swiper - scroll through products -->
+<ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false" [forceOverscroll]="false">
+  
+  <!-- TOUCH BLOCKER - Invisible overlay that captures ALL touch events -->
+  <div class="touch-blocker" 
+       (touchstart)="onTouchStart($event)"
+       (touchmove)="onTouchMove($event)"
+       (touchend)="onTouchEnd($event)">
+  </div>
+
+  <!-- Main Vertical Swiper -->
   <swiper-container
     #swiper
     class="vertical-slides"
@@ -7,29 +15,21 @@
     slides-per-view="1"
     speed="300"
     resistance="true"
-    resistance-ratio="0"
-    touch-start-prevent-default="false"
-    touch-move-stop-propagation="true"
-    touch-release-on-edges="true"
-    touch-start-force-prevent-default="false"
-    prevent-interaction-on-transition="true"
+    resistance-ratio="0.85"
     css-mode="false"
     free-mode="false"
     allow-touch-move="true"
-    simulate-touch="true"
     threshold="10"
-    long-swipes="true"
-    long-swipes-ms="300"
-    long-swipes-ratio="0.25"
     follow-finger="true"
-    style="height: 100%; touch-action: pan-x pinch-zoom;">
+    passive-listeners="false"
+    prevent-clicks="false"
+    prevent-clicks-propagation="false">
 
     @for(product of products; track product.product_id; let productIndex = $index){
       <swiper-slide class="product-slide">
         <div class="hero">
-          <!-- Nested Horizontal Swiper - scroll through product images -->
+          <!-- Nested Horizontal Swiper -->
           <swiper-container
-            #horizontalSwiper
             class="horizontal-slides"
             direction="horizontal"
             slides-per-view="1"
@@ -37,14 +37,10 @@
             speed="300"
             resistance="true"
             resistance-ratio="0.85"
-            touch-start-prevent-default="false"
-            touch-move-stop-propagation="true"
             allow-touch-move="true"
-            simulate-touch="true"
             threshold="5"
             follow-finger="true"
-            (swiperslidechange)="onImageSlideChange($event, productIndex)"
-            style="touch-action: pan-y pinch-zoom;">
+            (swiperslidechange)="onImageSlideChange($event, productIndex)">
 
             @for(image of getProductImages(product); track $index; let imgIndex = $index){
               <swiper-slide class="image-slide">
@@ -57,7 +53,7 @@
                   loading="lazy"
                   decoding="async"
                   [src]="image"
-                  alt="{{product.product_name}} - Image {{imgIndex + 1}}"
+                  alt="{{product.product_name}}"
                   class="model"
                   [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
                   (load)="onImageLoad(product.product_id, imgIndex)"
@@ -66,21 +62,18 @@
             }
           </swiper-container>
 
-          <!-- Image pagination dots (horizontal) - only show if multiple images -->
+          <!-- Image pagination dots -->
           @if(getProductImages(product).length > 1){
             <div class="image-pagination">
               @for(img of getProductImages(product); track $index; let i = $index){
-                <span
-                  class="image-dot"
-                  [class.active]="getActiveImageIndex(productIndex) === i">
-                </span>
+                <span class="image-dot" [class.active]="getActiveImageIndex(productIndex) === i"></span>
               }
             </div>
           }
 
           <!-- Floating action buttons -->
           <div class="floating-buttons">
-            <ion-button (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
+            <ion-button (click)="triggerBack()" fill="clear" class="action-btn">
               <tui-icon style="color: #fff" icon="@tui.arrow-left" />
             </ion-button>
             <ion-button (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
@@ -91,13 +84,34 @@
             </ion-button>
           </div>
 
+          <!-- UP/DOWN Navigation Buttons for Testing -->
+          <div class="nav-buttons">
+            <ion-button 
+              (click)="goToPrevious()" 
+              [disabled]="currentProductIndex === 0"
+              fill="solid" 
+              class="nav-btn nav-up">
+              <tui-icon icon="@tui.chevron-up" />
+              <span>UP</span>
+            </ion-button>
+            <div class="nav-indicator">
+              {{ currentProductIndex + 1 }} / {{ products.length }}
+            </div>
+            <ion-button 
+              (click)="goToNext()" 
+              [disabled]="currentProductIndex >= products.length - 1"
+              fill="solid" 
+              class="nav-btn nav-down">
+              <span>DOWN</span>
+              <tui-icon icon="@tui.chevron-down" />
+            </ion-button>
+          </div>
+
           <!-- Product info overlay -->
           <div class="overlay-box">
             <h2 (click)="open_product(product.product_id)" class="title">
               {{product.product_name}}
-              <span class="price-tag">
-                Ð{{product.price}}
-              </span>
+              <span class="price-tag">Ð{{product.price}}</span>
             </h2>
             <div class="description" [innerHTML]="product.description"></div>
             <div class="store-row">
@@ -117,7 +131,7 @@
     }
   </swiper-container>
 
-  <!-- Vertical scroll indicator (right side) -->
+  <!-- Vertical scroll indicator -->
   <div class="vertical-pagination">
     @for(dot of verticalDots; track dot; let i = $index){
       <span class="dot" [class.active]="i === currentProductDot"></span>
@@ -180,46 +194,23 @@
               </div>
             </ion-col>
           </ion-row>
-
           <ion-row class="ion-margin-top">
             <ion-col size="12">
               <ion-label class="filter-label">Price Range</ion-label>
               <div class="price-inputs">
-                <ion-input
-                  type="number"
-                  [value]="range().lower"
-                  (ionInput)="onLowerInput($event)"
-                  placeholder="Min">
-                </ion-input>
+                <ion-input type="number" [value]="range().lower" (ionInput)="onLowerInput($event)" placeholder="Min"></ion-input>
                 <span class="price-separator">-</span>
-                <ion-input
-                  type="number"
-                  [value]="range().upper"
-                  (ionInput)="onUpperInput($event)"
-                  placeholder="Max">
-                </ion-input>
+                <ion-input type="number" [value]="range().upper" (ionInput)="onUpperInput($event)" placeholder="Max"></ion-input>
               </div>
-              <ion-range
-                [dualKnobs]="true"
-                [min]="min"
-                [max]="max"
-                [step]="step"
-                [value]="range()"
-                (ionInput)="onRangeChange($event)">
-              </ion-range>
+              <ion-range [dualKnobs]="true" [min]="min" [max]="max" [step]="step" [value]="range()" (ionInput)="onRangeChange($event)"></ion-range>
             </ion-col>
           </ion-row>
-
           <ion-row class="ion-margin-top">
             <ion-col size="6">
-              <ion-button expand="block" fill="outline" (click)="resetFilters()">
-                Reset
-              </ion-button>
+              <ion-button expand="block" fill="outline" (click)="resetFilters()">Reset</ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button expand="block" (click)="get_filtered_products()">
-                Apply Filters
-              </ion-button>
+              <ion-button expand="block" (click)="get_filtered_products()">Apply Filters</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -255,13 +246,11 @@
             }
           </ion-list>
         }
-        <ion-row>
-          <ion-col class="ion-text-center">
-            @if (ui_controls.is_loading_category){
-              <tui-loader></tui-loader>
-            }
-          </ion-col>
-        </ion-row>
+        @if (ui_controls.is_loading_category){
+          <div class="ion-text-center ion-padding">
+            <tui-loader></tui-loader>
+          </div>
+        }
       </ion-content>
     </ng-template>
   </ion-modal>

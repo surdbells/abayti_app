@@ -4,6 +4,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   HostListener,
+  NgZone,
   OnDestroy,
   OnInit,
   signal,
@@ -133,8 +134,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
   categories: Labels[] = [];
   private swiperInitialized = false;
-  private touchStartY = 0;
-  private isIOS = false;
   
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
@@ -144,16 +143,23 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
 
-  // Track image loading states: key = "productId-imageIndex"
+  // Track image loading states
   imageLoaded: { [key: string]: boolean } = {};
 
-  // Track horizontal swiper instances: key = product_id
+  // Track horizontal swiper instances
   horizontalSwipers: Map<number, any> = new Map();
 
   // Vertical pagination
   verticalDots: number[] = [0, 1, 2];
   currentProductDot = 0;
   currentProductIndex = 0;
+
+  // Touch tracking for manual swipe
+  private touchStartY = 0;
+  private touchStartX = 0;
+  private touchStartTime = 0;
+  private isSwiping = false;
+  private swipeDirection: 'vertical' | 'horizontal' | null = null;
 
   index = signal(0);
   isOnline = true;
@@ -184,13 +190,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private networkService: NetworkService,
     private toast: HotToastService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private ngZone: NgZone
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
-    
-    // Detect iOS
-    this.isIOS = this.platform.is('ios');
   }
 
   @HostListener('window:ionBackButton', ['$event'])
@@ -202,7 +206,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-    this.removeTouchListeners();
+    this.restoreBodyScroll();
     for (const swiper of this.horizontalSwipers.values()) {
       swiper.destroy();
     }
@@ -250,12 +254,12 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ionViewWillEnter() {
+    this.lockBodyScroll();
     this.getObject().then(r => console.log(r));
-    this.setupTouchListeners();
   }
   
   ionViewWillLeave() {
-    this.removeTouchListeners();
+    this.restoreBodyScroll();
   }
 
   async getObject() {
@@ -269,57 +273,180 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ========================================
-  // iOS Touch Handling - Prevent pull-to-refresh
+  // LOCK BODY SCROLL (iOS fix)
   // ========================================
   
-  private setupTouchListeners() {
-    const el = this.elementRef.nativeElement;
-    
-    // Prevent iOS Safari pull-to-refresh
-    el.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: false });
-    el.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
-    
-    // Disable iOS elastic scrolling on the document
+  private lockBodyScroll() {
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.height = '100%';
+    document.body.style.top = '0';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.bottom = '0';
+    document.body.style.touchAction = 'none';
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.touchAction = 'none';
   }
   
-  private removeTouchListeners() {
-    const el = this.elementRef.nativeElement;
-    el.removeEventListener('touchstart', this.onTouchStart.bind(this));
-    el.removeEventListener('touchmove', this.onTouchMove.bind(this));
-    
-    // Restore body scroll
+  private restoreBodyScroll() {
     document.body.style.overflow = '';
     document.body.style.position = '';
-    document.body.style.width = '';
-    document.body.style.height = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.bottom = '';
+    document.body.style.touchAction = '';
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.touchAction = '';
+  }
+
+  // ========================================
+  // TOUCH EVENT HANDLERS (for touch-blocker)
+  // ========================================
+  
+  onTouchStart(event: TouchEvent) {
+    // Always prevent default to stop iOS pull-to-refresh
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const touch = event.touches[0];
+    this.touchStartY = touch.clientY;
+    this.touchStartX = touch.clientX;
+    this.touchStartTime = Date.now();
+    this.isSwiping = true;
+    this.swipeDirection = null;
   }
   
-  private onTouchStart(e: TouchEvent) {
-    this.touchStartY = e.touches[0].clientY;
+  onTouchMove(event: TouchEvent) {
+    // Always prevent default
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!this.isSwiping) return;
+    
+    const touch = event.touches[0];
+    const deltaY = touch.clientY - this.touchStartY;
+    const deltaX = touch.clientX - this.touchStartX;
+    
+    // Determine swipe direction if not yet determined
+    if (!this.swipeDirection) {
+      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 10) {
+        this.swipeDirection = 'vertical';
+      } else if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+        this.swipeDirection = 'horizontal';
+      }
+    }
   }
   
-  private onTouchMove(e: TouchEvent) {
-    const touchY = e.touches[0].clientY;
-    const touchDiff = touchY - this.touchStartY;
+  onTouchEnd(event: TouchEvent) {
+    event.preventDefault();
+    event.stopPropagation();
     
-    // Get the swiper element
-    const swiperEl = this.swiperEl?.nativeElement as any;
-    const swiper = swiperEl?.swiper;
+    if (!this.isSwiping) return;
     
-    if (swiper) {
-      // At the first slide and trying to pull down - prevent refresh
-      if (swiper.activeIndex === 0 && touchDiff > 0) {
-        e.preventDefault();
+    const touch = event.changedTouches[0];
+    const deltaY = touch.clientY - this.touchStartY;
+    const deltaX = touch.clientX - this.touchStartX;
+    const duration = Date.now() - this.touchStartTime;
+    
+    // Calculate velocity
+    const velocityY = Math.abs(deltaY) / duration;
+    const velocityX = Math.abs(deltaX) / duration;
+    
+    // Thresholds
+    const minSwipeDistance = 50;
+    const minVelocity = 0.3;
+    
+    this.ngZone.run(() => {
+      if (this.swipeDirection === 'vertical') {
+        // Vertical swipe - change products
+        if (Math.abs(deltaY) > minSwipeDistance || velocityY > minVelocity) {
+          if (deltaY < 0) {
+            // Swiped up - go to next
+            this.goToNext();
+          } else {
+            // Swiped down - go to previous
+            this.goToPrevious();
+          }
+        }
+      } else if (this.swipeDirection === 'horizontal') {
+        // Horizontal swipe - change images
+        if (Math.abs(deltaX) > minSwipeDistance || velocityX > minVelocity) {
+          const currentProduct = this.products[this.currentProductIndex];
+          if (currentProduct) {
+            const images = this.getProductImages(currentProduct);
+            const currentImageIndex = this.getActiveImageIndex(this.currentProductIndex);
+            
+            if (deltaX < 0 && currentImageIndex < images.length - 1) {
+              // Swiped left - next image
+              this.activeImageIndices.set(this.currentProductIndex, currentImageIndex + 1);
+              this.updateHorizontalSwiper(currentImageIndex + 1);
+            } else if (deltaX > 0 && currentImageIndex > 0) {
+              // Swiped right - previous image
+              this.activeImageIndices.set(this.currentProductIndex, currentImageIndex - 1);
+              this.updateHorizontalSwiper(currentImageIndex - 1);
+            }
+          }
+        }
       }
       
-      // At the last slide and trying to pull up
-      if (swiper.activeIndex === swiper.slides.length - 1 && touchDiff < 0) {
-        e.preventDefault();
+      this.cdr.markForCheck();
+    });
+    
+    this.isSwiping = false;
+    this.swipeDirection = null;
+  }
+  
+  private updateHorizontalSwiper(index: number) {
+    const currentProduct = this.products[this.currentProductIndex];
+    if (currentProduct) {
+      const swiper = this.horizontalSwipers.get(currentProduct.product_id);
+      if (swiper) {
+        swiper.slideTo(index, 300);
       }
+    }
+  }
+
+  // ========================================
+  // NAVIGATION BUTTONS
+  // ========================================
+  
+  goToNext() {
+    if (this.currentProductIndex >= this.products.length - 1) return;
+    
+    const el = this.swiperEl?.nativeElement as any;
+    const swiper = el?.swiper;
+    
+    if (swiper) {
+      swiper.slideNext(300);
+    } else {
+      // Fallback if swiper not available
+      this.currentProductIndex++;
+      this.updateVerticalPagination(this.currentProductIndex, this.products.length);
+      this.index.set(this.currentProductIndex);
+      this.cdr.markForCheck();
+    }
+    
+    // Check if need to load more
+    if (this.products.length - this.currentProductIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
+      this.getMoreItems();
+    }
+  }
+  
+  goToPrevious() {
+    if (this.currentProductIndex <= 0) return;
+    
+    const el = this.swiperEl?.nativeElement as any;
+    const swiper = el?.swiper;
+    
+    if (swiper) {
+      swiper.slidePrev(300);
+    } else {
+      // Fallback
+      this.currentProductIndex--;
+      this.updateVerticalPagination(this.currentProductIndex, this.products.length);
+      this.index.set(this.currentProductIndex);
+      this.cdr.markForCheck();
     }
   }
 
@@ -339,9 +466,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.markForCheck();
   }
 
-  /**
-   * Get product images as array
-   */
   getProductImages(product: any): string[] {
     if (!product) return [];
 
@@ -503,10 +627,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   get_filtered_products() {
     this.isFilterOpen = false;
     this.swiperInitialized = false;
-    this.ui_controls = {
-      ...this.ui_controls,
-      is_loading: true
-    };
+    this.ui_controls = { ...this.ui_controls, is_loading: true };
     this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
     this.ui_controls.is_empty = false;
@@ -518,10 +639,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
+            this.currentProductIndex = 0;
+            this.ui_controls = { ...this.ui_controls, is_loading: false };
             this.cdr.markForCheck();
             this.ui_controls.is_loaded = true;
             this.activeImageIndices.clear();
@@ -529,10 +648,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.horizontalSwipers.clear();
             setTimeout(() => this.initializeSwipers(), 150);
           } else {
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
+            this.ui_controls = { ...this.ui_controls, is_loading: false };
             this.cdr.markForCheck();
             this.presentToast('middle', "No product for the selected filter").then(r => console.log(r));
             this.ui_controls.is_loaded = true;
@@ -545,11 +661,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     this.products = [];
     this.swiperInitialized = false;
     this.explore.offset = 0;
-    this.ui_controls = {
-      ...this.ui_controls,
-      is_loading: true,
-      hasMore: true
-    };
+    this.currentProductIndex = 0;
+    this.ui_controls = { ...this.ui_controls, is_loading: true, hasMore: true };
     this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
     this.ui_controls.is_empty = false;
@@ -561,10 +674,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
+            this.ui_controls = { ...this.ui_controls, is_loading: false };
             this.cdr.markForCheck();
             this.updateSwiper();
             this.ui_controls.is_loaded = true;
@@ -574,10 +684,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.horizontalSwipers.clear();
             setTimeout(() => this.initializeSwipers(), 150);
           } else {
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
+            this.ui_controls = { ...this.ui_controls, is_loading: false };
             this.cdr.markForCheck();
             this.ui_controls.is_empty = true;
           }
@@ -695,15 +802,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // ========================================
 
   error_notification(message: string) {
-    this.toast.error(message, {
-      position: "top-center"
-    });
+    this.toast.error(message, { position: "top-center" });
   }
 
   success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'top-center'
-    });
+    this.toast.success(message, { position: 'top-center' });
   }
 
   // ========================================
@@ -711,10 +814,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // ========================================
 
   open_vendor(id: number, name: string) {
-    this.router.navigate(
-      ['/', 'vendors'],
-      { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    this.router.navigate(['/', 'vendors'], { queryParams: { id, name } }).then(r => console.log(r));
   }
 
   triggerBack() {
@@ -722,14 +822,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   open_product(id: number) {
-    this.products = this.products.slice(
-      Math.max(0, this.index() - 1),
-      this.index() + 2
-    );
-    this.router.navigate(
-      ['/', 'product'],
-      { queryParams: { id } }
-    ).then(r => console.log(r));
+    this.products = this.products.slice(Math.max(0, this.index() - 1), this.index() + 2);
+    this.router.navigate(['/', 'product'], { queryParams: { id } }).then(r => console.log(r));
   }
 
   closeWish() {
@@ -758,12 +852,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      // Configure swiper for iOS
-      if (this.isIOS) {
-        sw.params.touchReleaseOnEdges = true;
-        sw.params.resistanceRatio = 0;
-        sw.params.touchStartPreventDefault = false;
-      }
+      // Disable swiper's touch handling - we handle it manually
+      sw.allowTouchMove = false;
 
       this.index.set(sw.activeIndex ?? 0);
       this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? 0);
@@ -798,11 +888,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
-          // Configure for iOS
-          if (this.isIOS) {
-            sw.params.touchStartPreventDefault = false;
-            sw.params.touchMoveStopPropagation = true;
-          }
+          // Disable horizontal swiper touch - we handle it manually
+          sw.allowTouchMove = false;
 
           this.horizontalSwipers.set(key, sw);
           sw.on('slideChange', () => {
