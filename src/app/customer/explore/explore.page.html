@@ -1,16 +1,19 @@
 <ion-content fullscreen="true" class="no-scroll">
 
-  <swiper
+  <swiper-container
     direction="vertical"
-    [slidesPerView]="1"
-    [mousewheel]="true"
-    [resistanceRatio]="0"
-    class="full-swiper">
-    <ng-template swiperSlide *ngFor="let img of images">
+    slides-per-view="1"
+    mousewheel="true"
+    resistance-ratio="0"
+    class="full-swiper"
+  >
+  @for (item of images; track $index) {
+    <swiper-slide>
       <div class="slide">
-        <img [src]="img" />
+        <img alt="image" [src]="item" />
       </div>
-    </ng-template>
-  </swiper>
+    </swiper-slide>
+  }
+  </swiper-container>
 
 </ion-content>
