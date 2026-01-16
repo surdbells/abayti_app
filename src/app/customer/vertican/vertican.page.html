@@ -1,11 +1,13 @@
-<ion-content [fullscreen]="true">
+<ion-content [scrollY]="false" [fullscreen]="true">
   <!-- Main Vertical Swiper - scroll through products -->
   <swiper-container
     #swiper
     [observer]="false"
     [observeParents]="false"
     [observeSlideChildren]="false"
-    direction="vertical"
+    [touchReleaseOnEdges]="false"
+    [resistanceRatio]="0"
+    [direction]="'vertical'"
     slides-per-view="1"
     class="vertical-slides"
     allow-touch-move="true"
