@@ -2,6 +2,9 @@
   <!-- Main Vertical Swiper - scroll through products -->
   <swiper-container
     #swiper
+    [observer]="false"
+    [observeParents]="false"
+    [observeSlideChildren]="false"
     direction="vertical"
     slides-per-view="1"
     class="vertical-slides"
@@ -9,92 +12,94 @@
     style="height: 100%;">
 
     @for(product of products; track productIndex; let productIndex = $index){
-      <swiper-slide class="product-slide">
-        <div class="hero">
+        <swiper-slide class="product-slide">
+          <div class="hero">
+            <!-- Nested Horizontal Swiper - scroll through product images -->
+            <swiper-container
+              #horizontalSwiper
+              [observer]="false"
+              [observeParents]="false"
+              [observeSlideChildren]="false"
+              class="horizontal-slides"
+              direction="horizontal"
+              slides-per-view="1"
+              [attr.nested]="true"
+              allow-touch-move="true"
+              simulate-touch="true"
+              touch-ratio="1"
+              threshold="5"
+              (swiperslidechange)="onImageSlideChange($event, productIndex)">
 
-          <!-- Nested Horizontal Swiper - scroll through product images -->
-          <swiper-container
-            #horizontalSwiper
-            class="horizontal-slides"
-            direction="horizontal"
-            slides-per-view="1"
-            [attr.nested]="true"
-            allow-touch-move="true"
-            simulate-touch="true"
-            touch-ratio="1"
-            threshold="5"
-            (swiperslidechange)="onImageSlideChange($event, productIndex)">
-
-            @for(image of getProductImages(product); track $index; let imgIndex = $index){
-              <swiper-slide class="image-slide">
-                <!-- Loading skeleton -->
-                <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + imgIndex]">
-                  <div class="skeleton-shimmer"></div>
-                </div>
-                <!-- Actual image -->
-                <img
-                  [src]="image"
-                  alt="{{product.product_name}} - Image {{imgIndex + 1}}"
-                  class="model"
-                  [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
-                  (load)="onImageLoad(product.product_id, imgIndex)"
-                  (error)="onImageError(product.product_id, imgIndex)">
-              </swiper-slide>
-            }
-          </swiper-container>
-
-          <!-- Image pagination dots (horizontal) - only show if multiple images -->
-          @if(getProductImages(product).length > 1){
-            <div class="image-pagination">
-              @for(img of getProductImages(product); track $index; let i = $index){
-                <span
-                  class="image-dot"
-                  [class.active]="getActiveImageIndex(productIndex) === i">
-                </span>
+              @for(image of getProductImages(product); track $index; let imgIndex = $index){
+                <swiper-slide class="image-slide">
+                  <!-- Loading skeleton -->
+                  <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + imgIndex]">
+                    <div class="skeleton-shimmer"></div>
+                  </div>
+                  <!-- Actual image -->
+                  <img
+                    [attr.loading]="'lazy'"
+                    decoding="async"
+                    [src]="getActiveImageIndex(productIndex) === imgIndex ? image : null"
+                    alt="{{product.product_name}} - Image {{imgIndex + 1}}"
+                    class="model"
+                    [class.loaded]="imageLoaded[product.product_id + '-' + imgIndex]"
+                    (load)="onImageLoad(product.product_id, imgIndex)"
+                    (error)="onImageError(product.product_id, imgIndex)">
+                </swiper-slide>
               }
+            </swiper-container>
+
+            <!-- Image pagination dots (horizontal) - only show if multiple images -->
+            @if(getProductImages(product).length > 1){
+              <div class="image-pagination">
+                @for(img of getProductImages(product); track $index; let i = $index){
+                  <span
+                    class="image-dot"
+                    [class.active]="getActiveImageIndex(productIndex) === i">
+                </span>
+                }
+              </div>
+            }
+            <!-- Floating action buttons -->
+            <div class="floating-buttons">
+              <ion-button (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
+                <tui-icon style="color: #fff" icon="@tui.arrow-left" />
+              </ion-button>
+              <ion-button (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
+                <tui-icon style="color: #fff" icon="@tui.heart" />
+              </ion-button>
+              <ion-button (click)="openHome()" fill="clear" class="action-btn">
+                <tui-icon style="color: #fff" icon="@tui.home" />
+              </ion-button>
             </div>
-          }
 
-          <!-- Floating action buttons -->
-          <div class="floating-buttons">
-            <ion-button (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.arrow-left" />
-            </ion-button>
-            <ion-button (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.heart" />
-            </ion-button>
-            <ion-button (click)="openHome()" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.home" />
-            </ion-button>
-          </div>
-
-          <!-- Product info overlay -->
-          <div class="overlay-box">
-            <h2 (click)="open_product(product.product_id)" class="title">
-              {{product.product_name}}
-              <span class="price-tag">
+            <!-- Product info overlay -->
+            <div class="overlay-box">
+              <h2 (click)="open_product(product.product_id)" class="title">
+                {{product.product_name}}
+                <span class="price-tag">
                 Ð{{product.price}}
               </span>
-            </h2>
-            <div class="description" [innerHTML]="product.description"></div>
-            <div class="store-row">
+              </h2>
+              <div class="description" [innerHTML]="product.description"></div>
+              <div class="store-row">
               <span class="store-name" (click)="open_vendor(product.store_id, product.store_name)">
                 {{ product.store_name }}
               </span>
-              <ion-button
-                style="--background: rgba(255,255,255,0.2); --color: #fff;"
-                (click)="open_vendor(product.store_id, product.store_name)"
-                size="small">
-                Go to Store
-              </ion-button>
+                <ion-button
+                  style="--background: rgba(255,255,255,0.2); --color: #fff;"
+                  (click)="open_vendor(product.store_id, product.store_name)"
+                  size="small">
+                  Go to Store
+                </ion-button>
+              </div>
             </div>
-          </div>
 
-        </div>
-      </swiper-slide>
+          </div>
+        </swiper-slide>
     }
   </swiper-container>
-
   <!-- Vertical scroll indicator (right side) -->
   <div class="vertical-pagination">
     @for(dot of verticalDots; track dot; let i = $index){
@@ -103,7 +108,7 @@
   </div>
 
   <!-- Loading state -->
-  @if(ui_controls.is_loading){
+  @if(ui_controls.is_loading && products.length === 0){
     <div class="loading-overlay">
       <div class="full-skeleton">
         <div class="skeleton-shimmer"></div>

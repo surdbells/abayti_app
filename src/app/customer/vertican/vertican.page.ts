@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
@@ -73,13 +73,14 @@ interface Category {
   readonly id: number;
   readonly name: string;
 }
-
+const MAX_RENDERED_PRODUCTS = 10;
 type DualRange = { lower: number; upper: number };
 
 @Component({
   selector: 'app-vertican',
   templateUrl: './vertican.page.html',
   styleUrls: ['./vertican.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -96,7 +97,7 @@ type DualRange = { lower: number; upper: number };
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
   categories: Labels[] = [];
-
+  private swiperInitialized = false;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
@@ -138,6 +139,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     private toastController: ToastController,
     private platform: Platform,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     private networkService: NetworkService,
     private toast: HotToastService,
   ) {
@@ -324,7 +326,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 120,
+    limit: 20,
     offset: 0
   }
 
@@ -390,7 +392,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   get_filtered_products() {
     this.isFilterOpen = false;
-    this.ui_controls.is_loading = true;
+    this.ui_controls = {
+      ...this.ui_controls,
+      is_loading: true
+    };
+    this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
     this.ui_controls.is_empty = false;
     this.filter.id = this.single_user.id;
@@ -401,13 +407,21 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls.is_loading = false;
+            this.ui_controls = {
+              ...this.ui_controls,
+              is_loading: false
+            };
+            this.cdr.markForCheck();
             this.ui_controls.is_loaded = true;
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             setTimeout(() => this.initializeSwipers(), 100);
           } else {
-            this.ui_controls.is_loading = false;
+            this.ui_controls = {
+              ...this.ui_controls,
+              is_loading: false
+            };
+            this.cdr.markForCheck();
             this.presentToast('middle', "No product for the selected filter").then(r => console.log(r));
             this.ui_controls.is_loaded = true;
           }
@@ -417,7 +431,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   explore_products() {
     this.products = [];
-    this.ui_controls.is_loading = true;
+    this.ui_controls = {
+      ...this.ui_controls,
+      is_loading: true
+    };
+    this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
     this.ui_controls.is_empty = false;
     this.explore.id = this.single_user.id;
@@ -428,14 +446,23 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls.is_loading = false;
+            this.ui_controls = {
+              ...this.ui_controls,
+              is_loading: false
+            };
+            this.cdr.markForCheck();
+            this.updateSwiper();
             this.ui_controls.is_loaded = true;
             this.ui_controls.is_empty = false;
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             setTimeout(() => this.initializeSwipers(), 100);
           } else {
-            this.ui_controls.is_loading = false;
+            this.ui_controls = {
+              ...this.ui_controls,
+              is_loading: false
+            };
+            this.cdr.markForCheck();
             this.ui_controls.is_empty = true;
           }
         }
@@ -445,35 +472,66 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   getMoreItems() {
     if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
-    this.ui_controls.is_loading = true;
-    this.ui_controls.is_loading = true;
+
+    this.ui_controls = { ...this.ui_controls, is_loading: true };
+    this.cdr.markForCheck();
+
     this.explore.id = this.single_user.id;
     this.explore.token = this.single_user.token;
-    this.explore.offset = this.explore.offset + this.explore.limit;
+    this.explore.offset += this.explore.limit;
+
     this.networkService.post_request(this.explore, GlobalComponent.explore_listing)
       .subscribe({
         next: (response: any) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.products.push(...response.data);
-            // Stop further calls if fewer items returned
-            if (response.data.length < this.explore.limit) {
-              this.ui_controls.hasMore = false;
-              this.ui_controls.is_empty = true;
-            }
-          } else {
-            this.ui_controls.hasMore = false;
-            this.ui_controls.is_empty = true;
+          if (response.response_code !== 200 || response.status !== 'success') {
+            this.ui_controls = { ...this.ui_controls, hasMore: false };
+            return;
           }
+
+          // 1️⃣ Append new products
+          this.products = [...this.products, ...response.data];
+
+          const el: any = this.swiperEl?.nativeElement;
+          const sw = el?.swiper;
+
+          // 2️⃣ Calculate how many can be safely removed
+          const excess = this.products.length - MAX_RENDERED_PRODUCTS;
+
+          if (excess > 0 && sw) {
+            const currentIndex = sw.activeIndex;
+
+            // 🔥 Only remove items the user already passed
+            if (currentIndex > excess) {
+              this.products.splice(0, excess);
+
+              // Fix swiper index
+              sw.slideTo(currentIndex - excess, 0);
+              sw.update();
+
+              this.activeImageIndices.clear();
+              this.imageLoaded = {};
+            }
+          }
+
+          // 3️⃣ No more data
+          if (response.data.length < this.explore.limit) {
+            this.ui_controls = { ...this.ui_controls, hasMore: false };
+          }
+
+          this.cdr.markForCheck();
         },
-        error: (err) => {
-          console.error('Pagination request failed:', err);
-          this.ui_controls.hasMore = false;
+        error: () => {
+          this.ui_controls = { ...this.ui_controls, hasMore: false };
+          this.cdr.markForCheck();
         },
         complete: () => {
-          this.ui_controls.is_loading = false;
+          this.ui_controls = { ...this.ui_controls, is_loading: false };
+          this.cdr.markForCheck();
         }
       });
   }
+
+
 
   get_label() {
     this.ui_controls.is_loading_category = true;
@@ -550,6 +608,10 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   open_product(id: number) {
+    this.products = this.products.slice(
+      Math.max(0, this.index() - 1),
+      this.index() + 2
+    );
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id } }
@@ -569,6 +631,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // ========================================
 
   initializeSwipers() {
+    if (this.swiperInitialized) return;
+    this.swiperInitialized = true;
+
     const el = this.swiperEl?.nativeElement as any;
     if (!el) return;
 
@@ -591,7 +656,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
         // Only fetch more if near the end, not loading, and more data exists
         if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
-          this.getMoreItems();
+          requestAnimationFrame(() => this.getMoreItems());
         }
       });
     };
@@ -631,4 +696,14 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
+  updateSwiper() {
+    requestAnimationFrame(() => {
+      const el: any = this.swiperEl?.nativeElement;
+      const sw = el?.swiper;
+      if (sw) {
+        sw.update();
+      }
+    });
+  }
+  protected readonly Math = Math;
 }
