@@ -250,3 +250,59 @@ ion-tab-button  {
   border-radius: var(--radius-2xl);
 }
 
+/* ========================================
+   iOS PULL-TO-REFRESH FIX
+   Add these styles to your global.scss
+   ======================================== */
+
+/* Prevent iOS Safari pull-to-refresh on fullscreen swiper pages */
+html, body {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
+/* When on vertican page, lock body scroll */
+body.swiper-page-active {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* iOS-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific styles */
+  
+  /* Prevent elastic scrolling on ion-content in swiper pages */
+  app-vertican ion-content {
+    --overflow: hidden;
+    overflow: hidden !important;
+  }
+  
+  /* Prevent rubber-banding */
+  app-vertican {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+}
+
+/* Disable webkit tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========================================
+   ALTERNATIVE: Add meta tag to index.html
+   ======================================== 
+   
+   Add this to your index.html <head> section:
+   
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+   
+   This helps prevent some iOS scroll behaviors.
+*/

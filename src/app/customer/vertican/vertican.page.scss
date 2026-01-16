@@ -4,10 +4,37 @@
   --text: #000;
   --muted: #4C4C4C;
   --accent: #b37a6b;
+  
+  // CRITICAL: Prevent iOS pull-to-refresh and rubber-banding
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
+/* ========================================
+   iOS PULL-TO-REFRESH PREVENTION
+   ======================================== */
 ion-content {
   --background: #000;
+  
+  // Prevent iOS overscroll/bounce
+  --overflow: hidden;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: auto; // Disable momentum scrolling
+  touch-action: none; // Let Swiper handle all touch
+}
+
+// Prevent body scroll on iOS
+:host-context(body) {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 /* ========================================
@@ -16,12 +43,26 @@ ion-content {
 .vertical-slides {
   height: 100%;
   width: 100%;
+  overflow: hidden;
+  
+  // iOS touch handling
+  touch-action: pan-x pinch-zoom;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  
+  // Prevent iOS rubber-banding
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
 }
 
 .product-slide {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  
+  // Prevent any overflow that could trigger iOS scroll
+  touch-action: pan-x pinch-zoom;
 }
 
 .hero {
@@ -29,6 +70,7 @@ ion-content {
   height: 100%;
   width: 100%;
   background: #000;
+  overflow: hidden;
 }
 
 /* ========================================
@@ -43,6 +85,10 @@ ion-content {
   height: 100%;
   width: 100%;
   z-index: 1;
+  
+  // Allow horizontal swipe, prevent vertical interference
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
 }
 
 .image-slide {
@@ -52,6 +98,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
 }
 
 /* ========================================
@@ -109,6 +156,11 @@ ion-content {
   display: block;
   opacity: 0;
   transition: opacity 0.3s ease;
+  
+  // Prevent image drag on iOS
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 
   &.loaded {
     opacity: 1;
@@ -130,6 +182,10 @@ ion-content {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  
+  // Prevent touch interference
+  pointer-events: none;
 }
 
 .image-dot {
@@ -158,6 +214,9 @@ ion-content {
   flex-direction: column;
   gap: 8px;
   z-index: 1000;
+  
+  // Prevent touch interference
+  pointer-events: none;
 }
 
 .vertical-pagination .dot {
@@ -198,6 +257,7 @@ ion-content {
   width: 48px;
   height: 48px;
   min-height: 48px;
+  
   tui-icon {
     font-size: 20px;
   }
@@ -221,6 +281,8 @@ ion-content {
   color: #fff;
   padding: 80px 16px 40px 16px;
   z-index: 10;
+  
+  // Allow clicking through transparent parts but not on content
   pointer-events: none;
 
   * {
@@ -391,10 +453,19 @@ ion-modal ion-content {
   }
 }
 
-ion-modal ion-content {
-  --background: var(--profile-bg);
+/* ========================================
+   iOS SAFE AREA
+   ======================================== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .overlay-box {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+  
+  .floating-buttons {
+    bottom: calc(200px + env(safe-area-inset-bottom));
+  }
+  
+  .image-pagination {
+    bottom: calc(200px + env(safe-area-inset-bottom));
+  }
 }
-
-
-
-

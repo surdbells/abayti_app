@@ -6,10 +6,8 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  QueryList,
   signal,
   ViewChild,
-  ViewChildren
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -129,15 +127,19 @@ type DualRange = { lower: number; upper: number };
     TuiItem,
     TuiCarouselButtons,
     NgOptimizedImage
-]
+  ]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];
   categories: Labels[] = [];
   private swiperInitialized = false;
+  private touchStartY = 0;
+  private isIOS = false;
+  
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
+  @ViewChild(IonContent, { static: false }) ionContent!: IonContent;
 
   // Track active image index for each product
   activeImageIndices: Map<number, number> = new Map();
@@ -182,9 +184,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private networkService: NetworkService,
     private toast: HotToastService,
+    private elementRef: ElementRef
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
+    
+    // Detect iOS
+    this.isIOS = this.platform.is('ios');
   }
 
   @HostListener('window:ionBackButton', ['$event'])
@@ -196,6 +202,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.removeTouchListeners();
     for (const swiper of this.horizontalSwipers.values()) {
       swiper.destroy();
     }
@@ -244,6 +251,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ionViewWillEnter() {
     this.getObject().then(r => console.log(r));
+    this.setupTouchListeners();
+  }
+  
+  ionViewWillLeave() {
+    this.removeTouchListeners();
   }
 
   async getObject() {
@@ -257,39 +269,91 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ========================================
+  // iOS Touch Handling - Prevent pull-to-refresh
+  // ========================================
+  
+  private setupTouchListeners() {
+    const el = this.elementRef.nativeElement;
+    
+    // Prevent iOS Safari pull-to-refresh
+    el.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: false });
+    el.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
+    
+    // Disable iOS elastic scrolling on the document
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.height = '100%';
+  }
+  
+  private removeTouchListeners() {
+    const el = this.elementRef.nativeElement;
+    el.removeEventListener('touchstart', this.onTouchStart.bind(this));
+    el.removeEventListener('touchmove', this.onTouchMove.bind(this));
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.height = '';
+  }
+  
+  private onTouchStart(e: TouchEvent) {
+    this.touchStartY = e.touches[0].clientY;
+  }
+  
+  private onTouchMove(e: TouchEvent) {
+    const touchY = e.touches[0].clientY;
+    const touchDiff = touchY - this.touchStartY;
+    
+    // Get the swiper element
+    const swiperEl = this.swiperEl?.nativeElement as any;
+    const swiper = swiperEl?.swiper;
+    
+    if (swiper) {
+      // At the first slide and trying to pull down - prevent refresh
+      if (swiper.activeIndex === 0 && touchDiff > 0) {
+        e.preventDefault();
+      }
+      
+      // At the last slide and trying to pull up
+      if (swiper.activeIndex === swiper.slides.length - 1 && touchDiff < 0) {
+        e.preventDefault();
+      }
+    }
+  }
+
+  // ========================================
   // Image loading handlers
   // ========================================
 
   onImageLoad(productId: number, imageIndex: number) {
     const key = `${productId}-${imageIndex}`;
     this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
   }
 
   onImageError(productId: number, imageIndex: number) {
-    // Mark as loaded even on error to hide skeleton
     const key = `${productId}-${imageIndex}`;
     this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
   }
 
   /**
    * Get product images as array
-   * Handles: array, comma-separated string, or single string
    */
   getProductImages(product: any): string[] {
     if (!product) return [];
 
-    // If images is already an array
     if (Array.isArray(product.images) && product.images.length > 0) {
       return product.images;
     }
 
-    // If images is a comma-separated string
     if (typeof product.images === 'string' && product.images.length > 0) {
       const imgs = product.images.split(',').map((img: string) => img.trim()).filter((img: string) => img.length > 0);
       if (imgs.length > 0) return imgs;
     }
 
-    // Fallback to image_1
     if (product.image_1) {
       return [product.image_1];
     }
@@ -305,6 +369,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     const swiper = event?.target?.swiper;
     if (swiper) {
       this.activeImageIndices.set(productIndex, swiper.activeIndex);
+      this.cdr.markForCheck();
     }
   }
 
@@ -331,6 +396,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         this.currentProductDot = 2;
       }
     }
+    this.cdr.markForCheck();
   }
 
   // ========================================
@@ -436,6 +502,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   get_filtered_products() {
     this.isFilterOpen = false;
+    this.swiperInitialized = false;
     this.ui_controls = {
       ...this.ui_controls,
       is_loading: true
@@ -460,7 +527,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             this.horizontalSwipers.clear();
-            setTimeout(() => this.initializeSwipers(), 100);
+            setTimeout(() => this.initializeSwipers(), 150);
           } else {
             this.ui_controls = {
               ...this.ui_controls,
@@ -476,9 +543,12 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   explore_products() {
     this.products = [];
+    this.swiperInitialized = false;
+    this.explore.offset = 0;
     this.ui_controls = {
       ...this.ui_controls,
-      is_loading: true
+      is_loading: true,
+      hasMore: true
     };
     this.cdr.markForCheck();
     this.ui_controls.is_loaded = false;
@@ -502,7 +572,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             this.activeImageIndices.clear();
             this.imageLoaded = {};
             this.horizontalSwipers.clear();
-            setTimeout(() => this.initializeSwipers(), 100);
+            setTimeout(() => this.initializeSwipers(), 150);
           } else {
             this.ui_controls = {
               ...this.ui_controls,
@@ -514,6 +584,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
   getMoreItems() {
     if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
 
@@ -532,21 +603,17 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
-          // 1️⃣ Append new products
           this.products = [...this.products, ...response.data];
 
           const el: any = this.swiperEl?.nativeElement;
           const sw = el?.swiper;
 
-          // 2️⃣ Calculate how many can be safely removed
           const excess = this.products.length - MAX_RENDERED_PRODUCTS;
 
           if (excess > 0 && sw) {
             const currentIndex = sw.activeIndex;
 
-            // 🔥 Only remove items the user already passed
             if (currentIndex > excess) {
-              // Destroy swipers for removed products
               for (let i = 0; i < excess; i++) {
                 const product = this.products[i];
                 const swiper = this.horizontalSwipers.get(product.product_id);
@@ -556,17 +623,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
                 }
               }
               this.products.splice(0, excess);
-
-              // Fix swiper index
               sw.slideTo(currentIndex - excess, 0);
               sw.update();
-
               this.activeImageIndices.clear();
               this.imageLoaded = {};
             }
           }
 
-          // 3️⃣ No more data
           if (response.data.length < this.explore.limit) {
             this.ui_controls = { ...this.ui_controls, hasMore: false };
           }
@@ -583,6 +646,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
   get_label() {
     this.ui_controls.is_loading_category = true;
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlistLabel)
@@ -595,6 +659,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
   addToCloset(label: number) {
     this.ui_controls.is_loading_category = true;
     this.addCloset.label_id = label;
@@ -612,6 +677,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
+
   startAddToCloset(product: number, product_name: string, image_1: string) {
     this.addCloset.id = this.single_user.id;
     this.addCloset.token = this.single_user.token;
@@ -692,6 +758,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
+      // Configure swiper for iOS
+      if (this.isIOS) {
+        sw.params.touchReleaseOnEdges = true;
+        sw.params.resistanceRatio = 0;
+        sw.params.touchStartPreventDefault = false;
+      }
+
       this.index.set(sw.activeIndex ?? 0);
       this.updateVerticalPagination(sw.activeIndex ?? 0, sw.slides?.length ?? 0);
 
@@ -702,7 +775,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         this.updateVerticalPagination(currentIndex, totalSlides);
         this.index.set(currentIndex);
 
-        // Only fetch more if near the end, not loading, and more data exists
         if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
           requestAnimationFrame(() => this.getMoreItems());
         }
@@ -718,6 +790,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         const product = this.products[index];
         if (!product) return;
         const key = product.product_id;
+        
         const attachHorizontal = () => {
           const sw = hSwiper.swiper;
           if (!sw) {
@@ -725,19 +798,26 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
             return;
           }
 
+          // Configure for iOS
+          if (this.isIOS) {
+            sw.params.touchStartPreventDefault = false;
+            sw.params.touchMoveStopPropagation = true;
+          }
+
           this.horizontalSwipers.set(key, sw);
           sw.on('slideChange', () => {
             this.activeImageIndices.set(index, sw.activeIndex);
+            this.cdr.markForCheck();
           });
         };
 
         attachHorizontal();
       });
-    }, 200);
+    }, 250);
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.initializeSwipers(), 100);
+    setTimeout(() => this.initializeSwipers(), 150);
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
@@ -748,6 +828,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
+
   updateSwiper() {
     requestAnimationFrame(() => {
       const el: any = this.swiperEl?.nativeElement;
@@ -757,5 +838,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       }
     });
   }
+
   protected readonly Math = Math;
 }
