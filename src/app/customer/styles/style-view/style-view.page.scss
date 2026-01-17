@@ -1,8 +1,20 @@
+/* ========================================
+   VARIABLES
+   ======================================== */
+$brand-dark: #7C2108;
+$brand-light: #B12C06;
+$brand-peach: #fdeee6;
+$brand-cream: #FFF8F4;
+$brand-accent: #952d0f;
+
+/* ========================================
+   HEADER
+   ======================================== */
 .page-header {
-  background: linear-gradient(to bottom, #7C2108, #B12C06);
-  padding-bottom: 14px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  background: linear-gradient(to bottom, $brand-dark, $brand-light);
+  padding-bottom: 16px;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
 }
 
 .toolbar {
@@ -12,156 +24,525 @@
   align-items: center;
 }
 
-.title {
+.header-title {
   color: #fff;
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 700;
 }
-.section_title {
-  color: #000;
-  font-size: 26px;
-  font-weight: 700;
-}
-.subtitle {
-  color: #fff;
-  font-size: 16px;
-}
-.icon-btn {
-  background: #FAD9C4;
-  padding: 10px;
-  border-radius: 14px;
-}
+
 .icon_left {
   background: #BE431F;
   padding: 10px;
   border-radius: 14px;
   color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.92);
+  }
 }
 
-.transparent-card {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
+/* ========================================
+   STYLE NAME
+   ======================================== */
+.style-name-wrap {
+  padding: 8px 16px 12px;
 }
-.summary_card {
-  background: rgba(194, 82, 49, 0.62);
-  border-radius: 14px;
-  color: #ffffff;
-  border: 2px solid rgba(230, 134, 106, 1)
-}
-.summary-header h2 {
+
+.style-name {
   color: #fff;
+  font-size: 24px;
+  font-weight: 700;
   margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
-.title-row {
+
+/* ========================================
+   SUMMARY CARD
+   ======================================== */
+.summary-card {
+  margin: 0 16px 8px;
+  padding: 16px;
+  background: rgba(194, 82, 49, 0.7);
+  border-radius: 16px;
+  border: 2px solid rgba(230, 134, 106, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.summary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
+
+  h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
 }
+
 .item-badge {
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 12px;
+  font-weight: 600;
 }
+
+.summary-items {
+  margin-bottom: 12px;
+}
+
 .item-row {
   display: flex;
   justify-content: space-between;
-  font-size: 1rem;
+  align-items: center;
+  padding: 2px 0;
+  color: #fff;
+
+  .item-name {
+    font-size: 13px;
+    opacity: 0.95;
+    flex: 1;
+    padding-right: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .item-price {
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
 }
-.item-price {
-  font-weight: bold;
+
+.summary-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 12px 0;
 }
-.divider {
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  margin: 5px 0;
-}
+
 .total-row {
   display: flex;
   justify-content: space-between;
-  font-size: 1.2rem;
-}
-.total-price {
-  font-weight: bold;
-  font-size: 1.4rem;
+  align-items: center;
+  color: #fff;
+
+  .total-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .total-price {
+    font-size: 20px;
+    font-weight: 800;
+  }
 }
 
+/* ========================================
+   PAGE BACKGROUND
+   ======================================== */
+.page-bg {
+  --background: $brand-cream;
+}
+
+/* ========================================
+   SECTION HEADER
+   ======================================== */
+.section-header {
+  padding: 8px 0 16px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* ========================================
+   SKELETON ANIMATIONS
+   ======================================== */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* ========================================
+   PRODUCT CARDS
+   ======================================== */
 .product-card {
-  border: 2px solid #e77b53;
-  border-radius: 22px;
-  background: #fdeee6;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  background: $brand-peach;
+  border: 2px solid rgba(231, 123, 83, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   overflow: hidden;
+  margin-bottom: 16px;
+
+  // GPU acceleration
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* IMAGE */
+/* Image Wrapper */
 .image-wrapper {
+  position: relative;
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
-  border-radius: 18px 18px 0 0;
+  background: linear-gradient(135deg, #e8d5cc 0%, #f5e8e0 50%, #e8d5cc 100%);
+}
+
+.img-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #dbc8bc 0%, #f0e0d4 50%, #dbc8bc 100%);
+  z-index: 2;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  // Performance optimization
+  content-visibility: auto;
+
+  &.loaded {
+    opacity: 1;
+  }
 }
 
-/* CONTENT */
+/* Card Content */
 .card-content {
-  padding: 18px;
+  padding: 16px 18px 18px;
 }
 
-.title_p {
-  font-size: 1.5rem;
+.product-title {
+  font-size: 18px;
   font-weight: 800;
-  color: #952d0f;
-  margin-bottom: 6px;
+  color: $brand-accent;
+  margin: 0 0 8px;
+  line-height: 1.3;
 }
 
-.description {
-  font-family: serif;
-  font-size: 1rem;
-  line-height: 1.4;
-  margin-bottom: 10px;
-}
-
-.price {
-  font-size: 1.4rem;
+.product-price {
+  font-size: 22px;
   font-weight: 900;
-  color: #000000;
-  margin-bottom: 18px;
+  color: #000;
+  margin: 0 0 16px;
 }
 
-/* ACTION BUTTONS */
+/* Action Buttons */
 .actions {
   display: flex;
-  justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
 }
 
-.btn {
+.action-btn {
   flex: 1;
-  height: 52px;
-  border-radius: 18px;
-  font-size: 1rem;
+  height: 48px;
+  --border-radius: 14px;
+  font-size: 13px;
   font-weight: 700;
-  text-transform: capitalize;
+  text-transform: none;
+  margin: 0;
+
+  tui-icon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
 }
 
-.primary {
-  --background: #952d0f;
+.cart-btn {
+  --background: $brand-accent;
+  --background-activated: darken($brand-accent, 10%);
   --color: #fff;
 }
 
-.secondary {
-  --background: #952d0f;
-  --color: #fff;
-  opacity: 0.95;
+.closet-btn {
+  --background: rgba(149, 45, 15, 0.12);
+  --background-activated: rgba(149, 45, 15, 0.2);
+  --color: $brand-accent;
+  border: 2px solid $brand-accent;
 }
 
+/* ========================================
+   SKELETON CARDS
+   ======================================== */
+.skeleton-card {
+  .skeleton-text {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+
+    &.section-skeleton {
+      height: 20px;
+      width: 60%;
+      background: linear-gradient(135deg, #e0d5cc 0%, #f0e5dc 50%, #e0d5cc 100%);
+    }
+
+    &.title-skeleton {
+      height: 20px;
+      width: 70%;
+      background: linear-gradient(135deg, #e0d5cc 0%, #f0e5dc 50%, #e0d5cc 100%);
+      margin-bottom: 12px;
+    }
+
+    &.price-skeleton {
+      height: 24px;
+      width: 35%;
+      background: linear-gradient(135deg, #d8ccc2 0%, #ece0d6 50%, #d8ccc2 100%);
+      margin-bottom: 16px;
+    }
+  }
+
+  .skeleton-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .skeleton-btn {
+    flex: 1;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e5dad0 0%, #f5eae0 50%, #e5dad0 100%);
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.loading-state {
+  padding-top: 8px;
+}
+
+/* ========================================
+   WISHLIST MODAL
+   ======================================== */
+.modal-content {
+  --background: #f8f4f1;
+}
+
+.wishlist-list {
+  background: transparent;
+
+  .wishlist-item {
+    --background: #fff;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-end: 0;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+    .folder-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(124, 33, 8, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+
+      tui-icon {
+        font-size: 20px;
+        color: $brand-dark;
+      }
+    }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .chevron {
+      font-size: 18px;
+      color: #ccc;
+    }
+  }
+}
+
+.modal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.app-footer {
+  background-color: $brand-dark;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+
+  ion-tab-bar {
+    background: $brand-dark;
+    padding-top: 4px;
+    padding-bottom: 8px;
+    border-top: none;
+
+    ion-tab-button {
+      --color: rgba(255, 255, 255, 0.7);
+      --color-selected: #fff;
+
+      tui-icon {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      ion-label {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: 2px;
+      }
+
+      &.active-tab {
+        ion-label {
+          text-decoration: underline;
+          color: #fff;
+        }
+
+        tui-icon {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+/* ========================================
+   iOS SAFE AREA
+   ======================================== */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .page-header {
+    padding-top: calc(env(safe-area-inset-top) + 8px);
+  }
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+@media (max-width: 360px) {
+  .style-name {
+    font-size: 20px;
+  }
+
+  .summary-card {
+    padding: 14px;
+  }
+
+  .image-wrapper {
+    height: 180px;
+  }
+
+  .product-title {
+    font-size: 16px;
+  }
+
+  .product-price {
+    font-size: 18px;
+  }
+
+  .action-btn {
+    height: 44px;
+    font-size: 12px;
+
+    tui-icon {
+      font-size: 14px;
+      margin-right: 4px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .style-name {
+    font-size: 28px;
+  }
+
+  .image-wrapper {
+    height: 300px;
+  }
+
+  .product-title {
+    font-size: 22px;
+  }
+
+  .product-price {
+    font-size: 26px;
+  }
+
+  .card-content {
+    padding: 20px 24px 24px;
+  }
+
+  .action-btn {
+    height: 54px;
+    font-size: 15px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
+
+  .product-image,
+  .img-skeleton {
+    transition: none;
+  }
+
+  .icon_left {
+    transition: none;
+  }
+}

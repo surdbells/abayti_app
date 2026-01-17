@@ -13,72 +13,189 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true" class="app-bg">
-  <section class="section ion-padding-horizontal">
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-  </section>
+<ion-content fullscreen="true" class="home-bg">
+  <!--<section class="section ion-padding-horizontal">
+    <div class="h-scroll categories">
+      <button class="chip" type="button" (click)="open_category(1, 'Abayas');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'abayas' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(2, 'Mukhawars');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'mukhawars' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(3, 'Kaftan');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'kaftans' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(4, 'Bags');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/bag.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'bags' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(5, 'Accessories');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'accessories' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(6, 'Modest Clothes');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/modest.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'modest_clothes' | translate }}</span>
+      </button>
+      <button class="chip" type="button" (click)="open_category(7, 'Dresses');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/dress.svg"></ion-icon>
+          </span>
+        <span class="chip-text">{{ 'dresses' | translate }}</span>
+      </button>
+    </div>
+  </section>-->
+  <!-- Best Sellers Section -->
   @if (!ui_controls.is_loading){
     <section class="section ion-padding-horizontal">
-      <div class="section-head ion-margin-bottom">
-        <h2>{{ 'best_seller' | translate }}</h2>
+      <div class="section-head ion-margin-vertical">
+        <ion-row>
+          <ion-col class="ion-no-padding ion-no-margin">
+            <h2>{{ 'best_seller' | translate }}</h2>
+          </ion-col>
+<!--          <ion-col class="ion-no-padding ion-no-margin">
+            <h2 (click)="bestSellers()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+          </ion-col>-->
+        </ion-row>
       </div>
-      @if(!ui_controls.is_empty){
-        <div class="h-scroll">
-          @for(best_seller of best_sellers; track best_seller.product_id){
-            <article class="product-card">
-              <div class="img-wrap" [style.background]="'#7A1C09'">
-                <img  (click)="open_product(best_seller.product_id)"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
-                <span class="tag">{{best_seller.store_name}}</span>
+      <div class="h-scroll">
+        @for(best_seller of best_sellers; track best_seller.product_id){
+          <article class="product-card">
+            <div class="img-wrap" [style.background]="'#7A1C09'">
+              <!-- Image skeleton -->
+              <div class="img-skeleton" [class.hidden]="imageLoaded['best-' + best_seller.product_id]">
+                <div class="skeleton-shimmer"></div>
               </div>
-              <div (click)="open_product(best_seller.product_id)"  class="info">
-                <p class="desc">
-                  {{best_seller.product_name}} - <span [innerHTML]="best_seller.description"></span>
-                </p>
-                <ion-row>
-                  <ion-col>
-                    Ð{{best_seller.price}}
-                  </ion-col>
-                  <ion-col>
-                    <svg class="ion-float-end" (click)="open_product(best_seller.product_id)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="19" height="19" rx="6" fill="#7C2108"/>
-                      <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
-                    </svg>
-                  </ion-col>
-                </ion-row>
+              <!-- Actual image -->
+              <img
+                (click)="open_product(best_seller.product_id)"
+                [class.loaded]="imageLoaded['best-' + best_seller.product_id]"
+                (load)="onImageLoad('best-' + best_seller.product_id)"
+                (error)="onImageError('best-' + best_seller.product_id)"
+                style="object-fit: cover; object-position: top center;"
+                [src]="best_seller.image_1"
+                alt="{{best_seller.product_name}}" />
+              <button style="z-index: 999" (click)="startAddToCloset(best_seller.product_id, best_seller.product_name, best_seller.image_1)" class="like" type="button">
+                <tui-icon icon="@tui.heart-plus" />
+              </button>
+              <span class="tag">{{best_seller.store_name}}</span>
+            </div>
+            <div (click)="open_product(best_seller.product_id)" class="info">
+              <p class="desc">
+                {{best_seller.product_name}}
+              </p>
+              <ion-row>
+                <ion-col>
+                  <span style="color: #7C2108; font-weight: 800">Ð{{best_seller.price}}</span>
+                </ion-col>
+                <ion-col>
+                  <svg class="ion-float-end" (click)="open_product(best_seller.product_id)" width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.700391" y="0.700391" width="25.4" height="25.4" rx="12.7" fill="#7C2108"/>
+                    <rect x="0.700391" y="0.700391" width="25.4" height="25.4" rx="12.7" stroke="white" stroke-width="1.4"/>
+                    <path d="M14.0171 17.4502C14.0171 17.678 13.9266 17.8965 13.7655 18.0576C13.6044 18.2187 13.3859 18.3092 13.1581 18.3092C12.9303 18.3092 12.7118 18.2187 12.5507 18.0576C12.471 17.9778 12.4077 17.8831 12.3645 17.7789C12.3214 17.6747 12.2991 17.563 12.2991 17.4502L12.2997 8.8658C12.2997 8.75304 12.3219 8.64137 12.365 8.53718C12.4081 8.43298 12.4713 8.3383 12.551 8.25853C12.6307 8.17877 12.7254 8.11549 12.8295 8.0723C12.9337 8.02911 13.0454 8.00686 13.1581 8.00682C13.2709 8.00678 13.3826 8.02895 13.4868 8.07207C13.5909 8.11518 13.6856 8.1784 13.7654 8.25811C13.8452 8.33781 13.9084 8.43245 13.9516 8.53662C13.9948 8.64078 14.0171 8.75243 14.0171 8.8652L14.0171 17.4502Z" fill="white"/>
+                    <path d="M8.86518 14.0172C8.63736 14.0172 8.41887 13.9267 8.25778 13.7656C8.09669 13.6045 8.00619 13.386 8.00619 13.1582C8.00619 12.9304 8.09669 12.7119 8.25778 12.5508C8.41887 12.3897 8.63736 12.2992 8.86518 12.2992L17.4495 12.2998C17.5623 12.2998 17.674 12.322 17.7782 12.3651C17.8824 12.4082 17.9771 12.4714 18.0568 12.5511C18.1366 12.6308 18.1999 12.7255 18.2431 12.8296C18.2862 12.9338 18.3085 13.0454 18.3085 13.1582C18.3086 13.271 18.2864 13.3826 18.2433 13.4868C18.2002 13.591 18.137 13.6857 18.0572 13.7655C17.9775 13.8452 17.8829 13.9085 17.7787 13.9517C17.6746 13.9949 17.5629 14.0171 17.4502 14.0172L8.86518 14.0172Z" fill="white"/>
+                  </svg>
+                </ion-col>
+              </ion-row>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- New Arrivals Section -->
+  @if (!ui_controls.is_loading){
+    <section class="section ion-padding-horizontal">
+      <div class="section-head ion-margin-vertical">
+        <ion-row>
+          <ion-col class="ion-no-padding ion-no-margin">
+            <h2>{{ 'new_arrivals' | translate }}</h2>
+          </ion-col>
+          <!--          <ion-col class="ion-no-padding ion-no-margin">
+                      <h2 (click)="newArrivals()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+                    </ion-col>-->
+        </ion-row>
+      </div>
+      <div class="h-scroll">
+        @for(new_arrival of new_arrivals; track new_arrival.product_id){
+          <article class="product-card">
+            <div class="img-wrap" [style.background]="'#7A1C09'">
+              <!-- Image skeleton -->
+              <div class="img-skeleton" [class.hidden]="imageLoaded['new-' + new_arrival.product_id]">
+                <div class="skeleton-shimmer"></div>
               </div>
-            </article>
-          }
-        </div>
-      }
-      @if (ui_controls.is_empty){
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="list-filter"></tui-icon>
-            <h2 class="ion-padding-vertical">{{ 'empty_filter' | translate }}</h2>
-            <button (click)="get_best_sellers()" appearance="floating" tuiButton size="m" class="mt-4">
-              <tui-icon icon="tuiIconShoppingCart"></tui-icon>
-              <span>{{ 'our_best_sellers' | translate }}</span>
-            </button>
-          </ion-card-content>
-        </ion-card>
-      }
-      <div class="section-head">
+              <!-- Actual image -->
+              <img
+                (click)="open_product(new_arrival.product_id)"
+                [class.loaded]="imageLoaded['new-' + new_arrival.product_id]"
+                (load)="onImageLoad('new-' + new_arrival.product_id)"
+                (error)="onImageError('new-' + new_arrival.product_id)"
+                style="object-fit: cover; object-position: top center;"
+                [src]="new_arrival.image_1"
+                alt="{{new_arrival.product_name}}" />
+              <button style="z-index: 999" (click)="startAddToCloset(new_arrival.product_id, new_arrival.product_name, new_arrival.image_1)" class="like" type="button">
+                <tui-icon icon="@tui.heart-plus" />
+              </button>
+              <span class="tag">{{new_arrival.store_name}}</span>
+            </div>
+            <div (click)="open_product(new_arrival.product_id)" class="info">
+              <p class="desc">
+                {{new_arrival.product_name}}
+              </p>
+              <ion-row>
+                <ion-col>
+                  Ð{{new_arrival.price}}
+                </ion-col>
+                <ion-col>
+                  <svg class="ion-float-end" (click)="open_product(new_arrival.product_id)" width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.700391" y="0.700391" width="25.4" height="25.4" rx="12.7" fill="#7C2108"/>
+                    <rect x="0.700391" y="0.700391" width="25.4" height="25.4" rx="12.7" stroke="white" stroke-width="1.4"/>
+                    <path d="M14.0171 17.4502C14.0171 17.678 13.9266 17.8965 13.7655 18.0576C13.6044 18.2187 13.3859 18.3092 13.1581 18.3092C12.9303 18.3092 12.7118 18.2187 12.5507 18.0576C12.471 17.9778 12.4077 17.8831 12.3645 17.7789C12.3214 17.6747 12.2991 17.563 12.2991 17.4502L12.2997 8.8658C12.2997 8.75304 12.3219 8.64137 12.365 8.53718C12.4081 8.43298 12.4713 8.3383 12.551 8.25853C12.6307 8.17877 12.7254 8.11549 12.8295 8.0723C12.9337 8.02911 13.0454 8.00686 13.1581 8.00682C13.2709 8.00678 13.3826 8.02895 13.4868 8.07207C13.5909 8.11518 13.6856 8.1784 13.7654 8.25811C13.8452 8.33781 13.9084 8.43245 13.9516 8.53662C13.9948 8.64078 14.0171 8.75243 14.0171 8.8652L14.0171 17.4502Z" fill="white"/>
+                    <path d="M8.86518 14.0172C8.63736 14.0172 8.41887 13.9267 8.25778 13.7656C8.09669 13.6045 8.00619 13.386 8.00619 13.1582C8.00619 12.9304 8.09669 12.7119 8.25778 12.5508C8.41887 12.3897 8.63736 12.2992 8.86518 12.2992L17.4495 12.2998C17.5623 12.2998 17.674 12.322 17.7782 12.3651C17.8824 12.4082 17.9771 12.4714 18.0568 12.5511C18.1366 12.6308 18.1999 12.7255 18.2431 12.8296C18.2862 12.9338 18.3085 13.0454 18.3085 13.1582C18.3086 13.271 18.2864 13.3826 18.2433 13.4868C18.2002 13.591 18.137 13.6857 18.0572 13.7655C17.9775 13.8452 17.8829 13.9085 17.7787 13.9517C17.6746 13.9949 17.5629 14.0171 17.4502 14.0172L8.86518 14.0172Z" fill="white"/>
+                  </svg>
+                </ion-col>
+              </ion-row>
+            </div>
+          </article>
+        }
+      </div>
+      <div class="section-head ion-padding-vertical">
         <h2>{{ 'popular_stores' | translate }}</h2>
       </div>
     </section>
   }
+
+  <!-- Vendor Featured Section -->
   @if (!ui_controls.is_loading){
-    @for (vendor_feature of vendor_featured; track vendor_feature.store_id){
+    @for (vendor_feature of vendor_featured; track vendor_feature; let index = $index){
       @if(vendor_feature.products.length > 0){
         <ion-card class="fashion-card">
           <div class="card-top">
             <div class="store-info">
-              <h3 class="store-name abayti_secondary_color">{{ vendor_feature.store_name }}</h3>
+              <section>
+                <tui-chip appearance="floating" class="abayti_secondary_color" iconStart="@tui.store" size="s">
+                  <h3 (click)="open_vendor(vendor_feature.store_id, vendor_feature.store_name)" class="store-name">{{ vendor_feature.store_name }}</h3>
+                </tui-chip>
+              </section>
             </div>
             @if(vendor_feature.rating_count != 0){
-              <ion-chip  class="rating-chip" outline>
+              <ion-chip (click)="open_reviews(vendor_feature.store_id, vendor_feature.store_name)" class="rating-chip" outline>
                 <ion-icon name="star" slot="start"></ion-icon>
                 <span class="rating-value">⭐ {{ vendor_feature.rating }} ({{ vendor_feature.rating_count }} ratings)</span>
               </ion-chip>
@@ -88,9 +205,21 @@
             <p class="store-desc" [innerHTML]="vendor_feature.store_desc"></p>
           }
           <div class="thumb-row" role="list" aria-label="products">
-            @for(vendor_products of vendor_feature.products;  track vendor_products.product_id ){
+            @for(vendor_products of vendor_feature.products; track vendor_products.product_id){
               <div class="thumb" role="listitem">
-                <img (click)="open_product(vendor_products.product_id)"  style="object-fit: cover; object-position: top center;" src="{{vendor_products.image}}" alt="product 1" />
+                <!-- Thumbnail skeleton -->
+                <div class="thumb-skeleton" [class.hidden]="imageLoaded['vendor-' + vendor_feature.store_id + '-' + vendor_products.product_id]">
+                  <div class="skeleton-shimmer"></div>
+                </div>
+                <!-- Actual thumbnail -->
+                <img
+                  (click)="open_product(vendor_products.product_id)"
+                  [class.loaded]="imageLoaded['vendor-' + vendor_feature.store_id + '-' + vendor_products.product_id]"
+                  (load)="onImageLoad('vendor-' + vendor_feature.store_id + '-' + vendor_products.product_id)"
+                  (error)="onImageError('vendor-' + vendor_feature.store_id + '-' + vendor_products.product_id)"
+                  style="object-fit: cover; object-position: top center;"
+                  [src]="vendor_products.image"
+                  alt="product" />
                 <span class="price-tag">Ð{{ vendor_products.price }}</span>
               </div>
             }
@@ -99,9 +228,17 @@
       }
     }
   }
+
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
-      }
+    @if (ui_controls.is_loading){
+      <tui-loader></tui-loader>
+    }
   </span>
+
+  @if(!ui_controls.is_empty){
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+
 </ion-content>

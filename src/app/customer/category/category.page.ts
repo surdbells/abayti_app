@@ -1,5 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-
+import { Component, HostListener, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -15,44 +14,74 @@ import {
   IonList,
   IonModal,
   IonRefresher,
-  IonRefresherContent, IonRow, IonText,
+  IonRefresherContent,
+  IonRow,
+  IonText,
   IonTitle,
-  IonToolbar, NavController, Platform
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
-import {TranslatePipe} from "../../translate.pipe";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
-import {Products} from "../../class/products";
-import {Labels} from "../../class/labels";
-import {Subscription} from "rxjs";
-import {ConnectionService} from "../../service/connection.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
-import {Preferences} from "@capacitor/preferences";
-import {GlobalComponent} from "../../global-component";
-import {InfiniteScrollCustomEvent} from "@ionic/angular";
+import { TranslatePipe } from "../../translate.pipe";
+import { TuiIcon, TuiLoader } from "@taiga-ui/core";
+import { Products } from "../../class/products";
+import { Labels } from "../../class/labels";
+import { Subscription } from "rxjs";
+import { ConnectionService } from "../../service/connection.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NetworkService } from "../../service/network.service";
+import { HotToastService } from "@ngxpert/hot-toast";
+import { Preferences } from "@capacitor/preferences";
+import { GlobalComponent } from "../../global-component";
+import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.page.html',
   styleUrls: ['./category.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButton, IonButtons, IonCol, IonGrid, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonModal, IonRefresher, IonRefresherContent, IonRow, IonText, TranslatePipe, TuiIcon, TuiLoader]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    FormsModule,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonGrid,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonModal,
+    IonRefresher,
+    IonRefresherContent,
+    IonRow,
+    IonText,
+    TranslatePipe,
+    TuiIcon,
+    TuiLoader
+  ]
 })
 export class CategoryPage implements OnInit, OnDestroy {
   category_listing: Products[] = [];
   categories: Labels[] = [];
   isOnline = true;
-  isWishOpen = false; // or control this as you like
+  isWishOpen = false;
   private sub: Subscription;
-  product = {
-    name: "",
-    isFavorite: false,
-    description: "",
-    price: "",
-    quantity: "",
-    size: undefined
-  };
+
+  // Image loading tracking
+  imageLoaded: { [key: number]: boolean } = {};
+
+  // Price filter options
+  priceFilters: number[] = [100, 300, 500, 1000, 2000, 3000, 5000];
+
+  // Selected filter for UI feedback
+  selectedFilter: number | 'all' = 'all';
+
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -60,26 +89,31 @@ export class CategoryPage implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private cdr: ChangeDetectorRef
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
+
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
       this.nav.navigateRoot('/account').then(r => console.log(r));
     });
   }
+
   ui_controls = {
     is_loading: false,
     is_creating: false,
     is_loading_category: false,
     is_empty: false
   }
+
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
+
   initial = {
     id: 0,
     token: "",
@@ -106,6 +140,7 @@ export class CategoryPage implements OnInit, OnDestroy {
     is_vendor: false,
     is_customer: false
   }
+
   addCloset = {
     id: 0,
     token: "",
@@ -114,70 +149,161 @@ export class CategoryPage implements OnInit, OnDestroy {
     product_name: "",
     product_image: ""
   }
+
   ngOnInit() {
     this.initial.category = Number(this.route.snapshot.queryParamMap.get('id'));
     this.initial.name = this.route.snapshot.queryParamMap.get('name') || '';
     this.getObject().then(r => console.log(r));
   }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
-    if (ret.value == null){
+    if (ret.value == null) {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
-    }else{
+    } else {
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
       this.initial.token = this.single_user.token;
       this.productCategory();
     }
   }
+
+  // ========================================
+  // Image Loading Handlers
+  // ========================================
+
+  onImageLoad(productId: number) {
+    this.imageLoaded[productId] = true;
+    this.cdr.markForCheck();
+  }
+
+  onImageError(productId: number) {
+    // Mark as loaded even on error to hide skeleton
+    this.imageLoaded[productId] = true;
+    this.cdr.markForCheck();
+  }
+
+  // Reset image states when fetching new data
+  private resetImageStates() {
+    this.imageLoaded = {};
+  }
+
+  // ========================================
+  // Filter Selection
+  // ========================================
+
+  selectFilter(filter: number | 'all') {
+    this.selectedFilter = filter;
+    this.cdr.markForCheck();
+  }
+
+  // ========================================
+  // API Calls
+  // ========================================
+
   productCategory() {
     this.ui_controls.is_loading = true;
     this.ui_controls.is_empty = false;
     this.initial.limit = 10;
     this.initial.offset = 0;
     this.initial.maxPrice = 20000;
+    this.resetImageStates();
+    this.cdr.markForCheck();
+
     this.networkService.post_request(this.initial, GlobalComponent.category_listing)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.category_listing = response.data;
             this.ui_controls.is_loading = false;
-          }else{
+            this.ui_controls.is_empty = this.category_listing.length === 0;
+          } else {
+            this.category_listing = [];
             this.ui_controls.is_empty = true;
             this.ui_controls.is_loading = false;
           }
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading = false;
+          this.ui_controls.is_empty = true;
+          this.cdr.markForCheck();
         }
-      }))
+      });
+  }
+
+  filterByPrice(maxPrice: number) {
+    this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
+    this.initial.maxPrice = maxPrice;
+    this.initial.offset = 0;
+    this.resetImageStates();
+    this.cdr.markForCheck();
+
+    this.networkService.post_request(this.initial, GlobalComponent.category_listing)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.category_listing = response.data;
+            this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = this.category_listing.length === 0;
+          } else {
+            this.category_listing = [];
+            this.ui_controls.is_empty = true;
+            this.ui_controls.is_loading = false;
+          }
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading = false;
+          this.ui_controls.is_empty = true;
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   get_label() {
     this.ui_controls.is_loading_category = true;
+    this.cdr.markForCheck();
+
     this.networkService.post_request(this.initial, GlobalComponent.readWishlistLabel)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
-            this.ui_controls.is_loading_category = false;
           }
+          this.ui_controls.is_loading_category = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading_category = false;
+          this.cdr.markForCheck();
         }
-      }))
+      });
   }
+
   addToCloset(label: number) {
     this.ui_controls.is_loading_category = true;
     this.addCloset.label_id = label;
     this.isWishOpen = false;
+    this.cdr.markForCheck();
+
     this.networkService.post_request(this.addCloset, GlobalComponent.addWishlist)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.success_notification(response.message);
-            this.ui_controls.is_loading_category = false;
-          }else{
-            this.ui_controls.is_loading_category = false;
           }
+          this.ui_controls.is_loading_category = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading_category = false;
+          this.cdr.markForCheck();
         }
-      }))
+      });
   }
+
   startAddToCloset(product: number, product_name: string, image_1: string) {
     this.addCloset.id = this.single_user.id;
     this.addCloset.token = this.single_user.token;
@@ -189,45 +315,30 @@ export class CategoryPage implements OnInit, OnDestroy {
     this.get_label();
     this.isWishOpen = true;
   }
-  open_product(id: number, name: string) {
-    this.router.navigate(
-      ['/', 'product'],
-      { queryParams: { id, name } }
-    ).then(r => console.log(r));
-  }
-  error_notification(message: string) {
-    this.toast.error(message, {
-      position: "top-center"
-    });
-  }
-  success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'top-center'
-    });
-  }
-  onDismiss() {
-    this.isWishOpen= false;
-  }
-  triggerBack() {
-    this.nav.back();
-  }
 
+  // ========================================
+  // Infinite Scroll
+  // ========================================
 
   getMoreItems() {
     this.initial.id = this.single_user.id;
     this.initial.token = this.single_user.token;
-    this.initial.offset = this.initial.offset + this.initial.limit
-    this.networkService.post_request(this.initial, GlobalComponent.best_sellers_listing)
-      .subscribe(({
+    this.initial.offset = this.initial.offset + this.initial.limit;
+
+    this.networkService.post_request(this.initial, GlobalComponent.category_listing)
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.category_listing.push(...response.data);
-          }else{
+            this.cdr.markForCheck();
+          } else {
             this.ui_controls.is_empty = true;
+            this.cdr.markForCheck();
           }
         }
-      }))
+      });
   }
+
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
@@ -235,34 +346,44 @@ export class CategoryPage implements OnInit, OnDestroy {
     }, 500);
   }
 
+  // ========================================
+  // Refresh
+  // ========================================
+
   handleRefresh(event: any) {
+    this.selectedFilter = 'all';
+    this.resetImageStates();
+    this.productCategory();
     setTimeout(() => {
-      this.ui_controls.is_loading = true;
-      this.productCategory();
       event.target.complete();
-    }, 200);
+    }, 500);
   }
 
-  filterByPrice(number: number) {
-    this.ui_controls.is_loading = true;
-    this.ui_controls.is_empty = false;
-    this.initial.maxPrice = number;
-    this.initial.offset = 0;
-    this.networkService.post_request(this.initial, GlobalComponent.best_sellers_listing)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.category_listing = response.data;
-            this.ui_controls.is_loading = false;
-          }
-        }
-      }))
+  // ========================================
+  // Navigation
+  // ========================================
+
+  open_product(id: number, name: string) {
+    this.router.navigate(['/', 'product'], { queryParams: { id, name } }).then(r => console.log(r));
   }
 
-  toggleClass(event: Event) {
-    document.querySelectorAll('.cat_active')
-      .forEach(el => el.classList.remove('cat_active'));
-    const el = event.currentTarget as HTMLElement;
-    el.classList.add('cat_active');
+  triggerBack() {
+    this.nav.back();
+  }
+
+  onDismiss() {
+    this.isWishOpen = false;
+  }
+
+  // ========================================
+  // Notifications
+  // ========================================
+
+  error_notification(message: string) {
+    this.toast.error(message, { position: "top-center" });
+  }
+
+  success_notification(message: string) {
+    this.toast.success(message, { position: 'top-center' });
   }
 }

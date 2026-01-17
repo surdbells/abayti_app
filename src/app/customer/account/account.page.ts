@@ -85,7 +85,6 @@ export class AccountPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
   new_arrivals: Products[] = [];
   vendor_featured: Store[] = [];
-  @ViewChild('myRefresher') refresher!: IonRefresher;
   isOnline = true;
   categories: Labels[] = [];
   isWishOpen = false;
@@ -194,14 +193,6 @@ export class AccountPage implements OnInit, OnDestroy {
     f_subtotal: "",
     f_total: ""
   };
-  filter = {
-    id: 0,
-    token: "",
-    category: [1],
-    price_start: this.range().lower,
-    price_end: this.range().upper,
-    delivery: "1 - 3"
-  }
   single_user = {
     id: 0,
     token: "",
@@ -300,16 +291,6 @@ export class AccountPage implements OnInit, OnDestroy {
     ).then(r => console.log(r));
   }
 
-  handleRefresh(event: any) {
-    setTimeout(() => {
-      this.ui_controls.is_loading = true;
-      this.imageLoaded = {}; // Reset image loading states
-      this.get_best_sellers();
-      this.get_new_arrivals();
-      this.get_featured_products();
-      event.target.complete();
-    }, 200);
-  }
 
   async user_sign_out() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -331,43 +312,6 @@ export class AccountPage implements OnInit, OnDestroy {
       ],
     });
     await actionSheet.present();
-  }
-
-  readonly min = 1;
-  readonly max = 5000;
-  readonly step = 5;
-
-  onRangeChange(ev: any) {
-    const v = ev?.detail?.value as DualRange | number;
-    if (typeof v === 'number') return;
-    const lower = this.clamp(v.lower, this.min, Math.min(v.upper, this.max));
-    const upper = this.clamp(v.upper, Math.max(v.lower, this.min), this.max);
-    this.range.set({ lower: this.snap(lower), upper: this.snap(upper) });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  onLowerInput(ev: any) {
-    const raw = Number(ev?.target?.value ?? this.range().lower);
-    const snapped = this.snap(this.clamp(raw, this.min, this.range().upper));
-    this.range.set({ lower: snapped, upper: this.range().upper });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  onUpperInput(ev: any) {
-    const raw = Number(ev?.target?.value ?? this.range().upper);
-    const snapped = this.snap(this.clamp(raw, this.range().lower, this.max));
-    this.range.set({ lower: this.range().lower, upper: snapped });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  private clamp(n: number, lo: number, hi: number) {
-    return Math.min(Math.max(n, lo), hi);
-  }
-  private snap(n: number) {
-    return Math.round(n / this.step) * this.step;
   }
 
   get_best_sellers() {
@@ -414,20 +358,6 @@ export class AccountPage implements OnInit, OnDestroy {
           this.vendor_featured = response.data;
           this.meta = response.message;
           this.ui_controls.is_loading = false;
-        }
-      }))
-  }
-
-  get_filter_featured_products() {
-    this.get_featured.id = this.single_user.id;
-    this.get_featured.token = this.single_user.token;
-    this.filter.id = this.single_user.id;
-    this.filter.token = this.single_user.token;
-    this.networkService.post_request(this.filter, GlobalComponent.filterfeatured)
-      .subscribe(({
-        next: (response) => {
-          this.vendor_featured = [];
-          this.vendor_featured = response.data;
         }
       }))
   }
@@ -496,11 +426,6 @@ export class AccountPage implements OnInit, OnDestroy {
     ).then(r => console.log(r));
   }
 
-  toggleClass(event: Event) {
-    const el = event.currentTarget as HTMLElement;
-    el.classList.toggle('cat_active');
-  }
-
   open_vendor(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendors'],
@@ -516,9 +441,11 @@ export class AccountPage implements OnInit, OnDestroy {
   }
 
   refresh_products() {
-    if(this.refresher){
-      this.handleRefresh({target: this.refresher});
-    }
+    this.ui_controls.is_loading = true;
+    this.imageLoaded = {}; // Reset image loading states
+    this.get_best_sellers();
+    this.get_new_arrivals();
+    this.get_featured_products();
   }
 
   load_cart() {
@@ -537,14 +464,6 @@ export class AccountPage implements OnInit, OnDestroy {
 
   OnDidDismiss() {
     this.isWishOpen = false;
-  }
-
-  onDidDismiss() {
-    this.isFilterOpen = false;
-  }
-
-  products_by_category(number: number) {
-
   }
 
   getMoreItems() {
@@ -568,9 +487,5 @@ export class AccountPage implements OnInit, OnDestroy {
     setTimeout(() => {
       event.target.complete().then(r => console.log(r));
     }, 500);
-  }
-
-  explore_products() {
-    // Placeholder for filter explore functionality
   }
 }

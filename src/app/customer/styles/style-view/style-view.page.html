@@ -1,127 +1,196 @@
 <ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
-      <div (click)="triggerBack()" class="icon_left">
+      <button type="button" (click)="triggerBack()" class="icon_left">
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
-      </div>
+      </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">Style details</ion-title>
+    <ion-title class="header-title ion-text-center">Style Details</ion-title>
   </ion-toolbar>
 
-  <ion-card class="transparent-card">
-    <ion-card-header class="ion-no-padding">
-      <ion-card-title class="title">{{ style.style_name }}</ion-card-title>
-    </ion-card-header>
-  </ion-card>
+  <!-- Style Name -->
+  @if(style){
+    <div class="style-name-wrap">
+      <h1 class="style-name">{{ style.style_name }}</h1>
+    </div>
 
-  <ion-card class="summary_card">
-    <ion-card-header class="summary-header">
-      <div class="title-row">
+    <!-- Summary Card -->
+    <div class="summary-card">
+      <div class="summary-header">
         <h2>STYLE SUMMARY</h2>
-        <div class="item-badge">{{ style.products.length }} items</div>
+        <span class="item-badge">{{ style.products.length }} items</span>
       </div>
-    </ion-card-header>
-    <ion-card-content>
-      @for(item of style.products; track $index){
-        <div class="item-row">
-          <span class="item-name">{{ item.product_name }}</span>
-          <span class="item-price">Ð{{ item.price | number:'1.2-2' }}</span>
-        </div>
-      }
 
-      <div class="divider"></div>
+      <div class="summary-items">
+        @for(item of style.products; track item.product_id){
+          <div class="item-row">
+            <span class="item-name">{{ item.product_name }}</span>
+            <span class="item-price">Ð{{ item.price | number:'1.2-2' }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="summary-divider"></div>
+
       <div class="total-row">
         <span class="total-label">Total Style Price</span>
         <span class="total-price">Ð{{ getTotal() | number:'1.2-2' }}</span>
       </div>
-    </ion-card-content>
-  </ion-card>
+    </div>
+  }
 </ion-header>
 
-<ion-content class="ion-padding" [fullscreen]="true">
-  <ion-card class="transparent-card">
-    <ion-card-header>
-      <ion-card-title class="section_title">Products in this style</ion-card-title>
-    </ion-card-header>
-  </ion-card>
-  @for(item of style.products; track $index){
-    <ion-card class="product-card">
-      <div class="image-wrapper">
-        <img loading="lazy" [src]="item.image" alt="{{ item.product_name }}" class="product-image" />
-      </div>
-      <ion-card-content class="card-content">
-        <h2 class="title_p">{{ item.product_name }}</h2>
-        <p class="description">
-          Beautiful floral summer dress with flowing fabric
-        </p>
-        <p class="price">Ð{{ item.price }}</p>
-        <div class="actions">
-          <ion-button (click)="open_product(item.product_id)" fill="solid" class="btn secondary">
-            <tui-icon icon="@tui.shopping-cart"></tui-icon> + Cart
-          </ion-button>
-          <ion-button (click)="startAddToCloset(item.product_id, item.product_name, item.image)" fill="solid" class="btn primary">
-            <tui-icon icon="@tui.columns-3"></tui-icon> + Closet
-          </ion-button>
-        </div>
-      </ion-card-content>
-    </ion-card>
+<ion-content class="page-bg ion-padding" [fullscreen]="true">
+  <!-- Section Title -->
+  @if(style){
+    <div class="section-header">
+      <h2 class="section-title">Products in this style</h2>
+    </div>
   }
 
-  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()"  [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
+  <!-- Product Cards -->
+  @if(style){
+    @for(item of style.products; track item.product_id){
+      <article class="product-card">
+        <!-- Image with Skeleton -->
+        <div class="image-wrapper">
+          <div class="img-skeleton" [class.hidden]="imageLoaded[item.product_id]">
+            <div class="skeleton-shimmer"></div>
+          </div>
+          <img
+            loading="lazy"
+            decoding="async"
+            [src]="item.image"
+            [alt]="item.product_name"
+            class="product-image"
+            [class.loaded]="imageLoaded[item.product_id]"
+            (load)="onImageLoad(item.product_id)"
+            (error)="onImageError(item.product_id)">
+        </div>
+
+        <!-- Product Info -->
+        <div class="card-content">
+          <h3 class="product-title">{{ item.product_name }}</h3>
+          <p class="product-price">Ð{{ item.price | number:'1.2-2' }}</p>
+
+          <div class="actions">
+            <ion-button
+              type="button"
+              (click)="open_product(item.product_id, item.product_name)"
+              fill="solid"
+              class="action-btn cart-btn">
+              <tui-icon icon="@tui.shopping-cart" slot="start"></tui-icon>
+              Add to Cart
+            </ion-button>
+            <ion-button
+              type="button"
+              (click)="startAddToCloset(item.product_id, item.product_name, item.image)"
+              fill="solid"
+              class="action-btn closet-btn">
+              <tui-icon icon="@tui.heart" slot="start"></tui-icon>
+              Save
+            </ion-button>
+          </div>
+        </div>
+      </article>
+    }
+  }
+
+  <!-- Loading State -->
+  @if(!style){
+    <div class="loading-state">
+      <div class="section-header">
+        <div class="skeleton-text section-skeleton">
+          <div class="skeleton-shimmer"></div>
+        </div>
+      </div>
+      @for(skeleton of [1,2,3]; track skeleton){
+        <article class="product-card skeleton-card">
+          <div class="image-wrapper">
+            <div class="img-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="skeleton-text title-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+            <div class="skeleton-text price-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+            <div class="skeleton-buttons">
+              <div class="skeleton-btn"><div class="skeleton-shimmer"></div></div>
+              <div class="skeleton-btn"><div class="skeleton-shimmer"></div></div>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+
+  <!-- Wishlist Modal -->
+  <ion-modal
+    [isOpen]="isWishOpen"
+    (didDismiss)="OnDidDismiss()"
+    [initialBreakpoint]="0.5"
+    [backdropDismiss]="true"
+    [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
+            <ion-button type="button" (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        @if (!ui_controls.is_loading_category){
-          <ion-list class="custom-list">
-            @for(category of categories; track category.id; let i = $index){
-              <ion-item (click)="addToCloset(category.id)" button detail="false">
-                <tui-icon icon="@tui.plus"  [style.color]="'var(--ion-color-secondary)'" slot="start" />
-                <ion-label>{{category.name}}</ion-label>
+      <ion-content class="ion-padding modal-content">
+        @if(!ui_controls.is_loading_category){
+          <ion-list class="wishlist-list">
+            @for(category of categories; track category.id){
+              <ion-item (click)="addToCloset(category.id)" lines="none" button detail="false" class="wishlist-item">
+                <div class="folder-icon" slot="start">
+                  <tui-icon icon="@tui.folder-plus"></tui-icon>
+                </div>
+                <ion-label>
+                  <h2>{{category.name}}</h2>
+                </ion-label>
+                <tui-icon icon="@tui.chevron-right" slot="end" class="chevron"></tui-icon>
               </ion-item>
             }
           </ion-list>
         }
-        <ion-row>
-          <ion-col>
-              <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-                @if (ui_controls.is_loading_category){
-                  <tui-loader></tui-loader>
-                }
-              </span>
-          </ion-col>
-        </ion-row>
+        @if(ui_controls.is_loading_category){
+          <div class="modal-loading">
+            <tui-loader></tui-loader>
+          </div>
+        }
       </ion-content>
     </ng-template>
   </ion-modal>
 </ion-content>
-<ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
-  <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
-    <ion-tab-button (click)="user_home()" tab="home">
-      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
+
+<ion-footer class="app-footer ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button type="button" (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home"/>
+      <ion-label>Home</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
+    <ion-tab-button type="button" (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.globe"/>
+      <ion-label>Explore</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
+    <ion-tab-button type="button" (click)="user_cart()" tab="cart">
+      <tui-icon icon="@tui.shopping-cart"/>
+      <ion-label>My Cart</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_styles()" tab="sketch">
-      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+    <ion-tab-button type="button" (click)="user_styles()" class="active-tab" tab="sketch">
+      <tui-icon icon="@tui.blocks"/>
+      <ion-label>Style hub</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_profile()" tab="profile">
-      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
+    <ion-tab-button type="button" (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-pen"/>
+      <ion-label>Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

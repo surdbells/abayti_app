@@ -473,7 +473,7 @@ ion-tab-button  {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   /* hide scrollbar (mobile) */
   &::-webkit-scrollbar { display: none; }
 }

@@ -234,4 +234,8 @@ export class SearchPage implements OnInit, OnDestroy {
   onDismiss() {
     this.isWishOpen= false;
   }
+
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
 }

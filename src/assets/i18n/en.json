@@ -183,6 +183,7 @@
   "review_info": "Confirm delivery info before checkout.",
   "confirm_delivery_info": "Confirm delivery information.",
   "delivery_info": "Confirm delivery information.",
+  "delivery_time_multiple": "Delivery times may vary for orders from multiple stores.",
   "order_summary": "Order summary",
   "show_all": "Show All",
   "show_more": "Show more"

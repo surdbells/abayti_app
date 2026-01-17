@@ -1,27 +1,32 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule, Platform} from "@ionic/angular";
-import {TranslatePipe} from "../../translate.pipe";
+import { InfiniteScrollCustomEvent, Platform } from "@ionic/angular";
+import { TranslatePipe } from "../../translate.pipe";
 import {
-  IonButtons, IonCard, IonCardContent,
+  IonButton,
+  IonButtons,
   IonContent,
   IonFooter,
-  IonHeader, IonInfiniteScroll, IonInfiniteScrollContent, IonLabel, IonRefresher, IonRefresherContent, IonSkeletonText,
+  IonHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLabel,
+  IonRefresher,
+  IonRefresherContent,
   IonTabBar,
   IonTabButton,
   IonTitle,
-  IonToolbar, NavController
+  IonToolbar,
+  NavController
 } from "@ionic/angular/standalone";
-import {Router, RouterLink} from "@angular/router";
-import {TuiIcon} from "@taiga-ui/core";
-import {Subscription} from "rxjs";
-import {ConnectionService} from "../../service/connection.service";
-import {BlockerService} from "../../blocker.service";
-import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
-import {Preferences} from "@capacitor/preferences";
-import {GlobalComponent} from "../../global-component";
+import { Router, RouterLink } from "@angular/router";
+import { TuiIcon } from "@taiga-ui/core";
+import { Subscription } from "rxjs";
+import { ConnectionService } from "../../service/connection.service";
+import { NetworkService } from "../../service/network.service";
+import { HotToastService } from "@ngxpert/hot-toast";
+import { Preferences } from "@capacitor/preferences";
+import { GlobalComponent } from "../../global-component";
 
 export interface StyleProduct {
   product_id: number;
@@ -37,16 +42,21 @@ export interface Styles {
   style_name: string;
   products: StyleProduct[];
 }
+
+type TabType = 'community' | 'abayti' | 'personal';
+
 @Component({
   selector: 'app-styles',
   templateUrl: './styles.page.html',
   styleUrls: ['./styles.page.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IonHeader,
     IonToolbar,
     IonButtons,
     IonTitle,
+    IonButton,
     RouterLink,
     IonContent,
     IonFooter,
@@ -56,29 +66,29 @@ export interface Styles {
     IonLabel,
     IonRefresher,
     IonRefresherContent,
-    IonCard,
-    IonSkeletonText,
-    IonCardContent,
     TranslatePipe,
     IonInfiniteScroll,
     IonInfiniteScrollContent
   ]
 })
-export class StylesPage implements OnInit {
-  activeTab: 'community' | 'abayti' | 'personal' = 'community';
+export class StylesPage implements OnInit, OnDestroy {
+  activeTab: TabType = 'community';
   styles: Styles[] = [];
-  @ViewChild('myRefresher') refresher!: IonRefresher;
+
+  // Image loading tracking: "styleId-imageIndex" -> boolean
+  imageLoaded: { [key: string]: boolean } = {};
+
   isOnline = true;
   private sub: Subscription;
+
   constructor(
     private router: Router,
     private nav: NavController,
     private platform: Platform,
     private net: ConnectionService,
-    private blocker: BlockerService,
-    private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private cdr: ChangeDetectorRef
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');
@@ -88,12 +98,13 @@ export class StylesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.ui_controls.is_loading = true;
-    setTimeout(() => {
-      this.ui_controls.is_loading = false;
-    }, 3000);
     this.getObject().then(r => console.log(r));
   }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
   single_user = {
     id: 0,
     token: "",
@@ -110,111 +121,179 @@ export class StylesPage implements OnInit {
     is_vendor: false,
     is_customer: false
   }
+
   ui_controls = {
     is_loading: false,
     is_empty: false,
     is_loading_category: false
   }
+
   initial = {
     id: 0,
     token: "",
     type: "community",
-    limit: 5,
+    limit: 10,
     offset: 0
   }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
-    if (ret.value == null){
+    if (ret.value == null) {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
-    }else{
+    } else {
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
       this.initial.token = this.single_user.token;
       this.get_styles('community');
     }
   }
-  error_notification(message: string) {
-    this.toast.error(message, {
-      position: "top-center"
-    });
-  }
-  success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'top-center'
-    });
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+
+  // ========================================
+  // Image Loading Handlers
+  // ========================================
+
+  onImageLoad(styleId: number, imageIndex: number) {
+    const key = `${styleId}-${imageIndex}`;
+    this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
   }
 
-  switchTab(tab: 'community' | 'abayti' | 'personal') {
+  onImageError(styleId: number, imageIndex: number) {
+    const key = `${styleId}-${imageIndex}`;
+    this.imageLoaded[key] = true; // Hide skeleton on error
+    this.cdr.markForCheck();
+  }
+
+  private resetImageStates() {
+    this.imageLoaded = {};
+  }
+
+  // ========================================
+  // Tab Switching
+  // ========================================
+
+  switchTab(tab: TabType) {
+    if (this.activeTab === tab) return;
+
     this.activeTab = tab;
+    this.resetImageStates();
+    this.get_styles(tab);
   }
-  handleRefresh(event: any) {
-    setTimeout(() => {
-      this.ui_controls.is_loading = true;
-     // this.get_best_sellers();
-    //  this.get_featured_products();
-      event.target.complete();
-    }, 200);
-  }
-  refresh() {
-    if(this.refresher){
-      this.handleRefresh({refresher: this.refresher});
-    }
-  }
+
+  // ========================================
+  // API Calls
+  // ========================================
+
   get_styles(type: string) {
     this.styles = [];
     this.initial.type = type;
+    this.initial.offset = 0;
     this.ui_controls.is_loading = true;
+    this.ui_controls.is_empty = false;
+    this.cdr.markForCheck();
+
     this.networkService.post_request(this.initial, GlobalComponent.styles_list)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.styles = response.data;
-            this.ui_controls.is_loading = false;
-          }else {
-            this.ui_controls.is_loading = false;
+            this.ui_controls.is_empty = this.styles.length === 0;
+          } else {
+            this.styles = [];
+            this.ui_controls.is_empty = true;
           }
+          this.ui_controls.is_loading = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading = false;
+          this.ui_controls.is_empty = true;
+          this.cdr.markForCheck();
         }
-      }))
+      });
   }
+
   getMoreItems() {
     this.initial.id = this.single_user.id;
     this.initial.token = this.single_user.token;
-    this.initial.offset = this.initial.offset + this.initial.limit
+    this.initial.offset = this.initial.offset + this.initial.limit;
+
     this.networkService.post_request(this.initial, GlobalComponent.styles_list)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.styles.push(...response.data);
-          }else{
+            this.cdr.markForCheck();
+          } else {
             this.ui_controls.is_empty = true;
+            this.cdr.markForCheck();
           }
         }
-      }))
+      });
   }
+
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
       event.target.complete().then(r => console.log(r));
     }, 500);
   }
+
+  // ========================================
+  // Refresh
+  // ========================================
+
+  handleRefresh(event: any) {
+    this.resetImageStates();
+    this.get_styles(this.activeTab);
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
+  }
+
+  // ========================================
+  // Navigation
+  // ========================================
+
   open_style(style: Styles) {
     this.router.navigate(['/style-view'], {
-      state: {style}
+      state: { style }
     }).then(r => console.log(r));
   }
+
   triggerBack() {
     this.nav.back();
   }
+
   createStyle() {
     this.router.navigate(['/', 'create']).then(r => console.log(r));
+  }
+
+  user_profile() {
+    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+
+  user_home() {
+    this.router.navigate(['/', 'account']).then(r => console.log(r));
+  }
+
+  user_explore() {
+    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+  }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+
+  // ========================================
+  // Notifications
+  // ========================================
+
+  error_notification(message: string) {
+    this.toast.error(message, { position: "top-center" });
+  }
+
+  success_notification(message: string) {
+    this.toast.success(message, { position: 'top-center' });
   }
 }

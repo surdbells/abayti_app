@@ -363,7 +363,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           this.updateVerticalPagination(currentIndex, totalSlides);
 
           // Fetch more when near end
-          if (totalSlides - currentIndex <= 3 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
+          if (totalSlides - currentIndex <= 5 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
             this.getMoreItems();
           }
 
@@ -459,7 +459,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 20,
+    limit: 10,
     offset: 0
   }
 

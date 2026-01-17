@@ -1,309 +1,220 @@
 <ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
-      <div (click)="triggerBack()" class="icon_left">
+      <button type="button" (click)="triggerBack()" class="icon_left">
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
-      </div>
+      </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">Style Hub</ion-title>
+    <ion-title class="header-title ion-text-center">Style Hub</ion-title>
     <ion-buttons slot="end">
-      <div (click)="createStyle()" class="icon-btn">
+      <button type="button" (click)="createStyle()" class="icon-btn">
         <tui-icon icon="@tui.plus"></tui-icon>
-      </div>
+      </button>
     </ion-buttons>
   </ion-toolbar>
+
   <!-- Toggle Tabs -->
   <div class="toggle-row">
-    <button class="toggle-btn" [class.active]="activeTab === 'community'" (click)="switchTab('community'); get_styles('community')"> Community </button>
-    <button class="toggle-btn" [class.active]="activeTab === 'abayti'" (click)="switchTab('abayti'); get_styles('abayti')"> 3bayti </button>
-    <button class="toggle-btn" [class.active]="activeTab === 'personal'" (click)="switchTab('personal'); get_styles('personal')"> My styles </button>
+    <button
+      type="button"
+      class="toggle-btn"
+      [class.active]="activeTab === 'community'"
+      (click)="switchTab('community')">
+      Community
+    </button>
+    <button
+      type="button"
+      class="toggle-btn"
+      [class.active]="activeTab === 'abayti'"
+      (click)="switchTab('abayti')">
+      3bayti
+    </button>
+    <button
+      type="button"
+      class="toggle-btn"
+      [class.active]="activeTab === 'personal'"
+      (click)="switchTab('personal')">
+      My Styles
+    </button>
   </div>
 </ion-header>
-@if(this.activeTab === 'community'){
-  <ion-content class="ion-padding" [fullscreen]="true">
-    @if (!ui_controls.is_loading && styles.length == 0){
-      <div class="empty-state">
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="shirt"></tui-icon>
-            <h2>{{ 'heading_no_styles' | translate }}</h2>
-          </ion-card-content>
-        </ion-card>
-      </div>
-    }
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    @if(ui_controls.is_loading){
-      <section class="loading_state">
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_loading){
-      <section class="content_state">
-        <div class="product-wrapper">
-          @for(item of styles; track $index){
-            <ion-card (click)="open_style(item)" class="product-card-actual">
-              <section class="card-section">
-                <img loading="lazy"  [src]="item.products[0].image" class="top-img" alt="product" />
-                <div class="middle-row">
-                  <img loading="lazy"  [src]="item.products[1].image" class="sub-img" alt="product" />
-                  <img loading="lazy"  [src]="item.products[2].image" class="sub-img" alt="product" />
-                </div>
-              </section>
-              <div class="bottom-content">
-                <h3 class="title">{{ item.style_name }}</h3>
-                <p class="count">4 items</p>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_empty){
-      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-        <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    }
-  </ion-content>
-}
-@if(this.activeTab === 'abayti'){
-  <ion-content class="ion-padding" [fullscreen]="true">
-    @if (!ui_controls.is_loading && styles.length == 0){
-      <div class="empty-state">
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="shirt"></tui-icon>
-            <h2>{{ 'heading_no_styles' | translate }}</h2>
-          </ion-card-content>
-        </ion-card>
-      </div>
-    }
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    @if(ui_controls.is_loading){
-      <section class="loading_state">
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_loading){
-      <section class="content_state">
-        <div class="product-wrapper">
-          @for(item of styles; track $index){
-            <ion-card (click)="open_style(item)" class="product-card-actual">
-              <section class="card-section">
-                <img loading="lazy"  [src]="item.products[0].image" class="top-img" alt="product" />
-                <div class="middle-row">
-                  <img loading="lazy"  [src]="item.products[1].image" class="sub-img" alt="product" />
-                  <img loading="lazy"  [src]="item.products[2].image" class="sub-img" alt="product" />
-                </div>
-              </section>
-              <div class="bottom-content">
-                <h3 class="title">{{ item.style_name }}</h3>
-                <p class="count">4 items</p>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_empty){
-      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-        <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    }
-  </ion-content>
-}
-@if(this.activeTab === 'personal'){
-  <ion-content class="ion-padding" [fullscreen]="true">
-    @if (!ui_controls.is_loading && styles.length == 0){
-      <div class="empty-state">
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="shirt"></tui-icon>
-            <h2>{{ 'you_no_styles' | translate }}</h2>
-          </ion-card-content>
-        </ion-card>
-      </div>
-    }
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" #myRefresher>
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    @if(ui_controls.is_loading){
-      <section class="loading_state">
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-        <div class="loading-wrapper">
-          @for(item of [1,2]; track $index){
-            <ion-card class="skeleton-card">
-              <div class="top-block skeleton"></div>
-              <div class="middle-row">
-                <div class="small-block skeleton"></div>
-                <div class="small-block skeleton"></div>
-              </div>
-              <div class="bottom-block skeleton">
-                <ion-skeleton-text></ion-skeleton-text>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_loading){
-      <section class="content_state">
-        <div class="product-wrapper">
-          @for(item of styles; track $index){
-            <ion-card (click)="open_style(item)" class="product-card-actual">
-              <section class="card-section">
-                <img loading="lazy"  [src]="item.products[0].image" class="top-img" alt="product" />
-                <div class="middle-row">
-                  <img loading="lazy"  [src]="item.products[1].image" class="sub-img" alt="product" />
-                  <img loading="lazy"  [src]="item.products[2].image" class="sub-img" alt="product" />
-                </div>
-              </section>
-              <div class="bottom-content">
-                <h3 class="title">{{ item.style_name }}</h3>
-                <p class="count">4 items</p>
-              </div>
-            </ion-card>
-          }
-        </div>
-      </section>
-    }
-    @if(!ui_controls.is_empty){
-      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-        <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="dots"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    }
-  </ion-content>
-}
 
+<ion-content class="page-bg ion-padding" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Empty State -->
+  @if(!ui_controls.is_loading && styles.length === 0){
+    <div class="empty-state">
+      <div class="empty-icon-wrap">
+        <tui-icon icon="@tui.shirt"></tui-icon>
+      </div>
+      <h3>{{ activeTab === 'personal' ? 'No styles yet' : 'No styles available' }}</h3>
+      <p>{{ activeTab === 'personal' ? 'Create your first style collection' : 'Check back later for new styles' }}</p>
+      @if(activeTab === 'personal'){
+        <ion-button type="button" fill="outline" size="small" (click)="createStyle()">
+          <tui-icon icon="@tui.plus" style="margin-right: 6px;"></tui-icon>
+          Create Style
+        </ion-button>
+      }
+    </div>
+  }
+
+  <!-- Loading Skeleton Grid -->
+  @if(ui_controls.is_loading){
+    <div class="style-grid">
+      @for(skeleton of [1,2,3,4,5,6]; track skeleton){
+        <div class="style-card skeleton-card">
+          <div class="card-images">
+            <div class="main-img-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+            <div class="sub-images">
+              <div class="sub-img-skeleton">
+                <div class="skeleton-shimmer"></div>
+              </div>
+              <div class="sub-img-skeleton">
+                <div class="skeleton-shimmer"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="skeleton-text title-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+            <div class="skeleton-text count-skeleton">
+              <div class="skeleton-shimmer"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Styles Grid -->
+  @if(!ui_controls.is_loading && styles.length > 0){
+    <div class="style-grid">
+      @for(style of styles; track style.id){
+        <div class="style-card" (click)="open_style(style)">
+          <div class="card-images">
+            <!-- Main Image -->
+            <div class="main-img-wrap">
+              <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-0']">
+                <div class="skeleton-shimmer"></div>
+              </div>
+              @if(style.products[0]){
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  [src]="style.products[0].image"
+                  class="main-img"
+                  [class.loaded]="imageLoaded[style.id + '-0']"
+                  (load)="onImageLoad(style.id, 0)"
+                  (error)="onImageError(style.id, 0)"
+                  alt="{{style.style_name}}">
+              }
+            </div>
+
+            <!-- Sub Images -->
+            <div class="sub-images">
+              <div class="sub-img-wrap">
+                <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-1']">
+                  <div class="skeleton-shimmer"></div>
+                </div>
+                @if(style.products[1]){
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    [src]="style.products[1].image"
+                    class="sub-img"
+                    [class.loaded]="imageLoaded[style.id + '-1']"
+                    (load)="onImageLoad(style.id, 1)"
+                    (error)="onImageError(style.id, 1)"
+                    alt="{{style.style_name}}">
+                }
+              </div>
+              <div class="sub-img-wrap">
+                <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-2']">
+                  <div class="skeleton-shimmer"></div>
+                </div>
+                @if(style.products[2]){
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    [src]="style.products[2].image"
+                    class="sub-img"
+                    [class.loaded]="imageLoaded[style.id + '-2']"
+                    (load)="onImageLoad(style.id, 2)"
+                    (error)="onImageError(style.id, 2)"
+                    alt="{{style.style_name}}">
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="card-info">
+            <h3 class="style-title">{{ style.style_name }}</h3>
+            <p class="style-count">{{ style.products.length }} items</p>
+            @if(style.total_price){
+              <p class="style-price">Ð{{ style.total_price }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Infinite Scroll -->
+  @if(!ui_controls.is_empty && !ui_controls.is_loading && styles.length > 0){
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" threshold="150px">
+      <ion-infinite-scroll-content loadingSpinner="dots"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+</ion-content>
+
+
+<!--<ion-footer class="app-footer ion-no-border">
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button type="button" (click)="user_home()" tab="home">
+      <tui-icon icon="@tui.home"/>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button type="button" (click)="user_explore()" tab="explore">
+      <tui-icon icon="@tui.globe"/>
+      <ion-label>Explore</ion-label>
+    </ion-tab-button>
+    <ion-tab-button type="button" (click)="user_cart()" tab="cart">
+      <tui-icon icon="@tui.shopping-cart"/>
+      <ion-label>My Cart</ion-label>
+    </ion-tab-button>
+    <ion-tab-button type="button" class="active-tab" tab="sketch">
+      <tui-icon icon="@tui.blocks"/>
+      <ion-label>Style hub</ion-label>
+    </ion-tab-button>
+    <ion-tab-button type="button" (click)="user_profile()" tab="profile">
+      <tui-icon icon="@tui.user-pen"/>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>-->
 <ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
   <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home">
       <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
+      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
       <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="user_explore()" tab="explore">
+    <ion-tab-button (click)="user_cart()" tab="explore">
       <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
-    <ion-tab-button (click)="refresh()" tab="sketch">
+    <ion-tab-button  (click)="get_styles('community')" tab="sketch">
       <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+      <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Style hub</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
       <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>

@@ -40,8 +40,12 @@
       <tui-loader></tui-loader>
     }
   </span>
-  <button appearance="neutral" size="m"  tuiNotification type="button">
+  <button appearance="neutral" size="m" tuiNotification type="button">
     {{ 'review_info' | translate }}
+  </button>
+  <hr>
+  <button appearance="neutral" size="m" tuiNotification type="button">
+    {{ 'delivery_time_multiple' | translate }}
   </button>
   <ion-accordion-group class="ion-margin-vertical" #accordionGroup [value]="['first']">
     <ion-accordion value="first">

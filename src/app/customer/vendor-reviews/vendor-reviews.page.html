@@ -21,7 +21,7 @@
       <div class="store-info">
         <div class="store-name">{{view_vendor.name}}</div>
         <div class="store-rating-title">Store Rating</div>
-        <div class="stars-row">
+        <div class="stars-row ion-padding-top">
           <label>
             <tui-rating class="rating" [(ngModel)]="view_vendor.rating"  [readOnly]="true" />
           </label>
@@ -122,8 +122,8 @@
           <div class="divider"></div>
           <!-- Rating -->
           <div class="field">
-            <label class="field__label">YOUR RATING</label>
-            <tui-rating class="rating" [(ngModel)]="add_new_review.star"  />
+            <label class="field__label ion-padding-bottom">YOUR RATING</label>
+            <tui-rating class="rating ion-margin-top" [(ngModel)]="add_new_review.star"  />
           </div>
           <!-- Review title -->
           <div class="field">
@@ -183,7 +183,7 @@
     </ion-tab-button>
     <ion-tab-button (click)="user_styles()" tab="sketch">
       <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
-      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Styles</ion-label>
+      <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Style hub</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
       <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>

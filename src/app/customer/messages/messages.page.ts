@@ -167,4 +167,8 @@ export class MessagesPage implements OnInit, OnDestroy {
       { queryParams: { store, name } }
     ).then(r => console.log(r));
   }
+
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
 }

@@ -3,65 +3,47 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   EventEmitter,
-  OnInit, Output,
+  OnInit,
+  OnDestroy,
+  Output,
   signal,
-  ViewChild
+  ViewChild,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle, IonChip,
   IonCol,
   IonContent,
   IonFooter,
-  IonGrid,
   IonHeader,
-  IonIcon,
   IonImg,
-  IonInput,
   IonItem,
-  IonLabel, IonList,
+  IonLabel,
   IonModal,
-  IonRange,
   IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonTabBar,
-  IonTabButton,
-  IonText, IonTextarea,
+  IonText,
   IonTitle,
-  IonToolbar, NavController
+  IonToolbar,
+  NavController
 } from '@ionic/angular/standalone';
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {
-  TuiButton,
-  TuiIcon,
-  TuiLabel,
-  TuiLoader,
-  TuiSurface,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective, TuiTextfieldOptionsDirective,
-  TuiTitle
-} from "@taiga-ui/core";
-import {Subscription} from "rxjs";
-import {Platform} from "@ionic/angular";
-import {ConnectionService} from "../../service/connection.service";
-import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
-import {TuiAvatar, TuiButtonGroup, TuiRadioComponent, TuiShimmer, TuiTextarea} from "@taiga-ui/kit";
-import {GlobalComponent} from "../../global-component";
-import {Preferences} from "@capacitor/preferences";
-import {CartIconComponent} from "../../cart-icon.component";
-import {SizeChipsComponent} from "../../size-chips/size-chips.component";
-import {Cart} from "../../class/cart";
-import {TranslatePipe} from "../../translate.pipe";
-import {Products} from "../../class/products";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import {TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective} from "@taiga-ui/core";
+import { Subscription } from "rxjs";
+import { Platform } from "@ionic/angular";
+import { ConnectionService } from "../../service/connection.service";
+import { NetworkService } from "../../service/network.service";
+import { HotToastService } from "@ngxpert/hot-toast";
+import { GlobalComponent } from "../../global-component";
+import { Preferences } from "@capacitor/preferences";
+import { CartIconComponent } from "../../cart-icon.component";
+import { SizeChipsComponent } from "../../size-chips/size-chips.component";
+import { TranslatePipe } from "../../translate.pipe";
+import { Products } from "../../class/products";
+
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -76,15 +58,50 @@ export interface StoreMeasurement {
   armhole: number;
   shoulder: number;
 }
+
+export interface ColorOption {
+  id: string;
+  text: string;
+  hex: string;
+}
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.page.html',
   styleUrls: ['./product.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonImg, RouterLink, IonButton, TuiIcon, IonCard, TuiSurface, TuiAvatar, TuiTitle, TuiButtonGroup, IonCardHeader, IonCardContent, IonCardTitle, IonCardSubtitle, IonText, IonItem, IonSelect, IonLabel, IonSelectOption, IonInput, IonCol, IonGrid, IonModal, IonRange, IonRow, TuiLabel, TuiRadioComponent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiButton, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TuiShimmer, IonList, IonTextarea, CartIconComponent, SizeChipsComponent, TuiTextarea, IonChip, TranslatePipe]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    CommonModule,
+    FormsModule,
+    IonButtons,
+    IonImg,
+    RouterLink,
+    IonButton,
+    TuiIcon,
+    IonText,
+    IonItem,
+    IonLabel,
+    IonCol,
+    IonModal,
+    IonRow,
+    TuiLabel,
+    IonFooter,
+    TuiButton,
+    TuiLoader,
+    CartIconComponent,
+    SizeChipsComponent,
+    TranslatePipe,
+    TuiTextfieldComponent,
+    TuiTextfieldDirective
+  ]
 })
-export class ProductPage implements OnInit {
+export class ProductPage implements OnInit, OnDestroy {
   store_measurement: StoreMeasurement[] = [];
   product: Products[] = [];
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
@@ -93,47 +110,12 @@ export class ProductPage implements OnInit {
   isOnline = true;
   isMeasureOpen = false;
   itemExists = false;
-  private sub: Subscription;
+  private sub: Subscription | null = null;
   selectedHex = "";
   visibleCount = 3;
-  constructor(
-    private nav: NavController,
-    private net: ConnectionService,
-    private platform: Platform,
-    private router: Router,
-    private route: ActivatedRoute,
-    private networkService: NetworkService,
-    private toast: HotToastService,
-  ) {
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
-    });
-    this.net.setReachabilityCheck(true);
-    this.sub = this.net.online$.subscribe(v => this.isOnline = v);
-  }
-  ngOnInit() {
-    this.rqst_param.product = Number(this.route.snapshot.queryParamMap.get('id'));
-    this.rqst_param.product_name = this.route.snapshot.queryParamMap.get('name') || '';
-   this.getObject().then(r => console.log(r));
-    const el = this.swiperEl.nativeElement as any;
-    const attach = () => {
-      const sw: any = el.swiper;
-      if (!sw) {
-        setTimeout(attach, 30);
-        return;
-      }
-      this.index.set(sw.activeIndex ?? 0);
-      sw.on('slideChange', () => {
-        this.index.set(sw.activeIndex ?? 0);
-      });
-    };
-    attach();
-  }
-  colors: string[] = [];
-  images: string[] = [];
-  apiSizes = { };
-  chosenSize: string | null = null;
-  colorOptions = [
+
+  // Color options with hex values for preview
+  colorOptions: ColorOption[] = [
     { id: 'black', text: 'Black', hex: '#000000' },
     { id: 'white', text: 'White', hex: '#FFFFFF' },
     { id: 'off-white', text: 'Off White', hex: '#FAF9F6' },
@@ -171,18 +153,67 @@ export class ProductPage implements OnInit {
     { id: 'coral', text: 'Coral', hex: '#FF7F50' },
     { id: 'yellow', text: 'Yellow', hex: '#FFD200' },
     { id: 'mustard', text: 'Mustard', hex: '#FFDB58' },
-    { id: 'gold', text: 'Gold (Metallic)', hex: '#D4AF37' },
-    { id: 'silver', text: 'Silver (Metallic)', hex: '#C0C0C0' },
+    { id: 'gold', text: 'Gold', hex: '#D4AF37' },
+    { id: 'silver', text: 'Silver', hex: '#C0C0C0' },
     { id: 'bronze', text: 'Bronze', hex: '#CD7F32' },
     { id: 'champagne', text: 'Champagne', hex: '#F7E7CE' },
     { id: 'ivory', text: 'Ivory', hex: '#FFFFF0' },
-
-    // ✅ New option
-    { id: 'multicolor', text: 'Multicolor', hex: 'linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)' }
+    { id: 'multicolor', text: 'Multicolor', hex: 'linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff)' }
   ];
-  getColorById(id: string) {
-    return this.colorOptions.find(color => color.id === id);
+
+  // Light colors that need dark checkmark icons
+  lightColors = ['white', 'off-white', 'light-gray', 'beige', 'ivory', 'champagne', 'peach', 'lavender', 'mint', 'aqua', 'yellow', 'pink'];
+
+  constructor(
+    private nav: NavController,
+    private net: ConnectionService,
+    private platform: Platform,
+    private router: Router,
+    private route: ActivatedRoute,
+    private networkService: NetworkService,
+    private toast: HotToastService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      console.log('Back button handler');
+    });
+    this.net.setReachabilityCheck(true);
+    this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
+
+  ngOnInit() {
+    this.rqst_param.product = Number(this.route.snapshot.queryParamMap.get('id'));
+    this.rqst_param.product_name = this.route.snapshot.queryParamMap.get('name') || '';
+    this.getObject().then(r => console.log(r));
+    this.initSwiper();
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
+
+  private initSwiper() {
+    const el = this.swiperEl.nativeElement as any;
+    const attach = () => {
+      const sw: any = el.swiper;
+      if (!sw) {
+        setTimeout(attach, 30);
+        return;
+      }
+      this.index.set(sw.activeIndex ?? 0);
+      sw.on('slideChange', () => {
+        this.index.set(sw.activeIndex ?? 0);
+        this.cdr.markForCheck();
+      });
+    };
+    attach();
+  }
+
+  colors: string[] = [];
+  images: string[] = [];
+  apiSizes = {};
+  chosenSize: string | null = null;
+
   single = {
     id: 0,
     token: "",
@@ -245,6 +276,7 @@ export class ProductPage implements OnInit {
     try_on_active: false,
     label: 0
   };
+
   bill = {
     count: 0,
     discount: 0,
@@ -256,6 +288,7 @@ export class ProductPage implements OnInit {
     f_subtotal: "",
     f_total: ""
   };
+
   update = {
     id: 0,
     token: '',
@@ -266,17 +299,20 @@ export class ProductPage implements OnInit {
     hip: 0,
     arm: 0
   };
+
   ui_controls = {
     is_loading: true,
     is_creating: false,
     is_adding_to_cart: false,
     is_loading_measurement: false,
     is_empty: false
-  }
+  };
+
   process_controls = {
     is_custom: false,
     confirmed_measurement: true
-  }
+  };
+
   single_user = {
     id: 0,
     token: "",
@@ -292,25 +328,21 @@ export class ProductPage implements OnInit {
     is_admin: false,
     is_vendor: false,
     is_customer: false
-  }
-  user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
-  }
+  };
 
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
   rqst_param = {
     id: 0,
     token: "",
     product: 0,
     product_name: ""
-  }
+  };
+
   store_m = {
     id: 0,
     token: "",
     store: 0
-  }
+  };
+
   add_cart = {
     id: 0,
     token: "",
@@ -331,113 +363,188 @@ export class ProductPage implements OnInit {
     measurement: "",
     extra_measurement: "",
     note: ""
-  }
+  };
+
   @Output() select = new EventEmitter<number>();
+
+  // ========================================
+  // Color Pill Methods
+  // ========================================
+
+  selectColor(color: string) {
+    this.add_cart.color = color;
+    const colorOption = this.getColorById(color);
+    this.selectedHex = colorOption ? colorOption.hex : 'transparent';
+    this.cdr.markForCheck();
+  }
+
+  getColorById(id: string): ColorOption | undefined {
+    const normalizedId = id.toLowerCase().trim();
+    return this.colorOptions.find(color =>
+      color.id === normalizedId ||
+      color.text.toLowerCase() === normalizedId
+    );
+  }
+
+  getColorHex(colorId: string): string {
+    const color = this.getColorById(colorId);
+    return color ? color.hex : this.generateColorFromName(colorId);
+  }
+
+  getColorLabel(colorId: string): string {
+    const color = this.getColorById(colorId);
+    return color ? color.text : this.capitalizeWords(colorId);
+  }
+
+  isLightColor(colorId: string): boolean {
+    return this.lightColors.includes(colorId.toLowerCase().trim());
+  }
+
+  private capitalizeWords(str: string): string {
+    return str
+      .replace(/-/g, ' ')
+      .replace(/_/g, ' ')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  private generateColorFromName(colorName: string): string {
+    // Generate a consistent color from color name for unknown colors
+    const name = colorName.toLowerCase().trim();
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = Math.abs(hash % 360);
+    return `hsl(${hue}, 60%, 50%)`;
+  }
+
+  // ========================================
+  // Size Methods
+  // ========================================
+
+  onSizeSelected(sizeKey: string | any) {
+    this.add_cart.size = sizeKey;
+    this.cdr.markForCheck();
+  }
+
+  selectStoreSize(measurement: StoreMeasurement) {
+    this.add_cart.size = measurement.size;
+    this.add_cart.measurement = JSON.stringify(measurement);
+    this.cdr.markForCheck();
+  }
+
+  openMeasurement() {
+    this.get_measurement();
+    this.isMeasureOpen = true;
+    this.cdr.markForCheck();
+  }
+
+  // ========================================
+  // Image Loading
+  // ========================================
+
+  imgLoaded: boolean[] = new Array(10).fill(false);
+
+  onWillLoad(index: number) {
+    this.imgLoaded[index] = false;
+  }
+
+  onDidLoad(index: number) {
+    this.imgLoaded[index] = true;
+    this.cdr.markForCheck();
+  }
+
+  // ========================================
+  // Quantity Control
+  // ========================================
+
+  increaseQuantity() {
+    this.add_cart.quantity++;
+    this.cdr.markForCheck();
+  }
+
+  decreaseQuantity() {
+    if (this.add_cart.quantity > 1) {
+      this.add_cart.quantity--;
+      this.cdr.markForCheck();
+    }
+  }
+
+  // ========================================
+  // Navigation
+  // ========================================
+
   onSelect(i: number) {
     this.select.emit(i);
   }
-  ionViewDidEnter(){
+
+  triggerBack() {
+    this.nav.back();
+  }
+
+  user_wishlist() {
+    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+  }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+
+  user_messages() {
+    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+  }
+
+  openCart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
+
+  onDismiss() {
+    this.isMeasureOpen = false;
+  }
+
+  // ========================================
+  // API Methods
+  // ========================================
+
+  ionViewDidEnter() {
     this.load_cart();
   }
+
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
-    if (ret.value == null){
+    if (ret.value == null) {
       this.router.navigate(['/', 'login']).then(r => console.log(r));
-    }else{
+    } else {
       this.single_user = JSON.parse(ret.value);
-      this.rqst_param.id = this.single_user.id
-      this.rqst_param.token = this.single_user.token
-
-      this.store_m.id = this.single_user.id
-      this.store_m.token = this.single_user.token
-
+      this.rqst_param.id = this.single_user.id;
+      this.rqst_param.token = this.single_user.token;
+      this.store_m.id = this.single_user.id;
+      this.store_m.token = this.single_user.token;
       this.get_measurement();
       this.get_single();
       this.add_cart.id = this.single_user.id;
       this.add_cart.token = this.single_user.token;
       this.add_cart.customer_name = this.single_user.first_name + " " + this.single_user.last_name;
       this.add_cart.customer_email = this.single_user.email;
+    }
+  }
 
-    }
-  }
-  get_measurement() {
-    this.ui_controls.is_loading_measurement = true;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.readMeasurement)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.update.bust =  response.data[0].bust
-            this.update.armhole = response.data[0].armhole
-            this.update.shoulder = response.data[0].shoulder
-            this.update.length = response.data[0].length
-            this.update.hip = response.data[0].hip
-            this.update.arm = response.data[0].arm
-            this.ui_controls.is_loading_measurement = false;
-            this.add_cart.measurement = JSON.stringify(this.update);
-          }else{
-            this.ui_controls.is_empty = true;
-            this.ui_controls.is_loading_measurement = false;
-          }
-        }
-      }))
-  }
-  get_store_measurement() {
-    this.networkService.post_request(this.store_m, GlobalComponent.readStoreMeasurement)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.store_measurement = response.data;
-          }
-        }
-      }))
-  }
-  addToCart() {
-    if (this.add_cart.quantity == 0){
-      this.error_notification("Quantity is require.")
-      return;
-    }
-    if (!this.single.size_custom){
-        if(this.single.category_id != "4" && this.single.category_id != "5" && this.single.category_id != "2") {
-          if (this.add_cart.size.length == 0) {
-            this.error_notification("Select your preferred size.")
-            return;
-          }
-        }
-      }
-      if(this.single.category_id != "5") {
-        if (this.add_cart.color.length == 0) {
-          this.error_notification("Select your preferred color.")
-          return;
-        }
-      }
-    /*if (this.single.size_custom && !this.process_controls.confirmed_measurement){
-        this.isMeasureOpen = true;
-        return;
-    }*/
-    this.ui_controls.is_adding_to_cart = true;
-    this.networkService.post_request(this.add_cart, GlobalComponent.addToCart)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-              this.success_notification(response.message);
-              this.ui_controls.is_adding_to_cart = false;
-              this.user_cart();
-          }else{
-            this.ui_controls.is_empty = true;
-            this.ui_controls.is_adding_to_cart = false;
-          }
-        }
-      }))
-  }
   get_single() {
     this.ui_controls.is_loading = true;
+    this.cdr.markForCheck();
+
     this.networkService.post_request(this.rqst_param, GlobalComponent.single_product)
-      .subscribe(({
+      .subscribe({
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.single = response.data;
-            this.colors = response.data.colors.split(',');
-            this.images = response.data.images;
+            // Parse colors and normalize them
+            this.colors = response.data.colors
+              ? response.data.colors.split(',').map((c: string) => c.trim().toLowerCase())
+              : [];
+            this.images = response.data.images || [];
             this.add_cart.product_id = this.single.product;
             this.add_cart.product_name = this.single.name;
             this.add_cart.product_desc = this.single.description;
@@ -447,6 +554,7 @@ export class ProductPage implements OnInit {
             this.store_m.store = this.single.store;
             this.get_store_measurement();
             this.apiSizes = {
+              'CUSTOM': this.single.size_custom,
               'xs': this.single.size_xs,
               's': this.single.size_s,
               'm': this.single.size_m,
@@ -469,116 +577,172 @@ export class ProductPage implements OnInit {
               '63': this.single.size_63,
               '64': this.single.size_64,
             };
-            if (this.single.size_custom){
+            if (this.single.size_custom) {
               this.process_controls.is_custom = true;
             }
             this.ui_controls.is_loading = false;
+            this.cdr.markForCheck();
           }
           this.load_cart();
+        },
+        error: () => {
+          this.ui_controls.is_loading = false;
+          this.cdr.markForCheck();
         }
-      }))
+      });
   }
+
+  get_measurement() {
+    this.ui_controls.is_loading_measurement = true;
+    this.cdr.markForCheck();
+
+    this.networkService.post_request(this.rqst_param, GlobalComponent.readMeasurement)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.update.bust = response.data[0].bust;
+            this.update.armhole = response.data[0].armhole;
+            this.update.shoulder = response.data[0].shoulder;
+            this.update.length = response.data[0].length;
+            this.update.hip = response.data[0].hip;
+            this.update.arm = response.data[0].arm;
+            this.add_cart.measurement = JSON.stringify(this.update);
+          } else {
+            this.ui_controls.is_empty = true;
+          }
+          this.ui_controls.is_loading_measurement = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_loading_measurement = false;
+          this.cdr.markForCheck();
+        }
+      });
+  }
+
+  get_store_measurement() {
+    this.networkService.post_request(this.store_m, GlobalComponent.readStoreMeasurement)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.store_measurement = response.data;
+            this.cdr.markForCheck();
+          }
+        }
+      });
+  }
+
+  load_cart() {
+    this.rqst_param.id = this.single_user.id;
+    this.rqst_param.token = this.single_user.token;
+    this.networkService.post_request(this.rqst_param, GlobalComponent.customerCart)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200) {
+            this.bill = response.message;
+            this.product = response.data;
+            this.ui_controls.is_loading = false;
+            this.itemExists = response.data.some((item: any) => item.product_id === this.single.product);
+            this.cdr.markForCheck();
+          }
+        }
+      });
+  }
+
+  addToCart() {
+    if (this.add_cart.quantity === 0) {
+      this.error_notification("Quantity is required.");
+      return;
+    }
+
+    if (!this.single.size_custom) {
+      if (this.single.category_id !== "4" && this.single.category_id !== "5" && this.single.category_id !== "2") {
+        if (this.add_cart.size.length === 0) {
+          this.error_notification("Select your preferred size.");
+          return;
+        }
+      }
+    }
+
+    if (this.single.category_id !== "5") {
+      if (this.add_cart.color.length === 0) {
+        this.error_notification("Select your preferred color.");
+        return;
+      }
+    }
+
+    this.ui_controls.is_adding_to_cart = true;
+    this.cdr.markForCheck();
+
+    this.networkService.post_request(this.add_cart, GlobalComponent.addToCart)
+      .subscribe({
+        next: (response) => {
+          if (response.response_code === 200 && response.status === "success") {
+            this.success_notification(response.message);
+            this.ui_controls.is_adding_to_cart = false;
+            this.user_cart();
+          } else {
+            this.ui_controls.is_empty = true;
+            this.ui_controls.is_adding_to_cart = false;
+          }
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.ui_controls.is_adding_to_cart = false;
+          this.cdr.markForCheck();
+        }
+      });
+  }
+
   update_measurement() {
-    if(this.isOnline){
-      if (this.single.require_extra_msmt){
-        if (this.add_cart.extra_measurement.length == 0){
-          this.error_notification("provide extra measurement to proceed")
+    if (this.isOnline) {
+      if (this.single.require_extra_msmt) {
+        if (this.add_cart.extra_measurement.length === 0) {
+          this.error_notification("Provide extra measurement to proceed");
           return;
         }
       }
       this.update.id = this.single_user.id;
       this.update.token = this.single_user.token;
       this.ui_controls.is_loading_measurement = true;
+      this.cdr.markForCheck();
+
       this.networkService.post_request(this.update, GlobalComponent.updateMeasurement)
-        .subscribe(({
+        .subscribe({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
-              this.success_notification("Measurement confirmed successfully..");
+              this.success_notification("Measurement confirmed successfully.");
               this.ui_controls.is_loading_measurement = false;
               this.process_controls.confirmed_measurement = true;
               this.get_measurement();
               this.addToCart();
               this.isMeasureOpen = false;
-            }else{
-              this.ui_controls.is_loading_measurement = false
+            } else {
+              this.ui_controls.is_loading_measurement = false;
               this.error_notification(response.message);
             }
+            this.cdr.markForCheck();
           },
           error: () => {
             this.ui_controls.is_loading_measurement = false;
-            this.error_notification("unable to save measurement");
+            this.error_notification("Unable to save measurement");
+            this.cdr.markForCheck();
           }
-        }))
-    }else {
-      this.error_notification("You are not online, check your connection")
+        });
+    } else {
+      this.error_notification("You are not online, check your connection");
     }
   }
+
+  // ========================================
+  // Notifications
+  // ========================================
+
   error_notification(message: string) {
-    this.toast.error(message, {
-      position: "top-center"
-    });
+    this.toast.error(message, { position: "top-center" });
   }
 
   success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'top-center'
-    });
-  }
-  imgLoaded: boolean[] = [false, false, false, false];
-  onWillLoad(index: number) {
-    this.imgLoaded[index] = false;
-  }
-  onDidLoad(index: number) {
-    this.imgLoaded[index] = true;
-  }
-  user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
-  }
-  onSizeSelected(sizeKey: string | any) {
-    this.add_cart.size = sizeKey;
-    console.log(this.chosenSize);
-    // do whatever you need with the selection
-  }
-  increaseQuantity() {
-    this.add_cart.quantity++;
-  }
-  decreaseQuantity() {
-    if (this.add_cart.quantity > 1) {
-      this.add_cart.quantity--;
-    }
-  }
-
-  triggerBack() {
-    this.nav.back();
-  }
-
-  onDismiss() {
-    this.isMeasureOpen = false;
-  }
-  load_cart() {
-    this.rqst_param.id = this.single_user.id;
-    this.rqst_param.token = this.single_user.token;
-    this.networkService.post_request(this.rqst_param, GlobalComponent.customerCart)
-      .subscribe(({
-        next: (response) => {
-          if (response.response_code === 200) {
-            this.bill = response.message;
-            this.product = response.data;
-            this.ui_controls.is_loading = false;
-            console.log(this.single);
-            this.itemExists = response.data.some((item: any) => item.product_id === this.single.product);
-            console.log(this.itemExists);
-          }
-        }
-      }))
-  }
-  openCart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-
-  onColorSelect(event: any) {
-    const colorId = event.detail.value;
-    const selected = this.getColorById(colorId);
-    this.selectedHex = selected ? selected.hex : 'transparent';
+    this.toast.success(message, { position: 'top-center' });
   }
 }
