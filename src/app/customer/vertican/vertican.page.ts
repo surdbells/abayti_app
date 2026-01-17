@@ -67,6 +67,7 @@ import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 import { TuiCarouselButtons, TuiCarouselComponent, TuiRadioComponent } from "@taiga-ui/kit";
 import { TuiItem } from "@taiga-ui/cdk";
+import {TranslatePipe} from "../../translate.pipe";
 
 interface Category {
   readonly id: number;
@@ -127,7 +128,8 @@ type DualRange = { lower: number; upper: number };
     TuiCarouselComponent,
     TuiItem,
     TuiCarouselButtons,
-    NgOptimizedImage
+    NgOptimizedImage,
+    TranslatePipe
   ]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
@@ -457,7 +459,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 10,
+    limit: 20,
     offset: 0
   }
 
@@ -708,7 +710,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   openHome() {
     this.router.navigate(['/', 'account']);
   }
-
+  OnDidDismiss() {
+    this.isWishOpen = false;
+  }
   // ========================================
   // Swiper initialization
   // ========================================

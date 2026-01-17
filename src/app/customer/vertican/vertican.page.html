@@ -236,26 +236,20 @@
   </ion-modal>
 
   <!-- Wishlist Modal -->
-  <ion-modal
-    swipeToClose="true"
-    (didDismiss)="closeWish()"
-    [isOpen]="isWishOpen"
-    [initialBreakpoint]="0.5"
-    [backdropDismiss]="true"
-    [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Save {{ addCloset.product_name }} to</ion-title>
+          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
           <ion-buttons slot="end">
-            <ion-button type="button" (click)="isWishOpen = false">Close</ion-button>
+            <ion-button (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         @if (!ui_controls.is_loading_category){
           <ion-list class="custom-list">
-            @for(category of categories; track category.id){
+            @for(category of categories; track category.id; let i = $index){
               <ion-item (click)="addToCloset(category.id)" button detail="false">
                 <tui-icon icon="@tui.plus" [style.color]="'var(--ion-color-secondary)'" slot="start" />
                 <ion-label>{{category.name}}</ion-label>
@@ -264,10 +258,12 @@
           </ion-list>
         }
         <ion-row>
-          <ion-col class="ion-text-center">
-            @if (ui_controls.is_loading_category){
-              <tui-loader></tui-loader>
-            }
+          <ion-col>
+            <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+              @if (ui_controls.is_loading_category){
+                <tui-loader></tui-loader>
+              }
+            </span>
           </ion-col>
         </ion-row>
       </ion-content>
