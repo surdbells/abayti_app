@@ -249,12 +249,3 @@ ion-tab-button  {
   border: 2px solid #b37a6b;
   border-radius: var(--radius-2xl);
 }
-
-
-html,
-body,
-ion-app,
-ion-content {
-  overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: auto;
-}

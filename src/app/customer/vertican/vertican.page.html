@@ -1,41 +1,35 @@
 <ion-content [fullscreen]="true" [scrollY]="false" [scrollX]="false" [forceOverscroll]="false">
 
-  <!-- Main Vertical Swiper - scroll through products -->
-  <!-- CRITICAL: virtual="true" reduces DOM elements -->
+  <!-- Main Vertical Swiper -->
   <swiper-container
     #swiper
     class="vertical-slides"
     direction="vertical"
     slides-per-view="1"
     speed="300"
-    virtual="true"
-    css-mode="false"
     allow-touch-move="true"
     threshold="10"
     (swiperslidechange)="onVerticalSlideChange($event)">
 
     @for(product of products; track product.product_id; let idx = $index){
-      <swiper-slide class="product-slide" [attr.data-swiper-slide-index]="idx">
+      <swiper-slide class="product-slide">
         <div class="hero">
 
-          <!-- SIMPLIFIED: Only show single image, no nested swiper -->
-          <!-- This dramatically reduces memory usage -->
+          <!-- Image Container -->
           <div class="image-container">
             <!-- Loading skeleton -->
-            <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id]">
+            <div class="image-skeleton" [class.hidden]="imageLoaded[product.product_id + '-' + getActiveImageIndex(product.product_id)]">
               <div class="skeleton-shimmer"></div>
             </div>
 
-            <!-- Only load image if within render range (current ± 2) -->
-            @if(shouldRenderSlide(idx)){
-              <img
-                [src]="getCurrentImage(product)"
-                alt="{{product.product_name}}"
-                class="model"
-                [class.loaded]="imageLoaded[product.product_id]"
-                (load)="onImageLoad(product.product_id)"
-                (error)="onImageError(product.product_id)">
-            }
+            <!-- Product Image -->
+            <img
+              [src]="getCurrentImage(product)"
+              alt="{{product.product_name}}"
+              class="model"
+              [class.loaded]="imageLoaded[product.product_id + '-' + getActiveImageIndex(product.product_id)]"
+              (load)="onImageLoad(product.product_id, getActiveImageIndex(product.product_id))"
+              (error)="onImageError(product.product_id, getActiveImageIndex(product.product_id))">
           </div>
 
           <!-- Image pagination dots - tap to change image -->
@@ -49,10 +43,8 @@
                 </span>
               }
             </div>
-          }
 
-          <!-- Left/Right image navigation for multiple images -->
-          @if(getProductImages(product).length > 1){
+            <!-- Left/Right image navigation -->
             <div class="image-nav">
               <button
                 type="button"
@@ -132,7 +124,7 @@
     }
   </swiper-container>
 
-  <!-- Vertical scroll indicator (right side) -->
+  <!-- Vertical scroll indicator -->
   <div class="vertical-pagination">
     @for(dot of verticalDots; track dot; let i = $index){
       <span class="dot" [class.active]="i === currentProductDot"></span>

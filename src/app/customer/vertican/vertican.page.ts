@@ -73,10 +73,6 @@ interface Category {
   readonly name: string;
 }
 
-// REDUCED: Only keep 5 products rendered at a time to prevent memory crash
-const RENDER_RANGE = 2; // Render current ± 2 slides
-const MAX_PRODUCTS_IN_MEMORY = 10;
-
 type DualRange = { lower: number; upper: number };
 
 @Component({
@@ -145,10 +141,10 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonContent, { static: false }) ionContent!: IonContent;
 
-  // Track active image index for each product BY PRODUCT_ID
+  // Track active image index for each product: productId -> imageIndex
   activeImageIndices: Map<number, number> = new Map();
 
-  // Track image loading states: key = productId
+  // Track image loading states: "productId-imageIndex" -> boolean
   imageLoaded: { [key: string]: boolean } = {};
 
   // Vertical pagination
@@ -244,7 +240,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ionViewWillEnter() {
-    console.log('[Vertican] ionViewWillEnter called');
+    console.log('[Vertican] ionViewWillEnter');
     this.getObject().then(r => console.log(r));
   }
 
@@ -261,143 +257,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ========================================
-  // MEMORY OPTIMIZATION: Only render nearby slides
+  // Image handling
   // ========================================
-
-  shouldRenderSlide(slideIndex: number): boolean {
-    // Only render slides within RENDER_RANGE of current index
-    return Math.abs(slideIndex - this.currentProductIndex) <= RENDER_RANGE;
-  }
-
-  // ========================================
-  // Image navigation (replaces nested swiper)
-  // ========================================
-
-  getCurrentImage(product: any): string {
-    const images = this.getProductImages(product);
-    const activeIndex = this.activeImageIndices.get(product.product_id) || 0;
-    return images[activeIndex] || product.image_1 || '';
-  }
-
-  setActiveImage(productId: number, index: number, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.activeImageIndices.set(productId, index);
-    // Reset loaded state for new image
-    this.imageLoaded[productId] = false;
-    this.cdr.markForCheck();
-  }
-
-  nextImage(productId: number, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const product = this.products.find(p => p.product_id === productId);
-    if (!product) return;
-
-    const images = this.getProductImages(product);
-    const currentIndex = this.activeImageIndices.get(productId) || 0;
-
-    if (currentIndex < images.length - 1) {
-      this.activeImageIndices.set(productId, currentIndex + 1);
-      this.imageLoaded[productId] = false;
-      this.cdr.markForCheck();
-    }
-  }
-
-  prevImage(productId: number, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const currentIndex = this.activeImageIndices.get(productId) || 0;
-
-    if (currentIndex > 0) {
-      this.activeImageIndices.set(productId, currentIndex - 1);
-      this.imageLoaded[productId] = false;
-      this.cdr.markForCheck();
-    }
-  }
-
-  // ========================================
-  // Vertical swiper slide change handler
-  // ========================================
-
-  onVerticalSlideChange(event: any) {
-    try {
-      const swiper = event?.target?.swiper;
-      if (swiper) {
-        this.ngZone.run(() => {
-          const totalSlides = swiper.slides?.length || this.products.length;
-          const currentIndex = swiper.activeIndex || 0;
-
-          console.log('[Swiper] Slide changed to:', currentIndex);
-
-          this.currentProductIndex = currentIndex;
-          this.index.set(currentIndex);
-          this.updateVerticalPagination(currentIndex, totalSlides);
-
-          // Fetch more items when near end
-          if (totalSlides - currentIndex <= 3 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
-            this.getMoreItems();
-          }
-
-          this.cdr.markForCheck();
-        });
-      }
-    } catch (error) {
-      console.error('[Swiper] Error in slide change:', error);
-    }
-  }
-
-  // ========================================
-  // Navigation button handlers
-  // ========================================
-
-  goToNext(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    console.log('[Nav] goToNext clicked');
-
-    if (!this.verticalSwiper) {
-      const el = this.swiperEl?.nativeElement as any;
-      this.verticalSwiper = el?.swiper;
-    }
-
-    if (this.verticalSwiper && this.currentProductIndex < this.products.length - 1) {
-      this.verticalSwiper.slideNext();
-    }
-  }
-
-  goToPrevious(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    console.log('[Nav] goToPrevious clicked');
-
-    if (!this.verticalSwiper) {
-      const el = this.swiperEl?.nativeElement as any;
-      this.verticalSwiper = el?.swiper;
-    }
-
-    if (this.verticalSwiper && this.currentProductIndex > 0) {
-      this.verticalSwiper.slidePrev();
-    }
-  }
-
-  // ========================================
-  // Image loading handlers
-  // ========================================
-
-  onImageLoad(productId: number) {
-    this.imageLoaded[productId] = true;
-    this.cdr.markForCheck();
-  }
-
-  onImageError(productId: number) {
-    this.imageLoaded[productId] = true;
-    this.cdr.markForCheck();
-  }
 
   getProductImages(product: any): string[] {
     if (!product) return [];
@@ -422,9 +283,127 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     return this.activeImageIndices.get(productId) || 0;
   }
 
+  getCurrentImage(product: any): string {
+    if (!product) return '';
+    const images = this.getProductImages(product);
+    const activeIndex = this.getActiveImageIndex(product.product_id);
+    return images[activeIndex] || product.image_1 || '';
+  }
+
+  setActiveImage(productId: number, index: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('[Image] setActiveImage:', productId, index);
+    this.activeImageIndices.set(productId, index);
+    this.cdr.markForCheck();
+  }
+
+  nextImage(productId: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const product = this.products.find(p => p.product_id === productId);
+    if (!product) return;
+
+    const images = this.getProductImages(product);
+    const currentIndex = this.getActiveImageIndex(productId);
+
+    if (currentIndex < images.length - 1) {
+      console.log('[Image] nextImage:', productId, currentIndex + 1);
+      this.activeImageIndices.set(productId, currentIndex + 1);
+      this.cdr.markForCheck();
+    }
+  }
+
+  prevImage(productId: number, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const currentIndex = this.getActiveImageIndex(productId);
+
+    if (currentIndex > 0) {
+      console.log('[Image] prevImage:', productId, currentIndex - 1);
+      this.activeImageIndices.set(productId, currentIndex - 1);
+      this.cdr.markForCheck();
+    }
+  }
+
+  onImageLoad(productId: number, imageIndex: number) {
+    const key = `${productId}-${imageIndex}`;
+    console.log('[Image] Loaded:', key);
+    this.imageLoaded[key] = true;
+    this.cdr.markForCheck();
+  }
+
+  onImageError(productId: number, imageIndex: number) {
+    const key = `${productId}-${imageIndex}`;
+    console.log('[Image] Error:', key);
+    this.imageLoaded[key] = true; // Hide skeleton even on error
+    this.cdr.markForCheck();
+  }
+
   // ========================================
-  // Vertical pagination update
+  // Vertical swiper
   // ========================================
+
+  onVerticalSlideChange(event: any) {
+    try {
+      const swiper = event?.target?.swiper;
+      if (swiper) {
+        this.ngZone.run(() => {
+          const totalSlides = swiper.slides?.length || this.products.length;
+          const currentIndex = swiper.activeIndex ?? 0;
+
+          console.log('[Swiper] Slide changed:', currentIndex);
+
+          this.currentProductIndex = currentIndex;
+          this.index.set(currentIndex);
+          this.updateVerticalPagination(currentIndex, totalSlides);
+
+          // Fetch more when near end
+          if (totalSlides - currentIndex <= 3 && !this.ui_controls.is_loading && this.ui_controls.hasMore) {
+            this.getMoreItems();
+          }
+
+          this.cdr.markForCheck();
+        });
+      }
+    } catch (error) {
+      console.error('[Swiper] Error:', error);
+    }
+  }
+
+  goToNext(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('[Nav] goToNext, current:', this.currentProductIndex);
+
+    if (!this.verticalSwiper) {
+      const el = this.swiperEl?.nativeElement as any;
+      this.verticalSwiper = el?.swiper;
+    }
+
+    if (this.verticalSwiper && this.currentProductIndex < this.products.length - 1) {
+      this.verticalSwiper.slideNext();
+    }
+  }
+
+  goToPrevious(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('[Nav] goToPrevious, current:', this.currentProductIndex);
+
+    if (!this.verticalSwiper) {
+      const el = this.swiperEl?.nativeElement as any;
+      this.verticalSwiper = el?.swiper;
+    }
+
+    if (this.verticalSwiper && this.currentProductIndex > 0) {
+      this.verticalSwiper.slidePrev();
+    }
+  }
 
   updateVerticalPagination(activeIndex: number, totalSlides: number) {
     if (totalSlides <= 3) {
@@ -478,7 +457,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   explore = {
     id: 0,
     token: "",
-    limit: 10, // REDUCED from 20 to reduce memory
+    limit: 10,
     offset: 0
   }
 
@@ -544,15 +523,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   get_filtered_products() {
     this.isFilterOpen = false;
-    this.swiperInitialized = false;
-    this.verticalSwiper = null;
-    this.ui_controls = {
-      ...this.ui_controls,
-      is_loading: true
-    };
+    this.resetState();
+
+    this.ui_controls.is_loading = true;
     this.cdr.markForCheck();
-    this.ui_controls.is_loaded = false;
-    this.ui_controls.is_empty = false;
+
     this.filter.id = this.single_user.id;
     this.filter.token = this.single_user.token;
 
@@ -561,80 +536,67 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
-            this.cdr.markForCheck();
+            this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
-            this.activeImageIndices.clear();
-            this.imageLoaded = {};
-            this.currentProductIndex = 0;
+            this.cdr.markForCheck();
             setTimeout(() => this.initializeSwipers(), 200);
           } else {
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
+            this.ui_controls.is_loading = false;
             this.cdr.markForCheck();
-            this.presentToast('middle', "No product for the selected filter").then(r => console.log(r));
-            this.ui_controls.is_loaded = true;
+            this.presentToast('middle', "No product for the selected filter");
           }
         }
       });
   }
 
   explore_products() {
-    console.log('[Vertican] explore_products called');
-    this.products = [];
-    this.swiperInitialized = false;
-    this.verticalSwiper = null;
-    this.explore.offset = 0;
-    this.currentProductIndex = 0;
-    this.ui_controls = {
-      ...this.ui_controls,
-      is_loading: true,
-      hasMore: true
-    };
+    console.log('[Vertican] explore_products');
+    this.resetState();
+
+    this.ui_controls.is_loading = true;
+    this.ui_controls.hasMore = true;
     this.cdr.markForCheck();
-    this.ui_controls.is_loaded = false;
-    this.ui_controls.is_empty = false;
+
     this.explore.id = this.single_user.id;
     this.explore.token = this.single_user.token;
+    this.explore.offset = 0;
 
     this.networkService.post_request(this.explore, GlobalComponent.explore_listing)
       .subscribe({
         next: (response) => {
-          console.log('[Vertican] Products received:', response.data?.length);
+          console.log('[Vertican] Products:', response.data?.length);
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
-            this.cdr.markForCheck();
+            this.ui_controls.is_loading = false;
             this.ui_controls.is_loaded = true;
             this.ui_controls.is_empty = false;
-            this.activeImageIndices.clear();
-            this.imageLoaded = {};
+            this.cdr.markForCheck();
             setTimeout(() => this.initializeSwipers(), 200);
           } else {
-            this.ui_controls = {
-              ...this.ui_controls,
-              is_loading: false
-            };
-            this.cdr.markForCheck();
+            this.ui_controls.is_loading = false;
             this.ui_controls.is_empty = true;
+            this.cdr.markForCheck();
           }
         }
       });
   }
 
+  private resetState() {
+    this.products = [];
+    this.swiperInitialized = false;
+    this.verticalSwiper = null;
+    this.currentProductIndex = 0;
+    this.activeImageIndices.clear();
+    this.imageLoaded = {};
+    this.ui_controls.is_loaded = false;
+    this.ui_controls.is_empty = false;
+  }
+
   getMoreItems() {
     if (this.ui_controls.is_loading || !this.ui_controls.hasMore) return;
 
-    console.log('[Vertican] getMoreItems called');
-    this.ui_controls = { ...this.ui_controls, is_loading: true };
+    console.log('[Vertican] getMoreItems');
+    this.ui_controls.is_loading = true;
     this.cdr.markForCheck();
 
     this.explore.id = this.single_user.id;
@@ -645,47 +607,24 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       .subscribe({
         next: (response: any) => {
           if (response.response_code !== 200 || response.status !== 'success') {
-            this.ui_controls = { ...this.ui_controls, hasMore: false };
+            this.ui_controls.hasMore = false;
+            this.ui_controls.is_loading = false;
+            this.cdr.markForCheck();
             return;
           }
 
-          // Add new products
           this.products = [...this.products, ...response.data];
 
-          // MEMORY MANAGEMENT: Remove old products if too many
-          if (this.products.length > MAX_PRODUCTS_IN_MEMORY && this.currentProductIndex > 3) {
-            const removeCount = Math.min(this.currentProductIndex - 2, this.products.length - MAX_PRODUCTS_IN_MEMORY);
-            if (removeCount > 0) {
-              // Remove old products from beginning
-              const removedProducts = this.products.splice(0, removeCount);
-
-              // Clean up image tracking for removed products
-              removedProducts.forEach(p => {
-                this.activeImageIndices.delete(p.product_id);
-                delete this.imageLoaded[p.product_id];
-              });
-
-              // Adjust swiper index
-              if (this.verticalSwiper) {
-                const newIndex = this.currentProductIndex - removeCount;
-                this.verticalSwiper.slideTo(newIndex, 0);
-                this.currentProductIndex = newIndex;
-              }
-            }
-          }
-
           if (response.data.length < this.explore.limit) {
-            this.ui_controls = { ...this.ui_controls, hasMore: false };
+            this.ui_controls.hasMore = false;
           }
 
+          this.ui_controls.is_loading = false;
           this.cdr.markForCheck();
         },
         error: () => {
-          this.ui_controls = { ...this.ui_controls, hasMore: false };
-          this.cdr.markForCheck();
-        },
-        complete: () => {
-          this.ui_controls = { ...this.ui_controls, is_loading: false };
+          this.ui_controls.hasMore = false;
+          this.ui_controls.is_loading = false;
           this.cdr.markForCheck();
         }
       });
@@ -699,6 +638,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
             this.ui_controls.is_loading_category = false;
+            this.cdr.markForCheck();
           }
         }
       });
@@ -714,10 +654,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.success_notification(response.message);
-            this.ui_controls.is_loading_category = false;
-          } else {
-            this.ui_controls.is_loading_category = false;
           }
+          this.ui_controls.is_loading_category = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -739,15 +678,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // ========================================
 
   error_notification(message: string) {
-    this.toast.error(message, {
-      position: "top-center"
-    });
+    this.toast.error(message, { position: "top-center" });
   }
 
   success_notification(message: string) {
-    this.toast.success(message, {
-      position: 'top-center'
-    });
+    this.toast.success(message, { position: 'top-center' });
   }
 
   // ========================================
@@ -755,10 +690,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   // ========================================
 
   open_vendor(id: number, name: string) {
-    this.router.navigate(
-      ['/', 'vendors'],
-      { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    this.router.navigate(['/', 'vendors'], { queryParams: { id, name } });
   }
 
   triggerBack() {
@@ -766,10 +698,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   open_product(id: number) {
-    this.router.navigate(
-      ['/', 'product'],
-      { queryParams: { id } }
-    ).then(r => console.log(r));
+    this.router.navigate(['/', 'product'], { queryParams: { id } });
   }
 
   closeWish() {
@@ -777,7 +706,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   openHome() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
+    this.router.navigate(['/', 'account']);
   }
 
   // ========================================
@@ -792,7 +721,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
     const el = this.swiperEl?.nativeElement as any;
     if (!el) {
-      console.log('[Swiper] No swiper element found');
+      console.log('[Swiper] No element');
       return;
     }
 
@@ -827,6 +756,4 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     });
     await toast.present();
   }
-
-  protected readonly Math = Math;
 }

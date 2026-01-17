@@ -38,7 +38,7 @@ ion-content {
 }
 
 /* ========================================
-   SINGLE IMAGE CONTAINER (replaces nested swiper)
+   IMAGE CONTAINER
    ======================================== */
 .image-container {
   position: absolute;
@@ -157,14 +157,6 @@ ion-content {
   &:disabled {
     opacity: 0.2;
     pointer-events: none;
-  }
-
-  &.prev {
-    margin-left: 4px;
-  }
-
-  &.next {
-    margin-right: 4px;
   }
 }
 
@@ -448,7 +440,7 @@ ion-content {
 }
 
 /* ========================================
-   FILTER MODAL
+   MODALS
    ======================================== */
 ion-modal ion-content {
   --background: var(--profile-bg, #fff);
@@ -492,9 +484,6 @@ ion-modal ion-content {
   }
 }
 
-/* ========================================
-   WISHLIST MODAL
-   ======================================== */
 .custom-list {
   ion-item {
     --background: transparent;
