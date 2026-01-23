@@ -299,4 +299,8 @@ export class CreatePage implements OnInit {
     console.log('Style products:', this.create_style);
     console.log('Selected products:', this.selectedProducts);
   }
+
+  onToggleChange(event: any) {
+    console.log('Toggle value:', event.detail.checked);
+  }
 }

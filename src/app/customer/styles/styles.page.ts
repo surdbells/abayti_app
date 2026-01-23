@@ -104,7 +104,9 @@ export class StylesPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
-
+  ionViewDidEnter(){
+    this.getObject().then(r => console.log(r));
+  }
   single_user = {
     id: 0,
     token: "",

@@ -12,15 +12,15 @@
 <ion-content class="ion-padding" [fullscreen]="true">
   <ion-card class="form-card">
 
-    <div class="field">
+    <div class="field ion-padding-bottom">
       <label class="field__label">TITLE</label>
       <ion-item class="input-frame" lines="none">
         <ion-input [(ngModel)]="create_style.name" placeholder="e.g Summer collection" class="input-box"></ion-input>
       </ion-item>
     </div>
-    <div class="field">
+    <div class="field ion-padding-bottom">
       <label class="field__label">CATEGORY</label>
-      <ion-item lines="none" class="sort-item">
+      <ion-item  lines="none" class="input-frame">
         <ion-select interface="action-sheet"  placeholder="Select a category" [(ngModel)]="create_style.category">
           <!-- Classic & Timeless -->
           <ion-select-option value="classic">Classic</ion-select-option>
@@ -60,11 +60,10 @@
         </ion-select>
       </ion-item>
     </div>
-    <div class="field">
-      <label class="field__label">TYPE</label>
-      <ion-item lines="none" class="sort-item" justify="space-between">
-        <ion-label>Private Style</ion-label>
-        <ion-toggle color="success" [(ngModel)]="create_style.isPrivate"></ion-toggle>
+    <div class="field ion-padding-bottom">
+      <label class="field__label">PRIVATE STYLE</label>
+      <ion-item class="input-frame" lines="none" justify="space-between">
+        <ion-checkbox labelPlacement="start" [(ngModel)]="create_style.isPrivate">Private styles are not visible in styles public listing</ion-checkbox>
       </ion-item>
     </div>
     <ion-item lines="none" class="input-field">
