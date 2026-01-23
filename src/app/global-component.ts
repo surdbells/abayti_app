@@ -24,8 +24,6 @@ export class GlobalComponent {
 
   public static readBilling = GlobalComponent.baseURL + 'customer/settings/billing/read-billings';
   public static updateBilling = GlobalComponent.baseURL + 'customer/settings/billing/update-billing';
-
-
   public static readReviews = GlobalComponent.baseURL + 'customer/settings/read-reviews';
   public static storeReviews = GlobalComponent.baseURL + 'customer/settings/store-reviews';
   public static deleteReview = GlobalComponent.baseURL + 'customer/settings/delete-review';

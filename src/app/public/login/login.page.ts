@@ -141,8 +141,7 @@ export class LoginPage implements OnInit, OnDestroy {
               this.router.navigate(['/account'], { replaceUrl: true });
               this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
 
-            }
-            if (response.status === "failed") {
+            }else{
               this.ui_controls.logged_in = false;
               this.ui_controls.login_loading = false;
               this.show_error(response.message);

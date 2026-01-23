@@ -195,9 +195,11 @@ export class StyleViewPage implements OnInit, OnDestroy {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
+          }else {
+            this.ui_controls.is_loading_category = false;
+            this.cdr.markForCheck();
+            this.error_notification(response.message);
           }
-          this.ui_controls.is_loading_category = false;
-          this.cdr.markForCheck();
         },
         error: () => {
           this.ui_controls.is_loading_category = false;
@@ -217,9 +219,12 @@ export class StyleViewPage implements OnInit, OnDestroy {
         next: (response) => {
           if (response.response_code === 200 && response.status === "success") {
             this.success_notification(response.message);
+          }else {
+            this.ui_controls.is_loading_category = false;
+            this.cdr.markForCheck();
+            this.error_notification(response.message);
           }
-          this.ui_controls.is_loading_category = false;
-          this.cdr.markForCheck();
+
         },
         error: () => {
           this.ui_controls.is_loading_category = false;

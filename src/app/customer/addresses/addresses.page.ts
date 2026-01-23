@@ -141,6 +141,7 @@ export class AddressesPage implements OnInit, OnDestroy {
           }else{
             this.ui_controls.is_empty = true;
             this.ui_controls.is_loading = false;
+            this.error_notification(response.message);
           }
         }
       }))

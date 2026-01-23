@@ -218,6 +218,8 @@ export class BestSellersPage implements OnInit, OnDestroy {
             this.best_sellers = response.data;
           } else {
             this.best_sellers = [];
+            this.error_notification(response.message);
+
           }
           this.ui_controls.is_loading = false;
           this.cdr.markForCheck();

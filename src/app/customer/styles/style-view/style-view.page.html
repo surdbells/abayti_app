@@ -5,15 +5,13 @@
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="header-title ion-text-center">Style Details</ion-title>
+    <ion-title class="header-title">{{ style.style_name }}</ion-title>
   </ion-toolbar>
+</ion-header>
 
+<ion-content class="page-bg ion-padding" [fullscreen]="true">
   <!-- Style Name -->
   @if(style){
-    <div class="style-name-wrap">
-      <h1 class="style-name">{{ style.style_name }}</h1>
-    </div>
-
     <!-- Summary Card -->
     <div class="summary-card">
       <div class="summary-header">
@@ -38,9 +36,6 @@
       </div>
     </div>
   }
-</ion-header>
-
-<ion-content class="page-bg ion-padding" [fullscreen]="true">
   <!-- Section Title -->
   @if(style){
     <div class="section-header">

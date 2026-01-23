@@ -198,6 +198,9 @@ export class RegisterPage implements OnInit, OnDestroy {
             this.ui_controls.loading = false;
             this.success_notification(response.message);
             this.signIn();
+          }else{
+            this.error_notification(response.message);
+            this.ui_controls.loading = false;
           }
         },
         error: (e) => {

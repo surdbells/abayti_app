@@ -370,6 +370,9 @@ export class AccountPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
             this.ui_controls.is_loading_category = false;
+          }else{
+            this.ui_controls.is_loading_category = false;
+            this.error_notification(response.message)
           }
         }
       }))
@@ -387,6 +390,7 @@ export class AccountPage implements OnInit, OnDestroy {
             this.ui_controls.is_loading_category = false;
           }else{
             this.ui_controls.is_loading_category = false;
+            this.error_notification(response.message);
           }
         }
       }))
@@ -477,6 +481,7 @@ export class AccountPage implements OnInit, OnDestroy {
             this.vendor_featured.push(...response.data);
           }else{
             this.ui_controls.is_empty = true;
+            this.error_notification(response.message);
           }
         }
       }))

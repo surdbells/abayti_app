@@ -67,11 +67,10 @@ $brand-accent: #952d0f;
    SUMMARY CARD
    ======================================== */
 .summary-card {
-  margin: 0 16px 8px;
   padding: 16px;
-  background: rgba(194, 82, 49, 0.7);
+  background: #7C2108;
   border-radius: 16px;
-  border: 2px solid rgba(230, 134, 106, 0.8);
+  border: 2px solid #B12C06;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -300,8 +299,8 @@ $brand-accent: #952d0f;
 }
 
 .cart-btn {
-  --background: $brand-accent;
-  --background-activated: darken($brand-accent, 10%);
+  --background: #952d0f;
+  --background-activated: darken(#952d0f, 10%);
   --color: #fff;
 }
 
@@ -309,7 +308,6 @@ $brand-accent: #952d0f;
   --background: rgba(149, 45, 15, 0.12);
   --background-activated: rgba(149, 45, 15, 0.2);
   --color: $brand-accent;
-  border: 2px solid $brand-accent;
 }
 
 /* ========================================
