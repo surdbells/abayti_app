@@ -139,8 +139,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   private verticalSwiper: any = null;
   @ViewChildren('swipeArea', { read: ElementRef })
   swipeAreas!: QueryList<ElementRef>;
-  @ViewChild('nextBtn', { read: ElementRef }) nextBtn!: ElementRef;
-  @ViewChild('prevBtn', { read: ElementRef }) prevBtn!: ElementRef;
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
