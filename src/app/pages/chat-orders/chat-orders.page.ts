@@ -16,15 +16,15 @@ import {
   IonText,
   IonRefresher,
   IonRefresherContent,
-  NavController
+  NavController, IonIcon
 } from '@ionic/angular/standalone';
 import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
-import { ChatService } from '../../../services/chat.service';
-import { ChatOrder, OrderStatus } from '../../../models/chat.models';
-import { TranslatePipe } from '../../../translate.pipe';
+import { ChatService } from '../../services/chat.service';
+import { ChatOrder, OrderStatus } from '../../models/chat.models';
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-chat-orders',
@@ -43,7 +43,8 @@ import { TranslatePipe } from '../../../translate.pipe';
     IonRefresher,
     IonRefresherContent,
     TuiIcon,
-    TranslatePipe
+    TranslatePipe,
+    IonIcon
   ]
 })
 export class ChatOrdersPage implements OnInit, OnDestroy {
@@ -68,13 +69,13 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(params => {
       this.vendorId = Number(params['vendor_id']);
       this.storeName = params['store_name'] || 'Store';
-      
+
       if (!this.vendorId) {
-        this.router.navigate(['/chat-vendors']);
+        this.router.navigate(['/chat-vendors']).then(r => console.log(r));
         return;
       }
-      
-      this.loadUserAndOrders();
+
+      this.loadUserAndOrders().then(r => console.log(r));
     });
   }
 
@@ -84,9 +85,9 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
 
   async loadUserAndOrders() {
     const userData = await Preferences.get({ key: 'user' });
-    
+
     if (!userData.value) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).then(r => console.log(r));
       return;
     }
 
@@ -110,7 +111,7 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
 
           // If only one order, skip selection and go directly to chat
           if (response.skip_selection && response.orders.length === 1) {
-            this.selectOrder(response.orders[0]);
+          //  this.selectOrder(response.orders[0]);
           }
         },
         error: (err) => {
@@ -130,7 +131,7 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
       queryParams: {
         order_item_id: order.order_item_id
       }
-    });
+    }).then(r => console.log(r));
   }
 
   getStatusClass(status: OrderStatus): string {

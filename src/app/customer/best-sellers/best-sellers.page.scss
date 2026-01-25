@@ -53,8 +53,6 @@ $cta-2: #AF2C06;
 .page-header {
   background: linear-gradient(to bottom, $brand-dark, $brand-light);
   padding-bottom: 14px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
 }
 
 .toolbar {
@@ -69,8 +67,8 @@ $cta-2: #AF2C06;
 
 .toggle-row {
   display: flex;
-  justify-content: center;
-  padding: 8px 16px 4px;
+  justify-content: left;
+  padding: 8px 0 4px;
 
   ion-text {
     color: rgba(255, 255, 255, 0.9);
@@ -111,9 +109,7 @@ $cta-2: #AF2C06;
 /* ========================================
    FILTER SECTION
    ======================================== */
-.filter-section {
-  margin-bottom: 16px;
-}
+.filter-section {}
 
 .h-scroll {
   display: flex;
@@ -485,14 +481,6 @@ $cta-2: #AF2C06;
   padding: 60px;
 }
 
-/* ========================================
-   iOS SAFE AREA
-   ======================================== */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .page-header {
-    padding-top: calc(env(safe-area-inset-top) + 8px);
-  }
-}
 
 /* ========================================
    RESPONSIVE

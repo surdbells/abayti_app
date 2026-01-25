@@ -86,7 +86,9 @@ export class LoginPage implements OnInit, OnDestroy {
     is_active: false,
     is_admin: false,
     is_vendor: false,
-    is_customer: false
+    is_customer: false,
+    is_store_active: false,
+    is_store_approved: false,
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });

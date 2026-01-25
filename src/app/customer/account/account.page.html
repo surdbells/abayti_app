@@ -9,6 +9,11 @@
       </div>
     </ion-buttons>
     <ion-buttons slot="end">
+      @if(single_user.is_vendor && single_user.is_store_active && single_user.is_store_approved){
+        <ion-button (click)="user_store()" fill="clear">
+          <tui-icon icon="@tui.store" [style.color]="'var(&#45;&#45;text)'"/>
+        </ion-button>
+      }
       <ion-button (click)="user_wishlist()" fill="clear">
         <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
       </ion-button>
@@ -24,66 +29,69 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <tui-textfield (click)="search()" #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn ion-margin-bottom" style="width:100%">
+          <tui-textfield (click)="search()" #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn" style="width:100%">
             <input style="border: 1px solid #FAC0B0" (click)="user_search()" placeholder="Search abaya, kaftans" type="text" name="search" tuiTextfield />
           </tui-textfield>
         </ion-col>
-<!--        <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
+<!--    <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
           <tui-icon class="ion-float-end" [style.color]="'var(&#45;&#45;ion-color-secondary)'" icon="@tui.sliders-horizontal" />
         </ion-col>-->
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <section class="section">
+            <div class="h-scroll categories">
+              <button class="chip" type="button" (click)="open_category(1, 'Abayas');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'abayas' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(2, 'Mukhawars');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'mukhawars' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(3, 'Kaftan');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'kaftans' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(4, 'Bags');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/bag.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'bags' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(5, 'Accessories');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'accessories' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(6, 'Modest Clothes');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/modest.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'modest_clothes' | translate }}</span>
+              </button>
+              <button class="chip" type="button" (click)="open_category(7, 'Dresses');">
+          <span class="chip-ico">
+            <ion-icon src="assets/icon/dress.svg"></ion-icon>
+          </span>
+                <span class="chip-text">{{ 'dresses' | translate }}</span>
+              </button>
+            </div>
+          </section>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 </ion-header>
 
 <ion-content fullscreen="true" class="home-bg">
-  <section class="section ion-padding-horizontal">
-    <div class="h-scroll categories">
-      <button class="chip" type="button" (click)="open_category(1, 'Abayas');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'abayas' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(2, 'Mukhawars');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'mukhawars' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(3, 'Kaftan');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'kaftans' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(4, 'Bags');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/bag.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'bags' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(5, 'Accessories');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'accessories' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(6, 'Modest Clothes');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/modest.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'modest_clothes' | translate }}</span>
-      </button>
-      <button class="chip" type="button" (click)="open_category(7, 'Dresses');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/dress.svg"></ion-icon>
-          </span>
-        <span class="chip-text">{{ 'dresses' | translate }}</span>
-      </button>
-    </div>
-  </section>
-
   <!-- Best Sellers Section -->
   @if (!ui_controls.is_loading){
     <section class="section ion-padding-horizontal">

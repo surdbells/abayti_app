@@ -24,8 +24,6 @@ $brand-light: #B12C06;
 .page-header {
   background: linear-gradient(to bottom, $brand-dark, $brand-light);
   padding-bottom: 14px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .toolbar {
@@ -378,8 +376,6 @@ $brand-light: #B12C06;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      line-height: 1.4;
-      min-height: 33px;
     }
 
     .product-price {
@@ -495,15 +491,6 @@ $brand-light: #B12C06;
 }
 
 /* ========================================
-   iOS SAFE AREA
-   ======================================== */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .page-header {
-    padding-top: calc(env(safe-area-inset-top) + 8px);
-  }
-}
-
-/* ========================================
    PERFORMANCE OPTIMIZATIONS
    ======================================== */
 
@@ -511,7 +498,17 @@ $brand-light: #B12C06;
 ion-grid {
   contain: layout style;
 }
+.toggle-row {
+  display: flex;
+  justify-content: left;
+  padding: 8px 0 4px;
 
+  ion-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
 ion-row {
   contain: layout;
 }

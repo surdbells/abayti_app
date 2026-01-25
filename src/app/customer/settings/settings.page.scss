@@ -12,12 +12,16 @@
   --radius-2xl: 28px;
   --radius-3xl: 36px;
 }
-
+$brand-dark: #7C2108;
+$brand-light: #B12C06;
 /* Page canvas */
 ion-content.remove_nudge {
   --background: var(--profile-bg);
 }
-
+.page-header {
+  background: linear-gradient(to bottom, $brand-dark, $brand-light);
+  padding-bottom: 14px;
+}
 .sheet {
   max-width: 520px;
   margin: 0 auto;
@@ -54,7 +58,6 @@ ion-content.remove_nudge {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 16px;
-  padding: 18px 18px 18px 20px;
   color: #fff;
 
   .welcome {
@@ -62,7 +65,7 @@ ion-content.remove_nudge {
     gap: 4px;
 
     .overline {
-      font-size: 32px;
+      font-size: 24px;
       letter-spacing: 0.18em;
       opacity: 0.85;
     }

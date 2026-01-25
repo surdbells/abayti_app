@@ -13,8 +13,6 @@ $brand-accent: #952d0f;
 .page-header {
   background: linear-gradient(to bottom, $brand-dark, $brand-light);
   padding-bottom: 16px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
 }
 
 .toolbar {
@@ -453,15 +451,6 @@ $brand-accent: #952d0f;
         }
       }
     }
-  }
-}
-
-/* ========================================
-   iOS SAFE AREA
-   ======================================== */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .page-header {
-    padding-top: calc(env(safe-area-inset-top) + 8px);
   }
 }
 

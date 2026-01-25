@@ -5,9 +5,9 @@ import { IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIc
 import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
-import { ChatService } from '../../../services/chat.service';
-import { ChatVendor } from '../../../models/chat.models';
-import { TranslatePipe } from '../../../translate.pipe';
+import { ChatService } from '../../services/chat.service';
+import { ChatVendor } from '../../models/chat.models';
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-chat-vendors',
@@ -33,7 +33,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.loadUserAndVendors();
+    this.loadUserAndVendors().then(r => console.log(r));
   }
 
   ngOnDestroy() {
@@ -43,7 +43,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   async loadUserAndVendors() {
     const userData = await Preferences.get({ key: 'user' });
     if (!userData.value) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).then(r => console.log(r));
       return;
     }
 
@@ -76,7 +76,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   selectVendor(vendor: ChatVendor) {
     this.router.navigate(['/chat-orders'], {
       queryParams: { vendor_id: vendor.vendor_id, store_name: vendor.store_name }
-    });
+    }).then(r => console.log(r));
   }
 
   handleRefresh(event: any) {
@@ -89,6 +89,6 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   }
 
   goToShop() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/account']).then(r => console.log(r));
   }
 }

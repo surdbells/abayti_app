@@ -1,23 +1,15 @@
-<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" (click)="triggerBack()" class="icon_left" aria-label="Go back">
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ 'best_seller' | translate }}</ion-title>
+    <ion-title class="title">{{ 'best_seller' | translate }}</ion-title>
   </ion-toolbar>
   <div class="toggle-row">
     <ion-text>Most loved items by our customers</ion-text>
   </div>
-</ion-header>
-
-<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
-  <!-- Pull to Refresh -->
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
   <!-- Filter Chips Section -->
   <section class="filter-section">
     <div class="h-scroll categories">
@@ -42,6 +34,15 @@
       }
     </div>
   </section>
+</ion-header>
+
+<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
 
   <!-- Results Count -->
   @if(!ui_controls.is_loading && best_sellers.length > 0){

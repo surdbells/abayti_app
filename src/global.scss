@@ -128,12 +128,6 @@ ion-toolbar {
   --background: transparent !important;
   --border-style: none;
 }
-ion-content.nudge-fix {
-  --padding-top:    max(30px, var(--ion-safe-area-top));
-  --padding-bottom: max(30px, var(--ion-safe-area-bottom));
-  --padding-start:  max(30px, var(--ion-safe-area-left));
-  --padding-end:    max(30px, var(--ion-safe-area-right));
-}
 .empty-state {
   display: flex;
   align-items: center;
@@ -253,4 +247,11 @@ ion-tab-button  {
 .remove_nudge {
   padding-top: 0.7rem !important;
   color: #fff !important;
+}
+
+ion-header.ios ion-toolbar {
+  --min-height: 46px;
+}
+ion-header.md ion-toolbar {
+  --min-height: 50px;
 }

@@ -1,23 +1,18 @@
-<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" (click)="triggerBack()" class="icon_left">
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ initial.name }}</ion-title>
+    <ion-title class="title">{{ initial.name }}</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
+  <div class="toggle-row">
+    <ion-text>Everything 3bayti has to offer.</ion-text>
+  </div>
   <section class="section">
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-
     <!-- Price Filter Chips -->
-    <div class="h-scroll ion-margin-vertical categories">
-      <!-- All Button with SVG -->
+    <div class="h-scroll categories">
       <button
         type="button"
         class="chip chip-all"
@@ -25,7 +20,6 @@
         (click)="selectFilter('all'); productCategory()">
         <span class="chip-text">All</span>
       </button>
-
       @for(price of priceFilters; track price){
         <button
           type="button"
@@ -37,6 +31,13 @@
       }
     </div>
   </section>
+</ion-header>
+
+<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
 
   <!-- Results count -->
   @if(!ui_controls.is_loading && category_listing.length > 0){

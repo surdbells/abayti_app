@@ -33,9 +33,14 @@ export interface ChatOrder {
   last_message_at: string | null;
 }
 
-export type OrderStatus = 
-  | 'Pending' | 'Accepted' | 'Processing' | 'Ready for Delivery' 
+export type OrderStatus =
+  | 'Pending' | 'Accepted' | 'Processing' | 'Ready for Delivery'
   | 'Delivered' | 'Return Requested' | 'Returned' | 'Cancelled' | 'Refunded';
+
+export type SenderType = 'customer' | 'vendor' | 'system';
+export type MessageType = 'text' | 'image' | 'prompt' | 'system';
+export type MessageStatus = 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
+export type ConversationStatus = 'active' | 'archived' | 'closed' | 'suspended';
 
 export interface Conversation {
   conversation_id: number;
@@ -43,12 +48,14 @@ export interface Conversation {
   customer_id: number;
   vendor_id: number;
   order_item_id: number;
-  status: 'active' | 'archived' | 'closed' | 'suspended';
-  customer_can_send: number;
-  vendor_can_send: number;
+  status: ConversationStatus;
+  customer_can_send: number | boolean;
+  vendor_can_send: number | boolean;
   customer_unread_count: number;
   vendor_unread_count: number;
   last_message_at: string | null;
+  is_flagged?: boolean | number;
+  created_at?: string;
 }
 
 export interface OrderContext {
@@ -91,10 +98,15 @@ export interface ChatMessage {
   has_attachments: number;
   attachments?: ChatAttachment[];
   status: 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
-  is_flagged: number;
+  delivered_at: string | null;
+  read_at: string | null;
+  is_flagged: boolean | number;
   created_at: string;
   sender_name: string;
+  sender_first_name?: string;
+  sender_last_name?: string;
   sender_store_name?: string | null;
+  sender_avatar?: string | null;
 }
 
 export interface ChatAttachment {

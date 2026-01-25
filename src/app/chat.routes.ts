@@ -19,20 +19,25 @@ export const CHAT_ROUTES: Routes = [
     path: 'chat',
     loadComponent: () => import('./pages/chat/chat.page').then(m => m.ChatPage),
     title: 'Chat'
+  },
+  {
+    path: 'vendor-chat-list',
+    loadComponent: () => import('./pages/vendor-chat-list/vendor-chat-list.page').then(m => m.VendorChatListPage),
+    title: 'Customer Messages'
   }
 ];
 
 /**
  * Example app.routes.ts integration:
- * 
+ *
  * import { CHAT_ROUTES } from './chat.routes';
- * 
+ *
  * export const routes: Routes = [
  *   // ... your existing routes ...
- *   
+ *
  *   // Chat routes
  *   ...CHAT_ROUTES,
- *   
+ *
  *   // ... more routes ...
  * ];
  */

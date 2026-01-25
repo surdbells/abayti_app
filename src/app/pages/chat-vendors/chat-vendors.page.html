@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal ion-padding-top">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
         <tui-icon icon="@tui.arrow-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ 'messages' | translate }}</ion-title>
+    <ion-title class="title">{{ 'messages' | translate }}</ion-title>
   </ion-toolbar>
   <div class="subtitle-row">
     <ion-text>{{ 'select_vendor_to_chat' | translate }}</ion-text>
@@ -39,24 +39,23 @@
         <button type="button" class="vendor-card" (click)="selectVendor(vendor)">
           <div class="vendor-logo">
             @if(vendor.store_logo){
-              <img [src]="'data:image/png;base64,' + vendor.store_logo" [alt]="vendor.store_name">
+              <img [src]="vendor?.store_logo || 'assets/images/store.png'" [alt]="vendor?.store_name || 'Store'">
             } @else {
               <div class="logo-placeholder">
-                <ion-icon name="storefront-outline"></ion-icon>
+                <tui-icon icon="@tui.store"></tui-icon>
               </div>
             }
           </div>
-          
+
           <div class="vendor-info">
             <h3 class="vendor-name">{{ vendor.store_name }}</h3>
             <p class="vendor-meta">{{ vendor.order_count }} {{ vendor.order_count === 1 ? ('order' | translate) : ('orders' | translate) }}</p>
           </div>
-          
+
           @if(vendor.total_unread > 0){
             <div class="unread-badge">{{ vendor.total_unread }}</div>
           }
-          
-          <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+          <tui-icon icon="@tui.chevron-right"></tui-icon>
         </button>
       }
     </div>
@@ -66,7 +65,7 @@
   @if(!isLoading && vendors.length === 0){
     <div class="empty-state">
       <div class="empty-icon">
-        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <tui-icon icon="@tui.message-square"></tui-icon>
       </div>
       <h3>{{ 'no_messages_yet' | translate }}</h3>
       <p>{{ 'no_messages_description' | translate }}</p>

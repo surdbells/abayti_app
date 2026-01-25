@@ -1,18 +1,18 @@
-<ion-header class="ion-no-border chat-header">
-  <!-- Main Toolbar -->
-  <ion-toolbar class="chat-toolbar">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
+  <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
         <tui-icon icon="@tui.arrow-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="chat-title">
+    <ion-title class="title">
       @if(orderContext){
         <span class="vendor-name">{{ orderContext.store_name }}</span>
       }
     </ion-title>
   </ion-toolbar>
-  
+
+
   <!-- Pinned Order Header (NON-DISMISSIBLE) -->
   @if(orderContext){
     <button type="button" class="pinned-order" (click)="openOrderDetails()">
@@ -20,8 +20,8 @@
         @if(!imageLoaded){
           <div class="img-skeleton"></div>
         }
-        <img 
-          [src]="orderContext.product_image" 
+        <img
+          [src]="orderContext.product_image"
           [alt]="orderContext.product_name"
           [class.loaded]="imageLoaded"
           (load)="onPinnedImageLoad()"
@@ -46,37 +46,38 @@
           <span class="detail-chip">Qty: {{ orderContext.quantity }}</span>
         </div>
       </div>
-      <tui-icon icon="@tui.chevron-right" class="pinned-arrow"></tui-icon>
+      <tui-icon style="color: #ffffff" icon="@tui.chevron-right" class="pinned-arrow"></tui-icon>
     </button>
   }
 </ion-header>
+
 
 <ion-content class="chat-content" #chatContent [scrollEvents]="true" (ionScroll)="onScroll($event)">
   <!-- Prompt Categories (show when few messages) -->
   @if(promptCategories.length > 0 && messages.length < 5 && canSend){
     <div class="prompts-section">
       <p class="prompts-title">{{ 'quick_actions' | translate }}</p>
-      
+
       <!-- Category Tabs -->
       <div class="prompt-categories">
         @for(category of promptCategories; track category.category_id){
-          <button 
-            type="button" 
+          <button
+            type="button"
             class="category-tab"
             [class.active]="selectedCategory?.category_id === category.category_id"
             (click)="selectCategory(category)">
-            <ion-icon [name]="category.icon"></ion-icon>
+            <tui-icon icon="@tui.{{category.icon}}"></tui-icon>
             <span>{{ category.name }}</span>
           </button>
         }
       </div>
-      
+
       <!-- Prompts for Selected Category -->
       @if(selectedCategory){
         <div class="prompt-buttons">
           @for(prompt of selectedCategory.prompts; track prompt.prompt_id){
-            <button 
-              type="button" 
+            <button
+              type="button"
               class="prompt-btn"
               (click)="sendPrompt(prompt)"
               [disabled]="!canSend || isSending">
@@ -87,7 +88,7 @@
       }
     </div>
   }
-  
+
   <!-- Messages Container -->
   <div class="messages-container">
     <!-- Load More Indicator -->
@@ -96,7 +97,7 @@
         <ion-spinner name="dots"></ion-spinner>
       </div>
     }
-    
+
     <!-- Messages List -->
     @for(message of messages; track message.message_id; let i = $index){
       <!-- Date Separator -->
@@ -105,14 +106,14 @@
           <span>{{ formatDateSeparator(message.created_at) }}</span>
         </div>
       }
-      
+
       <!-- System Message -->
       @if(message.sender_type === 'system'){
         <div class="system-message">
           <span>{{ currentLang === 'ar' && message.content_ar ? message.content_ar : message.content }}</span>
         </div>
       }
-      
+
       <!-- User Message (Customer or Vendor) -->
       @if(message.sender_type !== 'system'){
         <div class="message-wrapper" [class.own-message]="isOwnMessage(message)">
@@ -121,21 +122,21 @@
             @if(message.content){
               <p class="message-text">{{ message.content }}</p>
             }
-            
+
             <!-- Image Attachments -->
             @if(message.has_attachments && message.attachments && message.attachments.length > 0){
               <div class="message-images">
                 @for(attachment of message.attachments; track attachment.attachment_id){
                   <div class="image-wrapper" (click)="openImageViewer(attachment)">
-                    <img 
-                      [src]="attachment.thumbnail_path || attachment.file_path" 
+                    <img
+                      [src]="attachment.thumbnail_path || attachment.file_path"
                       [alt]="attachment.file_name"
                       loading="lazy">
                   </div>
                 }
               </div>
             }
-            
+
             <!-- Message Meta -->
             <div class="message-meta">
               <span class="message-time">{{ message.created_at | date:'shortTime' }}</span>
@@ -143,19 +144,19 @@
                 <span class="message-status">
                   @switch(message.status){
                     @case('sending'){
-                      <ion-icon name="time-outline"></ion-icon>
+                      <tui-icon icon="@tui.clock"></tui-icon>
                     }
                     @case('sent'){
-                      <ion-icon name="checkmark-outline"></ion-icon>
+                      <tui-icon icon="@tui.check"></tui-icon>
                     }
                     @case('delivered'){
-                      <ion-icon name="checkmark-done-outline"></ion-icon>
+                      <tui-icon icon="@tui.check-check"></tui-icon>
                     }
                     @case('read'){
-                      <ion-icon name="checkmark-done-outline" class="read"></ion-icon>
+                      <tui-icon icon="@tui.check-line"></tui-icon>
                     }
                     @case('failed'){
-                      <ion-icon name="alert-circle-outline" class="failed"></ion-icon>
+                      <tui-icon icon="@tui.circle-alert"></tui-icon>
                     }
                   }
                 </span>
@@ -165,7 +166,7 @@
         </div>
       }
     }
-    
+
     <!-- Initial Loading State -->
     @if(isLoading){
       <div class="loading-messages">
@@ -179,12 +180,12 @@
         }
       </div>
     }
-    
+
     <!-- Empty State -->
     @if(!isLoading && messages.length === 0){
       <div class="empty-chat">
         <div class="empty-icon">
-          <ion-icon name="chatbubbles-outline"></ion-icon>
+          <tui-icon icon="@tui.message-circle"></tui-icon>
         </div>
         <p>{{ 'start_conversation' | translate }}</p>
         <span class="empty-hint">{{ 'use_prompts_or_type' | translate }}</span>
@@ -197,10 +198,10 @@
 <ion-footer class="chat-footer" [class.disabled]="!canSend">
   <div class="input-container">
     <!-- Image Upload Button -->
-    <button 
-      type="button" 
-      class="upload-btn" 
-      (click)="triggerImageUpload()" 
+    <button
+      type="button"
+      class="upload-btn"
+      (click)="triggerImageUpload()"
       [disabled]="!canSend || isUploading"
       aria-label="Upload image">
       @if(isUploading){
@@ -209,13 +210,13 @@
         <tui-icon icon="@tui.image"></tui-icon>
       }
     </button>
-    <input 
-      type="file" 
-      #fileInput 
-      accept="image/jpeg,image/png,image/webp,image/gif" 
-      (change)="onImageSelected($event)" 
+    <input
+      type="file"
+      #fileInput
+      accept="image/jpeg,image/png,image/webp,image/gif"
+      (change)="onImageSelected($event)"
       hidden>
-    
+
     <!-- Text Input -->
     <div class="text-input-wrapper">
       <textarea
@@ -230,11 +231,11 @@
         [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
       </textarea>
     </div>
-    
+
     <!-- Send Button -->
-    <button 
-      type="button" 
-      class="send-btn" 
+    <button
+      type="button"
+      class="send-btn"
       [disabled]="!canSend || (!messageText.trim() && !isUploading) || isSending"
       (click)="sendMessage()"
       aria-label="Send message">
@@ -245,7 +246,7 @@
       }
     </button>
   </div>
-  
+
   <!-- Disabled Notice -->
   @if(!canSend){
     <div class="disabled-notice">
@@ -256,8 +257,8 @@
 </ion-footer>
 
 <!-- Order Details Modal -->
-<ion-modal 
-  [isOpen]="isOrderModalOpen" 
+<ion-modal
+  [isOpen]="isOrderModalOpen"
   (didDismiss)="isOrderModalOpen = false"
   [initialBreakpoint]="0.75"
   [breakpoints]="[0, 0.5, 0.75, 1]"
@@ -280,13 +281,13 @@
         <div class="modal-product-image">
           <img [src]="orderContext.product_image" [alt]="orderContext.product_name">
         </div>
-        
+
         <!-- Product Info -->
         <div class="modal-section">
           <h3>{{ orderContext.product_name }}</h3>
           <p class="store-name">{{ orderContext.store_name }}</p>
         </div>
-        
+
         <!-- Order Info -->
         <div class="modal-section">
           <div class="info-row">
@@ -310,7 +311,7 @@
             </div>
           }
         </div>
-        
+
         <!-- Variant Info -->
         <div class="modal-section">
           <h4>{{ 'selected_options' | translate }}</h4>
@@ -330,7 +331,7 @@
             </span>
           </div>
         </div>
-        
+
         <!-- Custom Measurements -->
         @if(orderContext.is_custom && orderContext.measurement_parsed){
           <div class="modal-section">
@@ -348,13 +349,13 @@
             }
           </div>
         }
-        
+
         <!-- Price Breakdown -->
         <div class="modal-section price-section">
           <h4>{{ 'price_details' | translate }}</h4>
           <div class="price-row">
             <span>{{ 'unit_price' | translate }}</span>
-            <span>₦{{ orderContext.price | number }}</span>
+            <span>Ð{{ orderContext.price | number }}</span>
           </div>
           <div class="price-row">
             <span>{{ 'quantity' | translate }}</span>
@@ -363,15 +364,15 @@
           @if(orderContext.discount > 0){
             <div class="price-row discount">
               <span>{{ 'discount' | translate }}</span>
-              <span>-₦{{ orderContext.discount | number }}</span>
+              <span>-Ð{{ orderContext.discount | number }}</span>
             </div>
           }
           <div class="price-row total">
             <span>{{ 'total' | translate }}</span>
-            <span>₦{{ orderContext.total_price | number }}</span>
+            <span>Ð{{ orderContext.total_price | number }}</span>
           </div>
         </div>
-        
+
         <!-- Note -->
         @if(orderContext.note){
           <div class="modal-section">
@@ -385,17 +386,16 @@
 </ion-modal>
 
 <!-- Image Viewer Modal -->
-<ion-modal 
-  [isOpen]="isImageViewerOpen" 
+<ion-modal
+  [isOpen]="isImageViewerOpen"
   (didDismiss)="closeImageViewer()"
   class="image-viewer-modal">
   <ng-template>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ 'image' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="closeImageViewer()">
-            <ion-icon name="close"></ion-icon>
+            <tui-icon icon="@tui.x"></tui-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>

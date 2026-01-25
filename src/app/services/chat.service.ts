@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { NetworkService } from './network.service';
-import { GlobalComponent } from '../app/global-component';
+import { GlobalComponent } from '../global-component';
 import {
   ChatVendor,
-  ChatOrder,
   Conversation,
   OrderContext,
   ChatMessage,
@@ -17,6 +15,7 @@ import {
   VendorConversationsResponse,
   UnreadCountResponse
 } from '../models/chat.models';
+import {NetworkService} from "../service/network.service";
 
 @Injectable({
   providedIn: 'root'
@@ -134,6 +133,11 @@ export class ChatService {
     );
   }
 
+  /**
+   * Upload image attachment
+   * Note: post_request works with FormData - Angular HttpClient
+   * automatically sets Content-Type: multipart/form-data when FormData is passed
+   */
   uploadImage(userId: number, token: string, conversationId: number, file: File): Observable<SendMessageResponse> {
     const formData = new FormData();
     formData.append('id', userId.toString());
@@ -141,7 +145,7 @@ export class ChatService {
     formData.append('conversation_id', conversationId.toString());
     formData.append('image', file);
 
-    return this.networkService.post_form_data(formData, GlobalComponent.chat_upload_image).pipe(
+    return this.networkService.post_request(formData, GlobalComponent.chat_upload_image).pipe(
       tap(response => {
         if (response.status === 'success') {
           const current = this.messages$.value;
@@ -155,6 +159,11 @@ export class ChatService {
     );
   }
 
+  // ========================================
+  // Mark as Read (call when user views messages)
+  // ========================================
+
+  /** Marks all messages in conversation as read - call this when user opens a conversation */
   markAsRead(userId: number, token: string, conversationId: number): Observable<boolean> {
     return this.networkService.post_request(
       { id: userId, token, conversation_id: conversationId },
@@ -182,9 +191,10 @@ export class ChatService {
   }
 
   // ========================================
-  // Unread Count
+  // Unread Count (for badge display)
   // ========================================
 
+  /** Get unread message counts - useful for displaying badges in tab bar or navigation */
   getUnreadCount(userId: number, token: string): Observable<UnreadCountResponse> {
     return this.networkService.post_request(
       { id: userId, token },
@@ -201,54 +211,47 @@ export class ChatService {
   }
 
   // ========================================
-  // Observable Getters
+  // Observable Getters (for reactive templates)
+  // These can be used with async pipe in templates
   // ========================================
 
-  getCurrentConversation(): Observable<Conversation | null> {
+  /** Observable for current conversation - use with async pipe */
+  get conversation$(): Observable<Conversation | null> {
     return this.currentConversation$.asObservable();
   }
 
-  getOrderContext(): Observable<OrderContext | null> {
+  /** Observable for order context - use with async pipe */
+  get order$(): Observable<OrderContext | null> {
     return this.orderContext$.asObservable();
   }
 
-  getMessagesStream(): Observable<ChatMessage[]> {
+  /** Observable for messages - use with async pipe */
+  get messageList$(): Observable<ChatMessage[]> {
     return this.messages$.asObservable();
   }
 
-  getPromptsStream(): Observable<PromptCategory[]> {
+  /** Observable for prompt categories - use with async pipe */
+  get prompts$(): Observable<PromptCategory[]> {
     return this.promptCategories$.asObservable();
   }
 
-  getUnreadCountStream(): Observable<UnreadCountResponse> {
+  /** Observable for unread count - use with async pipe for badges */
+  get unread$(): Observable<UnreadCountResponse> {
     return this.unreadCount$.asObservable();
   }
 
   // ========================================
-  // State Management
+  // State Management Utilities
   // ========================================
 
-  addOptimisticMessage(message: ChatMessage): void {
-    const current = this.messages$.value;
-    this.messages$.next([...current, message]);
-  }
-
-  replaceMessage(tempUuid: string, confirmedMessage: ChatMessage): void {
-    const messages = this.messages$.value.map(m => m.uuid === tempUuid ? confirmedMessage : m);
-    this.messages$.next(messages);
-  }
-
-  updateMessageStatus(messageId: number, status: ChatMessage['status']): void {
-    const messages = this.messages$.value.map(m => m.message_id === messageId ? { ...m, status } : m);
-    this.messages$.next(messages);
-  }
-
+  /** Clear current chat state when leaving chat page */
   clearChat(): void {
     this.currentConversation$.next(null);
     this.orderContext$.next(null);
     this.messages$.next([]);
   }
 
+  /** Reset all chat service state - call on logout */
   resetState(): void {
     this.clearChat();
     this.promptCategories$.next([]);

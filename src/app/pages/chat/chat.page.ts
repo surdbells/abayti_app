@@ -6,7 +6,9 @@ import {
   ElementRef,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
-  AfterViewInit
+  AfterViewInit,
+  Inject,
+  LOCALE_ID
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,26 +25,24 @@ import {
   IonIcon,
   IonSpinner,
   NavController,
-  Platform
+  Platform, IonText
 } from '@ionic/angular/standalone';
 import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
-import { ChatService } from '../../../services/chat.service';
-import { TranslateService } from '../../../services/translate.service';
-import { 
-  ChatMessage, 
-  OrderContext, 
-  PromptCategory, 
-  Prompt, 
+import { ChatService } from '../../services/chat.service';
+import {
+  ChatMessage,
+  OrderContext,
+  PromptCategory,
+  Prompt,
   Conversation,
   ChatAttachment,
-  OrderStatus,
-  MessageStatus
-} from '../../../models/chat.models';
-import { TranslatePipe } from '../../../translate.pipe';
+  OrderStatus
+} from '../../models/chat.models';
+import { TranslatePipe } from '../../translate.pipe';
 
 @Component({
   selector: 'app-chat',
@@ -64,7 +64,8 @@ import { TranslatePipe } from '../../../translate.pipe';
     IonIcon,
     IonSpinner,
     TuiIcon,
-    TranslatePipe
+    TranslatePipe,
+    IonText
   ]
 })
 export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
@@ -108,43 +109,55 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private chatService: ChatService,
-    private translateService: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private nav: NavController,
     private platform: Platform,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Inject(LOCALE_ID) private localeId: string
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Determine language from locale or stored preference
+    this.initializeLanguage().then(r => console.log(r));
+
     this.route.queryParams.subscribe(params => {
       this.orderItemId = Number(params['order_item_id']);
       if (this.orderItemId) {
-        this.initializeChat();
+        this.initializeChat().then(r => console.log(r));
       } else {
-        this.router.navigate(['/chat-vendors']);
+        this.router.navigate(['/chat-vendors']).then(r => console.log(r));
       }
     });
-
-    this.currentLang = this.translateService.getCurrentLang();
   }
 
-  ngAfterViewInit() {
-    // Auto-focus input after view init
+  ngAfterViewInit(): void {
+    // Autofocus input after view init
     setTimeout(() => {
       this.focusInput();
     }, 500);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     this.chatService.clearChat();
   }
 
-  async initializeChat() {
+  private async initializeLanguage(): Promise<void> {
+    // Try to get language from stored preferences first
+    const storedLang = await Preferences.get({ key: 'language' });
+    if (storedLang.value) {
+      this.currentLang = storedLang.value;
+    } else {
+      // Fallback to locale ID
+      this.currentLang = this.localeId.startsWith('ar') ? 'ar' : 'en';
+    }
+  }
+
+  async initializeChat(): Promise<void> {
     const userData = await Preferences.get({ key: 'user' });
     if (!userData.value) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).then(r => console.log(r));
       return;
     }
 
@@ -154,12 +167,12 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
     // Load conversation
     this.loadConversation();
-    
+
     // Load prompts
     this.loadPrompts();
   }
 
-  loadConversation() {
+  loadConversation(): void {
     this.isLoading = true;
     this.cdr.markForCheck();
 
@@ -170,7 +183,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
           this.orderContext = data.order_context;
           this.canSend = data.can_send;
           this.userRole = data.user_role;
-          
+
           // Load messages
           this.loadMessages();
         },
@@ -184,7 +197,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.push(sub);
   }
 
-  loadMessages(beforeId?: number) {
+  loadMessages(beforeId?: number): void {
     if (!this.conversation) return;
 
     if (beforeId) {
@@ -195,8 +208,8 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.markForCheck();
 
     const sub = this.chatService.getMessages(
-      this.userId, 
-      this.userToken, 
+      this.userId,
+      this.userToken,
       this.conversation.conversation_id,
       beforeId
     ).subscribe({
@@ -226,7 +239,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.push(sub);
   }
 
-  loadPrompts() {
+  loadPrompts(): void {
     const sub = this.chatService.getPrompts(this.currentLang).subscribe({
       next: (categories) => {
         this.promptCategories = categories;
@@ -245,7 +258,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   // Message Sending
   // ========================================
 
-  sendMessage() {
+  sendMessage(): void {
     if (!this.conversation || !this.messageText.trim() || this.isSending) return;
 
     const content = this.messageText.trim();
@@ -257,29 +270,11 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     // Add optimistic message
     const tempId = Date.now();
     const tempUuid = 'temp-' + tempId;
-    const tempMessage: ChatMessage = {
-      message_id: tempId,
-      uuid: tempUuid,
-      conversation_id: this.conversation.conversation_id,
-      sender_id: this.userId,
-      sender_type: this.userRole,
-      message_type: 'text',
-      content: content,
-      content_ar: null,
-      prompt_id: null,
-      prompt_category: null,
-      has_attachments: false,
-      status: 'sending',
-      delivered_at: null,
-      read_at: null,
-      is_flagged: false,
-      created_at: new Date().toISOString(),
-      sender_name: ''
-    };
-    
+    const tempMessage = this.createTempMessage(tempId, tempUuid, content, 'text');
+
     this.messages = [...this.messages, tempMessage];
     this.scrollToBottom();
-    this.triggerHaptic();
+    this.triggerHaptic().then(r => console.log(r));
     this.cdr.markForCheck();
 
     const sub = this.chatService.sendMessage(
@@ -290,19 +285,16 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe({
       next: (data) => {
         // Replace temp message with real one
-        this.messages = this.messages.map(m => 
+        this.messages = this.messages.map(m =>
           m.uuid === tempUuid ? data.message : m
         );
         this.isSending = false;
         this.scrollToBottom();
         this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error('Failed to send message:', err);
+      error: () => {
         // Mark as failed
-        this.messages = this.messages.map(m =>
-          m.uuid === tempUuid ? { ...m, status: 'failed' as MessageStatus } : m
-        );
+        this.markMessageFailed(tempUuid);
         this.isSending = false;
         this.cdr.markForCheck();
       }
@@ -311,7 +303,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.push(sub);
   }
 
-  sendPrompt(prompt: Prompt) {
+  sendPrompt(prompt: Prompt): void {
     if (!this.conversation || this.isSending) return;
 
     const content = prompt.text;
@@ -321,29 +313,18 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     // Add optimistic message
     const tempId = Date.now();
     const tempUuid = 'temp-' + tempId;
-    const tempMessage: ChatMessage = {
-      message_id: tempId,
-      uuid: tempUuid,
-      conversation_id: this.conversation.conversation_id,
-      sender_id: this.userId,
-      sender_type: this.userRole,
-      message_type: 'prompt',
-      content: content,
-      content_ar: prompt.text_ar,
-      prompt_id: prompt.prompt_id,
-      prompt_category: this.selectedCategory?.slug || null,
-      has_attachments: false,
-      status: 'sending',
-      delivered_at: null,
-      read_at: null,
-      is_flagged: false,
-      created_at: new Date().toISOString(),
-      sender_name: ''
-    };
-    
+    const tempMessage = this.createTempMessage(
+      tempId,
+      tempUuid,
+      content,
+      'prompt',
+      prompt.prompt_id,
+      prompt.text_ar
+    );
+
     this.messages = [...this.messages, tempMessage];
     this.scrollToBottom();
-    this.triggerHaptic();
+    this.triggerHaptic().then(r => console.log(r));
     this.cdr.markForCheck();
 
     const sub = this.chatService.sendMessage(
@@ -362,9 +343,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
         this.cdr.markForCheck();
       },
       error: () => {
-        this.messages = this.messages.map(m =>
-          m.uuid === tempUuid ? { ...m, status: 'failed' as MessageStatus } : m
-        );
+        this.markMessageFailed(tempUuid);
         this.isSending = false;
         this.cdr.markForCheck();
       }
@@ -373,22 +352,66 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.push(sub);
   }
 
+  /**
+   * Creates a temporary optimistic message for immediate UI feedback
+   */
+  private createTempMessage(
+    tempId: number,
+    tempUuid: string,
+    content: string,
+    messageType: 'text' | 'prompt',
+    promptId?: number,
+    contentAr?: string
+  ): ChatMessage {
+    return {
+      message_id: tempId,
+      uuid: tempUuid,
+      conversation_id: this.conversation!.conversation_id,
+      sender_id: this.userId,
+      sender_type: this.userRole,
+      message_type: messageType,
+      content: content,
+      content_ar: contentAr || null,
+      prompt_id: promptId || null,
+      prompt_category: this.selectedCategory?.slug || null,
+      has_attachments: 0,
+      status: 'sending',
+      delivered_at: null,
+      read_at: null,
+      is_flagged: false,
+      created_at: new Date().toISOString(),
+      sender_name: ''
+    };
+  }
+
+  /**
+   * Marks a message as failed by UUID
+   */
+  private markMessageFailed(uuid: string): void {
+    this.messages = this.messages.map(m => {
+      if (m.uuid === uuid) {
+        return { ...m, status: 'failed' as const };
+      }
+      return m;
+    });
+  }
+
   // ========================================
   // Image Upload
   // ========================================
 
-  triggerImageUpload() {
+  triggerImageUpload(): void {
     if (this.fileInput) {
       this.fileInput.nativeElement.click();
     }
   }
 
-  onImageSelected(event: Event) {
+  onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files?.length || !this.conversation) return;
+    const files = input.files;
+    if (!files || files.length === 0 || !this.conversation) return;
+    const file = files[0];
 
-    const file = input.files[0];
-    
     // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
@@ -418,7 +441,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
         this.messages = [...this.messages, data.message];
         this.isUploading = false;
         this.scrollToBottom();
-        this.triggerHaptic();
+        this.triggerHaptic().then(r => console.log(r));
         this.cdr.markForCheck();
       },
       error: (err) => {
@@ -439,9 +462,9 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   // UI Helpers
   // ========================================
 
-  selectCategory(category: PromptCategory) {
+  selectCategory(category: PromptCategory): void {
     this.selectedCategory = category;
-    this.triggerHaptic('light');
+    this.triggerHaptic('light').then(r => console.log(r));
     this.cdr.markForCheck();
   }
 
@@ -452,6 +475,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   shouldShowDateSeparator(message: ChatMessage, index: number): boolean {
     if (index === 0) return true;
     const prevMessage = this.messages[index - 1];
+    if (!prevMessage) return true;
     const prevDate = new Date(prevMessage.created_at).toDateString();
     const currDate = new Date(message.created_at).toDateString();
     return prevDate !== currDate;
@@ -491,7 +515,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     return statusMap[status] || 'status-pending';
   }
 
-  getMeasurementEntries(): { key: string; value: string }[] {
+  getMeasurementEntries(): Array<{ key: string; value: string }> {
     if (!this.orderContext?.measurement_parsed) return [];
     return Object.entries(this.orderContext.measurement_parsed).map(([key, value]) => ({
       key,
@@ -499,7 +523,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     }));
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     // Send on Enter (without Shift)
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
@@ -507,34 +531,35 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  autoGrow() {
+  autoGrow(): void {
     if (!this.messageInput) return;
     const textarea = this.messageInput.nativeElement;
     textarea.style.height = 'auto';
     textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
   }
 
-  resetTextarea() {
+  resetTextarea(): void {
     if (!this.messageInput) return;
     const textarea = this.messageInput.nativeElement;
     textarea.style.height = 'auto';
   }
 
-  focusInput() {
+  focusInput(): void {
     if (this.messageInput && this.canSend) {
       this.messageInput.nativeElement.focus();
     }
   }
 
-  scrollToBottom(duration = 300) {
+  scrollToBottom(duration = 300): void {
     setTimeout(() => {
       this.chatContent?.scrollToBottom(duration);
     }, 50);
   }
 
-  onScroll(event: any) {
-    const scrollTop = event.detail.scrollTop;
-    this.isScrolledToBottom = scrollTop > event.detail.scrollHeight - event.detail.offsetHeight - 100;
+  onScroll(event: CustomEvent): void {
+    const detail = event.detail as { scrollTop: number; scrollHeight: number; offsetHeight: number };
+    const scrollTop = detail.scrollTop;
+    this.isScrolledToBottom = scrollTop > detail.scrollHeight - detail.offsetHeight - 100;
 
     // Load more when scrolled near top
     if (scrollTop < 100 && this.hasMoreMessages && !this.isLoadingMore && this.messages.length > 0) {
@@ -545,12 +570,12 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onPinnedImageLoad() {
+  onPinnedImageLoad(): void {
     this.imageLoaded = true;
     this.cdr.markForCheck();
   }
 
-  onPinnedImageError(event: Event) {
+  onPinnedImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.src = 'assets/img/placeholder-product.png';
     this.imageLoaded = true;
@@ -561,18 +586,18 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   // Modals
   // ========================================
 
-  openOrderDetails() {
+  openOrderDetails(): void {
     this.isOrderModalOpen = true;
     this.cdr.markForCheck();
   }
 
-  openImageViewer(attachment: ChatAttachment) {
+  openImageViewer(attachment: ChatAttachment): void {
     this.viewingImage = attachment;
     this.isImageViewerOpen = true;
     this.cdr.markForCheck();
   }
 
-  closeImageViewer() {
+  closeImageViewer(): void {
     this.isImageViewerOpen = false;
     this.viewingImage = null;
     this.cdr.markForCheck();
@@ -582,7 +607,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   // Navigation
   // ========================================
 
-  goBack() {
+  goBack(): void {
     this.nav.back();
   }
 
@@ -590,12 +615,12 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   // Haptic Feedback
   // ========================================
 
-  async triggerHaptic(style: 'light' | 'medium' | 'heavy' = 'medium') {
+  async triggerHaptic(style: 'light' | 'medium' | 'heavy' = 'medium'): Promise<void> {
     try {
       if (this.platform.is('capacitor')) {
-        const impactStyle = style === 'light' ? ImpactStyle.Light : 
-                           style === 'heavy' ? ImpactStyle.Heavy : 
-                           ImpactStyle.Medium;
+        const impactStyle = style === 'light' ? ImpactStyle.Light :
+          style === 'heavy' ? ImpactStyle.Heavy :
+            ImpactStyle.Medium;
         await Haptics.impact({ style: impactStyle });
       }
     } catch (e) {

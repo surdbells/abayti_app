@@ -99,6 +99,56 @@ export class GlobalComponent {
   public static product_by_categoryUtility = GlobalComponent.baseURL + 'utility/product_by_category';
 
 
+  public static chat_get_vendors = GlobalComponent.baseURL + 'chat/get_vendors';
+  public static chat_get_vendor_orders = GlobalComponent.baseURL + 'chat/get_vendor_orders';
+  public static chat_get_conversation = GlobalComponent.baseURL + 'chat/get_conversation';
+  public static chat_get_messages = GlobalComponent.baseURL + 'chat/get_messages';
+  public static chat_send_message = GlobalComponent.baseURL + 'chat/send_message';
+  public static chat_upload_image = GlobalComponent.baseURL + 'chat/upload_image';
+  public static chat_get_prompts = GlobalComponent.baseURL + 'chat/get_prompts';
+  public static chat_mark_read = GlobalComponent.baseURL + 'chat/mark_read';
+  public static chat_get_unread_count = GlobalComponent.baseURL + 'chat/get_unread_count';
+  public static chat_get_vendor_conversations = GlobalComponent.baseURL + 'chat/get_vendor_conversations.php';
+
+  // VENDOR
+  // ========================================
+  // VENDOR DASHBOARD ENDPOINTS
+  // ========================================
+
+  // Get vendor dashboard data (store info + stats)
+  public static vendor_dashboard =  GlobalComponent.baseURL + 'vendors/dashboard';
+  // Toggle store active/inactive status
+  public static vendor_toggle_status = GlobalComponent.baseURL + 'vendors/toggle_status';
+  // Get detailed vendor statistics
+  public static vendor_get_stats = GlobalComponent.baseURL + 'vendors/get_stats.php';
+  // Get vendor orders list
+  public static vendor_get_orders = 'vendor/get_orders.php';
+  // Update order status
+  public static vendor_update_order_status = 'vendor/update_order_status.php';
+  // Get vendor products list
+  public static vendor_get_products = 'vendor/get_products.php';
+  // Add new product
+  public static vendor_add_product = 'vendor/add_product.php';
+  // Update existing product
+  public static vendor_update_product = 'vendor/update_product.php';
+  // Delete product
+  public static vendor_delete_product = 'vendor/delete_product.php';
+  // Get earnings and payout history
+  public static vendor_get_earnings = 'vendor/get_earnings.php';
+  // Request payout
+  public static vendor_request_payout = 'vendor/request_payout.php';
+  // Get customer reviews
+  public static vendor_get_reviews = 'vendor/get_reviews.php';
+  // Respond to a review
+  public static vendor_respond_review = 'vendor/respond_review.php';
+  // Update store profile
+  public static vendor_update_profile = 'vendor/update_profile.php';
+  // Update store settings
+  public static vendor_update_settings = 'vendor/update_settings.php';
+
+
+
+
 
   static validateEmail(email: string) {
     return !!email.match(/(?:[a-z0-9+!#$%&'*/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])/gi);

@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal ion-padding-top">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
@@ -54,16 +54,16 @@
               <span class="unread-dot"></span>
             }
           </div>
-          
+
           <!-- Conversation Info -->
           <div class="conv-info">
             <div class="conv-header">
               <h3 class="customer-name">{{ conv.customer_name }}</h3>
               <span class="conv-time">{{ formatTime(conv.last_message_at) }}</span>
             </div>
-            
+
             <p class="product-name">{{ conv.product_name }}</p>
-            
+
             <div class="conv-footer">
               <p class="last-message" [class.unread]="conv.vendor_unread_count > 0">
                 @if(conv.last_message_sender === 'vendor'){
@@ -71,12 +71,12 @@
                 }
                 {{ conv.last_message_preview || 'No messages yet' }}
               </p>
-              
+
               @if(conv.vendor_unread_count > 0){
                 <span class="unread-badge">{{ conv.vendor_unread_count }}</span>
               }
             </div>
-            
+
             <div class="order-meta">
               <span class="order-id">#{{ conv.order_id }}</span>
               <span class="order-status" [class]="getStatusClass(conv.order_status)">
@@ -86,7 +86,7 @@
           </div>
         </button>
       }
-      
+
       <!-- Load More -->
       @if(hasMore){
         <div class="load-more">

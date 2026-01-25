@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import {provideIonicAngular} from "@ionic/angular/standalone";
+import {CHAT_ROUTES} from "./chat.routes";
 
 export const routes: Routes = [
   { path: '', redirectTo: 'intro', pathMatch: 'full' },
@@ -71,10 +71,6 @@ export const routes: Routes = [
   {
     path: 'search',
     loadComponent: () => import('./customer/search/search.page').then( m => m.SearchPage)
-  },
-  {
-    path: 'conversations',
-    loadComponent: () => import('./customer/conversations/conversations.page').then(m => m.ConversationsPage)
   },
   {
     path: 'checkout',
@@ -159,9 +155,9 @@ export const routes: Routes = [
   {
     path: 'my-orders',
     loadComponent: () => import('./customer/my-orders/my-orders.page').then( m => m.MyOrdersPage)
-  },
-  {
-    path: 'stream',
-    loadComponent: () => import('./customer/explore/explore.page').then( m => m.ExplorePage)
-  }
+  }, {
+    path: 'store-dashboard',
+    loadComponent: () => import('./vendor/store-dashboard/store-dashboard.page').then(m => m.StoreDashboardPage),
+    title: 'Store Dashboard'
+  },...CHAT_ROUTES
 ];

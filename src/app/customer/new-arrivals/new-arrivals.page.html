@@ -1,23 +1,15 @@
-<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" (click)="triggerBack()" class="icon_left" aria-label="Go back">
         <tui-icon icon="@tui.corner-up-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ 'new_arrivals' | translate }}</ion-title>
+    <ion-title class="title">{{ 'new_arrivals' | translate }}</ion-title>
   </ion-toolbar>
   <div class="toggle-row">
     <ion-text>Latest Arrivals, Curated for You</ion-text>
   </div>
-</ion-header>
-
-<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
-  <!-- Pull to Refresh -->
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
   <!-- Filter Chips Section -->
   <section class="filter-section">
     <div class="h-scroll categories">
@@ -42,6 +34,15 @@
       }
     </div>
   </section>
+</ion-header>
+
+<ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
 
   <!-- Results Count -->
   @if(!ui_controls.is_loading && new_arrivals.length > 0){
@@ -91,7 +92,6 @@
                   <tui-icon icon="@tui.heart"></tui-icon>
                 </button>
               </div>
-
               <!-- Product Info -->
               <div class="info" (click)="open_product(product.product_id, product.product_name)">
                 <p class="desc">{{ product.product_name }}</p>

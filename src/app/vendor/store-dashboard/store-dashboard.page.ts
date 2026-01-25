@@ -25,9 +25,9 @@ import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
-import { NetworkService } from '../../../services/network.service';
-import { GlobalComponent } from '../../../global-component';
-import { TranslatePipe } from '../../../translate.pipe';
+import { GlobalComponent } from '../../global-component';
+import { TranslatePipe } from '../../translate.pipe';
+import {NetworkService} from "../../service/network.service";
 
 export interface StoreData {
   store_id: number;
@@ -98,7 +98,24 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
 
   isLoading = true;
   isTogglingStatus = false;
-
+  single_user = {
+    id: 0,
+    token: "",
+    first_name: "",
+    last_name: "",
+    user_type: "",
+    email: "",
+    phone: "",
+    avatar: "",
+    location: "",
+    is_2fa: false,
+    is_active: false,
+    is_admin: false,
+    is_vendor: false,
+    is_store_active: false,
+    is_store_approved: false,
+    is_customer: false
+  }
   private userId = 0;
   private userToken = '';
   private subscriptions: Subscription[] = [];
@@ -113,28 +130,28 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadUserAndDashboard();
+    this.getObject().then(r => console.log(r));
   }
-
+  async getObject() {
+    const ret: any = await Preferences.get({ key: 'user' });
+    if (ret.value == null){
+      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      return;
+    }else{
+      this.single_user = JSON.parse(ret.value);
+      this.loadUserAndDashboard().then(r => console.log(r));
+    }
+  }
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   async loadUserAndDashboard(): Promise<void> {
-    const userData = await Preferences.get({ key: 'user' });
-    
-    if (!userData.value) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    const user = JSON.parse(userData.value);
-    this.userId = user.id;
-    this.userToken = user.token;
-
     // Check if user is a vendor
-    if (!user.is_vendor) {
-      this.router.navigate(['/home']);
+    this.userId = this.single_user.id;
+    this.userToken = this.single_user.token;
+    if (!this.single_user.is_vendor) {
+      this.router.navigate(['/account']).then(r => console.log(r));
       return;
     }
 
@@ -184,11 +201,11 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
 
   async toggleStoreStatus(event: CustomEvent): Promise<void> {
     const newStatus = event.detail.checked;
-    
+
     // Show confirmation dialog
     const alert = await this.alertCtrl.create({
       header: newStatus ? 'Activate Store' : 'Deactivate Store',
-      message: newStatus 
+      message: newStatus
         ? 'Your store will be visible to customers. Are you sure?'
         : 'Your store will be hidden from customers. Existing orders will still be processed. Are you sure?',
       buttons: [
@@ -220,8 +237,8 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
     this.cdr.markForCheck();
 
     const sub = this.networkService.post_request(
-      { 
-        id: this.userId, 
+      {
+        id: this.userId,
         token: this.userToken,
         is_active: isActive ? 1 : 0
       },
@@ -271,13 +288,13 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
         {
           text: 'Email',
           handler: () => {
-            window.open('mailto:vendor-support@example.com', '_system');
+            window.open('mailto:info@3bayti.ae', '_system');
           }
         },
         {
           text: 'WhatsApp',
           handler: () => {
-            window.open('https://wa.me/1234567890', '_system');
+            window.open('https://wa.me/971504559975', '_system');
           }
         },
         {

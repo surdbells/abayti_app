@@ -22,9 +22,9 @@ import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
-import { ChatService } from '../../../services/chat.service';
-import { VendorConversation, OrderStatus } from '../../../models/chat.models';
-import { TranslatePipe } from '../../../translate.pipe';
+import { ChatService } from '../../services/chat.service';
+import { VendorConversation, OrderStatus } from '../../models/chat.models';
+import {TranslatePipe} from "../../translate.pipe";
 
 @Component({
   selector: 'app-vendor-chat-list',
@@ -58,7 +58,24 @@ export class VendorChatListPage implements OnInit, OnDestroy {
   private offset = 0;
   private limit = 20;
   private subscriptions: Subscription[] = [];
-
+  single_user = {
+    id: 0,
+    token: "",
+    first_name: "",
+    last_name: "",
+    user_type: "",
+    email: "",
+    phone: "",
+    avatar: "",
+    location: "",
+    is_2fa: false,
+    is_active: false,
+    is_admin: false,
+    is_vendor: false,
+    is_store_active: false,
+    is_store_approved: false,
+    is_customer: false
+  }
   constructor(
     private chatService: ChatService,
     private router: Router,
@@ -67,28 +84,28 @@ export class VendorChatListPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.loadUserAndConversations();
+    this.getObject().then(r => console.log(r));
   }
-
+  async getObject() {
+    const ret: any = await Preferences.get({ key: 'user' });
+    if (ret.value == null){
+      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      return;
+    }else{
+      this.single_user = JSON.parse(ret.value);
+      this.loadUserAndConversations().then(r => console.log(r));
+    }
+  }
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   async loadUserAndConversations() {
-    const userData = await Preferences.get({ key: 'user' });
-    
-    if (!userData.value) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    const user = JSON.parse(userData.value);
-    this.userId = user.id;
-    this.userToken = user.token;
-
+    this.userId = this.single_user.id;
+    this.userToken = this.single_user.token;
     // Check if user is a vendor
-    if (!user.is_vendor || !user.store_status) {
-      this.router.navigate(['/home']);
+    if (!this.single_user.is_vendor || !this.single_user.is_store_active) {
+      this.router.navigate(['/account']).then(r => console.log(r));
       return;
     }
 
@@ -105,9 +122,9 @@ export class VendorChatListPage implements OnInit, OnDestroy {
     this.cdr.markForCheck();
 
     const sub = this.chatService.getVendorConversations(
-      this.userId, 
-      this.userToken, 
-      this.limit, 
+      this.userId,
+      this.userToken,
+      this.limit,
       this.offset
     ).subscribe({
       next: (response) => {
@@ -116,11 +133,11 @@ export class VendorChatListPage implements OnInit, OnDestroy {
         } else {
           this.conversations = response.conversations;
         }
-        
+
         this.totalUnread = response.total_unread;
         this.hasMore = response.has_more;
         this.offset += response.conversations.length;
-        
+
         this.isLoading = false;
         this.isLoadingMore = false;
         this.cdr.markForCheck();
@@ -147,7 +164,7 @@ export class VendorChatListPage implements OnInit, OnDestroy {
       queryParams: {
         order_item_id: conv.order_item_id
       }
-    });
+    }).then(r => console.log(r));
   }
 
   getInitials(name: string): string {
@@ -161,19 +178,19 @@ export class VendorChatListPage implements OnInit, OnDestroy {
 
   formatTime(dateString: string | null): string {
     if (!dateString) return '';
-    
+
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-    
+
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins}m`;
     if (diffHours < 24) return `${diffHours}h`;
     if (diffDays < 7) return `${diffDays}d`;
-    
+
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 

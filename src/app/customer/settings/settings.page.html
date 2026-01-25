@@ -1,13 +1,13 @@
-<ion-header class="ion-padding-top ion-no-border gradient_bg remove_nudge">
-<div class="sheet-header ion-margin-horizontal">
-  <div class="welcome">
-    <div class="overline">{{ 'text_welcome' | translate }}</div>
-    <h1 class="name">{{ single_user.first_name}}</h1>
-  </div>
-  <div class="avatar">
-    <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
-  </div>
-</div>
+<ion-header class="ion-no-border ion-padding-top page-header ion-padding-horizontal">
+    <div class="sheet-header ion-padding-top ion-margin-top">
+      <div class="welcome">
+        <div class="overline">{{ 'text_welcome' | translate }}</div>
+        <h1 class="name">{{ single_user.first_name}}</h1>
+      </div>
+      <div class="avatar">
+        <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
+      </div>
+    </div>
 </ion-header>
 <ion-content fullscreen="true" class="page-bg">
   <div class="sheet">

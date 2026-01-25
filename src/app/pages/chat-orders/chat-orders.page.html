@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal ion-padding-top">
+<ion-header class="ion-no-border page-header ion-padding-horizontal">
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
         <tui-icon icon="@tui.arrow-left"></tui-icon>
       </button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ storeName }}</ion-title>
+    <ion-title class="title">{{ storeName }}</ion-title>
   </ion-toolbar>
   <div class="subtitle-row">
     <ion-text>{{ 'select_order_to_chat' | translate }}</ion-text>
@@ -41,16 +41,16 @@
           <div class="order-image">
             <img [src]="order.product_image" [alt]="order.product_name" loading="lazy" (error)="onImageError($event)">
           </div>
-          
+
           <div class="order-info">
             <h3 class="order-name">{{ order.product_name }}</h3>
-            
+
             <div class="order-meta">
               <span class="order-id">#{{ order.order_id }}</span>
               <span class="separator">•</span>
               <span class="order-date">{{ order.order_date | date:'mediumDate' }}</span>
             </div>
-            
+
             <div class="order-details">
               @if(order.size){
                 <span class="detail-tag">{{ order.size }}</span>
@@ -60,13 +60,13 @@
               }
               <span class="detail-tag">Qty: {{ order.quantity }}</span>
             </div>
-            
+
             <div class="order-footer">
               <span class="order-status" [class]="getStatusClass(order.status)">{{ order.status }}</span>
-              <span class="order-price">₦{{ order.total_price | number }}</span>
+              <span class="order-price">Ð{{ order.total_price | number }}</span>
             </div>
           </div>
-          
+
           <div class="order-actions">
             @if(order.unread_count > 0){
               <div class="unread-badge">{{ order.unread_count }}</div>

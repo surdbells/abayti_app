@@ -207,6 +207,8 @@ export class AccountPage implements OnInit, OnDestroy {
     is_active: false,
     is_admin: false,
     is_vendor: false,
+    is_store_active: false,
+    is_store_approved: false,
     is_customer: false
   }
 
@@ -230,6 +232,7 @@ export class AccountPage implements OnInit, OnDestroy {
 
   ionViewDidEnter(){
     this.load_cart();
+    this.getObject().then(r => console.log(r));
   }
 
   ngOnDestroy(): void {
@@ -261,7 +264,7 @@ export class AccountPage implements OnInit, OnDestroy {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'chat-vendors']).then(r => console.log(r));
   }
   bestSellers() {
     this.router.navigate(['/', 'best-sellers']).then(r => console.log(r));
@@ -492,5 +495,9 @@ export class AccountPage implements OnInit, OnDestroy {
     setTimeout(() => {
       event.target.complete().then(r => console.log(r));
     }, 500);
+  }
+
+  user_store() {
+    this.router.navigate(['/', 'store-dashboard']).then(r => console.log(r));
   }
 }

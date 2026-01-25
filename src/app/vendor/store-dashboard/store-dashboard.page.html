@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border page-header">
+<ion-header class="ion-no-border ion-padding-top ion-padding-horizontal page-header">
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
       <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
@@ -34,7 +34,7 @@
       <div class="store-info">
         <div class="store-logo">
           @if(storeData?.logo){
-            <img [src]="storeData.logo" [alt]="storeData.name" (error)="onLogoError($event)">
+            <img [src]="storeData?.logo" [alt]="storeData?.name" (error)="onLogoError($event)">
           } @else {
             <div class="logo-placeholder">
               <tui-icon icon="@tui.store"></tui-icon>
@@ -50,8 +50,8 @@
           @if(storeData?.rating){
             <div class="store-rating">
               <ion-icon name="star"></ion-icon>
-              <span>{{ storeData.rating | number:'1.1-1' }}</span>
-              <span class="rating-count">({{ storeData.review_count || 0 }})</span>
+              <span>{{ storeData?.rating | number:'1.1-1' }}</span>
+              <span class="rating-count">({{ storeData?.review_count || 0 }})</span>
             </div>
           }
         </div>
@@ -80,7 +80,7 @@
         <span class="stat-value">{{ stats.pending_orders }}</span>
         <span class="stat-label">{{ 'pending_orders' | translate }}</span>
       </button>
-      
+
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-chat-list')">
         <div class="stat-icon messages">
           <tui-icon icon="@tui.message-circle"></tui-icon>
@@ -91,7 +91,7 @@
         <span class="stat-value">{{ stats.unread_messages }}</span>
         <span class="stat-label">{{ 'unread_messages' | translate }}</span>
       </button>
-      
+
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-products')">
         <div class="stat-icon products">
           <tui-icon icon="@tui.package"></tui-icon>
@@ -99,12 +99,12 @@
         <span class="stat-value">{{ stats.total_products }}</span>
         <span class="stat-label">{{ 'products' | translate }}</span>
       </button>
-      
+
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-earnings')">
         <div class="stat-icon earnings">
           <tui-icon icon="@tui.banknote"></tui-icon>
         </div>
-        <span class="stat-value">₦{{ stats.monthly_earnings | number:'1.0-0' }}</span>
+        <span class="stat-value">Ð{{ stats.monthly_earnings | number:'1.0-0' }}</span>
         <span class="stat-label">{{ 'this_month' | translate }}</span>
       </button>
     }
@@ -113,7 +113,7 @@
   <!-- Main Actions -->
   <div class="section">
     <h2 class="section-title">{{ 'quick_actions' | translate }}</h2>
-    
+
     <div class="action-grid">
       <!-- Messages / Chat -->
       <button type="button" class="action-card highlight" (click)="navigateTo('/vendor-chat-list')">
@@ -129,7 +129,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
       </button>
-      
+
       <!-- Orders -->
       <button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
         <div class="action-icon">
@@ -144,7 +144,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
       </button>
-      
+
       <!-- Products -->
       <button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
         <div class="action-icon">
@@ -156,7 +156,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
       </button>
-      
+
       <!-- Add Product -->
       <button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
         <div class="action-icon add">
@@ -174,7 +174,7 @@
   <!-- Store Management -->
   <div class="section">
     <h2 class="section-title">{{ 'store_management' | translate }}</h2>
-    
+
     <div class="menu-list">
       <!-- Earnings & Payouts -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-earnings')">
@@ -187,7 +187,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Analytics -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-analytics')">
         <div class="menu-icon analytics">
@@ -199,7 +199,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Reviews -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-reviews')">
         <div class="menu-icon reviews">
@@ -214,7 +214,7 @@
         }
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Promotions -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-promotions')">
         <div class="menu-icon promotions">
@@ -226,7 +226,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Inventory -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-inventory')">
         <div class="menu-icon inventory">
@@ -247,7 +247,7 @@
   <!-- Store Settings -->
   <div class="section">
     <h2 class="section-title">{{ 'settings' | translate }}</h2>
-    
+
     <div class="menu-list">
       <!-- Store Profile -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-store-profile')">
@@ -260,7 +260,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Business Hours -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-hours')">
         <div class="menu-icon hours">
@@ -272,7 +272,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Shipping Settings -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-shipping')">
         <div class="menu-icon shipping">
@@ -284,7 +284,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Payment Settings -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-payment-settings')">
         <div class="menu-icon payment">
@@ -296,7 +296,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Notifications -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-notifications')">
         <div class="menu-icon notifications">
@@ -314,7 +314,7 @@
   <!-- Help & Support -->
   <div class="section last-section">
     <h2 class="section-title">{{ 'help_support' | translate }}</h2>
-    
+
     <div class="menu-list">
       <!-- Seller Guide -->
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
@@ -327,7 +327,7 @@
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
-      
+
       <!-- Contact Support -->
       <button type="button" class="menu-item" (click)="contactSupport()">
         <div class="menu-icon support">
@@ -349,8 +349,8 @@
         <h3>{{ 'store_visibility' | translate }}</h3>
         <p>{{ storeData?.is_active ? ('store_visible_to_customers' | translate) : ('store_hidden' | translate) }}</p>
       </div>
-      <ion-toggle 
-        [checked]="storeData?.is_active" 
+      <ion-toggle
+        [checked]="storeData?.is_active"
         (ionChange)="toggleStoreStatus($event)"
         [disabled]="isTogglingStatus">
       </ion-toggle>

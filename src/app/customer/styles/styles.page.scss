@@ -14,8 +14,6 @@ $card-gradient-end: #F2C3AB;
 .page-header {
   background: linear-gradient(to bottom, $brand-dark, $brand-light);
   padding-bottom: 14px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
 .toolbar {
@@ -434,15 +432,6 @@ $card-gradient-end: #F2C3AB;
         }
       }
     }
-  }
-}
-
-/* ========================================
-   iOS SAFE AREA
-   ======================================== */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .page-header {
-    padding-top: calc(env(safe-area-inset-top) + 8px);
   }
 }
 
