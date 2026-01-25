@@ -1,0 +1,360 @@
+<ion-header class="ion-no-border page-header">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
+        <tui-icon icon="@tui.arrow-left"></tui-icon>
+      </button>
+    </ion-buttons>
+    <ion-title class="title ion-text-center">{{ 'store_dashboard' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <button type="button" class="icon_right" (click)="openSettings()" aria-label="Settings">
+        <tui-icon icon="@tui.settings"></tui-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-content">
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Store Header Card -->
+  <div class="store-header-card">
+    @if(isLoading){
+      <div class="store-info skeleton">
+        <div class="store-logo skeleton-box"></div>
+        <div class="store-details">
+          <div class="skeleton-text name-sk"></div>
+          <div class="skeleton-text status-sk"></div>
+        </div>
+      </div>
+    } @else {
+      <div class="store-info">
+        <div class="store-logo">
+          @if(storeData?.logo){
+            <img [src]="storeData.logo" [alt]="storeData.name" (error)="onLogoError($event)">
+          } @else {
+            <div class="logo-placeholder">
+              <tui-icon icon="@tui.store"></tui-icon>
+            </div>
+          }
+        </div>
+        <div class="store-details">
+          <h1 class="store-name">{{ storeData?.name || 'My Store' }}</h1>
+          <div class="store-status" [class.active]="storeData?.is_active" [class.inactive]="!storeData?.is_active">
+            <span class="status-dot"></span>
+            <span>{{ storeData?.is_active ? ('store_active' | translate) : ('store_inactive' | translate) }}</span>
+          </div>
+          @if(storeData?.rating){
+            <div class="store-rating">
+              <ion-icon name="star"></ion-icon>
+              <span>{{ storeData.rating | number:'1.1-1' }}</span>
+              <span class="rating-count">({{ storeData.review_count || 0 }})</span>
+            </div>
+          }
+        </div>
+        <button type="button" class="edit-store-btn" (click)="editStoreProfile()">
+          <tui-icon icon="@tui.pencil"></tui-icon>
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="stats-grid">
+    @if(isLoading){
+      @for(i of [1,2,3,4]; track i){
+        <div class="stat-card skeleton">
+          <div class="skeleton-text icon-sk"></div>
+          <div class="skeleton-text value-sk"></div>
+          <div class="skeleton-text label-sk"></div>
+        </div>
+      }
+    } @else {
+      <button type="button" class="stat-card" (click)="navigateTo('/vendor-orders')">
+        <div class="stat-icon orders">
+          <tui-icon icon="@tui.shopping-bag"></tui-icon>
+        </div>
+        <span class="stat-value">{{ stats.pending_orders }}</span>
+        <span class="stat-label">{{ 'pending_orders' | translate }}</span>
+      </button>
+      
+      <button type="button" class="stat-card" (click)="navigateTo('/vendor-chat-list')">
+        <div class="stat-icon messages">
+          <tui-icon icon="@tui.message-circle"></tui-icon>
+          @if(stats.unread_messages > 0){
+            <span class="badge">{{ stats.unread_messages > 99 ? '99+' : stats.unread_messages }}</span>
+          }
+        </div>
+        <span class="stat-value">{{ stats.unread_messages }}</span>
+        <span class="stat-label">{{ 'unread_messages' | translate }}</span>
+      </button>
+      
+      <button type="button" class="stat-card" (click)="navigateTo('/vendor-products')">
+        <div class="stat-icon products">
+          <tui-icon icon="@tui.package"></tui-icon>
+        </div>
+        <span class="stat-value">{{ stats.total_products }}</span>
+        <span class="stat-label">{{ 'products' | translate }}</span>
+      </button>
+      
+      <button type="button" class="stat-card" (click)="navigateTo('/vendor-earnings')">
+        <div class="stat-icon earnings">
+          <tui-icon icon="@tui.banknote"></tui-icon>
+        </div>
+        <span class="stat-value">₦{{ stats.monthly_earnings | number:'1.0-0' }}</span>
+        <span class="stat-label">{{ 'this_month' | translate }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Main Actions -->
+  <div class="section">
+    <h2 class="section-title">{{ 'quick_actions' | translate }}</h2>
+    
+    <div class="action-grid">
+      <!-- Messages / Chat -->
+      <button type="button" class="action-card highlight" (click)="navigateTo('/vendor-chat-list')">
+        <div class="action-icon">
+          <tui-icon icon="@tui.message-circle"></tui-icon>
+          @if(stats.unread_messages > 0){
+            <span class="action-badge">{{ stats.unread_messages }}</span>
+          }
+        </div>
+        <div class="action-content">
+          <h3>{{ 'customer_messages' | translate }}</h3>
+          <p>{{ 'chat_with_customers' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+      </button>
+      
+      <!-- Orders -->
+      <button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
+        <div class="action-icon">
+          <tui-icon icon="@tui.clipboard-list"></tui-icon>
+          @if(stats.pending_orders > 0){
+            <span class="action-badge warning">{{ stats.pending_orders }}</span>
+          }
+        </div>
+        <div class="action-content">
+          <h3>{{ 'manage_orders' | translate }}</h3>
+          <p>{{ 'view_update_orders' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+      </button>
+      
+      <!-- Products -->
+      <button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
+        <div class="action-icon">
+          <tui-icon icon="@tui.package"></tui-icon>
+        </div>
+        <div class="action-content">
+          <h3>{{ 'my_products' | translate }}</h3>
+          <p>{{ 'add_edit_products' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+      </button>
+      
+      <!-- Add Product -->
+      <button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
+        <div class="action-icon add">
+          <tui-icon icon="@tui.plus"></tui-icon>
+        </div>
+        <div class="action-content">
+          <h3>{{ 'add_product' | translate }}</h3>
+          <p>{{ 'list_new_product' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Store Management -->
+  <div class="section">
+    <h2 class="section-title">{{ 'store_management' | translate }}</h2>
+    
+    <div class="menu-list">
+      <!-- Earnings & Payouts -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-earnings')">
+        <div class="menu-icon earnings">
+          <tui-icon icon="@tui.wallet"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'earnings_payouts' | translate }}</h3>
+          <p>{{ 'view_earnings_request_payout' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Analytics -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-analytics')">
+        <div class="menu-icon analytics">
+          <tui-icon icon="@tui.chart-pie"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'analytics' | translate }}</h3>
+          <p>{{ 'sales_performance_insights' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Reviews -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-reviews')">
+        <div class="menu-icon reviews">
+          <tui-icon icon="@tui.star"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'customer_reviews' | translate }}</h3>
+          <p>{{ 'view_respond_reviews' | translate }}</p>
+        </div>
+        @if(stats.pending_reviews > 0){
+          <span class="menu-badge">{{ stats.pending_reviews }}</span>
+        }
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Promotions -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-promotions')">
+        <div class="menu-icon promotions">
+          <tui-icon icon="@tui.percent"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'promotions' | translate }}</h3>
+          <p>{{ 'create_manage_discounts' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Inventory -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-inventory')">
+        <div class="menu-icon inventory">
+          <tui-icon icon="@tui.layers"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'inventory' | translate }}</h3>
+          <p>{{ 'manage_stock_levels' | translate }}</p>
+        </div>
+        @if(stats.low_stock_items > 0){
+          <span class="menu-badge warning">{{ stats.low_stock_items }}</span>
+        }
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Store Settings -->
+  <div class="section">
+    <h2 class="section-title">{{ 'settings' | translate }}</h2>
+    
+    <div class="menu-list">
+      <!-- Store Profile -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-store-profile')">
+        <div class="menu-icon profile">
+          <tui-icon icon="@tui.store"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'store_profile' | translate }}</h3>
+          <p>{{ 'edit_store_info' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Business Hours -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-hours')">
+        <div class="menu-icon hours">
+          <tui-icon icon="@tui.clock"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'business_hours' | translate }}</h3>
+          <p>{{ 'set_availability' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Shipping Settings -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-shipping')">
+        <div class="menu-icon shipping">
+          <tui-icon icon="@tui.truck"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'shipping_settings' | translate }}</h3>
+          <p>{{ 'delivery_zones_rates' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Payment Settings -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-payment-settings')">
+        <div class="menu-icon payment">
+          <tui-icon icon="@tui.credit-card"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'payment_settings' | translate }}</h3>
+          <p>{{ 'bank_payout_details' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Notifications -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-notifications')">
+        <div class="menu-icon notifications">
+          <tui-icon icon="@tui.bell"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'notifications' | translate }}</h3>
+          <p>{{ 'manage_alerts' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Help & Support -->
+  <div class="section last-section">
+    <h2 class="section-title">{{ 'help_support' | translate }}</h2>
+    
+    <div class="menu-list">
+      <!-- Seller Guide -->
+      <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
+        <div class="menu-icon guide">
+          <tui-icon icon="@tui.book-open"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'seller_guide' | translate }}</h3>
+          <p>{{ 'tips_best_practices' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+      
+      <!-- Contact Support -->
+      <button type="button" class="menu-item" (click)="contactSupport()">
+        <div class="menu-icon support">
+          <tui-icon icon="@tui.headphones"></tui-icon>
+        </div>
+        <div class="menu-content">
+          <h3>{{ 'contact_support' | translate }}</h3>
+          <p>{{ 'get_help' | translate }}</p>
+        </div>
+        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Store Toggle -->
+  <div class="store-toggle-section">
+    <div class="toggle-card" [class.inactive]="!storeData?.is_active">
+      <div class="toggle-info">
+        <h3>{{ 'store_visibility' | translate }}</h3>
+        <p>{{ storeData?.is_active ? ('store_visible_to_customers' | translate) : ('store_hidden' | translate) }}</p>
+      </div>
+      <ion-toggle 
+        [checked]="storeData?.is_active" 
+        (ionChange)="toggleStoreStatus($event)"
+        [disabled]="isTogglingStatus">
+      </ion-toggle>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,801 @@
+/* ========================================
+   VARIABLES
+   ======================================== */
+$brand-dark: #7C2108;
+$brand-light: #B12C06;
+$peach-bg: #FBF0E6;
+
+/* ========================================
+   SKELETON ANIMATION
+   ======================================== */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.page-header {
+  background: linear-gradient(135deg, $brand-dark 0%, $brand-light 100%);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: inherit;
+    border-radius: 0 0 24px 24px;
+    z-index: -1;
+  }
+}
+
+.toolbar {
+  --background: transparent;
+  padding-top: env(safe-area-inset-top);
+}
+
+.title {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.icon_left,
+.icon_right {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  
+  tui-icon {
+    font-size: 20px;
+    color: #fff;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* ========================================
+   CONTENT
+   ======================================== */
+.page-content {
+  --background: #{$peach-bg};
+  --padding-bottom: 100px;
+}
+
+/* ========================================
+   STORE HEADER CARD
+   ======================================== */
+.store-header-card {
+  margin: -8px 16px 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(124, 33, 8, 0.12);
+}
+
+.store-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+  &.skeleton {
+    .store-logo {
+      background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
+    }
+  }
+}
+
+.store-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(124, 33, 8, 0.05);
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .logo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $brand-dark, $brand-light);
+    
+    tui-icon {
+      font-size: 32px;
+      color: #fff;
+    }
+  }
+}
+
+.store-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.store-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.store-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+  
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  
+  &.active {
+    background: #d1fae5;
+    color: #065f46;
+    
+    .status-dot {
+      background: #10b981;
+    }
+  }
+  
+  &.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+    
+    .status-dot {
+      background: #ef4444;
+    }
+  }
+}
+
+.store-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #666;
+  
+  ion-icon {
+    color: #f59e0b;
+    font-size: 14px;
+  }
+  
+  .rating-count {
+    color: #999;
+  }
+}
+
+.edit-store-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(124, 33, 8, 0.08);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  
+  tui-icon {
+    font-size: 18px;
+    color: $brand-dark;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    background: rgba(124, 33, 8, 0.15);
+  }
+}
+
+/* ========================================
+   STATS GRID
+   ======================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06);
+  }
+  
+  &.skeleton {
+    pointer-events: none;
+  }
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+  
+  tui-icon {
+    font-size: 24px;
+    color: #fff;
+  }
+  
+  &.orders {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  &.messages {
+    background: linear-gradient(135deg, $brand-dark, $brand-light);
+  }
+  
+  &.products {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  }
+  
+  &.earnings {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+.section {
+  padding: 0 16px;
+  margin-bottom: 24px;
+  
+  &.last-section {
+    margin-bottom: 16px;
+  }
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 14px 4px;
+}
+
+/* ========================================
+   ACTION GRID
+   ======================================== */
+.action-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 16px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  &.highlight {
+    background: linear-gradient(135deg, $brand-dark, $brand-light);
+    
+    .action-icon {
+      background: rgba(255, 255, 255, 0.2);
+      
+      tui-icon {
+        color: #fff;
+      }
+    }
+    
+    .action-content {
+      h3 {
+        color: #fff;
+      }
+      
+      p {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    .action-arrow {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+.action-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(124, 33, 8, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  
+  tui-icon {
+    font-size: 22px;
+    color: $brand-dark;
+  }
+  
+  &.add {
+    background: linear-gradient(135deg, #10b981, #059669);
+    
+    tui-icon {
+      color: #fff;
+    }
+  }
+  
+  .action-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &.warning {
+      background: #f59e0b;
+    }
+  }
+}
+
+.action-content {
+  flex: 1;
+  min-width: 0;
+  
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 2px;
+  }
+  
+  p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+}
+
+.action-arrow {
+  font-size: 18px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   MENU LIST
+   ======================================== */
+.menu-list {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:active {
+    background: rgba(124, 33, 8, 0.03);
+  }
+}
+
+.menu-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  tui-icon {
+    font-size: 20px;
+    color: #fff;
+  }
+  
+  &.earnings {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  &.analytics {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+  
+  &.reviews {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  &.promotions {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+  }
+  
+  &.inventory {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  }
+  
+  &.profile {
+    background: linear-gradient(135deg, $brand-dark, $brand-light);
+  }
+  
+  &.hours {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+  }
+  
+  &.shipping {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+  }
+  
+  &.payment {
+    background: linear-gradient(135deg, #84cc16, #65a30d);
+  }
+  
+  &.notifications {
+    background: linear-gradient(135deg, #a855f7, #9333ea);
+  }
+  
+  &.guide {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+  }
+  
+  &.support {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+  }
+}
+
+.menu-content {
+  flex: 1;
+  min-width: 0;
+  
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 2px;
+  }
+  
+  p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+}
+
+.menu-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  background: $brand-dark;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  &.warning {
+    background: #f59e0b;
+  }
+}
+
+.menu-arrow {
+  font-size: 18px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   STORE TOGGLE SECTION
+   ======================================== */
+.store-toggle-section {
+  padding: 0 16px 24px;
+}
+
+.toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+  
+  &.inactive {
+    border-color: #fee2e2;
+    background: #fffbfb;
+  }
+  
+  ion-toggle {
+    --background: #e5e7eb;
+    --background-checked: #10b981;
+    --handle-background: #fff;
+    --handle-background-checked: #fff;
+  }
+}
+
+.toggle-info {
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px;
+  }
+  
+  p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+}
+
+/* ========================================
+   SKELETON STATES
+   ======================================== */
+.skeleton-box {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+.skeleton-text {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    animation: shimmer 1.5s infinite;
+  }
+  
+  &.name-sk {
+    height: 20px;
+    width: 140px;
+    margin-bottom: 10px;
+  }
+  
+  &.status-sk {
+    height: 24px;
+    width: 80px;
+    border-radius: 12px;
+  }
+  
+  &.icon-sk {
+    height: 48px;
+    width: 48px;
+    border-radius: 14px;
+    margin: 0 auto 10px;
+  }
+  
+  &.value-sk {
+    height: 24px;
+    width: 60px;
+    margin: 0 auto 6px;
+  }
+  
+  &.label-sk {
+    height: 14px;
+    width: 80px;
+    margin: 0 auto;
+  }
+}
+
+/* ========================================
+   RTL SUPPORT
+   ======================================== */
+:host-context([dir="rtl"]) {
+  .store-info {
+    text-align: right;
+  }
+  
+  .action-card,
+  .menu-item {
+    text-align: right;
+  }
+  
+  .action-arrow,
+  .menu-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .action-badge,
+  .stat-icon .badge {
+    right: auto;
+    left: -4px;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 360px) {
+  .store-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .store-name {
+    font-size: 18px;
+  }
+  
+  .stat-card {
+    padding: 14px 12px;
+  }
+  
+  .stat-value {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .store-header-card,
+  .section,
+  .store-toggle-section {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .stats-grid {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-box::after,
+  .skeleton-text::after {
+    animation: none;
+  }
+  
+  .stat-card,
+  .action-card,
+  .icon_left,
+  .icon_right,
+  .edit-store-btn {
+    transition: none;
+  }
+  
+  .toggle-card {
+    transition: none;
+  }
+}

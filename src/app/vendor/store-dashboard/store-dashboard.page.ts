@@ -1,0 +1,318 @@
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import {
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonIcon,
+  IonRefresher,
+  IonRefresherContent,
+  IonToggle,
+  NavController,
+  AlertController,
+  ToastController
+} from '@ionic/angular/standalone';
+import { TuiIcon } from '@taiga-ui/core';
+import { Subscription } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
+
+import { NetworkService } from '../../../services/network.service';
+import { GlobalComponent } from '../../../global-component';
+import { TranslatePipe } from '../../../translate.pipe';
+
+export interface StoreData {
+  store_id: number;
+  name: string;
+  logo: string | null;
+  banner: string | null;
+  description: string | null;
+  is_active: boolean;
+  rating: number | null;
+  review_count: number;
+  created_at: string;
+}
+
+export interface StoreStats {
+  pending_orders: number;
+  processing_orders: number;
+  completed_orders: number;
+  total_orders: number;
+  unread_messages: number;
+  total_products: number;
+  active_products: number;
+  out_of_stock: number;
+  low_stock_items: number;
+  monthly_earnings: number;
+  total_earnings: number;
+  pending_payout: number;
+  pending_reviews: number;
+}
+
+@Component({
+  selector: 'app-store-dashboard',
+  templateUrl: './store-dashboard.page.html',
+  styleUrls: ['./store-dashboard.page.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonIcon,
+    IonRefresher,
+    IonRefresherContent,
+    IonToggle,
+    TuiIcon,
+    TranslatePipe
+  ]
+})
+export class StoreDashboardPage implements OnInit, OnDestroy {
+  storeData: StoreData | null = null;
+  stats: StoreStats = {
+    pending_orders: 0,
+    processing_orders: 0,
+    completed_orders: 0,
+    total_orders: 0,
+    unread_messages: 0,
+    total_products: 0,
+    active_products: 0,
+    out_of_stock: 0,
+    low_stock_items: 0,
+    monthly_earnings: 0,
+    total_earnings: 0,
+    pending_payout: 0,
+    pending_reviews: 0
+  };
+
+  isLoading = true;
+  isTogglingStatus = false;
+
+  private userId = 0;
+  private userToken = '';
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    private networkService: NetworkService,
+    private router: Router,
+    private nav: NavController,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.loadUserAndDashboard();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  async loadUserAndDashboard(): Promise<void> {
+    const userData = await Preferences.get({ key: 'user' });
+    
+    if (!userData.value) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const user = JSON.parse(userData.value);
+    this.userId = user.id;
+    this.userToken = user.token;
+
+    // Check if user is a vendor
+    if (!user.is_vendor) {
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    this.loadDashboardData();
+  }
+
+  loadDashboardData(): void {
+    this.isLoading = true;
+    this.cdr.markForCheck();
+
+    const sub = this.networkService.post_request(
+      { id: this.userId, token: this.userToken },
+      GlobalComponent.vendor_dashboard
+    ).subscribe({
+      next: (response) => {
+        if (response.status === 'success') {
+          this.storeData = response.data.store;
+          this.stats = {
+            ...this.stats,
+            ...response.data.stats
+          };
+        }
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Failed to load dashboard:', err);
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  navigateTo(path: string): void {
+    this.router.navigate([path]);
+  }
+
+  editStoreProfile(): void {
+    this.router.navigate(['/vendor-store-profile']);
+  }
+
+  openSettings(): void {
+    this.router.navigate(['/vendor-settings']);
+  }
+
+  async toggleStoreStatus(event: CustomEvent): Promise<void> {
+    const newStatus = event.detail.checked;
+    
+    // Show confirmation dialog
+    const alert = await this.alertCtrl.create({
+      header: newStatus ? 'Activate Store' : 'Deactivate Store',
+      message: newStatus 
+        ? 'Your store will be visible to customers. Are you sure?'
+        : 'Your store will be hidden from customers. Existing orders will still be processed. Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            // Revert toggle
+            if (this.storeData) {
+              this.storeData.is_active = !newStatus;
+              this.cdr.markForCheck();
+            }
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.updateStoreStatus(newStatus);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private updateStoreStatus(isActive: boolean): void {
+    this.isTogglingStatus = true;
+    this.cdr.markForCheck();
+
+    const sub = this.networkService.post_request(
+      { 
+        id: this.userId, 
+        token: this.userToken,
+        is_active: isActive ? 1 : 0
+      },
+      GlobalComponent.vendor_toggle_status
+    ).subscribe({
+      next: async (response) => {
+        if (response.status === 'success') {
+          if (this.storeData) {
+            this.storeData.is_active = isActive;
+          }
+          const toast = await this.toastCtrl.create({
+            message: isActive ? 'Store is now active' : 'Store is now hidden',
+            duration: 2000,
+            position: 'bottom',
+            color: isActive ? 'success' : 'warning'
+          });
+          await toast.present();
+        } else {
+          // Revert on failure
+          if (this.storeData) {
+            this.storeData.is_active = !isActive;
+          }
+          this.showErrorToast('Failed to update store status');
+        }
+        this.isTogglingStatus = false;
+        this.cdr.markForCheck();
+      },
+      error: async () => {
+        // Revert on error
+        if (this.storeData) {
+          this.storeData.is_active = !isActive;
+        }
+        this.showErrorToast('Failed to update store status');
+        this.isTogglingStatus = false;
+        this.cdr.markForCheck();
+      }
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  async contactSupport(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Contact Support',
+      message: 'How would you like to reach us?',
+      buttons: [
+        {
+          text: 'Email',
+          handler: () => {
+            window.open('mailto:vendor-support@example.com', '_system');
+          }
+        },
+        {
+          text: 'WhatsApp',
+          handler: () => {
+            window.open('https://wa.me/1234567890', '_system');
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  onLogoError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+  }
+
+  handleRefresh(event: CustomEvent): void {
+    this.loadDashboardData();
+    setTimeout(() => {
+      (event.target as HTMLIonRefresherElement).complete();
+    }, 500);
+  }
+
+  goBack(): void {
+    this.nav.back();
+  }
+
+  private async showErrorToast(message: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toast.present();
+  }
+}
