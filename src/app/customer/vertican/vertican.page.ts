@@ -6,9 +6,9 @@ import {
   HostListener,
   NgZone,
   OnDestroy,
-  OnInit,
+  OnInit, QueryList,
   signal,
-  ViewChild,
+  ViewChild, ViewChildren,
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -46,7 +46,7 @@ import {
   IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
-import { Platform, ToastController } from "@ionic/angular";
+import {Gesture, GestureController, Platform, ToastController} from "@ionic/angular";
 import {
   TuiButton,
   TuiIcon,
@@ -137,6 +137,10 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   categories: Labels[] = [];
   private swiperInitialized = false;
   private verticalSwiper: any = null;
+  @ViewChildren('swipeArea', { read: ElementRef })
+  swipeAreas!: QueryList<ElementRef>;
+  @ViewChild('nextBtn', { read: ElementRef }) nextBtn!: ElementRef;
+  @ViewChild('prevBtn', { read: ElementRef }) prevBtn!: ElementRef;
 
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
@@ -177,6 +181,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private nav: NavController,
     private net: ConnectionService,
+    private gestureCtrl: GestureController,
     private toastController: ToastController,
     private platform: Platform,
     private router: Router,
@@ -300,9 +305,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.markForCheck();
   }
 
-  nextImage(productId: number, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+  nextImage(productId: number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
     const product = this.products.find(p => p.product_id === productId);
     if (!product) return;
@@ -317,9 +324,11 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  prevImage(productId: number, event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+  prevImage(productId: number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
     const currentIndex = this.getActiveImageIndex(productId);
 
@@ -750,6 +759,19 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => this.initializeSwipers(), 200);
+    // Handle DOM changes (important when product changes)
+    this.swipeAreas.changes.subscribe(() => {
+      this.initSwipeGestures();
+    });
+  }
+
+  onSwipeLeft(index: number) {
+    console.log('Swipe left on product', index);
+    this.nextImage(this.products[index].product_id);
+  }
+  onSwipeRight(index: number) {
+    console.log('Swipe right on product', index);
+    this.prevImage(this.products[index].product_id);
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom', message: string) {
@@ -759,5 +781,22 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
       position: position,
     });
     await toast.present();
+  }
+  private initSwipeGestures() {
+    if (!this.swipeAreas || this.swipeAreas.length === 0) return;
+
+    this.swipeAreas.forEach((area, index) => {
+      const gesture = this.gestureCtrl.create({
+        el: area.nativeElement,
+        gestureName: `swipe-gesture-${index}`,
+        threshold: 15,
+        onEnd: ev => {
+          if (ev.deltaX < -50) this.onSwipeLeft(index);
+          if (ev.deltaX > 50) this.onSwipeRight(index);
+        }
+      });
+
+      gesture.enable();
+    });
   }
 }

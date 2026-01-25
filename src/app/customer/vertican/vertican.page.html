@@ -13,7 +13,7 @@
 
     @for(product of products; track product.product_id; let idx = $index){
       <swiper-slide class="product-slide">
-        <div class="hero">
+        <div #swipeArea class="hero">
 
           <!-- Image Container -->
           <div class="image-container">
@@ -47,6 +47,7 @@
             <!-- Left/Right image navigation -->
             <div class="image-nav">
               <button
+                #prevBtn
                 type="button"
                 class="image-nav-btn prev"
                 (click)="prevImage(product.product_id, $event)"
@@ -54,6 +55,7 @@
                 ‹
               </button>
               <button
+                #nextBtn
                 type="button"
                 class="image-nav-btn next"
                 (click)="nextImage(product.product_id, $event)"
