@@ -131,7 +131,7 @@
       </button>
 
       <!-- Orders -->
-      <button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
+      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
         <div class="action-icon">
           <tui-icon icon="@tui.clipboard-list"></tui-icon>
           @if(stats.pending_orders > 0){
@@ -143,10 +143,10 @@
           <p>{{ 'view_update_orders' | translate }}</p>
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
-      </button>
+      </button>-->
 
       <!-- Products -->
-      <button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
+      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
         <div class="action-icon">
           <tui-icon icon="@tui.package"></tui-icon>
         </div>
@@ -155,10 +155,10 @@
           <p>{{ 'add_edit_products' | translate }}</p>
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
-      </button>
+      </button>-->
 
       <!-- Add Product -->
-      <button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
+      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
         <div class="action-icon add">
           <tui-icon icon="@tui.plus"></tui-icon>
         </div>
@@ -167,16 +167,16 @@
           <p>{{ 'list_new_product' | translate }}</p>
         </div>
         <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
-      </button>
+      </button>-->
     </div>
   </div>
 
   <!-- Store Management -->
-  <div class="section">
+  <!--<div class="section">
     <h2 class="section-title">{{ 'store_management' | translate }}</h2>
 
     <div class="menu-list">
-      <!-- Earnings & Payouts -->
+      &lt;!&ndash; Earnings & Payouts &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-earnings')">
         <div class="menu-icon earnings">
           <tui-icon icon="@tui.wallet"></tui-icon>
@@ -188,7 +188,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Analytics -->
+      &lt;!&ndash; Analytics &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-analytics')">
         <div class="menu-icon analytics">
           <tui-icon icon="@tui.chart-pie"></tui-icon>
@@ -200,7 +200,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Reviews -->
+      &lt;!&ndash; Reviews &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-reviews')">
         <div class="menu-icon reviews">
           <tui-icon icon="@tui.star"></tui-icon>
@@ -215,7 +215,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Promotions -->
+      &lt;!&ndash; Promotions &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-promotions')">
         <div class="menu-icon promotions">
           <tui-icon icon="@tui.percent"></tui-icon>
@@ -227,7 +227,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Inventory -->
+      &lt;!&ndash; Inventory &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-inventory')">
         <div class="menu-icon inventory">
           <tui-icon icon="@tui.layers"></tui-icon>
@@ -242,14 +242,14 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
     </div>
-  </div>
+  </div>-->
 
   <!-- Store Settings -->
-  <div class="section">
+  <!--  <div class="section">
     <h2 class="section-title">{{ 'settings' | translate }}</h2>
 
     <div class="menu-list">
-      <!-- Store Profile -->
+      &lt;!&ndash; Store Profile &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-store-profile')">
         <div class="menu-icon profile">
           <tui-icon icon="@tui.store"></tui-icon>
@@ -261,7 +261,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Business Hours -->
+      &lt;!&ndash; Business Hours &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-hours')">
         <div class="menu-icon hours">
           <tui-icon icon="@tui.clock"></tui-icon>
@@ -273,7 +273,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Shipping Settings -->
+      &lt;!&ndash; Shipping Settings &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-shipping')">
         <div class="menu-icon shipping">
           <tui-icon icon="@tui.truck"></tui-icon>
@@ -285,7 +285,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Payment Settings -->
+      &lt;!&ndash; Payment Settings &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-payment-settings')">
         <div class="menu-icon payment">
           <tui-icon icon="@tui.credit-card"></tui-icon>
@@ -297,7 +297,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
 
-      <!-- Notifications -->
+      &lt;!&ndash; Notifications &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-notifications')">
         <div class="menu-icon notifications">
           <tui-icon icon="@tui.bell"></tui-icon>
@@ -309,7 +309,7 @@
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
       </button>
     </div>
-  </div>
+  </div>-->
 
   <!-- Help & Support -->
   <div class="section last-section">
@@ -317,7 +317,7 @@
 
     <div class="menu-list">
       <!-- Seller Guide -->
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
+<!--      <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
         <div class="menu-icon guide">
           <tui-icon icon="@tui.book-open"></tui-icon>
         </div>
@@ -326,7 +326,7 @@
           <p>{{ 'tips_best_practices' | translate }}</p>
         </div>
         <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
-      </button>
+      </button>-->
 
       <!-- Contact Support -->
       <button type="button" class="menu-item" (click)="contactSupport()">
