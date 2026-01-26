@@ -627,7 +627,7 @@ swiper-slide,
     span {
       padding: 12px 8px;
       text-align: center;
-      font-size: 13px;
+      font-size: 12px;
       border-bottom: 1px solid #e5e5e5;
     }
 
@@ -637,6 +637,7 @@ swiper-slide,
       span {
         color: #000000;
         font-weight: 600;
+        writing-mode: vertical-lr;
         border-bottom: none;
       }
     }
