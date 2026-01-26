@@ -236,7 +236,7 @@
 
   <!-- Size Guide Modal -->
   @if(!ui_controls.is_loading){
-    <ion-modal trigger="size_guide" [initialBreakpoint]="0.55" [breakpoints]="[0, 0.4, 0.55, 0.8]">
+    <ion-modal trigger="size_guide"  [initialBreakpoint]="0.55" [breakpoints]="[0, 0.4, 0.55, 0.8]">
       <ng-template>
         <ion-header>
           <ion-toolbar>
@@ -248,18 +248,41 @@
         </ion-header>
         <ion-content class="ion-padding">
           <div class="size-chart">
-            <div class="chart-row header">
-              <span>Size</span>
-              <span>Bust</span>
-              <span>Waist</span>
-              <span>Hips</span>
-            </div>
-            <div class="chart-row"><span>XS</span><span>32"</span><span>24"</span><span>34"</span></div>
-            <div class="chart-row"><span>S</span><span>34"</span><span>26"</span><span>36"</span></div>
-            <div class="chart-row"><span>M</span><span>36"</span><span>28"</span><span>38"</span></div>
-            <div class="chart-row"><span>L</span><span>38"</span><span>30"</span><span>40"</span></div>
-            <div class="chart-row"><span>XL</span><span>40"</span><span>32"</span><span>42"</span></div>
-            <div class="chart-row"><span>XXL</span><span>42"</span><span>34"</span><span>44"</span></div>
+            @if (store_measurement.length){
+              <div class="chart-row header">
+                <span>{{ 'label_size' | translate }}</span>
+                <span>{{ 'label_bust' | translate }}</span>
+                <span>{{ 'label_waist' | translate }}</span>
+                <span>{{ 'label_hip' | translate }}</span>
+                <span>{{ 'label_length' | translate }}</span>
+                <span>{{ 'label_neck' | translate }}</span>
+                <span>{{ 'label_arm' | translate }}</span>
+                <span>{{ 'label_armhole' | translate }}</span>
+                <span>{{ 'label_shoulder' | translate }}</span>
+              </div>
+            }
+            @for(item of store_measurement; track $index){
+              <div class="chart-row">
+                <span>{{ item.size }}</span>
+                <span>{{ item.bust }}</span>
+                <span>{{ item.waist }}</span>
+                <span>{{ item.hip }}</span>
+                <span>{{ item.length }}</span>
+                <span>{{ item.neck }}</span>
+                <span>{{ item.arm }}</span>
+                <span>{{ item.armhole }}</span>
+                <span>{{ item.shoulder }}</span>
+              </div>
+              } @empty {
+              <ion-card>
+                <ion-row>
+                  <ion-col>
+                    <ion-text class="ion-text-center ion-margin ion-padding">{{ 'text_no_size_guide' | translate }}</ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+
+              }
           </div>
         </ion-content>
       </ng-template>

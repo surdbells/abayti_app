@@ -15,10 +15,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons,
+  IonButtons, IonCard,
   IonCol,
   IonContent,
-  IonFooter,
+  IonFooter, IonGrid,
   IonHeader,
   IonImg,
   IonItem,
@@ -98,7 +98,9 @@ export interface ColorOption {
     SizeChipsComponent,
     TranslatePipe,
     TuiTextfieldComponent,
-    TuiTextfieldDirective
+    TuiTextfieldDirective,
+    IonGrid,
+    IonCard
   ]
 })
 export class ProductPage implements OnInit, OnDestroy {
