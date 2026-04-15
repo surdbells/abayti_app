@@ -3,7 +3,11 @@ import {CHAT_ROUTES} from "./chat.routes";
 
 export const routes: Routes = [
   { path: '', redirectTo: 'intro', pathMatch: 'full' },
-  { path: 'start', loadComponent: () => import('./start/start.page').then(m => m.StartPage) },
+  {
+    path: 'intro',
+    loadComponent: () => import('./public/intro/intro.page').then(m => m.IntroPage),
+    title: 'Welcome'
+  },
   {
     path: 'login',
     loadComponent: () => import('./public/login/login.page').then( m => m.LoginPage)
@@ -75,10 +79,6 @@ export const routes: Routes = [
   {
     path: 'checkout',
     loadComponent: () => import('./customer/checkout/checkout.page').then(m => m.CheckoutPage)
-  },
-  {
-    path: 'intro',
-    loadComponent: () => import('./public/intro/intro.page').then( m => m.IntroPage)
   },
   {
     path: 'vendors',

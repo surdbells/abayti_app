@@ -1,313 +1,621 @@
+/* ========================================
+   SETTINGS PAGE STYLES
+   With full dark mode support
+   ======================================== */
+
+/* ========================================
+   CSS VARIABLES (Light Mode)
+   ======================================== */
 :host {
-  /* Theme tokens – tweak freely */
-  --profile-grad-start: #792108;
-  --profile-grad-end: #BA2E06;
-  --profile-surface: #ffffff;
-  --profile-bg: #fbf4ef;            /* soft cream backdrop */
-  --profile-text: #231f1e;
-  --profile-muted: #6e6461;
-  --profile-ring: rgba(255, 255, 255, 0.5);
-  --profile-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
-  --radius-xl: 24px;
-  --radius-2xl: 28px;
-  --radius-3xl: 36px;
-}
-$brand-dark: #7C2108;
-$brand-light: #B12C06;
-/* Page canvas */
-ion-content.remove_nudge {
-  --background: var(--profile-bg);
-}
-.page-header {
-  background: linear-gradient(to bottom, $brand-dark, $brand-light);
-  padding-bottom: 14px;
-}
-.sheet {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: clamp(12px, 3vw, 20px);
-  display: grid;
-  gap: 16px;
+  --bg-primary: #F5F5F7;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F0F0F2;
+  --text-primary: #1A1A1A;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --border-color: #E5E7EB;
+  --accent-color: #8B6914;
+  --accent-light: rgba(139, 105, 20, 0.1);
+  --danger-color: #EF4444;
+  --danger-light: rgba(239, 68, 68, 0.1);
+  --success-color: #10B981;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --header-bg: #1A1A1A;
+  --header-text: #FFFFFF;
+  --toggle-bg: #E5E7EB;
+  --toggle-active: #10B981;
 }
 
-/* Back chip */
-.back-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  width: max-content;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: var(--profile-surface);
-  box-shadow: var(--profile-shadow);
-  color: var(--profile-text);
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  margin-bottom: 8px;
-
-  tui-icon {
-    font-size: 18px;
-    line-height: 1;
-  }
+/* ========================================
+   CSS VARIABLES (Dark Mode)
+   ======================================== */
+:host .dark-mode,
+:host-context(.dark-mode) {
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #1A1A1A;
+  --bg-tertiary: #262626;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-tertiary: #71717A;
+  --border-color: #2D2D2D;
+  --accent-light: rgba(139, 105, 20, 0.2);
+  --danger-light: rgba(239, 68, 68, 0.15);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --header-bg: #000000;
+  --toggle-bg: #3F3F46;
 }
 
-/* Header (avatar + welcome) */
-.sheet-header {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 16px;
-  color: #fff;
-
-  .welcome {
-    display: grid;
-    gap: 4px;
-
-    .overline {
-      font-size: 24px;
-      letter-spacing: 0.18em;
-      opacity: 0.85;
-    }
-
-    .name {
-      margin: 0;
-      font-size: clamp(22px, 5vw, 28px);
-      font-weight: 800;
-      line-height: 1.1;
-    }
-  }
-
-  .avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-    outline: 3px solid var(--profile-ring);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-
-    ion-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Menu section */
-.menu {
-  display: grid;
-  gap: 12px;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.menu-item {
-  appearance: none;
-  border: 0;
-  outline: 0;
-  width: 100%;
+/* ========================================
+   CONTENT
+   ======================================== */
+.settings-content {
+  --background: var(--bg-primary);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.settings-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  padding: 16px 16px 16px 14px;
-  border-radius: var(--radius-lg);
-  background: var(--profile-surface);
-  box-shadow: var(--profile-shadow);
-  color: var(--profile-text);
-  transition: transform 120ms ease, box-shadow 120ms ease;
-  will-change: transform;
-
-  .left {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-
-    /* circular icon chip */
-    tui-icon:first-child {
-      width: 36px;
-      height: 36px;
-      display: inline-grid;
-      place-items: center;
-      border-radius: 999px;
-      background: radial-gradient(120% 120% at 20% 20%, #fff3, transparent 60%),
-      linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
-      color: #fff;
-      box-shadow: 0 8px 16px rgba(210, 74, 30, 0.25);
-      font-size: 14px;
-    }
-
-    span {
-      font-weight: 600;
-      letter-spacing: .2px;
-    }
-  }
-
-  /* right chevron */
-  tui-icon:last-child {
-    color: #a09a97;
-    font-size: 18px;
-  }
-
-  &:active {
-    transform: translateY(1px) scale(0.997);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  }
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 16px;
+  background: var(--header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-/* Section headings */
-.group-title {
-  margin: 5px 3px 4px;
-  color: var(--profile-text);
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.16em;
-  opacity: 0.9;
-}
-
-/* Footer actions */
-.footer-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 2px;
-
-  .support {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border-radius: var(--radius-2xl);
-    padding: 14px 16px;
-    background: var(--profile-surface);
-    box-shadow: var(--profile-shadow);
-    color: var(--profile-text);
-    font-weight: 600;
-
-    tui-icon {
-      font-size: 18px;
-      color: var(--profile-grad-end);
-    }
-  }
-
-  .signout {
-    appearance: none;
-    border: 0;
-    width: 100%;
-    border-radius: var(--radius-2xl);
-    padding: 14px 16px;
-    background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    box-shadow: var(--profile-shadow);
-  }
-}
-
-/* Modal: compact spacing harmony */
-ion-modal::part(content) {
-  border-top-left-radius: var(--radius-2xl);
-  border-top-right-radius: var(--radius-2xl);
-}
-
-ion-modal ion-header ion-toolbar {
-  --background: var(--profile-surface);
-  --color: var(--profile-text);
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
-}
-
-ion-modal ion-content {
-  --background: var(--profile-bg);
-}
-
-/* Helpers for icons inside textfields/buttons */
-[tuiTextfield] + .tui-hint,
-tui-textfield label[tuiLabel] {
-  color: var(--profile-muted);
-}
-
-/* Reduce default ion-item spacing if you enable list sections later */
-ion-list {
-  background: transparent;
-}
-
-@media (min-width: 560px) {
-  .footer-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-
-.gradient_bg {
-  background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
-  width: 100%;
-  border-bottom-left-radius: var(--radius-2xl);
-  border-bottom-right-radius: var(--radius-2xl);
-}
-
-.brand_border {
-  border: 2px solid var(--profile-surface);
-  border-radius: var(--radius-2xl);
-}
-
-/* Section title */
-.section-title {
+.back-btn,
+.theme-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  
+  i-lucide {
+    color: var(--header-text);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.header-title {
+  font-size: 18px;
   font-weight: 700;
-  font-size: 16px;
+  color: var(--header-text);
+  margin: 0;
+}
 
-  tui-icon {
-    color: var(--grad-end);
+/* ========================================
+   BODY
+   ======================================== */
+.settings-body {
+  padding: 20px 16px calc(env(safe-area-inset-bottom) + 24px);
+}
+
+/* ========================================
+   PROFILE CARD
+   ======================================== */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.avatar-wrapper {
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent-color);
+}
+
+.avatar-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-secondary);
+  
+  i-lucide {
+    color: #FFFFFF;
   }
 }
 
-.contact-list {
-  background: transparent !important;
-  ion-item {
-    --background: #ffffff;
-    --inner-border-width: 0;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    --min-height: 54px;
-    border-radius: 12px;
-    margin: 8px 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(6px);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    }
+.profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    ion-icon[slot="start"] {
-      font-size: 22px;
-      color: #BA2E06; // your brand color
-      margin-right: 12px;
-    }
+.profile-email {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    ion-icon[slot="end"] {
-      font-size: 18px;
-      color: #999;
-    }
-
-    ion-label {
-      font-size: 16px;
-      font-weight: 500;
-      color: #222;
-    }
+.profile-edit-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent-light);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  
+  i-lucide {
+    color: var(--accent-color);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 }
-ion-tab-button  {
-  background-color: transparent;
+
+/* ========================================
+   SETTINGS SECTION
+   ======================================== */
+.settings-section {
+  margin-bottom: 24px;
+  animation: fadeIn 0.4s ease-out backwards;
+  
+  &:nth-child(2) { animation-delay: 0.05s; }
+  &:nth-child(3) { animation-delay: 0.1s; }
+  &:nth-child(4) { animation-delay: 0.15s; }
+  &:nth-child(5) { animation-delay: 0.2s; }
+  &:nth-child(6) { animation-delay: 0.25s; }
 }
-h2 {
+
+.section-title {
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 4px;
 }
 
-.warning {
-  color: var(--ion-color-danger);
-  margin-top: 15px;
+/* ========================================
+   SETTINGS CARD
+   ======================================== */
+.settings-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   SETTINGS ITEM
+   ======================================== */
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:active {
+    background: var(--bg-tertiary);
+  }
+}
+
+.item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  i-lucide {
+    color: var(--text-secondary);
+  }
+  
+  &.danger {
+    background: var(--danger-light);
+    
+    i-lucide {
+      color: var(--danger-color);
+    }
+  }
+}
+
+.item-label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  
+  &.danger {
+    color: var(--danger-color);
+  }
+}
+
+.item-value {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-arrow {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.item-control {
+  flex-shrink: 0;
+}
+
+/* ========================================
+   TOGGLE SWITCH
+   ======================================== */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+  flex-shrink: 0;
+  
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--toggle-bg);
+    border-radius: 32px;
+    transition: all 0.3s ease;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 3px;
+      bottom: 3px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  input:checked + .toggle-slider {
+    background: var(--toggle-active);
+    
+    &::before {
+      transform: translateX(20px);
+    }
+  }
+}
+
+/* ========================================
+   DANGER CARD
+   ======================================== */
+.danger-card {
+  .settings-item:active {
+    background: var(--danger-light);
+  }
+}
+
+/* ========================================
+   APP VERSION
+   ======================================== */
+.app-version {
+  text-align: center;
+  padding: 16px 0;
+  
+  p {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+}
+
+/* ========================================
+   MODAL STYLES
+   ======================================== */
+.modal-content {
+  padding: 24px;
+  background: var(--bg-primary);
+  height: 100%;
+  
+  &.dark-mode {
+    --bg-primary: #0D0D0D;
+    --bg-secondary: #1A1A1A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A1A1AA;
+    --border-color: #2D2D2D;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modal-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  
+  i-lucide {
+    color: var(--text-primary);
+  }
+  
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ========================================
+   INPUT STYLES
+   ======================================== */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.settings-input {
+  width: 100%;
+  height: 54px;
+  padding: 0 16px 0 48px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+  
+  &::placeholder {
+    color: var(--text-tertiary);
+    font-weight: 400;
+  }
+  
+  &:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+}
+
+/* ========================================
+   SAVE BUTTON
+   ======================================== */
+.save-btn {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent-color), #5C4A1F);
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+  
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  &.loading {
+    pointer-events: none;
+  }
+}
+
+.btn-loader {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ========================================
+   RTL SUPPORT
+   ======================================== */
+:host-context([dir="rtl"]) {
+  .settings-item {
+    text-align: right;
+  }
+  
+  .item-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .input-icon {
+    left: auto;
+    right: 16px;
+  }
+  
+  .settings-input {
+    padding: 0 48px 0 16px;
+    text-align: right;
+  }
+  
+  .section-title {
+    margin: 0 4px 12px 0;
+  }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (min-width: 768px) {
+  .settings-body {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .profile-card {
+    padding: 24px;
+  }
+  
+  .avatar-img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile-name {
+    font-size: 20px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .settings-section,
+  .profile-card {
+    animation: none;
+  }
+  
+  .toggle-slider,
+  .toggle-slider::before,
+  .settings-item,
+  .save-btn {
+    transition: none;
+  }
+  
+  .btn-loader {
+    animation: none;
+  }
 }

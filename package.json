@@ -63,6 +63,7 @@
     "disable-ios-scrolling": "^1.0.1",
     "ionicons": "^7.0.0",
     "libphonenumber-js": "^1.12.10",
+    "lucide-angular": "^0.575.0",
     "rxjs": "~7.8.0",
     "swiper": "^11.2.10",
     "tslib": "^2.3.0",

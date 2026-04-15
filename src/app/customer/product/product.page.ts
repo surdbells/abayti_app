@@ -269,6 +269,7 @@ export class ProductPage implements OnInit, OnDestroy {
     require_extra_msmt: false,
     extra_msmt: "",
     size_custom: false,
+    size_normal: false,
     is_hot: false,
     is_new: false,
     is_sale: false,
@@ -556,6 +557,7 @@ export class ProductPage implements OnInit, OnDestroy {
             this.store_m.store = this.single.store;
             this.get_store_measurement();
             this.apiSizes = {
+              'NORMAL': this.single.size_normal,
               'CUSTOM': this.single.size_custom,
               'xs': this.single.size_xs,
               's': this.single.size_s,
@@ -686,6 +688,7 @@ export class ProductPage implements OnInit, OnDestroy {
           } else {
             this.ui_controls.is_empty = true;
             this.ui_controls.is_adding_to_cart = false;
+            this.error_notification(response.message);
           }
           this.cdr.markForCheck();
         },

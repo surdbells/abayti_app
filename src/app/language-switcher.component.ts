@@ -31,14 +31,14 @@ import {TuiIcon} from "@taiga-ui/core";
       margin-bottom: 14px;
     }
     .lang-pill {
-      color: var(--card);
+      color: #ffffff;
       display: block;
       align-items: center;
       gap: 10px;
-      background: linear-gradient(135deg, var(--profile-grad-start), var(--profile-grad-end));
+      background-color: #000000;
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 24px 28px;
+      padding: 12px 14px;
       box-shadow: var(--shadow-sm);
       font-weight: 700;
     }
