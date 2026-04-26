@@ -238,16 +238,21 @@
 .m6d-product-card {
   width: 158px;
   flex-shrink: 0;
-  background: transparent;
+  background: var(--ax-palette-neutral-0);  /* white */
+  border-radius: var(--ax-radius-lg);       /* 12px outer radius */
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
+  overflow: hidden;  /* ensures image top corners respect parent radius */
 }
 
 .m6d-img-wrap {
   position: relative;
   aspect-ratio: 3 / 4;
   background: var(--ax-palette-brown-100);  /* #ead9ca — warm neutral */
-  border-radius: var(--ax-radius-md);  /* 8px */
+  /* No standalone border-radius here — the parent .m6d-product-card's
+     border-radius + overflow:hidden gives the image rounded top corners.
+     Bottom of the image meets the caption area flush, no gap. */
   overflow: hidden;
-  margin-bottom: 8px;
 
   /* Skeleton overlay while image loads */
   .m6d-img-skeleton {
@@ -328,7 +333,7 @@
 }
 
 .m6d-info {
-  padding: 0 2px;
+  padding: 12px 14px 14px;
   cursor: pointer;
 }
 
