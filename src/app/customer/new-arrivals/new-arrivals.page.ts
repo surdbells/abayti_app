@@ -43,6 +43,7 @@ import { TranslatePipe } from "../../translate.pipe";
 import { Products } from "../../class/products";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-new-arrivals',
   templateUrl: './new-arrivals.page.html',
@@ -72,8 +73,7 @@ import { InfiniteScrollCustomEvent } from "@ionic/angular";
     IonRefresherContent,
     TuiIcon,
     TuiLoader,
-    TranslatePipe
-  ]
+    TranslatePipe, AxIconComponent]
 })
 export class NewArrivalsPage implements OnInit, OnDestroy {
   new_arrivals: Products[] = [];

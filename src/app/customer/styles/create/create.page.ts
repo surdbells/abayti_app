@@ -14,6 +14,7 @@ import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {TranslatePipe} from "../../../translate.pipe";
 import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
+import { AxIconComponent } from '../../../shared/ax-mobile/icon';
 export interface Store {
   id: number;
   token: string;
@@ -41,7 +42,7 @@ export interface selectedProduct {
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
   standalone: true,
-  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe]
+  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent]
 })
 export class CreatePage implements OnInit {
   stores: Store[] = [];

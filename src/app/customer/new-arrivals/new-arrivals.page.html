@@ -2,7 +2,7 @@
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" (click)="triggerBack()" class="icon_left" aria-label="Go back">
-        <tui-icon icon="@tui.corner-up-left"></tui-icon>
+        <ax-icon name="corner-up-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title">{{ 'new_arrivals' | translate }}</ion-title>
@@ -89,7 +89,7 @@
                   class="like"
                   (click)="startAddToCloset(product.product_id, product.product_name, product.image_1); $event.stopPropagation()"
                   aria-label="Add to wishlist">
-                  <tui-icon icon="@tui.heart"></tui-icon>
+                  <ax-icon name="heart"></ax-icon>
                 </button>
               </div>
               <!-- Product Info -->
@@ -135,7 +135,7 @@
   @if(!ui_controls.is_loading && new_arrivals.length === 0){
     <div class="empty-state">
       <div class="empty-icon">
-        <tui-icon icon="@tui.sparkles"></tui-icon>
+        <ax-icon name="sparkles"></ax-icon>
       </div>
       <h3>No New Arrivals</h3>
       <p>Check back soon for fresh new items</p>
@@ -174,12 +174,12 @@
             @for(category of categories; track category.id){
               <ion-item (click)="addToCloset(category.id)" lines="none" button detail="false" class="wishlist-item">
                 <div class="folder-icon" slot="start">
-                  <tui-icon icon="@tui.folder-plus"></tui-icon>
+                  <ax-icon name="folder-plus"></ax-icon>
                 </div>
                 <ion-label>
                   <h2>{{ category.name }}</h2>
                 </ion-label>
-                <tui-icon icon="@tui.chevron-right" slot="end" class="chevron-icon"></tui-icon>
+                <ax-icon name="chevron-right" slot="end" class="chevron-icon"></ax-icon>
               </ion-item>
             }
           </ion-list>

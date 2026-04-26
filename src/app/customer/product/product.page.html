@@ -22,7 +22,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="user_wishlist()" fill="clear">
-        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+        <ax-icon name="heart" [style.color]="'var(--text)'"/>
       </ion-button>
       <ion-button (click)="openCart()" fill="clear">
         <app-cart-icon [count]="bill.count"></app-cart-icon>
@@ -100,7 +100,7 @@
 
         <!-- Delivery Info -->
         <div class="delivery-badge">
-          <tui-icon icon="@tui.truck"></tui-icon>
+          <ax-icon name="truck"></ax-icon>
           @if(single.delivery_time !== 'custom'){
             <span>{{ 'delivery' | translate }}: {{ single.delivery_time }} {{ 'days' | translate }}</span>
           } @else {
@@ -132,7 +132,7 @@
                     [class.light-color]="isLightColor(color)"
                     [class.is-multicolor]="color === 'multicolor'">
                     @if(add_cart.color === color){
-                      <tui-icon icon="@tui.check" class="check-icon"></tui-icon>
+                      <ax-icon name="check" class="check-icon"></ax-icon>
                     }
                   </span>
                   <span class="color-label">{{ getColorLabel(color) }}</span>
@@ -148,7 +148,7 @@
                 <div class="section-label">
                   <span class="label-text">Size</span>
                   <button type="button" class="size-guide-link" id="size_guide">
-                    <tui-icon icon="@tui.ruler"></tui-icon>
+                    <ax-icon name="ruler"></ax-icon>
                     Size Chart
                   </button>
                 </div>
@@ -159,10 +159,10 @@
             @if(single.size_custom){
               <button  type="button" class="custom-measurement-btn" (click)="openMeasurement()" id="measurement">
                 <div class="btn-content">
-                  <tui-icon icon="@tui.pencil-ruler"></tui-icon>
+                  <ax-icon name="pencil-ruler"></ax-icon>
                   <span>Custom Measurements</span>
                 </div>
-                <tui-icon icon="@tui.chevron-right"></tui-icon>
+                <ax-icon name="chevron-right"></ax-icon>
               </button>
             }
           </div>
@@ -172,7 +172,7 @@
                 <div class="section-label">
                   <span class="label-text">Size</span>
                   <button type="button" class="size-guide-link" id="size_guide">
-                    <tui-icon icon="@tui.ruler"></tui-icon>
+                    <ax-icon name="ruler"></ax-icon>
                     Size Chart
                   </button>
                 </div>
@@ -181,10 +181,10 @@
               } @else {
                 <button type="button" class="custom-measurement-btn" (click)="openMeasurement()" id="measurement">
                   <div class="btn-content">
-                    <tui-icon icon="@tui.pencil-ruler"></tui-icon>
+                    <ax-icon name="pencil-ruler"></ax-icon>
                     <span>Custom Measurements</span>
                   </div>
-                  <tui-icon icon="@tui.chevron-right"></tui-icon>
+                  <ax-icon name="chevron-right"></ax-icon>
                 </button>
               }
           </div>
@@ -397,17 +397,17 @@
         </button>
       } @else if(itemExists){
         <button type="button" class="add-cart-btn in-cart" (click)="openCart()">
-          <tui-icon icon="@tui.check"></tui-icon>
+          <ax-icon name="check"></ax-icon>
           <span>{{ 'already_in_cart' | translate }}</span>
         </button>
       } @else if(single.stock_status === 'on_backorder'){
         <button type="button" class="add-cart-btn backorder" (click)="addToCart()">
-          <tui-icon icon="@tui.clock"></tui-icon>
+          <ax-icon name="clock"></ax-icon>
           <span>{{ 'back_order' | translate }}</span>
         </button>
       } @else {
         <button type="button" class="add-cart-btn" (click)="addToCart()">
-          <tui-icon icon="@tui.shopping-cart"></tui-icon>
+          <ax-icon name="shopping-cart"></ax-icon>
           <span>{{ 'button_add_to_cart' | translate }}</span>
         </button>
       }

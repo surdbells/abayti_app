@@ -69,7 +69,7 @@
             <h2>{{ 'best_seller' | translate }}</h2>
           </ion-col>
 <!--          <ion-col class="ion-no-padding ion-no-margin">
-            <h2 (click)="bestSellers()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+            <h2 (click)="bestSellers()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <ax-icon name="arrow-right" /> </h2>
           </ion-col>-->
         </ion-row>
       </div>
@@ -91,7 +91,7 @@
                 [src]="best_seller.image_1"
                 alt="{{best_seller.product_name}}" />
               <button style="z-index: 999" (click)="startAddToCloset(best_seller.product_id, best_seller.product_name, best_seller.image_1)" class="like" type="button">
-                <tui-icon icon="@tui.heart-plus" />
+                <ax-icon name="heart-plus" />
               </button>
               <span class="tag">{{best_seller.store_name}}</span>
             </div>
@@ -128,7 +128,7 @@
             <h2>{{ 'new_arrivals' | translate }}</h2>
           </ion-col>
           <!--          <ion-col class="ion-no-padding ion-no-margin">
-                      <h2 (click)="newArrivals()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+                      <h2 (click)="newArrivals()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <ax-icon name="arrow-right" /> </h2>
                     </ion-col>-->
         </ion-row>
       </div>
@@ -150,7 +150,7 @@
                 [src]="new_arrival.image_1"
                 alt="{{new_arrival.product_name}}" />
               <button style="z-index: 999" (click)="startAddToCloset(new_arrival.product_id, new_arrival.product_name, new_arrival.image_1)" class="like" type="button">
-                <tui-icon icon="@tui.heart-plus" />
+                <ax-icon name="heart-plus" />
               </button>
               <span class="tag">{{new_arrival.store_name}}</span>
             </div>

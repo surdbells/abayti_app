@@ -2,13 +2,13 @@
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
       <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
-        <tui-icon icon="@tui.arrow-left"></tui-icon>
+        <ax-icon name="arrow-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title ion-text-center">{{ 'store_dashboard' | translate }}</ion-title>
     <ion-buttons slot="end">
       <button type="button" class="icon_right" (click)="openSettings()" aria-label="Settings">
-        <tui-icon icon="@tui.settings"></tui-icon>
+        <ax-icon name="settings"></ax-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -37,7 +37,7 @@
             <img [src]="storeData?.logo" [alt]="storeData?.name" (error)="onLogoError($event)">
           } @else {
             <div class="logo-placeholder">
-              <tui-icon icon="@tui.store"></tui-icon>
+              <ax-icon name="store"></ax-icon>
             </div>
           }
         </div>
@@ -56,7 +56,7 @@
           }
         </div>
         <button type="button" class="edit-store-btn" (click)="editStoreProfile()">
-          <tui-icon icon="@tui.pencil"></tui-icon>
+          <ax-icon name="pencil"></ax-icon>
         </button>
       </div>
     }
@@ -75,7 +75,7 @@
     } @else {
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-orders')">
         <div class="stat-icon orders">
-          <tui-icon icon="@tui.shopping-bag"></tui-icon>
+          <ax-icon name="shopping-bag"></ax-icon>
         </div>
         <span class="stat-value">{{ stats.pending_orders }}</span>
         <span class="stat-label">{{ 'pending_orders' | translate }}</span>
@@ -83,7 +83,7 @@
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-chat-list')">
         <div class="stat-icon messages">
-          <tui-icon icon="@tui.message-circle"></tui-icon>
+          <ax-icon name="message-circle"></ax-icon>
           @if(stats.unread_messages > 0){
             <span class="badge">{{ stats.unread_messages > 99 ? '99+' : stats.unread_messages }}</span>
           }
@@ -94,7 +94,7 @@
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-products')">
         <div class="stat-icon products">
-          <tui-icon icon="@tui.package"></tui-icon>
+          <ax-icon name="package"></ax-icon>
         </div>
         <span class="stat-value">{{ stats.total_products }}</span>
         <span class="stat-label">{{ 'products' | translate }}</span>
@@ -102,7 +102,7 @@
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-earnings')">
         <div class="stat-icon earnings">
-          <tui-icon icon="@tui.banknote"></tui-icon>
+          <ax-icon name="banknote"></ax-icon>
         </div>
         <span class="stat-value">Ð{{ stats.monthly_earnings | number:'1.0-0' }}</span>
         <span class="stat-label">{{ 'this_month' | translate }}</span>
@@ -118,7 +118,7 @@
       <!-- Messages / Chat -->
       <button type="button" class="action-card highlight" (click)="navigateTo('/vendor-chat-list')">
         <div class="action-icon">
-          <tui-icon icon="@tui.message-circle"></tui-icon>
+          <ax-icon name="message-circle"></ax-icon>
           @if(stats.unread_messages > 0){
             <span class="action-badge">{{ stats.unread_messages }}</span>
           }
@@ -127,13 +127,13 @@
           <h3>{{ 'customer_messages' | translate }}</h3>
           <p>{{ 'chat_with_customers' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
       </button>
 
       <!-- Orders -->
       <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
         <div class="action-icon">
-          <tui-icon icon="@tui.clipboard-list"></tui-icon>
+          <ax-icon name="clipboard-list"></ax-icon>
           @if(stats.pending_orders > 0){
             <span class="action-badge warning">{{ stats.pending_orders }}</span>
           }
@@ -142,31 +142,31 @@
           <h3>{{ 'manage_orders' | translate }}</h3>
           <p>{{ 'view_update_orders' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
       </button>-->
 
       <!-- Products -->
       <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
         <div class="action-icon">
-          <tui-icon icon="@tui.package"></tui-icon>
+          <ax-icon name="package"></ax-icon>
         </div>
         <div class="action-content">
           <h3>{{ 'my_products' | translate }}</h3>
           <p>{{ 'add_edit_products' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
       </button>-->
 
       <!-- Add Product -->
       <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
         <div class="action-icon add">
-          <tui-icon icon="@tui.plus"></tui-icon>
+          <ax-icon name="plus"></ax-icon>
         </div>
         <div class="action-content">
           <h3>{{ 'add_product' | translate }}</h3>
           <p>{{ 'list_new_product' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="action-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
       </button>-->
     </div>
   </div>
@@ -179,31 +179,31 @@
       &lt;!&ndash; Earnings & Payouts &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-earnings')">
         <div class="menu-icon earnings">
-          <tui-icon icon="@tui.wallet"></tui-icon>
+          <ax-icon name="wallet"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'earnings_payouts' | translate }}</h3>
           <p>{{ 'view_earnings_request_payout' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Analytics &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-analytics')">
         <div class="menu-icon analytics">
-          <tui-icon icon="@tui.chart-pie"></tui-icon>
+          <ax-icon name="chart-pie"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'analytics' | translate }}</h3>
           <p>{{ 'sales_performance_insights' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Reviews &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-reviews')">
         <div class="menu-icon reviews">
-          <tui-icon icon="@tui.star"></tui-icon>
+          <ax-icon name="star"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'customer_reviews' | translate }}</h3>
@@ -212,25 +212,25 @@
         @if(stats.pending_reviews > 0){
           <span class="menu-badge">{{ stats.pending_reviews }}</span>
         }
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Promotions &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-promotions')">
         <div class="menu-icon promotions">
-          <tui-icon icon="@tui.percent"></tui-icon>
+          <ax-icon name="percent"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'promotions' | translate }}</h3>
           <p>{{ 'create_manage_discounts' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Inventory &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-inventory')">
         <div class="menu-icon inventory">
-          <tui-icon icon="@tui.layers"></tui-icon>
+          <ax-icon name="layers"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'inventory' | translate }}</h3>
@@ -239,7 +239,7 @@
         @if(stats.low_stock_items > 0){
           <span class="menu-badge warning">{{ stats.low_stock_items }}</span>
         }
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
     </div>
   </div>-->
@@ -252,61 +252,61 @@
       &lt;!&ndash; Store Profile &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-store-profile')">
         <div class="menu-icon profile">
-          <tui-icon icon="@tui.store"></tui-icon>
+          <ax-icon name="store"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'store_profile' | translate }}</h3>
           <p>{{ 'edit_store_info' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Business Hours &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-hours')">
         <div class="menu-icon hours">
-          <tui-icon icon="@tui.clock"></tui-icon>
+          <ax-icon name="clock"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'business_hours' | translate }}</h3>
           <p>{{ 'set_availability' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Shipping Settings &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-shipping')">
         <div class="menu-icon shipping">
-          <tui-icon icon="@tui.truck"></tui-icon>
+          <ax-icon name="truck"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'shipping_settings' | translate }}</h3>
           <p>{{ 'delivery_zones_rates' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Payment Settings &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-payment-settings')">
         <div class="menu-icon payment">
-          <tui-icon icon="@tui.credit-card"></tui-icon>
+          <ax-icon name="credit-card"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'payment_settings' | translate }}</h3>
           <p>{{ 'bank_payout_details' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
 
       &lt;!&ndash; Notifications &ndash;&gt;
       <button type="button" class="menu-item" (click)="navigateTo('/vendor-notifications')">
         <div class="menu-icon notifications">
-          <tui-icon icon="@tui.bell"></tui-icon>
+          <ax-icon name="bell"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'notifications' | translate }}</h3>
           <p>{{ 'manage_alerts' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
     </div>
   </div>-->
@@ -319,25 +319,25 @@
       <!-- Seller Guide -->
 <!--      <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
         <div class="menu-icon guide">
-          <tui-icon icon="@tui.book-open"></tui-icon>
+          <ax-icon name="book-open"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'seller_guide' | translate }}</h3>
           <p>{{ 'tips_best_practices' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>-->
 
       <!-- Contact Support -->
       <button type="button" class="menu-item" (click)="contactSupport()">
         <div class="menu-icon support">
-          <tui-icon icon="@tui.headphones"></tui-icon>
+          <ax-icon name="headphones"></ax-icon>
         </div>
         <div class="menu-content">
           <h3>{{ 'contact_support' | translate }}</h3>
           <p>{{ 'get_help' | translate }}</p>
         </div>
-        <tui-icon icon="@tui.chevron-right" class="menu-arrow"></tui-icon>
+        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
       </button>
     </div>
   </div>

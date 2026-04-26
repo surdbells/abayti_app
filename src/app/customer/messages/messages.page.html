@@ -25,7 +25,7 @@
       <ion-button [routerLink]="['/ticketlist']" fill="clear">
         <ion-chip class="abayti_primary_background abayti_white">
           <ion-avatar>
-            <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
+            <ax-icon name="headset" [style.color]="'var(--text)'"/>
           </ion-avatar>
           <ion-label>{{ 'support' | translate }}</ion-label>
         </ion-chip>
@@ -87,23 +87,23 @@
 <ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
   <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home">
-      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="house" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_cart()" tab="explore">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_styles()" tab="sketch">
-      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Style hub</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

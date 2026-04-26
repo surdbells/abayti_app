@@ -25,7 +25,7 @@
       <ion-button [routerLink]="['/ticketlist']" fill="clear">
         <ion-chip class="abayti_primary_background abayti_white">
           <ion-avatar>
-            <tui-icon icon="@tui.headset" [style.color]="'var(--text)'"/>
+            <ax-icon name="headset" [style.color]="'var(--text)'"/>
           </ion-avatar>
           <ion-label>{{ 'support' | translate }}</ion-label>
         </ion-chip>
@@ -77,11 +77,11 @@
     <div class="empty-state">
       <ion-card>
         <ion-card-content class="ion-text-center">
-          <tui-icon [style.font-size.rem]="2" icon="shopping-basket"></tui-icon>
+          <ax-icon name="shopping-basket" [style.font-size.rem]="2"></ax-icon>
           <h2>You haven't placed any orders yet</h2>
           <p>Place your first order to discover amazing products and start filling your cart.</p>
           <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
-            <tui-icon icon="tuiIconShoppingCart"></tui-icon>
+            <ax-icon name="tuiIconShoppingCart"></ax-icon>
             <span>Start Shopping</span>
           </button>
         </ion-card-content>

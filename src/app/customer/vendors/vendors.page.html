@@ -25,14 +25,14 @@
   <div class="vendor-actions ion-padding">
     <ion-button expand="block" shape="round" [fill]="view_vendor.following ? 'outline' : 'solid'" (click)="toggleFollow()">
       @if (view_vendor.following){
-        <tui-icon class="ion-margin-end" icon="@tui.user-check" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+        <ax-icon name="user-check" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       } @else {
-        <tui-icon class="ion-margin-end" icon="@tui.user-minus" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+        <ax-icon name="user-minus" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       }
       {{ view_vendor.following ? 'Followed' : 'Follow' }}
     </ion-button>
     <ion-button expand="block" shape="round" [fill]="'outline'" (click)="goToReviews(read_vendor.store_id, view_vendor.name)">
-      <tui-icon class="ion-margin-end" icon="@tui.star" [style.color]="'var(--ion-color-secondary-contrast)'"/> Reviews
+      <ax-icon name="star" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/> Reviews
     </ion-button>
   </div>
   @if (!ui_controls.is_loading){
@@ -115,23 +115,23 @@
 <ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
   <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
     <ion-tab-button (click)="go_home()" tab="home">
-      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="house" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_styles()" tab="sketch">
-      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Style hub</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

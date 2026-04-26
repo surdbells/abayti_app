@@ -48,12 +48,13 @@ import {Labels} from "../../class/labels";
 import {Wishlist} from "../../class/wishlist";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.page.html',
   styleUrls: ['./wishlist.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe, IonLabel]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, TuiButton, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe, IonLabel, AxIconComponent]
 })
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];

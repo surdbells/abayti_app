@@ -2,7 +2,7 @@
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
-        <tui-icon icon="@tui.arrow-left"></tui-icon>
+        <ax-icon name="arrow-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title ion-text-center">{{ 'customer_messages' | translate }}</ion-title>
@@ -106,7 +106,7 @@
   @if(!isLoading && conversations.length === 0){
     <div class="empty-state">
       <div class="empty-icon">
-        <tui-icon icon="@tui.message-circle"></tui-icon>
+        <ax-icon name="message-circle"></ax-icon>
       </div>
       <h3>{{ 'no_customer_messages' | translate }}</h3>
       <p>{{ 'no_customer_messages_description' | translate }}</p>

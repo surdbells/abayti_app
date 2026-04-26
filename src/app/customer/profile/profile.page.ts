@@ -32,12 +32,13 @@ import {GlobalComponent} from "../../global-component";
 import {DIAL_CODES, DialCode} from "../../dial-codes";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, RouterLink, IonCol, IonRow, TuiButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton, TranslatePipe, AxIconComponent]
 })
 export class ProfilePage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

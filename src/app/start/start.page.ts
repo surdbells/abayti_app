@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 import { register } from 'swiper/element/bundle';
 import {TuiIcon} from "@taiga-ui/core";
 
+import { AxIconComponent } from '../shared/ax-mobile/icon';
 register();
 
 @Component({
   standalone: true,
   selector: 'app-start',
-  imports: [IonContent, IonButton, IonIcon, TuiIcon],
+  imports: [IonContent, IonButton, IonIcon, TuiIcon, AxIconComponent],
   templateUrl: './start.page.html',
   styleUrls: ['./start.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

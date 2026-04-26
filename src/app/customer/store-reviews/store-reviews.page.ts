@@ -22,12 +22,13 @@ import {GlobalComponent} from "../../global-component";
 import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-store-reviews',
   templateUrl: './store-reviews.page.html',
   styleUrls: ['./store-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent]
 })
 export class StoreReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

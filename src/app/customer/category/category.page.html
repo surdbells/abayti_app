@@ -2,7 +2,7 @@
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" (click)="triggerBack()" class="icon_left">
-        <tui-icon icon="@tui.corner-up-left"></tui-icon>
+        <ax-icon name="corner-up-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title">{{ initial.name }}</ion-title>
@@ -106,7 +106,7 @@
                   type="button"
                   class="like-btn"
                   (click)="startAddToCloset(product.product_id, product.product_name, product.image_1); $event.stopPropagation()">
-                  <tui-icon icon="@tui.heart" />
+                  <ax-icon name="heart" />
                 </button>
 
                 <!-- Store Tag -->
@@ -128,7 +128,7 @@
   @if(ui_controls.is_empty && !ui_controls.is_loading){
     <div class="empty-state">
       <div class="empty-icon-wrap">
-        <tui-icon icon="@tui.package-x"></tui-icon>
+        <ax-icon name="package-x"></ax-icon>
       </div>
       <h3>No products found</h3>
       <p>Try adjusting your price filter</p>
@@ -168,12 +168,12 @@
             @for(category of categories; track category.id){
               <ion-item (click)="addToCloset(category.id)" lines="none" button detail="false" class="wishlist-item">
                 <div class="folder-icon" slot="start">
-                  <tui-icon icon="@tui.folder-plus"></tui-icon>
+                  <ax-icon name="folder-plus"></ax-icon>
                 </div>
                 <ion-label>
                   <h2>{{category.name}}</h2>
                 </ion-label>
-                <tui-icon icon="@tui.chevron-right" slot="end" class="chevron"></tui-icon>
+                <ax-icon name="chevron-right" slot="end" class="chevron"></ax-icon>
               </ion-item>
             }
           </ion-list>

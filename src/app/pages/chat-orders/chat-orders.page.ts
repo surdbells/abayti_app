@@ -26,6 +26,7 @@ import { ChatService } from '../../service/chat.service';
 import { ChatOrder, OrderStatus } from '../../models/chat.models';
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-chat-orders',
   templateUrl: './chat-orders.page.html',
@@ -44,8 +45,7 @@ import {TranslatePipe} from "../../translate.pipe";
     IonRefresherContent,
     TuiIcon,
     TranslatePipe,
-    IonIcon
-  ]
+    IonIcon, AxIconComponent]
 })
 export class ChatOrdersPage implements OnInit, OnDestroy {
   orders: ChatOrder[] = [];

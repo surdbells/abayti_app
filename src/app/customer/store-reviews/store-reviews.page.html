@@ -34,7 +34,7 @@
           <ion-card class="billing-address-card animate__animated animate__fadeInDown ion-margin-bottom compact">
             <ion-card-content>
               <div class="row-top">
-                <tui-icon icon="@tui.user"></tui-icon>
+                <ax-icon name="user"></ax-icon>
                 <div class="name">{{ item?.customer || '—' }}</div>
               </div>
               <div class="address-row">
@@ -44,29 +44,29 @@
                 @if (item.star != 0) {
                   <div  class="chip" slot="end">
                     @if (item.star == 1){
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
                     }
                     @if (item.star == 2){
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
                     }
                     @if (item.star == 3){
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
                     }
                     @if (item.star == 4){
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
                     }
                     @if (item.star == 5){
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
-                      <tui-icon [style.color]="'var(--ion-color-secondary)'" icon="@tui.star" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
+                      <ax-icon name="star" [style.color]="'var(--ion-color-secondary)'" />
                     }
                   </div>
                 }
@@ -80,7 +80,7 @@
       <div class="empty-state">
         <ion-card>
           <ion-card-content class="ion-text-center">
-            <tui-icon [style.font-size.rem]="2" icon="star"></tui-icon>
+            <ax-icon name="star" [style.font-size.rem]="2"></ax-icon>
             <h2>{{ 'heading_no_reviews_yet' | translate }}</h2>
             <p>{{ 'text_store_has_no_reviews_yet' | translate }}</p>
           </ion-card-content>

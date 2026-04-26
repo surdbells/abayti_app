@@ -36,12 +36,13 @@ import {Preferences} from "@capacitor/preferences";
 import {ActionSheetController} from "@ionic/angular";
 import {Labels} from "../../class/labels";
 import {TranslatePipe} from "../../translate.pipe";
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, TuiButton, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe, AxIconComponent]
 })
 export class CartPage implements OnInit, OnDestroy {
   carts: Cart[] = [];

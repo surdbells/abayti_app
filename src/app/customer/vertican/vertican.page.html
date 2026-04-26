@@ -68,13 +68,13 @@
           <!-- Floating action buttons -->
           <div class="floating-buttons">
             <ion-button type="button" (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.arrow-left" />
+              <ax-icon name="arrow-left" style="color: #fff" />
             </ion-button>
             <ion-button type="button" (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.heart" />
+              <ax-icon name="heart" style="color: #fff" />
             </ion-button>
             <ion-button type="button" (click)="openHome()" fill="clear" class="action-btn">
-              <tui-icon style="color: #fff" icon="@tui.home" />
+              <ax-icon name="house" style="color: #fff" />
             </ion-button>
           </div>
 
@@ -86,7 +86,7 @@
               [disabled]="currentProductIndex === 0"
               fill="clear"
               class="nav-btn">
-              <tui-icon style="color: #fff" icon="@tui.chevron-up" />
+              <ax-icon name="chevron-up" style="color: #fff" />
             </ion-button>
             <span class="nav-counter">{{currentProductIndex + 1}}/{{products.length}}</span>
             <ion-button
@@ -95,7 +95,7 @@
               [disabled]="currentProductIndex >= products.length - 1"
               fill="clear"
               class="nav-btn">
-              <tui-icon style="color: #fff" icon="@tui.chevron-down" />
+              <ax-icon name="chevron-down" style="color: #fff" />
             </ion-button>
           </div>
 
@@ -148,7 +148,7 @@
   <!-- Empty state -->
   @if(ui_controls.is_empty && !ui_controls.is_loading){
     <div class="empty-state">
-      <tui-icon icon="@tui.package" style="font-size: 48px; color: #999;"></tui-icon>
+      <ax-icon name="package" style="font-size: 48px; color: #999;"></ax-icon>
       <p>No products available</p>
       <ion-button type="button" (click)="explore_products()">Refresh</ion-button>
     </div>
@@ -253,7 +253,7 @@
           <ion-list class="custom-list">
             @for(category of categories; track category.id; let i = $index){
               <ion-item (click)="addToCloset(category.id)" button detail="false">
-                <tui-icon icon="@tui.plus" [style.color]="'var(--ion-color-secondary)'" slot="start" />
+                <ax-icon name="plus" [style.color]="'var(--ion-color-secondary)'" slot="start" />
                 <ion-label>{{category.name}}</ion-label>
               </ion-item>
             }

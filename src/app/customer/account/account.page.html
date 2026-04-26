@@ -4,21 +4,21 @@
       <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
       <div class="hello">
         <div class="hey">{{ 'welcome_back' | translate }} <span>{{ single_user.first_name }}</span></div>
-        <div class="loc"><tui-icon icon="@tui.map-pin" [style.font-size.rem]="1" [style.color]="'var(--muted)'"/>
+        <div class="loc"><ax-icon name="map-pin" [style.font-size.rem]="1" [style.color]="'var(--muted)'"/>
           {{ single_user.location }}</div>
       </div>
     </ion-buttons>
     <ion-buttons slot="end">
       @if(single_user.is_vendor && single_user.is_store_active && single_user.is_store_approved){
         <ion-button (click)="user_store()" fill="clear">
-          <tui-icon icon="@tui.store" [style.color]="'var(&#45;&#45;text)'"/>
+          <ax-icon name="store" [style.color]="'var(&#45;&#45;text)'"/>
         </ion-button>
       }
       <ion-button (click)="user_wishlist()" fill="clear">
-        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+        <ax-icon name="heart" [style.color]="'var(--text)'"/>
       </ion-button>
       <ion-button (click)="user_messages()" fill="clear">
-        <tui-icon icon="@tui.message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
+        <ax-icon name="message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
       </ion-button>
       <ion-button (click)="openCart()" fill="clear">
         <app-cart-icon [count]="bill.count"></app-cart-icon>
@@ -34,7 +34,7 @@
           </tui-textfield>
         </ion-col>
 <!--    <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
-          <tui-icon class="ion-float-end" [style.color]="'var(&#45;&#45;ion-color-secondary)'" icon="@tui.sliders-horizontal" />
+          <ax-icon name="sliders-horizontal" class="ion-float-end" [style.color]="'var(&#45;&#45;ion-color-secondary)'" />
         </ion-col>-->
       </ion-row>
       <ion-row>
@@ -101,7 +101,7 @@
             <h2>{{ 'best_seller' | translate }}</h2>
           </ion-col>
           <ion-col class="ion-no-padding ion-no-margin">
-            <h2 (click)="bestSellers()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+            <h2 (click)="bestSellers()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <ax-icon name="arrow-right" /> </h2>
           </ion-col>
         </ion-row>
       </div>
@@ -123,7 +123,7 @@
                 [src]="best_seller.image_1"
                 alt="{{best_seller.product_name}}" />
               <button style="z-index: 999" (click)="startAddToCloset(best_seller.product_id, best_seller.product_name, best_seller.image_1)" class="like" type="button">
-                <tui-icon icon="@tui.heart-plus" />
+                <ax-icon name="heart-plus" />
               </button>
               <span class="tag">{{best_seller.store_name}}</span>
             </div>
@@ -160,7 +160,7 @@
             <h2>{{ 'new_arrivals' | translate }}</h2>
           </ion-col>
           <ion-col class="ion-no-padding ion-no-margin">
-            <h2 (click)="newArrivals()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <tui-icon icon="@tui.arrow-right" /> </h2>
+            <h2 (click)="newArrivals()" style="color: #B92800;" class="ion-float-end">{{ 'show_all' | translate }} <ax-icon name="arrow-right" /> </h2>
           </ion-col>
         </ion-row>
       </div>
@@ -182,7 +182,7 @@
                 [src]="new_arrival.image_1"
                 alt="{{new_arrival.product_name}}" />
               <button style="z-index: 999" (click)="startAddToCloset(new_arrival.product_id, new_arrival.product_name, new_arrival.image_1)" class="like" type="button">
-                <tui-icon icon="@tui.heart-plus" />
+                <ax-icon name="heart-plus" />
               </button>
               <span class="tag">{{new_arrival.store_name}}</span>
             </div>
@@ -290,7 +290,7 @@
           <ion-list class="custom-list">
             @for(category of categories; track category.id; let i = $index){
               <ion-item (click)="addToCloset(category.id)" button detail="false">
-                <tui-icon icon="@tui.plus" [style.color]="'var(--ion-color-secondary)'" slot="start" />
+                <ax-icon name="plus" [style.color]="'var(--ion-color-secondary)'" slot="start" />
                 <ion-label>{{category.name}}</ion-label>
               </ion-item>
             }
@@ -313,23 +313,23 @@
 <ion-footer style="background-color: #7C2108; padding-bottom: 15px;" class="ion-no-border">
   <ion-tab-bar style="background-color: #7C2108; padding-top: 2px; padding-bottom: 2px" slot="bottom">
     <ion-tab-button (click)="refresh_products()" tab="home">
-      <tui-icon icon="@tui.home" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="house" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label style="text-decoration: underline" [style.color]="'var(--ion-color-secondary-contrast)'">Home</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore">
-      <tui-icon icon="@tui.globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="globe" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Explore</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_cart()" tab="explore">
-      <tui-icon icon="@tui.shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="shopping-cart" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">My Cart</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_styles()" tab="sketch">
-      <tui-icon icon="@tui.blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="blocks" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Style hub</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile">
-      <tui-icon icon="@tui.user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+      <ax-icon name="user-pen" [style.color]="'var(--ion-color-secondary-contrast)'"/>
       <ion-label [style.color]="'var(--ion-color-secondary-contrast)'">Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

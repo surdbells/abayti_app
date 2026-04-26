@@ -28,6 +28,7 @@ import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface StyleProduct {
   product_id: number;
   product_name: string;
@@ -68,8 +69,7 @@ type TabType = 'community' | 'abayti' | 'personal';
     IonRefresherContent,
     TranslatePipe,
     IonInfiniteScroll,
-    IonInfiniteScrollContent
-  ]
+    IonInfiniteScrollContent, AxIconComponent]
 })
 export class StylesPage implements OnInit, OnDestroy {
   activeTab: TabType = 'community';

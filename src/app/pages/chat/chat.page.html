@@ -2,7 +2,7 @@
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
-        <tui-icon icon="@tui.arrow-left"></tui-icon>
+        <ax-icon name="arrow-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title">
@@ -46,7 +46,7 @@
           <span class="detail-chip">Qty: {{ orderContext.quantity }}</span>
         </div>
       </div>
-      <tui-icon style="color: #ffffff" icon="@tui.chevron-right" class="pinned-arrow"></tui-icon>
+      <ax-icon name="chevron-right" style="color: #ffffff" class="pinned-arrow"></ax-icon>
     </button>
   }
 </ion-header>
@@ -66,7 +66,7 @@
             class="category-tab"
             [class.active]="selectedCategory?.category_id === category.category_id"
             (click)="selectCategory(category)">
-            <tui-icon icon="@tui.{{category.icon}}"></tui-icon>
+            <ax-icon [name]="category.icon"></ax-icon>
             <span>{{ category.name }}</span>
           </button>
         }
@@ -144,19 +144,19 @@
                 <span class="message-status">
                   @switch(message.status){
                     @case('sending'){
-                      <tui-icon icon="@tui.clock"></tui-icon>
+                      <ax-icon name="clock"></ax-icon>
                     }
                     @case('sent'){
-                      <tui-icon icon="@tui.check"></tui-icon>
+                      <ax-icon name="check"></ax-icon>
                     }
                     @case('delivered'){
-                      <tui-icon icon="@tui.check-check"></tui-icon>
+                      <ax-icon name="check-check"></ax-icon>
                     }
                     @case('read'){
-                      <tui-icon icon="@tui.check-line"></tui-icon>
+                      <ax-icon name="check-line"></ax-icon>
                     }
                     @case('failed'){
-                      <tui-icon icon="@tui.circle-alert"></tui-icon>
+                      <ax-icon name="circle-alert"></ax-icon>
                     }
                   }
                 </span>
@@ -185,7 +185,7 @@
     @if(!isLoading && messages.length === 0){
       <div class="empty-chat">
         <div class="empty-icon">
-          <tui-icon icon="@tui.message-circle"></tui-icon>
+          <ax-icon name="message-circle"></ax-icon>
         </div>
         <p>{{ 'start_conversation' | translate }}</p>
         <span class="empty-hint">{{ 'use_prompts_or_type' | translate }}</span>
@@ -207,7 +207,7 @@
       @if(isUploading){
         <ion-spinner name="crescent"></ion-spinner>
       } @else {
-        <tui-icon icon="@tui.image"></tui-icon>
+        <ax-icon name="image"></ax-icon>
       }
     </button>
     <input
@@ -242,7 +242,7 @@
       @if(isSending){
         <ion-spinner name="crescent"></ion-spinner>
       } @else {
-        <tui-icon icon="@tui.send"></tui-icon>
+        <ax-icon name="send"></ax-icon>
       }
     </button>
   </div>
@@ -395,7 +395,7 @@
       <ion-toolbar>
         <ion-buttons slot="end">
           <ion-button (click)="closeImageViewer()">
-            <tui-icon icon="@tui.x"></tui-icon>
+            <ax-icon name="x"></ax-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>

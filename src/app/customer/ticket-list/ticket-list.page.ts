@@ -13,6 +13,7 @@ import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 interface Ticket {
   id: number;
   subject: string;
@@ -36,8 +37,7 @@ interface Ticket {
     TuiIcon,
     TuiButton,
     TuiLoader,
-    TranslatePipe
-  ]
+    TranslatePipe, AxIconComponent]
 })
 export class TicketListPage implements OnInit {
   tickets: Ticket[] = [];

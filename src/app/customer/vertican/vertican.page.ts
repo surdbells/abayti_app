@@ -69,6 +69,7 @@ import { TuiCarouselButtons, TuiCarouselComponent, TuiRadioComponent } from "@ta
 import { TuiItem } from "@taiga-ui/cdk";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -129,8 +130,7 @@ type DualRange = { lower: number; upper: number };
     TuiItem,
     TuiCarouselButtons,
     NgOptimizedImage,
-    TranslatePipe
-  ]
+    TranslatePipe, AxIconComponent]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];

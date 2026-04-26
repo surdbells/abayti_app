@@ -44,6 +44,7 @@ import {
 } from '../../models/chat.models';
 import { TranslatePipe } from '../../translate.pipe';
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -65,8 +66,7 @@ import { TranslatePipe } from '../../translate.pipe';
     IonSpinner,
     TuiIcon,
     TranslatePipe,
-    IonText
-  ]
+    IonText, AxIconComponent]
 })
 export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('chatContent', { static: false }) chatContent!: IonContent;

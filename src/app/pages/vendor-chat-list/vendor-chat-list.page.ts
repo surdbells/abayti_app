@@ -26,6 +26,7 @@ import { ChatService } from '../../service/chat.service';
 import { VendorConversation, OrderStatus } from '../../models/chat.models';
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-vendor-chat-list',
   templateUrl: './vendor-chat-list.page.html',
@@ -43,8 +44,7 @@ import {TranslatePipe} from "../../translate.pipe";
     IonRefresherContent,
     IonSpinner,
     TuiIcon,
-    TranslatePipe
-  ]
+    TranslatePipe, AxIconComponent]
 })
 export class VendorChatListPage implements OnInit, OnDestroy {
   conversations: VendorConversation[] = [];

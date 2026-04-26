@@ -23,7 +23,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="user_wishlist()" fill="clear">
-        <tui-icon icon="@tui.heart" [style.color]="'var(--text)'"/>
+        <ax-icon name="heart" [style.color]="'var(--text)'"/>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -78,7 +78,7 @@
               <label tuiLabel class="ion-color-light">{{ 'label_city' | translate }}</label>
               <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-city">
                 <span class="cc-code">{{ update.city }}</span>
-                <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+                <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
               </button>
             </ion-col>
             <ion-col>
@@ -91,7 +91,7 @@
               @if (!ui_controls.is_loading_area) {
                 <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"  style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-area">
                   <span class="cc-code">{{ update.area }}</span>
-                  <tui-icon slot="end" icon="@tui.chevron-down" [style.color]="'var(--ion-color-secondary)'"/>
+                  <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
                 </button>
               }
             </ion-col>

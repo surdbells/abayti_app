@@ -2,7 +2,7 @@
   <ion-toolbar class="toolbar ion-padding-top">
     <ion-buttons slot="start">
       <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
-        <tui-icon icon="@tui.arrow-left"></tui-icon>
+        <ax-icon name="arrow-left"></ax-icon>
       </button>
     </ion-buttons>
     <ion-title class="title">{{ 'messages' | translate }}</ion-title>
@@ -42,7 +42,7 @@
               <img [src]="vendor?.store_logo || 'assets/images/store.png'" [alt]="vendor?.store_name || 'Store'">
             } @else {
               <div class="logo-placeholder">
-                <tui-icon icon="@tui.store"></tui-icon>
+                <ax-icon name="store"></ax-icon>
               </div>
             }
           </div>
@@ -55,7 +55,7 @@
           @if(vendor.total_unread > 0){
             <div class="unread-badge">{{ vendor.total_unread }}</div>
           }
-          <tui-icon icon="@tui.chevron-right"></tui-icon>
+          <ax-icon name="chevron-right"></ax-icon>
         </button>
       }
     </div>
@@ -65,7 +65,7 @@
   @if(!isLoading && vendors.length === 0){
     <div class="empty-state">
       <div class="empty-icon">
-        <tui-icon icon="@tui.message-square"></tui-icon>
+        <ax-icon name="message-square"></ax-icon>
       </div>
       <h3>{{ 'no_messages_yet' | translate }}</h3>
       <p>{{ 'no_messages_description' | translate }}</p>

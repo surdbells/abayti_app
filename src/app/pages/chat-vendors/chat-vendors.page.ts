@@ -9,13 +9,14 @@ import { ChatService } from '../../service/chat.service';
 import { ChatVendor } from '../../models/chat.models';
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-chat-vendors',
   templateUrl: './chat-vendors.page.html',
   styleUrls: ['./chat-vendors.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TuiIcon, TranslatePipe]
+  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TuiIcon, TranslatePipe, AxIconComponent]
 })
 export class ChatVendorsPage implements OnInit, OnDestroy {
   vendors: ChatVendor[] = [];

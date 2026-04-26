@@ -33,6 +33,7 @@ import {TuiRating} from "@taiga-ui/kit";
 import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 type Review = {
   id: number;
   author: string;
@@ -52,7 +53,7 @@ type Review = {
   templateUrl: './vendor-reviews.page.html',
   styleUrls: ['./vendor-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent]
 })
 export class VendorReviewsPage implements OnInit {
   reviews: Review[] = [];

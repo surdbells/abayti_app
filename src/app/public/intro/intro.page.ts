@@ -18,6 +18,7 @@ import { TranslatePipe } from "../../translate.pipe";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import {TuiIcon} from "@taiga-ui/core";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface IntroSlide {
   id: number;
   image: string;
@@ -37,8 +38,7 @@ export interface IntroSlide {
     IonicModule,
     CommonModule,
     TranslatePipe,
-    TuiIcon
-  ]
+    TuiIcon, AxIconComponent]
 })
 export class IntroPage implements OnInit, OnDestroy {
   @ViewChild('swiper') swiperRef!: ElementRef;

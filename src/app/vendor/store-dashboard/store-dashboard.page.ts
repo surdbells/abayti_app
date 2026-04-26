@@ -29,6 +29,7 @@ import { GlobalComponent } from '../../global-component';
 import { TranslatePipe } from '../../translate.pipe';
 import {NetworkService} from "../../service/network.service";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface StoreData {
   store_id: number;
   name: string;
@@ -75,8 +76,7 @@ export interface StoreStats {
     IonRefresherContent,
     IonToggle,
     TuiIcon,
-    TranslatePipe
-  ]
+    TranslatePipe, AxIconComponent]
 })
 export class StoreDashboardPage implements OnInit, OnDestroy {
   storeData: StoreData | null = null;

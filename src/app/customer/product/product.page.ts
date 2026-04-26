@@ -44,6 +44,7 @@ import { SizeChipsComponent } from "../../size-chips/size-chips.component";
 import { TranslatePipe } from "../../translate.pipe";
 import { Products } from "../../class/products";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -100,8 +101,7 @@ export interface ColorOption {
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     IonGrid,
-    IonCard
-  ]
+    IonCard, AxIconComponent]
 })
 export class ProductPage implements OnInit, OnDestroy {
   store_measurement: StoreMeasurement[] = [];

@@ -22,6 +22,7 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Products} from "../../class/products";
 
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 type OrderStatus = 'processing' | 'shipping' | 'delivered';
 type FilterStatus = 'all' | OrderStatus;
 interface OrderItem {
@@ -48,7 +49,7 @@ interface Order {
   templateUrl: './my-orders.page.html',
   styleUrls: ['./my-orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader, AxIconComponent]
 })
 export class MyOrdersPage implements OnInit {
   orders: Order[] = [];

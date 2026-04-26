@@ -22,6 +22,7 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface Messages {
   message: string;
   timestamp: string;
@@ -32,7 +33,7 @@ export interface Messages {
   templateUrl: './ticket-messages.page.html',
   styleUrls: ['./ticket-messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader, TranslatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, TuiIcon, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TuiLoader, TranslatePipe, AxIconComponent]
 })
 export class TicketMessagesPage implements OnInit, OnDestroy {
   isOnline = true;
