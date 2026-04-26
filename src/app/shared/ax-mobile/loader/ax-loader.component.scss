@@ -14,11 +14,23 @@
 }
 
 :host {
-  display: inline-flex;
+  /*
+   * Display as a block-level flex container that centers its content
+   * horizontally. This is the right default for page-level loading
+   * states (the dominant use case — see M4 audit showing 46/46
+   * callsites are content-area loading, not inline button spinners).
+   *
+   * For inline-button cases (e.g. <ax-loader size="sm"> next to text
+   * inside a button), callers can override with an explicit
+   * `style="display: inline-flex"` or we add an `inline` input later.
+   * No current callsite needs that.
+   *
+   * Brand brown is the default color; callers can override via [color]
+   * input or by setting `color` on a parent (currentColor inheritance).
+   */
+  display: flex;
   align-items: center;
   justify-content: center;
-  /* Brand brown is the default; callers can override via [color] input
-     or by setting `color` on a parent (currentColor inheritance). */
   color: var(--ax-color-bg-brand);
 }
 
