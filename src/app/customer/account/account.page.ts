@@ -24,22 +24,12 @@ import {
   IonTabButton, IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
-import {
-  TuiLabel,
-  TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldDropdownDirective, TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {ActionSheetController, InfiniteScrollCustomEvent, Platform} from '@ionic/angular';
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import { ConnectionService } from '../../service/connection.service';
 import {GlobalComponent} from "../../global-component";
-import {
-  TuiChevron, TuiChip,
-  TuiDataListWrapperComponent, tuiItemsHandlersProvider, TuiRadioComponent,
-  TuiSelectDirective,
-  TuiShimmer
-} from "@taiga-ui/kit";
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
 import {CartIconComponent} from "../../cart-icon.component";
@@ -77,7 +67,7 @@ export interface Store {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, TuiShimmer, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, IonSelect, IonSelectOption, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
 })
 
 export class AccountPage implements OnInit, OnDestroy {
