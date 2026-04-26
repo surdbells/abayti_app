@@ -9,6 +9,7 @@ import {NG_EVENT_PLUGINS} from "@taiga-ui/event-plugins";
 import {provideHttpClient} from "@angular/common/http";
 import {I18nService} from "./app/i18n.service";
 import {APP_INITIALIZER, provideZoneChangeDetection} from "@angular/core";
+import {provideAxIcons} from "./app/shared/ax-mobile/icon";
 function initI18n(i18n: I18nService) {
   return () => i18n.init();
 }
@@ -19,6 +20,7 @@ bootstrapApplication(AppComponent, {
     {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
     provideIonicAngular({animated: true}),
     provideHttpClient(),
+    provideAxIcons(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 }).then(r =>console.log(r));
