@@ -1188,3 +1188,24 @@ ion-header.md ion-toolbar {
   line-height: 1;
 }
 
+
+/* ----- M7 header badge — passive count (e.g. total unread) ----- */
+.m7-header-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  background: var(--ax-color-bg-brand);  /* #906952 */
+  color: var(--ax-palette-neutral-0);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  margin-inline-end: 12px;
+  /* Distinct from .m7-header-action because this is a passive
+     count display, not a button. No padding/hover/tap states. */
+}
+

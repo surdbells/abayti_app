@@ -1,15 +1,13 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
-        <ax-icon name="arrow-left"></ax-icon>
-      </button>
+      <ion-button (click)="goBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="title">{{ storeName }}</ion-title>
+    <ion-title class="m7-title">{{ storeName }}</ion-title>
   </ion-toolbar>
-  <div class="subtitle-row">
-    <ion-text>{{ 'select_order_to_chat' | translate }}</ion-text>
-  </div>
+  <div class="m7-subtitle">{{ 'select_order_to_chat' | translate }}</div>
 </ion-header>
 
 <ion-content class="page-content ion-padding">

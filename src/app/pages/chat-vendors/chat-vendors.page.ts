@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, NavController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, NavController } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { ChatService } from '../../service/chat.service';
@@ -15,7 +15,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
   styleUrls: ['./chat-vendors.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent]
+  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent]
 })
 export class ChatVendorsPage implements OnInit, OnDestroy {
   vendors: ChatVendor[] = [];
