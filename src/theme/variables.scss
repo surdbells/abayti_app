@@ -1,101 +1,141 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+/* =========================================================================
+   Ionic theme — Abayti mobile (M2)
+   --------------------------------------------------------------------------
+   This file maps Ionic's CSS variables to the ax-* design tokens defined in
+   src/app/shared/ax-mobile/_tokens.scss. Every <ion-*> component inherits
+   the abayti brand without any per-component changes.
+
+   Brand model:
+     - Primary    = brown-500 (#906952). Solid, used on CTAs.
+     - Secondary  = espresso-700. Dark accent (rare).
+     - Tertiary   = beige-300. Soft brand surface.
+     - Status     = ax success / warning / danger / info palette.
+     - Light      = ax neutral-100 (warm subtle bg).
+     - Medium     = ax neutral-500 (muted text / icons).
+   Surfaces: warm canvas (neutral-50), white cards/sheets, beige-200 toolbar.
+   Type: --ion-font-family points at the Inter body font (set in M2a).
+   ========================================================================= */
+
 :root {
-	/* Font family — body uses Inter, display via global.scss heading rules */
+	/* ----- Font (set in M2a, kept here for readability) ----- */
 	--ion-font-family: var(--ax-font-body);
 
-	--ion-color-primary: #792108;
-	--ion-color-primary-rgb: 127,92,72;
-	--ion-color-primary-contrast: #000000;
-	--ion-color-primary-contrast-rgb: 0,0,0;
-	--ion-color-primary-shade: #BA2E06;
-	--ion-color-primary-tint: #BA2E06;
+	/* ----- Primary: brown ----- */
+	--ion-color-primary:           var(--ax-palette-brown-500);
+	--ion-color-primary-rgb:       144, 105, 82;
+	--ion-color-primary-contrast:  var(--ax-palette-neutral-0);
+	--ion-color-primary-contrast-rgb: 255, 255, 255;
+	--ion-color-primary-shade:     var(--ax-palette-brown-600);
+	--ion-color-primary-tint:      var(--ax-palette-brown-400);
 
-	--ion-color-secondary: #BA2E06;
-	--ion-color-secondary-rgb: 144,105,82;
-	--ion-color-secondary-contrast: #ffffff;
-	--ion-color-secondary-contrast-rgb: 255,255,255;
-	--ion-color-secondary-shade: #7f5c48;
-	--ion-color-secondary-tint: #9b7863;
+	/* ----- Secondary: espresso ----- */
+	--ion-color-secondary:           var(--ax-palette-espresso-700);
+	--ion-color-secondary-rgb:       40, 35, 31;
+	--ion-color-secondary-contrast:  var(--ax-palette-neutral-0);
+	--ion-color-secondary-contrast-rgb: 255, 255, 255;
+	--ion-color-secondary-shade:     var(--ax-palette-espresso-800);
+	--ion-color-secondary-tint:      var(--ax-palette-espresso-600);
 
-	--ion-color-tertiary: #906952;
-	--ion-color-tertiary-rgb: 144,105,82;
-	--ion-color-tertiary-contrast: #ffffff;
-	--ion-color-tertiary-contrast-rgb: 255,255,255;
-	--ion-color-tertiary-shade: #7f5c48;
-	--ion-color-tertiary-tint: #7f5c48;
+	/* ----- Tertiary: beige (soft brand surface) ----- */
+	--ion-color-tertiary:           var(--ax-palette-beige-300);
+	--ion-color-tertiary-rgb:       232, 220, 203;
+	--ion-color-tertiary-contrast:  var(--ax-palette-espresso-800);
+	--ion-color-tertiary-contrast-rgb: 28, 25, 22;
+	--ion-color-tertiary-shade:     var(--ax-palette-beige-400);
+	--ion-color-tertiary-tint:      var(--ax-palette-beige-200);
 
-	--ion-color-success: #7f5c48;
-	--ion-color-success-rgb: 144,105,82;
-	--ion-color-success-contrast: #ffffff;
-	--ion-color-success-contrast-rgb: 255,255,255;
-	--ion-color-success-shade: #7f5c48;
-	--ion-color-success-tint: #7f5c48;
+	/* ----- Status colors (ax-* palette) ----- */
+	--ion-color-success:           var(--ax-palette-success-500);
+	--ion-color-success-rgb:       46, 125, 64;
+	--ion-color-success-contrast:  var(--ax-palette-neutral-0);
+	--ion-color-success-contrast-rgb: 255, 255, 255;
+	--ion-color-success-shade:     var(--ax-palette-success-600);
+	--ion-color-success-tint:      var(--ax-palette-success-400);
 
-	--ion-color-warning: #7f5c48;
-	--ion-color-warning-rgb: 232,220,203;
-	--ion-color-warning-contrast: #000000;
-	--ion-color-warning-contrast-rgb: 0,0,0;
-	--ion-color-warning-shade: #ccc2b3;
-	--ion-color-warning-tint: #eae0d0;
+	--ion-color-warning:           var(--ax-palette-warning-400);
+	--ion-color-warning-rgb:       229, 160, 58;
+	--ion-color-warning-contrast:  var(--ax-palette-espresso-800);
+	--ion-color-warning-contrast-rgb: 28, 25, 22;
+	--ion-color-warning-shade:     var(--ax-palette-warning-500);
+	--ion-color-warning-tint:      var(--ax-palette-warning-100);
 
-	--ion-color-danger: #7f5c48;
-	--ion-color-danger-rgb: 232,220,203;
-	--ion-color-danger-contrast: #000000;
-	--ion-color-danger-contrast-rgb: 0,0,0;
-	--ion-color-danger-shade: #ccc2b3;
-	--ion-color-danger-tint: #eae0d0;
+	--ion-color-danger:           var(--ax-palette-danger-500);
+	--ion-color-danger-rgb:       165, 56, 38;
+	--ion-color-danger-contrast:  var(--ax-palette-neutral-0);
+	--ion-color-danger-contrast-rgb: 255, 255, 255;
+	--ion-color-danger-shade:     var(--ax-palette-danger-600);
+	--ion-color-danger-tint:      var(--ax-palette-danger-400);
 
-	--ion-color-light: #f6f8fc;
-	--ion-color-light-rgb: 246,248,252;
-	--ion-color-light-contrast: #000000;
-	--ion-color-light-contrast-rgb: 0,0,0;
-	--ion-color-light-shade: #d8dade;
-	--ion-color-light-tint: #f7f9fc;
+	/* ----- Neutral utilities ----- */
+	--ion-color-light:           var(--ax-palette-neutral-100);
+	--ion-color-light-rgb:       241, 237, 231;
+	--ion-color-light-contrast:  var(--ax-palette-espresso-800);
+	--ion-color-light-contrast-rgb: 28, 25, 22;
+	--ion-color-light-shade:     var(--ax-palette-neutral-200);
+	--ion-color-light-tint:      var(--ax-palette-neutral-50);
 
-	--ion-color-medium: #5f5f5f;
-	--ion-color-medium-rgb: 95,95,95;
-	--ion-color-medium-contrast: #ffffff;
-	--ion-color-medium-contrast-rgb: 255,255,255;
-	--ion-color-medium-shade: #545454;
-	--ion-color-medium-tint: #6f6f6f;
+	--ion-color-medium:           var(--ax-palette-neutral-500);
+	--ion-color-medium-rgb:       125, 118, 105;
+	--ion-color-medium-contrast:  var(--ax-palette-neutral-0);
+	--ion-color-medium-contrast-rgb: 255, 255, 255;
+	--ion-color-medium-shade:     var(--ax-palette-neutral-600);
+	--ion-color-medium-tint:      var(--ax-palette-neutral-400);
 
+	/* ----- Surfaces ----- */
+	--ion-background-color:       var(--ax-color-bg-canvas);   /* warm off-white */
+	--ion-background-color-rgb:   250, 248, 245;
+	--ion-text-color:             var(--ax-color-text-primary);
+	--ion-text-color-rgb:         28, 25, 22;
 
-  --app-bg-image: url('/assets/images/home_bg.png');
-  --login-bg-image: url('/assets/images/login.png');
-  --home-bg-image: url('/assets/images/home.png');
-  --welcome-bg-image: url('/assets/images/welcome.png');
-  --welcome-splash-image: url('/assets/images/splash.png');
-  --app-bg-gradient: linear-gradient(180deg, #F1C0A9 0%, #FFE0C7 29%, #F1BEA8 100%);
+	--ion-toolbar-background:     var(--ax-palette-beige-200); /* M2 locked: beige toolbar */
+	--ion-toolbar-color:          var(--ax-color-text-primary);
+	--ion-toolbar-border-color:   var(--ax-color-border-subtle);
 
-  --profile-bg: #efe4d6;      /* page background */
-  --header-bg: #6b4b3a;       /* coffee header */
-  --header-text: #ffffff;
-  --section-bg: #ffffff;
-  --section-title-bg: #e6d6c6;
-  --divider: #e9e4df;
+	--ion-tab-bar-background:     var(--ax-palette-neutral-0); /* white tab bar */
+	--ion-tab-bar-border-color:   var(--ax-color-border-subtle);
+	--ion-tab-bar-color:          var(--ax-color-text-tertiary);
+	--ion-tab-bar-color-selected: var(--ax-color-text-primary); /* M2 locked: espresso */
 
-  --muted: #7a6a61;
+	--ion-card-background:        var(--ax-palette-neutral-0);
+	--ion-item-background:        var(--ax-palette-neutral-0);
+	--ion-item-border-color:      var(--ax-color-border-subtle);
 
-  --pill-bg: #f1eadf;
-  --pill-border: rgba(0,0,0,.06);
+	--ion-border-color:           var(--ax-color-border-subtle);
 
-  --success: #1bb063;
-  --price: #b33;
-  --bg: #f6efe9;            /* page background */
-  --sheet: #e9d7c7;         /* rounded card */
-  --card: #ffffff;          /* inner pills / rows */
-  --ink: #2a211c;           /* main text */
-  --coffee: #5b4437;        /* primary brand (buttons) */
-  --border: rgba(44, 28, 20, 0.08);
-  --buttons: #7C2108;
-  --radius-2xl: 28px;
-  --radius-xl: 18px;
-  --radius-lg: 14px;
-  --shadow-xl: 0 20px 50px rgba(91, 68, 55, 0.18);
-  --shadow-md: 0 8px 22px rgba(91, 68, 55, 0.10);
-  --shadow-sm: 0 3px 10px rgba(91, 68, 55, 0.08);
+	/* ----- App-specific custom vars (retargeted to ax tokens) -----
+	   These vars are referenced from page-level SCSS files that we have not
+	   yet migrated. Retargeting them here lets the app pick up the new
+	   tokens without per-page edits. As pages get rewritten in M6+ they
+	   should reference ax-* directly and these can be removed. */
 
-  /* for <tui-icon [style.color]="'var(--text)'" /> */
-  --text: var(--ink);
+	/* Text color shorthand (used in 31 places) */
+	--text:    var(--ax-color-text-primary);
+	--ink:     var(--ax-color-text-primary);
+	--muted:   var(--ax-color-text-secondary);
+
+	/* Surface shorthand */
+	--bg:      var(--ax-color-bg-canvas);
+	--card:    var(--ax-palette-neutral-0);
+	--profile-bg: var(--ax-color-bg-canvas);
+	--header-bg: var(--ax-palette-beige-200);
+	--header-text: var(--ax-color-text-primary);
+
+	/* Borders + shadows shorthand */
+	--border:    var(--ax-color-border-subtle);
+	--shadow-sm: var(--ax-shadow-sm);
+	--shadow-md: var(--ax-shadow-md);
+
+	/* Radius shorthand */
+	--radius-lg:  var(--ax-radius-lg);
+	--radius-xl:  var(--ax-radius-xl);
+	--radius-2xl: var(--ax-radius-2xl);
+
+	/* ----- Page-level background images -----
+	   M2e will remove these alongside the page-level CSS that references them.
+	   Keeping the declarations here in M2b prevents the referencing pages
+	   from breaking before M2e lands. */
+	--app-bg-image:     url('/assets/images/home_bg.png');
+	--login-bg-image:   url('/assets/images/login.png');
+	--home-bg-image:    url('/assets/images/home.png');
+	--welcome-bg-image: url('/assets/images/welcome.png');
 }
