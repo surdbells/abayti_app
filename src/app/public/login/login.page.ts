@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import {TuiPassword} from '@taiga-ui/kit';
 import {
-  TuiButton, TuiIcon,
+  TuiIcon,
   TuiLabel, TuiLoader,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
@@ -42,7 +42,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,
     TuiLabel,
-    TuiButton,
     FormsModule,
     IonText,
     TuiPassword,

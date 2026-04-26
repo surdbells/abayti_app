@@ -13,7 +13,6 @@ import {
 } from '@ionic/angular/standalone';
 import {LanguageSwitcherComponent} from "../../language-switcher.component";
 import {
-    TuiButton,
     TuiIcon,
     TuiLabel,
     TuiLoader,
@@ -40,7 +39,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './vendors.page.html',
   styleUrls: ['./vendors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText, AxIconComponent, AxLoaderComponent]
 })
 export class VendorsPage implements OnInit {
   latest: Products[] = [];

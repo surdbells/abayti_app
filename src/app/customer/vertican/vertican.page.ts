@@ -48,7 +48,6 @@ import {
 } from '@ionic/angular/standalone';
 import {Gesture, GestureController, Platform, ToastController} from "@ionic/angular";
 import {
-  TuiButton,
   TuiIcon,
   TuiLabel,
   TuiLoader,
@@ -114,7 +113,6 @@ type DualRange = { lower: number; upper: number };
     IonImg,
     IonText,
     TuiLoader,
-    TuiButton,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,

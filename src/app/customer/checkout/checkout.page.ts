@@ -24,7 +24,6 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {
-  TuiButton,
   TuiIcon, TuiLabel,
   TuiLoader, TuiNotification,
   TuiTextfieldComponent,
@@ -75,7 +74,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonAccordion,
     TuiNotification,
     ReactiveFormsModule,
-    TuiButton,
     TuiLabel,
     FormsModule,
     IonModal, AxIconComponent, AxLoaderComponent],

@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
 
 import { FormsModule } from '@angular/forms';
 import {
-  TuiButton, TuiIcon,
+  TuiIcon,
   TuiLabel, TuiLoader,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
@@ -50,7 +50,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     TuiTextfieldComponent,
     FormsModule,
     TuiLabel,
-    TuiButton,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,
     IonText,

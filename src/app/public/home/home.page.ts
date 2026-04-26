@@ -30,7 +30,6 @@ import {CartIconComponent} from "../../cart-icon.component";
 import {TranslatePipe} from "../../translate.pipe";
 import {TuiAvatar, TuiChip, TuiRadioComponent} from "@taiga-ui/kit";
 import {
-    TuiButton,
     TuiFallbackSrcPipe,
     TuiIcon,
     TuiLabel,
@@ -75,7 +74,7 @@ export interface Store {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiButton, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, TuiChip, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, TuiChip, AxIconComponent, AxLoaderComponent]
 })
 export class HomePage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
