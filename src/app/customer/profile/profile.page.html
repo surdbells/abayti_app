@@ -56,12 +56,11 @@
           <ion-row class="animate__animated animate__fadeInDown">
             <ion-col size="4" class="ion-no-padding">
               <label tuiLabel>{{ 'label_dial_code' | translate }}</label>
-              <button appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-dark"
-                style="width: 100%; outline-color: #000000; color: #000000; margin-top: 6px;" size="m" tuiButton type="button" id="open-country-codes">
+              <ion-button expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button" id="open-country-codes">
                 <span class="cc-flag">{{ selectedDial?.flag }}</span>
                 <span class="cc-code">{{ update.countryCode }}</span>
                 <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
-              </button>
+              </ion-button>
             </ion-col>
             <ion-col>
               <label tuiLabel>{{ 'label_phone_number' | translate }}</label>
@@ -74,9 +73,8 @@
         <ion-row>
           <ion-col>
             @if (!ui_controls.is_loading) {
-              <button (click)="update_profile()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button">  {{ 'button_update' | translate }}
-              </button>
+              <ion-button (click)="update_profile()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">  {{ 'button_update' | translate }}
+              </ion-button>
             }
             @if (ui_controls.is_loading || ui_controls.is_updating) {
               <ax-loader></ax-loader>

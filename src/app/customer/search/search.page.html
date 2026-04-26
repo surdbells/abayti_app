@@ -85,10 +85,10 @@
           <ax-icon name="shopping-basket" [style.font-size.rem]="2"></ax-icon>
           <h2>{{ 'heading_no_product_found' | translate }}</h2>
           <p>{{ 'text_no_product_match' | translate }}</p>
-          <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/explore']">
+          <ion-button shape="round" class="mt-4" [routerLink]="['/explore']">
             <ax-icon name="brush-cleaning"></ax-icon>
             <span>{{ 'button_explore_stores' | translate }}</span>
-          </button>
+          </ion-button>
         </ion-card-content>
       </ion-card>
     </div>

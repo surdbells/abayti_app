@@ -40,9 +40,8 @@
         }
       </ion-select>
       @if (!ui_controls.is_loading) {
-        <button (click)="create_ticket()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-          style="width: 100%; outline-color: #000000; color: #000000" size="m" tuiButton type="button"> {{'button_create_ticket' | translate}}
-        </button>
+        <ion-button (click)="create_ticket()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button"> {{'button_create_ticket' | translate}}
+        </ion-button>
       }
       <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
         @if (ui_controls.is_loading){

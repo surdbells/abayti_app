@@ -133,10 +133,8 @@
               </ion-col>
             }
             @if (!ui_controls.is_creating) {
-              <button (click)="add_wishlist_label()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical abayti_primary_background ion-color-light"
-                style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                tuiButton type="button"> {{ 'button_add' | translate }}
-              </button>
+              <ion-button (click)="add_wishlist_label()" expand="block" class="ion-margin-vertical" type="button"> {{ 'button_add' | translate }}
+              </ion-button>
             }
           </ion-row>
           <ion-row>

@@ -145,10 +145,10 @@
           <ax-icon name="shopping-basket" [style.font-size.rem]="2"></ax-icon>
           <h2>{{ 'cart_empty_title' | translate }}</h2>
           <p>{{ 'cart_empty_message' | translate }}</p>
-          <button appearance="floating" tuiButton size="m" class="mt-4" [routerLink]="['/account']">
+          <ion-button shape="round" class="mt-4" [routerLink]="['/account']">
             <ax-icon name="shopping-cart"></ax-icon>
             <span>{{ 'button_start_shopping' | translate }}</span>
-          </button>
+          </ion-button>
         </ion-card-content>
       </ion-card>
     </div>
