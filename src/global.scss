@@ -945,3 +945,246 @@ ion-header.md ion-toolbar {
   }
 }
 
+
+/* ============================================================
+   M6d — Product card (moved from account.page.scss in M7-4-2)
+   ============================================================
+   Used by account.page horizontal carousels (Best Sellers,
+   New Arrivals) and 2-column grids on listing pages
+   (best-sellers, category, new-arrivals). Width is fluid by
+   default; inside .h-scroll it's pinned to 158px.
+   ============================================================ */
+
+/* ============================================================
+   M6d — Section headers + product cards
+   ============================================================ */
+
+/* Section header — used by Best Sellers, New Arrivals, and the
+   redesigned Popular Stores in M6e. */
+.m6d-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 20px 4px 8px;
+  margin: 0;
+}
+
+.m6d-section-title {
+  font-family: var(--ax-font-display);  /* Poltawski Nowy */
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--ax-color-text-primary);  /* #1c1916 */
+  letter-spacing: -0.005em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.m6d-show-all {
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ax-color-text-brand);  /* #614536 */
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  ax-icon {
+    font-size: 14px;
+  }
+}
+
+/* Product card — replaces the chrome-heavy .product-card. The image
+   IS the product; no surrounding border, shadow, or fill. Caption
+   sits below the image with no separator. */
+.m6d-product-card {
+  /* Width is fluid by default — fills its container. Used in
+     2-column grid on listing pages (best-sellers, category,
+     new-arrivals). Inside .h-scroll context (account.page
+     horizontal carousels), gets pinned to 158px so cards don't
+     stretch as the user scrolls. */
+  width: 100%;
+  background: var(--ax-palette-neutral-0);  /* white */
+  border-radius: var(--ax-radius-lg);       /* 12px outer radius */
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
+  overflow: hidden;  /* ensures image top corners respect parent radius */
+}
+
+.h-scroll .m6d-product-card {
+  /* Account.page horizontal carousels: fixed width so cards
+     don't stretch. flex-shrink:0 prevents flex sibling pressure. */
+  width: 158px;
+  flex-shrink: 0;
+}
+
+.m6d-img-wrap {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  background: var(--ax-palette-brown-100);  /* #ead9ca — warm neutral */
+  /* No standalone border-radius here — the parent .m6d-product-card's
+     border-radius + overflow:hidden gives the image rounded top corners.
+     Bottom of the image meets the caption area flush, no gap. */
+  overflow: hidden;
+
+  /* Skeleton overlay while image loads */
+  .m6d-img-skeleton {
+    position: absolute;
+    inset: 0;
+    background: var(--ax-palette-brown-100);
+    z-index: 2;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
+
+  /* Wishlist heart-plus button — top-right, white-translucent circle */
+  .m6d-like {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    padding: 0;
+    transition: background 0.15s ease;
+
+    &:active {
+      background: rgba(255, 255, 255, 1);
+    }
+
+    ax-icon {
+      font-size: 14px;
+      color: var(--ax-color-text-brand);  /* #614536 */
+    }
+  }
+
+  /* Vendor badge — bottom-left, dark translucent overlay */
+  .m6d-vendor-badge {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    padding: 3px 8px;
+    background: rgba(28, 25, 22, 0.7);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--ax-palette-neutral-0);
+    letter-spacing: 0;
+    text-transform: none;
+    z-index: 3;
+    max-width: calc(100% - 50px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.m6d-info {
+  padding: 12px 14px 14px;
+  cursor: pointer;
+}
+
+.m6d-name {
+  /* Single-line ellipsis truncation. Long product names get
+     clipped with "..." to keep card heights consistent across
+     the grid. Trade-off: information loss for very long names,
+     accepted in favor of clean grid alignment. */
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ax-color-text-primary);  /* #1c1916 */
+  line-height: 1.4;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.m6d-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.m6d-price {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ax-color-text-primary);  /* #1c1916 — dropped the deep red */
+  line-height: 1.4;
+}
+
+/* Add-to-cart button — small brown circle with plus icon, replaces
+   the inline 50-line SVG that used #7C2108 deep red. */
+.m6d-add-to-cart {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ax-color-bg-brand);  /* #906952 */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background 0.15s ease;
+
+  &:active {
+    background: var(--ax-palette-brown-600);  /* #7a5844 */
+  }
+
+  ax-icon {
+    font-size: 14px;
+    color: var(--ax-palette-neutral-0);
+  }
+}
+
+/* End M6d styles */
+/* ============================================================ */
+
+
+/* ----- M6d flag badge (e.g. "NEW") — top-left of img-wrap ----- */
+.m6d-img-wrap .m6d-flag-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  background: var(--ax-color-bg-brand);  /* #906952 brown */
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ax-palette-neutral-0);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  z-index: 3;
+  line-height: 1;
+}
+

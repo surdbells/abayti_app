@@ -77,40 +77,43 @@
       <ion-row>
         @for(product of category_listing; track product.product_id){
           <ion-col size="6">
-            <article class="product-card" [class.loading]="ui_controls.is_creating">
-              <div class="img-wrap">
-                <!-- Image Skeleton Loader -->
-                <div class="img-skeleton" [class.hidden]="imageLoaded[product.product_id]">
+            <article class="m6d-product-card" [class.loading]="ui_controls.is_creating">
+              <div class="m6d-img-wrap">
+                <!-- Image skeleton -->
+                <div class="m6d-img-skeleton" [class.hidden]="imageLoaded[product.product_id]">
                   <div class="skeleton-shimmer"></div>
                 </div>
-
-                <!-- Product Image -->
+                <!-- Actual image -->
                 <img
                   loading="lazy"
                   decoding="async"
-                  (click)="open_product(product.product_id, product.product_name)"
                   [src]="product.image_1"
                   [alt]="product.product_name"
-                  class="product-img"
                   [class.loaded]="imageLoaded[product.product_id]"
                   (load)="onImageLoad(product.product_id)"
-                  (error)="onImageError(product.product_id)">
-
-                <!-- Like Button -->
+                  (error)="onImageError(product.product_id)"
+                  (click)="open_product(product.product_id, product.product_name)" />
                 <button
                   type="button"
-                  class="like-btn"
-                  (click)="startAddToCloset(product.product_id, product.product_name, product.image_1); $event.stopPropagation()">
-                  <ax-icon name="heart" />
+                  class="m6d-like"
+                  (click)="startAddToCloset(product.product_id, product.product_name, product.image_1); $event.stopPropagation()"
+                  aria-label="Add to closet">
+                  <ax-icon name="heart-plus" />
                 </button>
-
-                <!-- Store Tag -->
-                <span class="store-tag">{{product.store_name}}</span>
+                <span class="m6d-vendor-badge">{{ product.store_name }}</span>
               </div>
-
-              <div class="info" (click)="open_product(product.product_id, product.product_name)">
-                <p class="product-name">{{product.product_name}}</p>
-                <span class="product-price">Ð{{product.price}}</span>
+              <div (click)="open_product(product.product_id, product.product_name)" class="m6d-info">
+                <p class="m6d-name">{{ product.product_name }}</p>
+                <div class="m6d-price-row">
+                  <span class="m6d-price">Ð{{ product.price }}</span>
+                  <button
+                    type="button"
+                    class="m6d-add-to-cart"
+                    (click)="open_product(product.product_id, product.product_name); $event.stopPropagation()"
+                    aria-label="View product">
+                    <ax-icon name="plus" />
+                  </button>
+                </div>
               </div>
             </article>
           </ion-col>
