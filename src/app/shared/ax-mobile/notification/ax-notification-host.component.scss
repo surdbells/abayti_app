@@ -39,36 +39,36 @@
 /* ----- Position variants ----- */
 
 .ax-notification-host__stack--top-center {
-  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  top: calc(env(safe-area-inset-top, 0px) + var(--ax-header-height, 56px) + 16px);
   left: 50%;
   transform: translateX(-50%);
 }
 
 .ax-notification-host__stack--bottom-center {
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--ax-tabbar-height, 56px) + 16px);
   left: 50%;
   transform: translateX(-50%);
   flex-direction: column; /* newest at the bottom of the visible stack */
 }
 
 .ax-notification-host__stack--top-left {
-  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  top: calc(env(safe-area-inset-top, 0px) + var(--ax-header-height, 56px) + 16px);
   inset-inline-start: 16px; /* RTL-aware (left in LTR, right in RTL) */
 }
 
 .ax-notification-host__stack--top-right {
-  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  top: calc(env(safe-area-inset-top, 0px) + var(--ax-header-height, 56px) + 16px);
   inset-inline-end: 16px;
 }
 
 .ax-notification-host__stack--bottom-left {
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--ax-tabbar-height, 56px) + 16px);
   inset-inline-start: 16px;
   flex-direction: column;
 }
 
 .ax-notification-host__stack--bottom-right {
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--ax-tabbar-height, 56px) + 16px);
   inset-inline-end: 16px;
   flex-direction: column;
 }
