@@ -29,7 +29,7 @@ import {
 } from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslatePipe} from "../../translate.pipe";
 import {TuiPassword} from "@taiga-ui/kit";
@@ -86,7 +86,7 @@ export class ResetPage implements OnInit, OnDestroy {
     private platform: Platform,
     private router: Router,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

@@ -36,7 +36,7 @@ import { Subscription } from "rxjs";
 import { Platform } from "@ionic/angular";
 import { ConnectionService } from "../../service/connection.service";
 import { NetworkService } from "../../service/network.service";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { GlobalComponent } from "../../global-component";
 import { Preferences } from "@capacitor/preferences";
 import { CartIconComponent } from "../../cart-icon.component";
@@ -173,7 +173,7 @@ export class ProductPage implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private cdr: ChangeDetectorRef
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {

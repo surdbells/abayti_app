@@ -16,7 +16,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActionSheetController} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {TuiIcon, TuiLoader} from "@taiga-ui/core";
@@ -42,7 +42,7 @@ export class StoreReviewsPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

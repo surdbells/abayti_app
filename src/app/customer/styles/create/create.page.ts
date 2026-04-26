@@ -7,7 +7,7 @@ import {ConnectionService} from "../../../service/connection.service";
 import {BlockerService} from "../../../blocker.service";
 import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule, ModalController} from "@ionic/angular";
 import {NetworkService} from "../../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../../shared/ax-mobile/notification';
 import {SelectProductsComponent} from "../../../modals/select-products/select-products.component";
 import {NavController, Platform} from "@ionic/angular/standalone";
 import {TuiIcon, TuiLoader} from "@taiga-ui/core";
@@ -74,7 +74,7 @@ export class CreatePage implements OnInit {
     private blocker: BlockerService,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: AxNotificationService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');

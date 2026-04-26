@@ -24,7 +24,7 @@ import { TuiIcon } from "@taiga-ui/core";
 import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { NetworkService } from "../../service/network.service";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 
@@ -87,7 +87,7 @@ export class StylesPage implements OnInit, OnDestroy {
     private platform: Platform,
     private net: ConnectionService,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private cdr: ChangeDetectorRef
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {

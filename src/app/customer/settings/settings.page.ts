@@ -44,7 +44,7 @@ import { NetworkService } from '../../service/network.service';
 import { GlobalComponent } from '../../global-component';
 import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
-import { HotToastService } from '@ngxpert/hot-toast';
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import {TuiIcon} from "@taiga-ui/core";
 
 @Component({
@@ -139,7 +139,7 @@ export class SettingsPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private net: ConnectionService,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: AxNotificationService
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

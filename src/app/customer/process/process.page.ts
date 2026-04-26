@@ -17,7 +17,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BlockerService} from "../../blocker.service";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 
@@ -38,7 +38,7 @@ export class ProcessPage implements OnInit {
     private blocker: BlockerService,
     private route: ActivatedRoute,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: AxNotificationService
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

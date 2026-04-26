@@ -30,7 +30,7 @@ import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NetworkService } from "../../service/network.service";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
@@ -89,7 +89,7 @@ export class CategoryPage implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private cdr: ChangeDetectorRef
   ) {
     this.net.setReachabilityCheck(true);

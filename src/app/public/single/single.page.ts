@@ -37,7 +37,7 @@ import {ConnectionService} from "../../service/connection.service";
 import {Platform} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 
 @Component({
@@ -63,7 +63,7 @@ export class SinglePage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');

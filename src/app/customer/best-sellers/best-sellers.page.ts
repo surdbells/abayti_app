@@ -35,7 +35,7 @@ import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { Router } from "@angular/router";
 import { NetworkService } from "../../service/network.service";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 import { Labels } from "../../class/labels";
@@ -136,7 +136,7 @@ export class BestSellersPage implements OnInit, OnDestroy {
     private platform: Platform,
     private router: Router,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private cdr: ChangeDetectorRef
   ) {
     this.net.setReachabilityCheck(true);

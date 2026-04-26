@@ -21,7 +21,7 @@ import {
 } from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 import {BlockerService} from "../../blocker.service";
 import {TranslatePipe} from "../../translate.pipe";
@@ -58,7 +58,7 @@ export class LoginPage implements OnInit, OnDestroy {
       private router: Router,
       private blocker: BlockerService,
       private networkService: NetworkService,
-      private toast: HotToastService
+      private toast: AxNotificationService
     ) {
       this.net.setReachabilityCheck(true);
       this.sub = this.net.online$.subscribe(v => this.isOnline = v);

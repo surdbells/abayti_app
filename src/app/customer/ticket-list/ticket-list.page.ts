@@ -7,7 +7,7 @@ import {TuiButton, TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {NavController, Platform} from "@ionic/angular/standalone";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Subscription} from "rxjs";
 import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
@@ -51,7 +51,7 @@ export class TicketListPage implements OnInit {
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private fb: FormBuilder
   ) {
     this.net.setReachabilityCheck(true);

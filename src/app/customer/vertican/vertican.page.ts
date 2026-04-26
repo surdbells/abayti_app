@@ -62,7 +62,7 @@ import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { Router, RouterLink } from "@angular/router";
 import { NetworkService } from "../../service/network.service";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 import { TuiCarouselButtons, TuiCarouselComponent, TuiRadioComponent } from "@taiga-ui/kit";
@@ -185,7 +185,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private ngZone: NgZone
   ) {
     this.net.setReachabilityCheck(true);

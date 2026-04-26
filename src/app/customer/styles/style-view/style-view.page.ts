@@ -22,7 +22,7 @@ import {
 } from '@ionic/angular/standalone';
 import { TuiIcon, TuiLoader } from "@taiga-ui/core";
 import { Router } from "@angular/router";
-import { HotToastService } from "@ngxpert/hot-toast";
+import { AxNotificationService } from '../../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { Subscription } from 'rxjs';
 import {TranslatePipe} from "../../../translate.pipe";
@@ -130,7 +130,7 @@ export class StyleViewPage implements OnInit, OnDestroy {
     private nav: NavController,
     private net: ConnectionService,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
     private cdr: ChangeDetectorRef
   ) {
     this.net.setReachabilityCheck(true);

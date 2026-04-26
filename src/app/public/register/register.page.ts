@@ -43,7 +43,7 @@ import {
 import {tuiInputPhoneInternationalOptionsProvider, TuiPassword, TuiSortCountriesPipe,} from "@taiga-ui/kit";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {getCountries} from "libphonenumber-js";
@@ -73,7 +73,7 @@ export class RegisterPage implements OnInit, OnDestroy {
     private blocker: BlockerService,
     private router: Router,
     private networkService: NetworkService,
-    private toast: HotToastService,
+    private toast: AxNotificationService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

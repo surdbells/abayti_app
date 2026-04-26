@@ -46,7 +46,7 @@ import {ActionSheetController, InfiniteScrollCustomEvent, Platform} from "@ionic
 import {ConnectionService} from "../../service/connection.service";
 import {BlockerService} from "../../blocker.service";
 import {NetworkService} from "../../service/network.service";
-import {HotToastService} from "@ngxpert/hot-toast";
+import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 interface Category {
@@ -103,7 +103,7 @@ export class HomePage implements OnInit, OnDestroy {
     private blocker: BlockerService,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: HotToastService
+    private toast: AxNotificationService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');

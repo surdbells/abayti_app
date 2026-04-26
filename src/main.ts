@@ -7,7 +7,6 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import {NG_EVENT_PLUGINS} from "@taiga-ui/event-plugins";
 import {provideHttpClient} from "@angular/common/http";
-import {provideHotToastConfig} from "@ngxpert/hot-toast";
 import {I18nService} from "./app/i18n.service";
 import {APP_INITIALIZER, provideZoneChangeDetection} from "@angular/core";
 function initI18n(i18n: I18nService) {
@@ -20,10 +19,6 @@ bootstrapApplication(AppComponent, {
     {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
     provideIonicAngular({animated: true}),
     provideHttpClient(),
-    provideHotToastConfig({
-      position: 'top-center', // any base position
-      className: 'hot-toast-container'
-    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 }).then(r =>console.log(r));
