@@ -542,3 +542,93 @@ ion-header.md ion-toolbar {
   }
 }
 
+/* ============================================================
+   M7-2 — Page header (back + title + actions)
+   App-wide back-and-title header pattern. Used by every page
+   that's not the account home (which uses .m6-header instead).
+   Replaces the peach-bg + 87x87 SVG back button + inline color
+   hacks that were on every page before this milestone.
+
+   Apply to <ion-header class="m7-header"> with the toolbar inside
+   using .m7-toolbar. Title goes inside <ion-title class="m7-title">.
+   Back button is a single <ion-button class="m7-header-back"> in
+   the start slot containing <ax-icon name="arrow-left">. Right-side
+   actions go in slot="end" with class="m7-header-action" on each
+   <ion-button>.
+   ============================================================ */
+
+.m7-header {
+  background: var(--ax-palette-neutral-0);  /* white */
+  ion-toolbar.m7-toolbar {
+    --background: var(--ax-palette-neutral-0);
+    --border-color: var(--ax-color-border-subtle);
+    --border-width: 0 0 0.5px 0;
+    --border-style: solid;
+    --color: var(--ax-color-text-primary);
+    --min-height: 56px;
+    --padding-start: 4px;
+    --padding-end: 4px;
+  }
+}
+
+/* Title — Poltawski regular, sentence case, single line ellipsis */
+.m7-title {
+  font-family: var(--ax-font-display);  /* Poltawski Nowy */
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: -0.005em;
+  color: var(--ax-color-text-primary);
+  text-align: center;
+  /* Ionic default behavior: center on iOS, left-align on Android.
+     Forcing center for consistency. The title still respects the
+     space taken by start/end buttons via Ionic's flex layout. */
+}
+
+/* Back button — 44x44 tappable area, plain transparent bg, no
+   shadow, no circle. Just the icon. Contrast comes from the bg
+   border below, not from a chrome shape on the button itself. */
+.m7-header-back {
+  --color: var(--ax-color-text-primary);
+  --background: transparent;
+  --background-hover: transparent;
+  --background-focused: transparent;
+  --background-activated: rgba(28, 25, 22, 0.06);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+
+  ax-icon {
+    font-size: 22px;
+    color: var(--ax-color-text-primary);
+  }
+}
+
+/* Right-side action button — same chrome treatment as the back
+   button. Lucide-stroke icons at 22px in body color. No circle,
+   no shadow. */
+.m7-header-action {
+  --color: var(--ax-color-text-primary);
+  --background: transparent;
+  --background-hover: transparent;
+  --background-focused: transparent;
+  --background-activated: rgba(28, 25, 22, 0.06);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+
+  ax-icon {
+    font-size: 22px;
+    color: var(--ax-color-text-primary);
+  }
+}
+
