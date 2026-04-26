@@ -1,12 +1,200 @@
 :host {
-  --bg: #f6efe9;
-  --card: #fff;
-  --text: #000;
-  --muted: #4C4C4C;
-  --accent: #b37a6b; // warm brown-pink
+  /* M6c — local CSS var overrides retargeted to M2 tokens.
+     The previous values were warm-but-off-brand peach/cream; the new
+     values defer to M2's semantic tokens so this page picks up the
+     locked palette. --accent kept as a brown-pink for any legacy
+     references that haven't been touched yet. */
+  --bg:     var(--ax-color-bg-canvas);
+  --card:   var(--ax-palette-neutral-0);
+  --text:   var(--ax-color-text-primary);
+  --muted:  var(--ax-color-text-secondary);
+  --accent: var(--ax-color-text-brand);
 }
 
-/* ===== Brand palette (from your designs) ===== */
+/* ============================================================
+   M6c — Header redesign: beige + brown + Poltawski editorial
+   ============================================================ */
+
+/* Header outer block — beige background, defers Ionic toolbar bg
+   override below. */
+.m6-header {
+  background: var(--ax-palette-beige-200);  /* #efe2cf */
+  border-bottom: 0.5px solid var(--ax-color-border-subtle);
+}
+
+/* Toolbar — reuses .toolbar class. Override its bg to inherit
+   the header's beige (so the toolbar visually merges into the
+   header). The previous styling forced white with a faint border. */
+.toolbar {
+  --background: transparent;
+  --border-width: 0;
+  --color: var(--ax-color-text-primary);
+  padding-inline: 8px;
+
+  .hello {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+
+    .hey {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--ax-color-text-primary);
+      padding-left: 10px;
+
+      span {
+        font-weight: 500;
+        color: var(--ax-color-text-primary);
+      }
+    }
+    .loc {
+      font-size: 12px;
+      padding-bottom: 5px;
+      color: var(--ax-color-text-secondary);
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+}
+
+/* Avatar — replaces former <tui-avatar>. Round 40px image with
+   warm-brown fallback when no avatar is set. */
+.m6-avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 4px;
+  cursor: pointer;
+  background: var(--ax-palette-brown-200);  /* #d5b49e */
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .m6-avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ax-color-text-brand);  /* #614536 */
+    font-weight: 500;
+    font-size: 14px;
+    background: var(--ax-palette-brown-200);
+  }
+}
+
+/* Search bar — non-input pseudo-input that opens the real search
+   page on click. The actual <tui-textfield> was never an editable
+   input here either; clicking it called user_search() which
+   navigated away. So this is now a styled clickable pill, not a
+   form control. */
+.m6-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ax-palette-neutral-0);  /* #ffffff */
+  border: 0.5px solid var(--ax-color-border-default);  /* #d1c8bb */
+  border-radius: var(--ax-radius-lg);  /* 12px */
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  margin: 4px 0 12px;
+
+  &:active {
+    border-color: var(--ax-color-text-brand);
+  }
+
+  .m6-search-icon {
+    font-size: 16px;
+    color: var(--ax-color-text-secondary);  /* #7d7669 */
+  }
+
+  .m6-search-placeholder {
+    font-size: 13px;
+    color: var(--ax-color-text-secondary);
+    line-height: 1;
+  }
+}
+
+/* Category chips — white pill buttons with subtle border, brown
+   text. Replaces the previous .chip styling for the new HTML;
+   icons kept (the spec was amended during M6c implementation —
+   with 7 categories, icon recognition aids scanning). */
+.categories {
+  /* The .h-scroll utility already handles horizontal scroll */
+  padding: 8px 0 4px;
+
+  .m6-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    background: var(--ax-palette-neutral-0);  /* #ffffff */
+    border: 0.5px solid var(--ax-color-border-default);  /* #d1c8bb */
+    border-radius: 999px;
+    padding: 6px 14px 6px 10px;
+    color: var(--ax-color-text-primary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease;
+
+    &:active {
+      border-color: var(--ax-color-text-brand);
+      background: var(--ax-palette-beige-100);
+    }
+
+    .m6-chip-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+
+      ion-icon {
+        font-size: 18px;
+        color: var(--ax-color-text-brand);  /* #614536 */
+      }
+    }
+
+    .m6-chip-text {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ax-color-text-primary);
+      line-height: 1;
+    }
+  }
+}
+
+/* Search wrap container — beige bg flows under it from header */
+.search-wrap {
+  background: transparent;
+
+  ion-grid {
+    --ion-grid-padding: 0;
+    padding: 0 12px;
+  }
+
+  ion-row {
+    --ion-grid-padding: 0;
+  }
+
+  ion-col {
+    --ion-grid-padding: 0;
+    padding: 0;
+  }
+}
+
+/* End M6c styles */
+/* ============================================================ */
+
+/* ===== Brand palette (legacy — used by sections not yet redesigned;
+   M6c only redoes header + search + categories. The deep-red product
+   carousels still reference these vars, so leaving them in place
+   until M6d/M6e redo those sections.) ===== */
 $peach-0: #FBF0E6;  // very light peach background
 $peach-1: #F8D1B9;
 $peach-2: #F2C3AB;
@@ -17,34 +205,15 @@ $chip:    rgba(0,0,0,.10);
 $cta-1:   #A92B07;
 $cta-2:   #AF2C06;
 
-/* Header */
-.toolbar {
-  --background: #fff;
-  --border-width: 0 0 0.5px 0;
-  --border-color: rgba(0,0,0,0.06);
-  padding-inline: 8px;
-
-  .avatar {
-    width: 36px;
-    height: 36px;
-    margin-right: 8px;
-  }
-
-  .hello {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-
-    .hey { font-weight: 600; font-size: 12px; color: var(--text); padding-left: 10px; }
-    .loc { font-size: 12px; padding-bottom: 5px; color: var(--muted); padding-left: 10px; }
-  }
-}
+/* Header — legacy block removed in M6c; new .m6-header / .toolbar
+   styles live above in the M6c section. */
 
 .page {
   --background: var(--ax-color-bg-canvas);
 }
 
-/* ===== Category chips ===== */
+/* ===== Category chips (legacy — superseded by .m6-chip in M6c.
+   Left in place as harmless dead CSS; M6f cleans up.) ===== */
 .categories {
   .chip {
     display: inline-grid; grid-template-columns: auto 1fr; align-items: center;

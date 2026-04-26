@@ -1,7 +1,13 @@
-<ion-header style="background-color: #FBEDE2"  class="ion-padding-top ion-no-border remove_nudge">
+<ion-header class="ion-padding-top ion-no-border remove_nudge m6-header">
   <ion-toolbar class="toolbar ion-margin-vertical ion-no-border">
     <ion-buttons slot="start">
-      <tui-avatar (click)="user_profile()" [src]="single_user.avatar | tuiFallbackSrc: '@tui.user' | async" />
+      <ion-avatar class="m6-avatar" (click)="user_profile()">
+        @if (single_user.avatar) {
+          <img [src]="single_user.avatar" [alt]="single_user.first_name" />
+        } @else {
+          <div class="m6-avatar-fallback">{{ (single_user.first_name || '?').charAt(0).toUpperCase() }}</div>
+        }
+      </ion-avatar>
       <div class="hello">
         <div class="hey">{{ 'welcome_back' | translate }} <span>{{ single_user.first_name }}</span></div>
         <div class="loc"><ax-icon name="map-pin" [style.font-size.rem]="1" [style.color]="'var(--muted)'"/>
@@ -11,14 +17,14 @@
     <ion-buttons slot="end">
       @if(single_user.is_vendor && single_user.is_store_active && single_user.is_store_approved){
         <ion-button (click)="user_store()" fill="clear">
-          <ax-icon name="store" [style.color]="'var(&#45;&#45;text)'"/>
+          <ax-icon name="store" [style.color]="'var(--text)'"/>
         </ion-button>
       }
       <ion-button (click)="user_wishlist()" fill="clear">
         <ax-icon name="heart" [style.color]="'var(--text)'"/>
       </ion-button>
       <ion-button (click)="user_messages()" fill="clear">
-        <ax-icon name="message-square-more" [style.color]="'var(&#45;&#45;text)'"/>
+        <ax-icon name="message-square-more" [style.color]="'var(--text)'"/>
       </ion-button>
       <ion-button (click)="openCart()" fill="clear">
         <app-cart-icon [count]="bill.count"></app-cart-icon>
@@ -29,9 +35,10 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <tui-textfield (click)="search()" #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn" style="width:100%">
-            <input style="border: 1px solid #FAC0B0" (click)="user_search()" placeholder="Search abaya, kaftans" type="text" name="search" tuiTextfield />
-          </tui-textfield>
+          <div class="m6-search animate__animated animate__fadeIn" (click)="user_search()">
+            <ax-icon name="search" class="m6-search-icon"/>
+            <span class="m6-search-placeholder">Search abaya, kaftans</span>
+          </div>
         </ion-col>
 <!--    <ion-col (click)="isFilterOpen = true" style="margin-top: 10px;" size="2">
           <ax-icon name="sliders-horizontal" class="ion-float-end" [style.color]="'var(&#45;&#45;ion-color-secondary)'" />
@@ -41,47 +48,33 @@
         <ion-col>
           <section class="section">
             <div class="h-scroll categories">
-              <button class="chip" type="button" (click)="open_category(1, 'Abayas');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/abayas.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'abayas' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(1, 'Abayas');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/abayas.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'abayas' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(2, 'Mukhawars');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/mukhawar.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'mukhawars' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(2, 'Mukhawars');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/mukhawar.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'mukhawars' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(3, 'Kaftan');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/kaftan.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'kaftans' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(3, 'Kaftan');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/kaftan.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'kaftans' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(4, 'Bags');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/bag.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'bags' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(4, 'Bags');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/bag.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'bags' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(5, 'Accessories');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/accessories.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'accessories' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(5, 'Accessories');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/accessories.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'accessories' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(6, 'Modest Clothes');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/modest.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'modest_clothes' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(6, 'Modest Clothes');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/modest.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'modest_clothes' | translate }}</span>
               </button>
-              <button class="chip" type="button" (click)="open_category(7, 'Dresses');">
-          <span class="chip-ico">
-            <ion-icon src="assets/icon/dress.svg"></ion-icon>
-          </span>
-                <span class="chip-text">{{ 'dresses' | translate }}</span>
+              <button class="m6-chip" type="button" (click)="open_category(7, 'Dresses');">
+                <span class="m6-chip-ico"><ion-icon src="assets/icon/dress.svg"></ion-icon></span>
+                <span class="m6-chip-text">{{ 'dresses' | translate }}</span>
               </button>
             </div>
           </section>

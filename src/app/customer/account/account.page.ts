@@ -25,7 +25,7 @@ import {
   IonToolbar
 } from '@ionic/angular/standalone';
 import {
-  TuiFallbackSrcPipe, TuiLabel,
+  TuiLabel,
   TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldDropdownDirective, TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {Router} from "@angular/router";
@@ -35,7 +35,6 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import { ConnectionService } from '../../service/connection.service';
 import {GlobalComponent} from "../../global-component";
 import {
-  TuiAvatar,
   TuiChevron, TuiChip,
   TuiDataListWrapperComponent, tuiItemsHandlersProvider, TuiRadioComponent,
   TuiSelectDirective,
@@ -78,7 +77,7 @@ export interface Store {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, TuiShimmer, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
 })
 
 export class AccountPage implements OnInit, OnDestroy {
