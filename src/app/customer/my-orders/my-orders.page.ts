@@ -23,6 +23,7 @@ import {GlobalComponent} from "../../global-component";
 import {Products} from "../../class/products";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 type OrderStatus = 'processing' | 'shipping' | 'delivered';
 type FilterStatus = 'all' | OrderStatus;
 interface OrderItem {
@@ -49,7 +50,7 @@ interface Order {
   templateUrl: './my-orders.page.html',
   styleUrls: ['./my-orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader, AxIconComponent, AxLoaderComponent]
 })
 export class MyOrdersPage implements OnInit {
   orders: Order[] = [];

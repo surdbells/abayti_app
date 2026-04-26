@@ -34,7 +34,7 @@
   </ion-refresher>
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
     @if (ui_controls.is_loading){
-      <tui-loader></tui-loader>
+      <ax-loader></ax-loader>
     }
   </span>
   <button appearance="neutral" size="m" tuiNotification type="button">
@@ -83,7 +83,7 @@
             </ion-col>
             <ion-col>
               @if (ui_controls.is_loading_area) {
-                <tui-loader></tui-loader>
+                <ax-loader></ax-loader>
               }
               @if (!ui_controls.is_loading_area) {
                 <label tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
@@ -120,7 +120,7 @@
                 </button>
               }
               @if (ui_controls.is_updating) {
-                <tui-loader></tui-loader>
+                <ax-loader></ax-loader>
               }
             </ion-col>
           </ion-row>
@@ -185,7 +185,7 @@
   </div>
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
     @if (ui_controls.checking_out){
-      <tui-loader></tui-loader>
+      <ax-loader></ax-loader>
     }
   </span>
   @if (!ui_controls.is_loading) {

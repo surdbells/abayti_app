@@ -90,7 +90,7 @@
   }
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
+        <ax-loader></ax-loader>
       }
    </span>
   <ion-modal  [isOpen]="isOrderOpen" [initialBreakpoint]="0.7" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
@@ -149,7 +149,7 @@
         }
         <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
           @if (ui_controls.is_loading_details){
-            <tui-loader></tui-loader>
+            <ax-loader></ax-loader>
           }
        </span>
       </ion-content>

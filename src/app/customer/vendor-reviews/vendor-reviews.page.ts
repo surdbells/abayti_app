@@ -34,6 +34,7 @@ import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 type Review = {
   id: number;
   author: string;
@@ -53,7 +54,7 @@ type Review = {
   templateUrl: './vendor-reviews.page.html',
   styleUrls: ['./vendor-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class VendorReviewsPage implements OnInit {
   reviews: Review[] = [];

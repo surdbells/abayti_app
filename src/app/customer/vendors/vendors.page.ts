@@ -34,12 +34,13 @@ import {TranslatePipe} from "../../translate.pipe";
 import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-vendors',
   templateUrl: './vendors.page.html',
   styleUrls: ['./vendors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText, AxIconComponent, AxLoaderComponent]
 })
 export class VendorsPage implements OnInit {
   latest: Products[] = [];

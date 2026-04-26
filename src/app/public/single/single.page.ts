@@ -40,13 +40,14 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-single',
   templateUrl: './single.page.html',
   styleUrls: ['./single.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText, SizeChipsComponent, TranslatePipe, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText, SizeChipsComponent, TranslatePipe, TuiButton, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, AxLoaderComponent]
 })
 export class SinglePage implements OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;

@@ -40,6 +40,7 @@ import {Area} from "../../class/area";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
@@ -77,7 +78,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     TuiButton,
     TuiLabel,
     FormsModule,
-    IonModal, AxIconComponent],
+    IonModal, AxIconComponent, AxLoaderComponent],
   standalone: true
 })
 export class CheckoutPage implements OnInit, OnDestroy {

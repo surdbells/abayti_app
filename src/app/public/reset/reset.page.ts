@@ -36,6 +36,7 @@ import {TuiPassword} from "@taiga-ui/kit";
 import {getCountries} from "libphonenumber-js";
 import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {GlobalComponent} from "../../global-component";
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.page.html',
@@ -70,8 +71,7 @@ import {GlobalComponent} from "../../global-component";
     TranslatePipe,
     TuiIcon,
     TuiLoader,
-    TuiPassword
-]
+    TuiPassword, AxLoaderComponent]
 })
 export class ResetPage implements OnInit, OnDestroy {
   isOnline = true;

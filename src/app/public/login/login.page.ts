@@ -26,6 +26,7 @@ import {GlobalComponent} from "../../global-component";
 import {BlockerService} from "../../blocker.service";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -46,8 +47,7 @@ import {TranslatePipe} from "../../translate.pipe";
     IonText,
     TuiPassword,
     TuiLoader,
-    TranslatePipe
-]
+    TranslatePipe, AxLoaderComponent]
 })
 export class LoginPage implements OnInit, OnDestroy {
     isOnline = true;

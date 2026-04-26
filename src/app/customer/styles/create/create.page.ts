@@ -15,6 +15,7 @@ import {TranslatePipe} from "../../../translate.pipe";
 import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
 export interface Store {
   id: number;
   token: string;
@@ -42,7 +43,7 @@ export interface selectedProduct {
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
   standalone: true,
-  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent]
+  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class CreatePage implements OnInit {
   stores: Store[] = [];

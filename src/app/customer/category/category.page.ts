@@ -36,6 +36,7 @@ import { GlobalComponent } from "../../global-component";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-category',
   templateUrl: './category.page.html',
@@ -64,7 +65,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonText,
     TranslatePipe,
     TuiIcon,
-    TuiLoader, AxIconComponent]
+    TuiLoader, AxIconComponent, AxLoaderComponent]
 })
 export class CategoryPage implements OnInit, OnDestroy {
   category_listing: Products[] = [];

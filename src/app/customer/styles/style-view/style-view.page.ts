@@ -32,6 +32,7 @@ import {NetworkService} from "../../../service/network.service";
 import {GlobalComponent} from "../../../global-component";
 
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
 export interface StyleProduct {
   product_id: number;
   product_name: string;
@@ -74,7 +75,7 @@ export interface Styles {
     IonModal,
     IonRow,
     TranslatePipe,
-    TuiLoader, AxIconComponent]
+    TuiLoader, AxIconComponent, AxLoaderComponent]
 })
 export class StyleViewPage implements OnInit, OnDestroy {
   isOnline = true;

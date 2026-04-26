@@ -155,7 +155,7 @@
   }
   <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
+        <ax-loader></ax-loader>
       }
    </span>
   <ion-modal swipeToClose="true" [backdropDismiss]="true" (didDismiss)="onDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
@@ -184,7 +184,7 @@
           <ion-col>
               <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
                 @if (ui_controls.is_loading_category){
-                  <tui-loader></tui-loader>
+                  <ax-loader></ax-loader>
                 }
               </span>
           </ion-col>

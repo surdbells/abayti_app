@@ -14,6 +14,7 @@ import {Preferences} from "@capacitor/preferences";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 interface Ticket {
   id: number;
   subject: string;
@@ -37,7 +38,7 @@ interface Ticket {
     TuiIcon,
     TuiButton,
     TuiLoader,
-    TranslatePipe, AxIconComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class TicketListPage implements OnInit {
   tickets: Ticket[] = [];

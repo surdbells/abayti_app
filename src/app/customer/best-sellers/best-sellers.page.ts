@@ -44,6 +44,7 @@ import { Products } from "../../class/products";
 import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-best-sellers',
   templateUrl: './best-sellers.page.html',
@@ -73,7 +74,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonRefresherContent,
     TuiIcon,
     TuiLoader,
-    TranslatePipe, AxIconComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class BestSellersPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];

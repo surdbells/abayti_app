@@ -97,7 +97,7 @@
 
     <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
       @if (ui_controls.is_loading){
-        <tui-loader></tui-loader>
+        <ax-loader></ax-loader>
       }
     </span>
     @if (ui_controls.is_empty && !ui_controls.is_loading) {
@@ -142,7 +142,7 @@
           <ion-row>
             <ion-col>
               @if (ui_controls.is_creating) {
-                <tui-loader></tui-loader>
+                <ax-loader></ax-loader>
               }
             </ion-col>
           </ion-row>

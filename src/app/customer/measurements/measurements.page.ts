@@ -29,6 +29,7 @@ import {TuiAccordionDirective, TuiCarouselComponent} from "@taiga-ui/kit";
 import {TuiItem} from "@taiga-ui/cdk";
 import {FormsModule} from "@angular/forms";
 import {TranslatePipe} from "../../translate.pipe";
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-measurements',
   standalone: true,
@@ -67,8 +68,7 @@ import {TranslatePipe} from "../../translate.pipe";
     IonCardSubtitle,
     IonCardTitle,
     IonButton,
-    TranslatePipe
-]
+    TranslatePipe, AxLoaderComponent]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {
   list: List[] = [];

@@ -50,6 +50,7 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -74,7 +75,7 @@ export interface Store {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiButton, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, TuiChip, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiButton, TuiFallbackSrcPipe, TuiIcon, TuiLabel, TuiLoader, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, TuiChip, AxIconComponent, AxLoaderComponent]
 })
 export class HomePage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];

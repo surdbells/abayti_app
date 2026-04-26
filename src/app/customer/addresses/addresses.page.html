@@ -33,7 +33,7 @@
   </ion-header>
   <div class="sheet ion-padding-horizontal">
     @if (ui_controls.is_loading) {
-      <tui-loader></tui-loader>
+      <ax-loader></ax-loader>
     }
     @if (!ui_controls.is_loading){
       <ion-row class="animate__animated ion-padding-bottom">
@@ -68,7 +68,7 @@
         </ion-col>
         <ion-col>
           @if (ui_controls.is_loading_area) {
-            <tui-loader></tui-loader>
+            <ax-loader></ax-loader>
           }
           @if (!ui_controls.is_loading_area) {
             <label tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
@@ -105,7 +105,7 @@
             </button>
           }
           @if (ui_controls.is_updating) {
-            <tui-loader></tui-loader>
+            <ax-loader></ax-loader>
           }
         </ion-col>
       </ion-row>

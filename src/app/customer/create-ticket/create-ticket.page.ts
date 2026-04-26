@@ -22,12 +22,13 @@ import {NavController, Platform} from "@ionic/angular/standalone";
 import {TuiTextarea, TuiTextareaLimit} from "@taiga-ui/kit";
 import {TranslatePipe} from "../../translate.pipe";
 
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe]
+  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiButton, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;

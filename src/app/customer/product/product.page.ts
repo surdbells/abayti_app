@@ -45,6 +45,7 @@ import { TranslatePipe } from "../../translate.pipe";
 import { Products } from "../../class/products";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -101,7 +102,7 @@ export interface ColorOption {
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     IonGrid,
-    IonCard, AxIconComponent]
+    IonCard, AxIconComponent, AxLoaderComponent]
 })
 export class ProductPage implements OnInit, OnDestroy {
   store_measurement: StoreMeasurement[] = [];

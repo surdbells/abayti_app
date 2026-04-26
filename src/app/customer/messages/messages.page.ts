@@ -45,6 +45,7 @@ import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 export interface StoreRecord {
   store: number;
   store_name: string;
@@ -56,7 +57,7 @@ export interface StoreRecord {
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiButton, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiButton, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   isOnline = true;
