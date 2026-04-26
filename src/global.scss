@@ -57,6 +57,195 @@ ion-toolbar ion-title {
   letter-spacing: var(--ax-ls-tight);
 }
 
+/* =========================================================================
+   M2c — Component pattern overrides
+   --------------------------------------------------------------------------
+   Per-component rules that complete the M2 design system. Color tokens
+   come from theme/variables.scss (set in M2b). Font and heading rules
+   are above (M2a). This block deals only with shape, spacing, motion,
+   and the few interaction states Ionic doesn't theme via CSS variables.
+
+   Locked design decisions consumed here:
+     - Buttons: 12px corners, 48px height, generous padding
+     - Cards: no border, soft warm shadow, white surface
+     - Toolbar: beige bg + Poltawski display title (sized + weighted here)
+     - Tab bar: white bg, espresso active, subtle warm top border
+     - Inputs: white, 1px warm border, brown focus ring
+   ========================================================================= */
+
+/* ----- Buttons ----- */
+ion-button {
+  --border-radius: var(--ax-radius-lg);    /* 12px */
+  --padding-start: var(--ax-space-6);      /* 24px */
+  --padding-end:   var(--ax-space-6);
+  --padding-top:    0;
+  --padding-bottom: 0;
+  --box-shadow: none;
+  height: 48px;
+  font-family: var(--ax-font-body);
+  font-size: var(--ax-fs-sm);              /* 14px */
+  font-weight: var(--ax-fw-medium);        /* 500 */
+  letter-spacing: var(--ax-ls-wide);       /* 0.04em */
+  text-transform: none;
+  --transition: background-color var(--ax-duration-base) var(--ax-ease-out);
+}
+
+/* Outline variant: 1px brown border, transparent bg, brown text */
+ion-button[fill="outline"] {
+  --border-color: var(--ax-color-border-default);
+  --border-width: 1px;
+  --color: var(--ax-color-text-primary);
+}
+
+/* Clear (text) variant: brown text only */
+ion-button[fill="clear"] {
+  --color: var(--ax-color-text-brand);
+}
+
+/* Smaller chip-like buttons keep proportional height */
+ion-button[size="small"] {
+  height: 36px;
+  --padding-start: var(--ax-space-4);
+  --padding-end:   var(--ax-space-4);
+  font-size: var(--ax-fs-xs);              /* 13px */
+}
+
+/* ----- Cards ----- */
+ion-card {
+  --background: var(--ax-palette-neutral-0);
+  border: none;
+  border-radius: var(--ax-radius-lg);      /* 12px */
+  box-shadow: var(--ax-shadow-sm);
+  margin: var(--ax-space-3);               /* 12px */
+}
+
+ion-card-header {
+  padding: var(--ax-space-4);
+}
+
+ion-card-content {
+  padding: var(--ax-space-4);
+}
+
+ion-card-title {
+  font-family: var(--ax-font-display);
+  font-size: var(--ax-fs-lg);              /* 18px */
+  font-weight: var(--ax-fw-semibold);      /* 600 */
+  letter-spacing: var(--ax-ls-snug);
+  color: var(--ax-color-text-primary);
+}
+
+ion-card-subtitle {
+  font-size: var(--ax-fs-2xs);             /* 12px */
+  font-weight: var(--ax-fw-medium);
+  letter-spacing: var(--ax-ls-wider);      /* 0.08em — eyebrow */
+  text-transform: uppercase;
+  color: var(--ax-color-text-tertiary);
+}
+
+/* ----- Toolbar ----- */
+ion-toolbar {
+  --border-color: transparent;             /* clean toolbar, no underline */
+  --min-height: var(--ax-header-height);   /* 56px */
+  --padding-start: var(--ax-space-4);
+  --padding-end:   var(--ax-space-4);
+}
+
+ion-toolbar ion-title {
+  font-size: var(--ax-fs-lg);              /* 18px — title scale */
+  font-weight: var(--ax-fw-semibold);      /* 600 */
+  letter-spacing: var(--ax-ls-snug);
+}
+
+/* Toolbar buttons (back arrow, hamburger, etc.) */
+ion-toolbar ion-buttons ion-button {
+  --color: var(--ax-color-text-primary);
+  --background: transparent;
+  height: 40px;
+  width: 40px;
+}
+
+/* ----- Tab bar ----- */
+ion-tab-bar {
+  --background: var(--ion-tab-bar-background);
+  --border: 1px solid var(--ax-color-border-subtle);
+  height: var(--ax-tabbar-height);
+  padding-top: var(--ax-space-1);
+  padding-bottom: var(--ax-space-1);
+}
+
+ion-tab-button {
+  --color: var(--ion-tab-bar-color);
+  --color-selected: var(--ion-tab-bar-color-selected);
+  --padding-top: var(--ax-space-1);
+  --padding-bottom: var(--ax-space-1);
+  font-family: var(--ax-font-body);
+}
+
+ion-tab-button ion-label {
+  font-size: var(--ax-fs-3xs);             /* 11px — tight tab label */
+  font-weight: var(--ax-fw-regular);
+  margin-top: 2px;
+}
+
+ion-tab-button.tab-selected ion-label {
+  font-weight: var(--ax-fw-medium);        /* 500 — slight weight bump on active */
+}
+
+/* ----- Inputs ----- */
+ion-input,
+ion-textarea {
+  --background: var(--ax-palette-neutral-0);
+  --border-color: var(--ax-color-border-default);
+  --border-width: 1px;
+  --border-radius: var(--ax-radius-md);    /* 8px */
+  --padding-start: var(--ax-space-4);
+  --padding-end:   var(--ax-space-4);
+  --padding-top:    var(--ax-space-3);
+  --padding-bottom: var(--ax-space-3);
+  --color: var(--ax-color-text-primary);
+  --placeholder-color: var(--ax-color-text-tertiary);
+  font-family: var(--ax-font-body);
+  font-size: var(--ax-fs-base);            /* 16px — prevents iOS zoom on focus */
+}
+
+ion-searchbar {
+  --background: var(--ax-palette-neutral-0);
+  --color: var(--ax-color-text-primary);
+  --placeholder-color: var(--ax-color-text-tertiary);
+  --icon-color: var(--ax-color-text-tertiary);
+  --border-radius: var(--ax-radius-md);
+  --box-shadow: none;
+  padding: var(--ax-space-2) var(--ax-space-3);
+}
+
+/* ----- Items / Lists ----- */
+ion-item {
+  --background: var(--ion-item-background);
+  --border-color: var(--ax-color-border-subtle);
+  --color: var(--ax-color-text-primary);
+  --padding-start: var(--ax-space-4);
+  --inner-padding-end: var(--ax-space-4);
+  font-family: var(--ax-font-body);
+}
+
+ion-item ion-label {
+  font-family: var(--ax-font-body);
+}
+
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+/* ----- Default surface ----- */
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+/* End M2c overrides
+   ========================================================================= */
+
 .abayti_primary_background {
   background-color: #8E2508
 }
