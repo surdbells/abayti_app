@@ -9,14 +9,9 @@ import {
   IonRow,
   IonText,
   Platform,
-  IonItem,
   IonLabel,
   IonButton,
-  IonInput,
-  IonIcon,
-  IonList,
   IonModal,
-  IonSearchbar,
   IonButtons,
   IonSegmentButton,
   IonSegment,
@@ -24,9 +19,7 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent,
-  IonAccordionGroup,
-  IonAccordion
+  IonCardContent
 } from '@ionic/angular/standalone';
 import { ConnectionService } from '../../service/connection.service';
 import {defer, Subscription} from 'rxjs';
@@ -57,7 +50,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonContent, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonButton, IonInput, IonIcon, IonList, IonToolbar, IonHeader, IonModal, IonTitle, IonSearchbar, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonAccordionGroup, IonAccordion, TranslatePipe, AxLoaderComponent]
+  imports: [IonContent, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonLabel, IonButton, IonToolbar, IonHeader, IonModal, IonTitle, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, TranslatePipe, AxLoaderComponent]
 })
 export class RegisterPage implements OnInit, OnDestroy {
   isOnline = true;

@@ -1,22 +1,18 @@
 .h-100 { height: 100%; }
 
-.fashion-bg {
-  --background: none;
-  background: var(--ion-color-primary);
-  position: relative;
-  overflow: hidden;
-}
-
+/* Header stack (logo + title + subtitle) */
 .stack {
-  display: grid;
-  justify-items: center;
-  gap: .3rem;
-  padding: 0.5rem 0 1.5rem;
-  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.brand-badge {
-  width: 160px; height: 72px;
+.auth-logo {
+  max-width: 160px;
+  height: auto;
+  margin-bottom: 0.5rem;
 }
 
 /* Title & subtitle — M2 typography (Poltawski display + Inter) */

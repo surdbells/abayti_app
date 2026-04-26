@@ -1,21 +1,16 @@
 <ion-content [fullscreen]="true" class="app-bg ion-padding">
-  <!-- Dark mode toggle -->
   <ion-grid class="h-100">
     <ion-row class="h-100 ion-justify-content-center">
       <ion-col class="ion-padding" size="12">
-        <div class="stack">
-          <div class="brand-badge">
-            <span>
-              <img style="max-width: 160px;" class="animate__animated animate__fadeIn" src="assets/images/logo.png" alt="">
-            </span>
-          </div>
-          <h1 class="title animate__animated ion-text-center animate__fadeInDown">{{ 'create_Account' | translate }}</h1>
-          <p class="subtitle animate__animated animate__fadeInDown">{{ 'sub_title_register' | translate }}</p>
+        <div class="stack animate__animated animate__fadeIn">
+          <img class="auth-logo" src="assets/images/logo.png" alt="">
+          <h1 class="title ion-text-center">{{ 'create_Account' | translate }}</h1>
+          <p class="subtitle ion-text-center">{{ 'sub_title_register' | translate }}</p>
         </div>
         @if(!ui_controls.loading && !ui_controls.otpValidated && !ui_controls.otpSent){
-          <ion-row class="animate__animated animate__fadeInDown">
+          <ion-row>
             <ion-col>
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'phone_number' | translate }} *</label>
+              <label  tuiLabel>{{ 'phone_number' | translate }} *</label>
               <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                 <input placeholder="{{'enter_phone' | translate}}" type="tel" inputmode="numeric" [maxlength]="10" [(ngModel)]="register.phone" name="phone" tuiTextfield />
               </tui-textfield>
@@ -23,14 +18,14 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button (click)="send_otp()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
+              <ion-button (click)="send_otp()" expand="block" class="ion-margin-vertical" type="button">
                 {{ 'request_otp' | translate }}
               </ion-button>
             </ion-col>
           </ion-row>
         }
         @if(!ui_controls.loading && !ui_controls.otpValidated && ui_controls.otpSent){
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
               <label tuiLabel>{{ 'otp' | translate }}</label>
               <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
@@ -38,7 +33,7 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-button (click)="validate_otp()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
+          <ion-button (click)="validate_otp()" expand="block" class="ion-margin-vertical" type="button">
             {{ 'validate' | translate }}
           </ion-button>
           <ion-row class="ion-padding-top">
@@ -49,13 +44,13 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col>
-              <ion-button (click)="ui_controls.otpSent = false" expand="block" size="small" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
+              <ion-button (click)="ui_controls.otpSent = false" expand="block" size="small" class="ion-margin-vertical" type="button">
                 {{ 'change_phone_number' | translate }}
               </ion-button>
             </ion-col>
             <ion-col>
               @if(this.showResendToken){
-                <ion-button (click)="send_otp()" expand="block" size="small" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
+                <ion-button (click)="send_otp()" expand="block" size="small" class="ion-margin-vertical" type="button">
                   {{ 'resend_otp' | translate }}
                 </ion-button>
               }
@@ -63,7 +58,7 @@
           </ion-row>
         }
         @if(!ui_controls.loading && ui_controls.otpValidated && ui_controls.otpSent){
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
               <label tuiLabel>{{ 'first_name' | translate }}*</label>
               <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
@@ -71,13 +66,13 @@
               </tui-textfield>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'last_name' | translate }}*</label>
+              <label  tuiLabel>{{ 'last_name' | translate }}*</label>
               <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
                 <input placeholder="{{ 'e_last_name' | translate }}" [(ngModel)]="register.last_name" type="text" name="first_name" tuiTextfield />
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
               <label tuiLabel>{{ 'email_Address' | translate }}*</label>
               <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
@@ -85,17 +80,17 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <ion-row class="animate__animated animate__fadeInDown">
+          <ion-row>
             <ion-col class="ion-no-padding">
-              <label class="animate__animated animate__fadeInDown " tuiLabel>{{ 'password' | translate }} *</label>
-              <tui-textfield #m tuiTextfieldSize="m" class="animate__animated animate__fadeInDown ion-margin-bottom" style="width:100%">
+              <label  tuiLabel>{{ 'password' | translate }} *</label>
+              <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
                 <input [(ngModel)]="register.password" type="password" name="password" tuiTextfield />
                 <tui-icon tuiPassword />
               </tui-textfield>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label class="animate__animated animate__fadeInDown " tuiLabel>{{ 'confirm_password' | translate }} *</label>
-              <tui-textfield #m tuiTextfieldSize="m" class="animate__animated animate__fadeInDown ion-margin-bottom" style="width:100%">
+              <label  tuiLabel>{{ 'confirm_password' | translate }} *</label>
+              <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
                 <input [(ngModel)]="register.confirm_password" type="password" name="confirm_password" tuiTextfield />
                 <tui-icon tuiPassword />
               </tui-textfield>
@@ -144,7 +139,7 @@
           -->
           <div class="flex ion-text-center">
             <div class="flex ion-margin-top items-start">
-              <div class="flex abayti_secondary_color animate__animated animate__fadeInDown items-center h-5">
+              <div class="flex abayti_secondary_color items-center h-5">
                 {{ 'already_have_an_account' | translate }}
                 <ion-text (click)="sign_in()" style="font-weight: bolder;" type="button" class="abayti_secondary_color">
                   {{ 'sign_in' | translate }}
