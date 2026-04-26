@@ -20,7 +20,6 @@ import {
   NavController,
   Platform
 } from '@ionic/angular/standalone';
-import { TuiIcon, TuiLoader } from "@taiga-ui/core";
 import { Router } from "@angular/router";
 import { AxNotificationService } from '../../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
@@ -68,14 +67,12 @@ export interface Styles {
     IonLabel,
     IonTabBar,
     IonTabButton,
-    TuiIcon,
     IonCol,
     IonItem,
     IonList,
     IonModal,
     IonRow,
-    TranslatePipe,
-    TuiLoader, AxIconComponent, AxLoaderComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class StyleViewPage implements OnInit, OnDestroy {
   isOnline = true;

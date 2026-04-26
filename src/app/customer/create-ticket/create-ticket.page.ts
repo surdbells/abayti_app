@@ -3,7 +3,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   TuiLabel,
-  TuiLoader,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -27,7 +26,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [TuiLoader, RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent]
+  imports: [RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;

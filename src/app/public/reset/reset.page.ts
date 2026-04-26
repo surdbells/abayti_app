@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import {
   TuiIcon,
-  TuiLabel, TuiLoader,
+  TuiLabel,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -69,7 +69,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonToolbar,
     TranslatePipe,
     TuiIcon,
-    TuiLoader,
     TuiPassword, AxLoaderComponent]
 })
 export class ResetPage implements OnInit, OnDestroy {

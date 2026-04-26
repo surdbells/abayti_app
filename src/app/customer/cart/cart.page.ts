@@ -24,7 +24,6 @@ import {
   NavController,
   Platform
 } from '@ionic/angular/standalone';
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
@@ -43,7 +42,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './cart.page.html',
   styleUrls: ['./cart.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, TuiLoader, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, RouterLink, IonButton, IonIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonCol, IonItem, IonList, IonModal, IonRow, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class CartPage implements OnInit, OnDestroy {
   carts: Cart[] = [];

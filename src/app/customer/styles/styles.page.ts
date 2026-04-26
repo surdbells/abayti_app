@@ -20,7 +20,6 @@ import {
   NavController
 } from "@ionic/angular/standalone";
 import { Router, RouterLink } from "@angular/router";
-import { TuiIcon } from "@taiga-ui/core";
 import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { NetworkService } from "../../service/network.service";
@@ -62,7 +61,6 @@ type TabType = 'community' | 'abayti' | 'personal';
     IonContent,
     IonFooter,
     IonTabBar,
-    TuiIcon,
     IonTabButton,
     IonLabel,
     IonRefresher,

@@ -12,9 +12,7 @@ import {
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
 import {
-    TuiIcon,
     TuiLabel,
-    TuiLoader,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective
@@ -39,7 +37,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './addresses.page.html',
   styleUrls: ['./addresses.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class AddressesPage implements OnInit, OnDestroy {
   billing: Billing[] = [];

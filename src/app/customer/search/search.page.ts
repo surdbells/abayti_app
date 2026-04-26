@@ -13,7 +13,6 @@ import {
 } from '@ionic/angular/standalone';
 import {
   TuiFallbackSrcPipe,
-  TuiIcon, TuiLoader,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -37,7 +36,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, TuiIcon, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TuiLoader, TranslatePipe, TuiChip, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TranslatePipe, TuiChip, AxIconComponent, AxLoaderComponent]
 })
 export class SearchPage implements OnInit, OnDestroy {
   products: Search[] = [];

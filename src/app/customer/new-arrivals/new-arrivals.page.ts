@@ -30,7 +30,6 @@ import {
   NavController,
   Platform
 } from '@ionic/angular/standalone';
-import { TuiIcon, TuiLoader } from "@taiga-ui/core";
 import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { Router } from "@angular/router";
@@ -72,8 +71,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonInfiniteScrollContent,
     IonRefresher,
     IonRefresherContent,
-    TuiIcon,
-    TuiLoader,
     TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class NewArrivalsPage implements OnInit, OnDestroy {

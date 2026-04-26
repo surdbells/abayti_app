@@ -12,7 +12,6 @@ import {
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
 import {TranslatePipe} from "../../translate.pipe";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {ConnectionService} from "../../service/connection.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActionSheetController, InfiniteScrollCustomEvent} from "@ionic/angular";
@@ -50,7 +49,7 @@ interface Order {
   templateUrl: './my-orders.page.html',
   styleUrls: ['./my-orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, TuiIcon, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, TuiLoader, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
 })
 export class MyOrdersPage implements OnInit {
   orders: Order[] = [];

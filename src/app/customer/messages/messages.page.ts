@@ -26,9 +26,7 @@ import {
   Platform
 } from '@ionic/angular/standalone';
 import {
-    TuiIcon,
     TuiLabel,
-    TuiLoader,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective
@@ -56,7 +54,7 @@ export interface StoreRecord {
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, TuiIcon, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   isOnline = true;

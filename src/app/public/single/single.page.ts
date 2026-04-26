@@ -24,9 +24,7 @@ import {CartIconComponent} from "../../cart-icon.component";
 import {SizeChipsComponent} from "../../size-chips/size-chips.component";
 import {TranslatePipe} from "../../translate.pipe";
 import {
-    TuiIcon,
     TuiLabel,
-    TuiLoader,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective
@@ -46,7 +44,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   styleUrls: ['./single.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText, SizeChipsComponent, TranslatePipe, TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText, SizeChipsComponent, TranslatePipe, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, AxLoaderComponent]
 })
 export class SinglePage implements OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;

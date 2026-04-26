@@ -21,7 +21,6 @@ import {
   AlertController,
   ToastController
 } from '@ionic/angular/standalone';
-import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
@@ -75,7 +74,6 @@ export interface StoreStats {
     IonRefresher,
     IonRefresherContent,
     IonToggle,
-    TuiIcon,
     TranslatePipe, AxIconComponent]
 })
 export class StoreDashboardPage implements OnInit, OnDestroy {

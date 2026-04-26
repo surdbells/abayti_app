@@ -14,7 +14,7 @@ import {
   Platform
 } from '@ionic/angular/standalone';
 import {
-    TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective
+    TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
@@ -38,14 +38,12 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonHeader,
     IonToolbar,
     IonButtons,
-    TuiIcon,
     RouterLink,
     IonContent,
     IonCard,
     IonCardContent,
     IonFab,
     IonFabButton,
-    TuiLoader,
     TuiCarouselComponent,
     TuiItem,
     IonItem,

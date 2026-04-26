@@ -11,7 +11,6 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
-import {TuiIcon} from "@taiga-ui/core";
 import {RouterLink} from "@angular/router";
 import {TranslatePipe} from "../../translate.pipe";
 
@@ -21,7 +20,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
   templateUrl: './success.page.html',
   styleUrls: ['./success.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, TuiIcon, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonImg, TranslatePipe, AxIconComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonTabBar, IonTabButton, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonImg, TranslatePipe, AxIconComponent]
 })
 export class SuccessPage implements OnInit {
   constructor() { }

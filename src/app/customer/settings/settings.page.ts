@@ -45,8 +45,6 @@ import { GlobalComponent } from '../../global-component';
 import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
-import {TuiIcon} from "@taiga-ui/core";
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -63,8 +61,7 @@ import {TuiIcon} from "@taiga-ui/core";
     IonFooter,
     IonTabBar,
     IonTabButton,
-    IonLabel,
-    TuiIcon
+    IonLabel
   ]
 })
 export class SettingsPage implements OnInit, OnDestroy {

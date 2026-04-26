@@ -27,7 +27,6 @@ import {
   NavController,
   Platform, IonText
 } from '@ionic/angular/standalone';
-import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
@@ -64,7 +63,6 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonModal,
     IonIcon,
     IonSpinner,
-    TuiIcon,
     TranslatePipe,
     IonText, AxIconComponent]
 })

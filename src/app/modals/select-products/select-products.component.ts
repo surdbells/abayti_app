@@ -13,7 +13,6 @@ import {
 } from "@ionic/angular/standalone";
 
 import {FormsModule} from "@angular/forms";
-import {TuiIcon} from "@taiga-ui/core";
 export interface Product {
   id: number;
   name: string;
@@ -37,8 +36,7 @@ export interface Product {
     IonSelect,
     IonCheckbox,
     FormsModule,
-    IonButton,
-    TuiIcon
+    IonButton
 ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   standalone: true

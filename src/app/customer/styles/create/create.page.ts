@@ -10,7 +10,6 @@ import {NetworkService} from "../../../service/network.service";
 import {AxNotificationService} from '../../../shared/ax-mobile/notification';
 import {SelectProductsComponent} from "../../../modals/select-products/select-products.component";
 import {NavController, Platform} from "@ionic/angular/standalone";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {TranslatePipe} from "../../../translate.pipe";
 import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
@@ -43,7 +42,7 @@ export interface selectedProduct {
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
   standalone: true,
-  imports: [IonicModule, SelectProductsComponent, FormsModule, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonicModule, SelectProductsComponent, FormsModule, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class CreatePage implements OnInit {
   stores: Store[] = [];

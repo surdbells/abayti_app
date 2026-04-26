@@ -33,9 +33,7 @@ import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {
-  TuiIcon,
   TuiLabel,
-  TuiLoader,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -54,7 +52,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './wishlist.page.html',
   styleUrls: ['./wishlist.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonBackButton, IonButtons, RouterLink, TuiIcon, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, IonText, TuiLoader, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe, IonLabel, AxIconComponent, AxLoaderComponent]
+    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonBackButton, IonButtons, RouterLink, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, IonText, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe, IonLabel, AxIconComponent, AxLoaderComponent]
 })
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];

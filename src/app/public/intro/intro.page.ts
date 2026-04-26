@@ -16,8 +16,6 @@ import { BlockerService } from "../../blocker.service";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../../translate.pipe";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
-import {TuiIcon} from "@taiga-ui/core";
-
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 export interface IntroSlide {
   id: number;
@@ -37,8 +35,7 @@ export interface IntroSlide {
   imports: [
     IonicModule,
     CommonModule,
-    TranslatePipe,
-    TuiIcon, AxIconComponent]
+    TranslatePipe, AxIconComponent]
 })
 export class IntroPage implements OnInit, OnDestroy {
   @ViewChild('swiper') swiperRef!: ElementRef;

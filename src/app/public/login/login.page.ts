@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import {TuiPassword} from '@taiga-ui/kit';
 import {
   TuiIcon,
-  TuiLabel, TuiLoader,
+  TuiLabel,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -45,7 +45,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     FormsModule,
     IonText,
     TuiPassword,
-    TuiLoader,
     TranslatePipe, AxLoaderComponent]
 })
 export class LoginPage implements OnInit, OnDestroy {

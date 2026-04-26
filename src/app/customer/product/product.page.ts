@@ -31,7 +31,7 @@ import {
   NavController
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import {TuiIcon, TuiLabel, TuiLoader, TuiTextfieldComponent, TuiTextfieldDirective} from "@taiga-ui/core";
+import {TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective} from "@taiga-ui/core";
 import { Subscription } from "rxjs";
 import { Platform } from "@ionic/angular";
 import { ConnectionService } from "../../service/connection.service";
@@ -85,7 +85,6 @@ export interface ColorOption {
     IonImg,
     RouterLink,
     IonButton,
-    TuiIcon,
     IonText,
     IonItem,
     IonLabel,
@@ -94,7 +93,6 @@ export interface ColorOption {
     IonRow,
     TuiLabel,
     IonFooter,
-    TuiLoader,
     CartIconComponent,
     SizeChipsComponent,
     TranslatePipe,

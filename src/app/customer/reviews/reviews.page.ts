@@ -12,9 +12,7 @@ import {
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
 import {
-    TuiIcon,
     TuiLabel,
-    TuiLoader,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective
@@ -39,7 +37,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './reviews.page.html',
   styleUrls: ['./reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, TuiIcon, TuiLoader, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class ReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

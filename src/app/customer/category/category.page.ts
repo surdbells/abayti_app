@@ -23,7 +23,6 @@ import {
   Platform
 } from '@ionic/angular/standalone';
 import { TranslatePipe } from "../../translate.pipe";
-import { TuiIcon, TuiLoader } from "@taiga-ui/core";
 import { Products } from "../../class/products";
 import { Labels } from "../../class/labels";
 import { Subscription } from "rxjs";
@@ -63,9 +62,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonRefresherContent,
     IonRow,
     IonText,
-    TranslatePipe,
-    TuiIcon,
-    TuiLoader, AxIconComponent, AxLoaderComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class CategoryPage implements OnInit, OnDestroy {
   category_listing: Products[] = [];

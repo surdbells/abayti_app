@@ -24,8 +24,7 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {
-  TuiIcon, TuiLabel,
-  TuiLoader, TuiNotification,
+  TuiLabel, TuiNotification,
   TuiTextfieldComponent,
   TuiTextfieldDirective,
   TuiTextfieldOptionsDirective
@@ -45,7 +44,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './checkout.page.html',
   styleUrls: ['./checkout.page.scss'],
   imports: [
-    TuiLoader,
     IonFooter,
     IonItem,
     IonText,
@@ -54,7 +52,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonTitle,
     IonCard,
     IonContent,
-    TuiIcon,
     IonButton,
     IonButtons,
     IonToolbar,

@@ -19,7 +19,6 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -29,7 +28,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './store-reviews.page.html',
   styleUrls: ['./store-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TuiIcon, TuiLoader, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class StoreReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

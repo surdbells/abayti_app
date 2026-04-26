@@ -3,12 +3,10 @@ import { AsyncPipe } from '@angular/common';
 import { I18nService, LangCode } from './i18n.service';
 import { IonicModule } from '@ionic/angular';
 import {TranslatePipe} from "./translate.pipe";
-import {TuiIcon} from "@taiga-ui/core";
-
 @Component({
   selector: 'app-language-switcher',
   standalone: true,
-  imports: [IonicModule, AsyncPipe, TranslatePipe, TuiIcon],
+  imports: [IonicModule, AsyncPipe, TranslatePipe],
   template: `
       <div class="language-pills">
         @for (l of langs; track l) {

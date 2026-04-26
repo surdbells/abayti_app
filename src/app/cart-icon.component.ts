@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import { IonicModule } from '@ionic/angular';
-import {TuiIcon} from "@taiga-ui/core";
+import { AxIconComponent } from './shared/ax-mobile/icon';
 import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-cart-icon',
   standalone: true,
-  imports: [IonicModule, TuiIcon],
-  template: `<tui-icon icon="@tui.shopping-cart" [style.color]="'var(--text)'" aria-hidden="true"></tui-icon>
+  imports: [IonicModule, AxIconComponent],
+  template: `<ax-icon name="shopping-cart" [style.color]="'var(--text)'" aria-hidden="true"></ax-icon>
             @if (count && count > 0) {
               <span class="cart-badge" [attr.aria-label]="count + ' items in cart'">
                 {{ displayCount }}

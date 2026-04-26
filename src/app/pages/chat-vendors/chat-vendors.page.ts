@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrateg
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, NavController } from '@ionic/angular/standalone';
-import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { ChatService } from '../../service/chat.service';
@@ -16,7 +15,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
   styleUrls: ['./chat-vendors.page.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TuiIcon, TranslatePipe, AxIconComponent]
+  imports: [CommonModule, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIcon, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent]
 })
 export class ChatVendorsPage implements OnInit, OnDestroy {
   vendors: ChatVendor[] = [];

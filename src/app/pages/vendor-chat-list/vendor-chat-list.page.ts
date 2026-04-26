@@ -18,7 +18,6 @@ import {
   IonSpinner,
   NavController
 } from '@ionic/angular/standalone';
-import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
@@ -43,7 +42,6 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonRefresher,
     IonRefresherContent,
     IonSpinner,
-    TuiIcon,
     TranslatePipe, AxIconComponent]
 })
 export class VendorChatListPage implements OnInit, OnDestroy {

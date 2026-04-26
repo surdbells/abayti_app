@@ -25,8 +25,7 @@ import {
   IonToolbar
 } from '@ionic/angular/standalone';
 import {
-  TuiFallbackSrcPipe,
-  TuiIcon, TuiLabel, TuiLoader,
+  TuiFallbackSrcPipe, TuiLabel,
   TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldDropdownDirective, TuiTextfieldOptionsDirective
 } from "@taiga-ui/core";
 import {Router} from "@angular/router";
@@ -79,7 +78,7 @@ export interface Store {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, TuiIcon, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiLoader, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, TuiShimmer, TuiAvatar, TuiFallbackSrcPipe, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, TuiTextfieldComponent, TuiSelectDirective, TuiLabel, TuiTextfieldOptionsDirective, TuiChevron, TuiDataListWrapperComponent, TuiTextfieldDropdownDirective, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, TuiRadioComponent, IonSelect, IonSelectOption, TuiTextfieldDirective, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, TuiChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
 })
 
 export class AccountPage implements OnInit, OnDestroy {

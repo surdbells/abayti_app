@@ -18,7 +18,6 @@ import {
   IonRefresherContent,
   NavController, IonIcon
 } from '@ionic/angular/standalone';
-import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
@@ -43,7 +42,6 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonText,
     IonRefresher,
     IonRefresherContent,
-    TuiIcon,
     TranslatePipe,
     IonIcon, AxIconComponent]
 })

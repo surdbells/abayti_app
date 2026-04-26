@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ActionSheetController, IonicModule} from "@ionic/angular";
 import {Router, RouterLink} from "@angular/router";
 import {DatePipe} from "@angular/common";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {NavController, Platform} from "@ionic/angular/standalone";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
@@ -35,8 +34,6 @@ interface Ticket {
     RouterLink,
     DatePipe,
     ReactiveFormsModule,
-    TuiIcon,
-    TuiLoader,
     TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class TicketListPage implements OnInit {

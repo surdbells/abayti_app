@@ -28,7 +28,6 @@ import {ActionSheetController, InfiniteScrollCustomEvent} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
-import {TuiIcon, TuiLoader} from "@taiga-ui/core";
 import {TuiRating} from "@taiga-ui/kit";
 import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
@@ -54,7 +53,7 @@ type Review = {
   templateUrl: './vendor-reviews.page.html',
   styleUrls: ['./vendor-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, TuiIcon, IonButtons, IonButton, IonLabel, TuiLoader, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, IonButtons, IonButton, IonLabel, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class VendorReviewsPage implements OnInit {
   reviews: Review[] = [];
