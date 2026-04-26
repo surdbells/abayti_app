@@ -632,3 +632,226 @@ ion-header.md ion-toolbar {
   }
 }
 
+
+/* ============================================================
+   M7-2 redux — Three header styles
+   ============================================================
+   Three independently usable header patterns. Each handles
+   safe-area-inset-top automatically (iOS notch / Dynamic
+   Island / Android cutout) via env(safe-area-inset-top).
+
+   Pick one per page based on the page's needs:
+
+   A) .m7-header-shadow   — full-width white header with soft
+                            warm-brown shadow underneath. Safe
+                            default for content-pages with text/
+                            list content directly under the
+                            header. No border, just shadow.
+
+   B) .m7-header-floating — no header bar at all, just floating
+                            circular white buttons over the page
+                            background. For image-led pages
+                            (product detail, single, hero pages)
+                            where the content already provides
+                            visual context. Title goes IN page
+                            content, not the header.
+
+   C) .m7-header-pill     — single rounded white pill containing
+                            back + title + actions, sitting on
+                            the page background with side margins.
+                            Most distinctive look, more designed.
+
+   Common inner classes (shared by A and C):
+     .m7-toolbar          — toolbar styling (backgrounds, height)
+     .m7-title            — Poltawski Nowy regular 17px
+     .m7-header-back      — 44x44 transparent back button (A)
+     .m7-header-action    — 44x44 transparent action button (A)
+     .m7-btn-shadow       — 44x44 white circle button + shadow,
+                            used by B and C variants
+
+   All three keep page-specific click handlers and content
+   verbatim. Switch styles by changing the class on <ion-header>
+   only. Inner content layout stays the same.
+
+   Usage examples:
+
+   <!-- Style A — shadow header (cart-like pages) -->
+   <ion-header class="m7-header-shadow ion-no-border">
+     <ion-toolbar class="m7-toolbar ion-no-border">
+       <ion-buttons slot="start">
+         <ion-button class="m7-header-back" (click)="back()">
+           <ax-icon name="arrow-left" />
+         </ion-button>
+       </ion-buttons>
+       <ion-title class="m7-title">Page title</ion-title>
+       <ion-buttons slot="end">
+         <ion-button class="m7-header-action" (click)="...">
+           <ax-icon name="heart" />
+         </ion-button>
+       </ion-buttons>
+     </ion-toolbar>
+   </ion-header>
+
+   <!-- Style B — floating buttons (image-led pages) -->
+   <!-- Place at top of <ion-content> as a floating overlay, NOT
+        inside <ion-header>. Two raw buttons, page bg shows. -->
+   <div class="m7-floating-buttons">
+     <ion-button class="m7-btn-shadow" (click)="back()">
+       <ax-icon name="arrow-left" />
+     </ion-button>
+     <ion-button class="m7-btn-shadow" (click)="...">
+       <ax-icon name="heart" />
+     </ion-button>
+   </div>
+
+   <!-- Style C — rounded pill (any page) -->
+   <ion-header class="m7-header-pill ion-no-border">
+     <ion-toolbar class="m7-pill-toolbar ion-no-border">
+       <!-- pill wraps the toolbar contents -->
+       <ion-buttons slot="start">
+         <ion-button class="m7-header-back" (click)="back()">
+           <ax-icon name="arrow-left" />
+         </ion-button>
+       </ion-buttons>
+       <ion-title class="m7-title">Page title</ion-title>
+       <ion-buttons slot="end">
+         <ion-button class="m7-header-action" (click)="...">
+           <ax-icon name="heart" />
+         </ion-button>
+       </ion-buttons>
+     </ion-toolbar>
+   </ion-header>
+   ============================================================ */
+
+/* ----- Option A: soft-shadow header ----- */
+
+.m7-header-shadow {
+  background: var(--ax-palette-neutral-0);  /* white */
+  /* Safe area: clear iOS notch / Android cutout. The padding
+     is added INSIDE the header's white surface, so the status
+     bar appears against the same white as the toolbar. */
+  padding-top: env(safe-area-inset-top, 0);
+
+  ion-toolbar.m7-toolbar {
+    --background: var(--ax-palette-neutral-0);
+    --border-width: 0;  /* no hairline border, shadow does the work */
+    --color: var(--ax-color-text-primary);
+    --min-height: 56px;
+    --padding-start: 4px;
+    --padding-end: 4px;
+  }
+
+  /* Two-layer warm-brown shadow — same recipe as M6d-fix1 product
+     cards. Tight contact + softer ambient. Brown-tinted (not
+     neutral grey) to harmonize with the M2 palette. */
+  box-shadow: 0 2px 8px rgba(46, 36, 28, 0.06),
+              0 1px 2px rgba(46, 36, 28, 0.04);
+
+  /* Position relative + z-index so the shadow renders above the
+     content scrolling beneath. Without this, ion-content's
+     background can clip the shadow. */
+  position: relative;
+  z-index: 10;
+}
+
+/* ----- Option B: floating buttons ----- */
+
+.m7-floating-buttons {
+  /* Container that positions 1-3 floating buttons across the top
+     of the page. Sits inside <ion-content> as a sticky overlay
+     so it stays pinned at the top while page content scrolls
+     underneath. This is the standard mobile pattern for image-
+     led detail pages (Apple Music, Spotify, Net-a-Porter). */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: env(safe-area-inset-top, 0) 12px 0 12px;
+  /* Extra top space below the safe-area inset so buttons sit
+     visually below the status bar, not flush against it. */
+  margin-top: 8px;
+  pointer-events: none;  /* container ignores taps; buttons re-enable */
+
+  /* Sticky positioning: stays pinned at the top edge of
+     <ion-content> while content scrolls behind it. Requires
+     <ion-content> to allow sticky children (default behavior). */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  > * {
+    pointer-events: auto;  /* re-enable taps on actual buttons */
+  }
+
+  /* When there's only a back button (no end actions), pin it
+     left and don't stretch. */
+  &.has-back-only {
+    justify-content: flex-start;
+  }
+}
+
+/* ----- Option C: rounded pill header ----- */
+
+.m7-header-pill {
+  background: transparent;  /* page bg shows through */
+  /* Safe area handled OUTSIDE the pill — the pill itself doesn't
+     extend into the safe area. The header just gets enough top
+     padding to push the pill below the notch. */
+  padding-top: calc(env(safe-area-inset-top, 0) + 8px);
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+
+  ion-toolbar.m7-pill-toolbar {
+    /* The pill itself: rounded white card */
+    --background: var(--ax-palette-neutral-0);
+    --border-radius: 28px;  /* pill shape */
+    --border-width: 0;
+    --min-height: 52px;  /* slightly tighter than m7-toolbar */
+    --padding-start: 6px;
+    --padding-end: 6px;
+
+    /* Stronger shadow than option A because the pill needs to
+     visually float on the page bg (which may be beige, white,
+     or any other color). */
+    box-shadow: 0 4px 16px rgba(46, 36, 28, 0.10),
+                0 1px 3px rgba(46, 36, 28, 0.05);
+    border-radius: 28px;  /* in case the CSS var doesn't apply */
+    overflow: hidden;
+  }
+
+  /* Title in pill is slightly smaller — pill is tighter overall */
+  .m7-title {
+    font-size: 16px;
+  }
+}
+
+/* ----- Shared white-circle button (used by B and C variants) ----- */
+
+.m7-btn-shadow {
+  --background: var(--ax-palette-neutral-0);
+  --background-hover: var(--ax-palette-neutral-0);
+  --background-focused: var(--ax-palette-neutral-0);
+  --background-activated: rgba(28, 25, 22, 0.06);
+  --color: var(--ax-color-text-primary);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+
+  /* Floating shadow — slightly stronger than option A's header
+     shadow because these buttons stand alone, not on a header
+     bar. The shadow gives them lift. */
+  box-shadow: 0 2px 8px rgba(46, 36, 28, 0.08),
+              0 1px 2px rgba(46, 36, 28, 0.04);
+
+  ax-icon {
+    font-size: 20px;  /* slightly smaller than m7-header-back */
+    color: var(--ax-color-text-primary);
+  }
+}
+
