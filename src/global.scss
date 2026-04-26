@@ -855,3 +855,93 @@ ion-header.md ion-toolbar {
   }
 }
 
+
+/* ============================================================
+   M7-3-listing — Filter chips + subtitle row
+   ============================================================
+   Used by listing pages with filter UI under the header
+   (best-sellers, category, new-arrivals, plus future pages
+   with the same shape).
+
+   The chips are white pills by default, brown-filled when
+   active. The subtitle row is small italic Inter in muted
+   grey — quiet, supplementary copy that tells the user
+   what they're looking at.
+
+   Place inside <ion-header class="m7-header-shadow"> AFTER
+   the <ion-toolbar> closes, so the subtitle and chips sit
+   below the title in the same white shadow area.
+
+   Usage:
+     <ion-header class="m7-header-shadow ion-no-border">
+       <ion-toolbar class="m7-toolbar ion-no-border"> ... </ion-toolbar>
+       <div class="m7-subtitle">Page tagline copy</div>
+       <div class="m7-filter-chips h-scroll">
+         <button class="m7-filter-chip"
+                 [class.m7-filter-chip--active]="selected === 'all'">
+           All
+         </button>
+         ...
+       </div>
+     </ion-header>
+   ============================================================ */
+
+.m7-subtitle {
+  font-family: inherit;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ax-color-text-tertiary);  /* #a8a092 */
+  text-align: center;
+  padding: 6px 16px 10px;
+  /* Sits below the toolbar, above the filter chips */
+}
+
+.m7-filter-chips {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 0 16px 12px;
+  /* Hide the scroll bar on mobile (utility shared with .h-scroll) */
+  &::-webkit-scrollbar { display: none; }
+  /* Allow children to bleed past the right edge for nice scroll feel */
+  scroll-padding-right: 16px;
+}
+
+.m7-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  background: var(--ax-palette-neutral-0);  /* white */
+  border: 0.5px solid var(--ax-color-border-default);
+  border-radius: 999px;
+  padding: 7px 14px;
+  color: var(--ax-color-text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &:active {
+    background: var(--ax-palette-beige-100);
+  }
+}
+
+.m7-filter-chip--active {
+  background: var(--ax-color-bg-brand);  /* #906952 */
+  color: var(--ax-palette-neutral-0);  /* white */
+  border-color: var(--ax-color-bg-brand);
+
+  &:active {
+    /* Don't lighten on tap when already active — subtle press
+       feedback only via opacity. */
+    opacity: 0.85;
+  }
+}
+

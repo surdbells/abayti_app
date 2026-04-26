@@ -1,36 +1,31 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" (click)="triggerBack()" class="icon_left">
-        <ax-icon name="corner-up-left"></ax-icon>
-      </button>
+      <ion-button (click)="triggerBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="title">{{ initial.name }}</ion-title>
+    <ion-title class="m7-title">{{ initial.name }}</ion-title>
   </ion-toolbar>
-  <div class="toggle-row">
-    <ion-text>Everything 3bayti has to offer.</ion-text>
-  </div>
-  <section class="section">
-    <!-- Price Filter Chips -->
-    <div class="h-scroll categories">
+  <div class="m7-subtitle">Everything 3bayti has to offer.</div>
+  <div class="m7-filter-chips">
+    <button
+      type="button"
+      class="m7-filter-chip"
+      [class.m7-filter-chip--active]="selectedFilter === 'all'"
+      (click)="selectFilter('all'); productCategory()">
+      All
+    </button>
+    @for(price of priceFilters; track price){
       <button
         type="button"
-        class="chip chip-all"
-        [class.cat_active]="selectedFilter === 'all'"
-        (click)="selectFilter('all'); productCategory()">
-        <span class="chip-text">All</span>
+        class="m7-filter-chip"
+        [class.m7-filter-chip--active]="selectedFilter === price"
+        (click)="selectFilter(price); filterByPrice(price)">
+        Under Ð{{price}}
       </button>
-      @for(price of priceFilters; track price){
-        <button
-          type="button"
-          class="chip"
-          [class.cat_active]="selectedFilter === price"
-          (click)="selectFilter(price); filterByPrice(price)">
-          <span class="chip-text">Under Ð{{price}}</span>
-        </button>
-      }
-    </div>
-  </section>
+    }
+  </div>
 </ion-header>
 
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">

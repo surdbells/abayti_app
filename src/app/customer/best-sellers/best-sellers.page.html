@@ -1,39 +1,34 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" (click)="triggerBack()" class="icon_left" aria-label="Go back">
-        <ax-icon name="corner-up-left"></ax-icon>
-      </button>
+      <ion-button (click)="triggerBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="title">{{ 'best_seller' | translate }}</ion-title>
+    <ion-title class="m7-title">{{ 'best_seller' | translate }}</ion-title>
   </ion-toolbar>
-  <div class="toggle-row">
-    <ion-text>Most loved items by our customers</ion-text>
-  </div>
-  <!-- Filter Chips Section -->
-  <section class="filter-section">
-    <div class="h-scroll categories">
-      <!-- All Button -->
+  <div class="m7-subtitle">Most loved items by our customers</div>
+  <div class="m7-filter-chips">
+    <!-- All Button -->
+    <button
+      type="button"
+      class="m7-filter-chip"
+      [class.m7-filter-chip--active]="selectedFilter === 'all'"
+      (click)="selectFilter('all'); bestSellers()">
+      All
+    </button>
+
+    <!-- Price Filter Chips -->
+    @for(price of priceFilters; track price){
       <button
         type="button"
-        class="chip all-chip"
-        [class.cat_active]="selectedFilter === 'all'"
-        (click)="selectFilter('all'); bestSellers()">
-        <span class="chip-text">All</span>
+        class="m7-filter-chip"
+        [class.m7-filter-chip--active]="selectedFilter === price"
+        (click)="selectFilter(price); filterByPrice(price)">
+        Under Ð{{ price | number }}
       </button>
-
-      <!-- Price Filter Chips -->
-      @for(price of priceFilters; track price){
-        <button
-          type="button"
-          class="chip"
-          [class.cat_active]="selectedFilter === price"
-          (click)="selectFilter(price); filterByPrice(price)">
-          <span class="chip-text">Under Ð{{ price | number }}</span>
-        </button>
-      }
-    </div>
-  </section>
+    }
+  </div>
 </ion-header>
 
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal ion-padding-vertical">
