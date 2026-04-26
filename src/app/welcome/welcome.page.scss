@@ -27,20 +27,20 @@
 
 ion-content.app-bg {
   /* Ionic supports setting background via a CSS var */
-  --background: var(--welcome-bg-image) center / cover no-repeat;
+  --background: var(--ax-color-bg-canvas);
 }
 
 /* Dark mode swap (optional) */
 @media (prefers-color-scheme: dark) {
   ion-content.app-bg {
-    --background: var(--welcome-bg-image) center / cover no-repeat;
+    --background: var(--ax-color-bg-canvas);
   }
 }
 
 /* Landscape override (optional) */
 @media (orientation: landscape) {
   ion-content.app-bg {
-    --background: url('/assets/images/login.png') center / cover no-repeat;
+    --background: var(--ax-color-bg-canvas);
   }
 }
 
@@ -48,6 +48,6 @@ ion-content.app-bg {
 @media (min-width: 768px) {
   ion-content.app-bg {
     /* you can choose a tablet-optimized asset here if needed */
-    /* --background: url('/assets/img/bg-2048x2732.webp') center / cover no-repeat; */
+    /* --background: var(--ax-color-bg-canvas); */
   }
 }

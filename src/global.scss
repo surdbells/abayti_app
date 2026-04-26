@@ -370,14 +370,14 @@ ion-toolbar {
 
 ion-content.page-bg {
   /* Ionic supports setting background via a CSS var */
-  --background: var(--home-bg-image) center / cover no-repeat;
+  --background: var(--ax-color-bg-canvas);
 }
 
 
 /* Landscape override (optional) */
 @media (orientation: landscape) {
   ion-content.page-bg {
-    --background: var(--home-bg-image) center / cover no-repeat;
+    --background: var(--ax-color-bg-canvas);
   }
 }
 
@@ -385,7 +385,7 @@ ion-content.page-bg {
 @media (min-width: 768px) {
   ion-content.page-bg {
     /* you can choose a tablet-optimized asset here if needed */
-    /* --background: var(--home-bg-image) center / cover no-repeat; */
+    /* --background: var(--ax-color-bg-canvas); */
   }
 }
 

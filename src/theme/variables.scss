@@ -129,13 +129,4 @@
 	--radius-lg:  var(--ax-radius-lg);
 	--radius-xl:  var(--ax-radius-xl);
 	--radius-2xl: var(--ax-radius-2xl);
-
-	/* ----- Page-level background images -----
-	   M2e will remove these alongside the page-level CSS that references them.
-	   Keeping the declarations here in M2b prevents the referencing pages
-	   from breaking before M2e lands. */
-	--app-bg-image:     url('/assets/images/home_bg.png');
-	--login-bg-image:   url('/assets/images/login.png');
-	--home-bg-image:    url('/assets/images/home.png');
-	--welcome-bg-image: url('/assets/images/welcome.png');
 }
