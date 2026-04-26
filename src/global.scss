@@ -1,5 +1,9 @@
 @use "node_modules/@ngxpert/hot-toast/src/styles/styles.scss";
 @use '@taiga-ui/core/styles/taiga-ui-local' as *;
+
+/* Abayti mobile design tokens — must load before any rule that consumes them.
+   Defined as :root CSS custom properties; SCSS doesn't transform them. */
+@use 'app/shared/ax-mobile/tokens';
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
