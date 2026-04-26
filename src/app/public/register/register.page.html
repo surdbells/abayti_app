@@ -23,11 +23,9 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                style="width: 100%; outline-color: #000000; color: #000000" size="m"
-                tuiButton type="button">
+              <ion-button (click)="send_otp()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
                 {{ 'request_otp' | translate }}
-              </button>
+              </ion-button>
             </ion-col>
           </ion-row>
         }
@@ -40,11 +38,9 @@
               </tui-textfield>
             </ion-col>
           </ion-row>
-          <button (click)="validate_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-            style="width: 100%; outline-color: #000000; color: #000000" size="m"
-            tuiButton type="button">
+          <ion-button (click)="validate_otp()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
             {{ 'validate' | translate }}
-          </button>
+          </ion-button>
           <ion-row class="ion-padding-top">
             <ion-col>
               <ion-text> {{ 'error_dnd' | translate }} </ion-text>
@@ -53,17 +49,15 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col>
-              <button (click)="ui_controls.otpSent = false" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                style="width: 100%; outline-color: #000000; color: #000000" size="s" tuiButton type="button">
+              <ion-button (click)="ui_controls.otpSent = false" expand="block" size="small" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
                 {{ 'change_phone_number' | translate }}
-              </button>
+              </ion-button>
             </ion-col>
             <ion-col>
               @if(this.showResendToken){
-                <button (click)="send_otp()" appearance="outline" tuiAppearanceMode="checked" class="ion-margin-vertical animate__animated animate__fadeInDown abayti_primary_background ion-color-light"
-                  style="width: 100%; outline-color: #000000; color: #000000" size="s" tuiButton type="button">
+                <ion-button (click)="send_otp()" expand="block" size="small" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button">
                   {{ 'resend_otp' | translate }}
-                </button>
+                </ion-button>
               }
             </ion-col>
           </ion-row>
