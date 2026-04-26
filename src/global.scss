@@ -1188,3 +1188,75 @@ ion-header.md ion-toolbar {
      count display, not a button. No padding/hover/tap states. */
 }
 
+
+/* ============================================================
+   M7 — Segment tabs (mutually-exclusive view switcher)
+   ============================================================
+   Pill-style segment tabs for switching between mutually-exclusive
+   views on the same page. Used by styles.page (Community / 3bayti
+   / My Styles). Different from filter chips in m7-filter-chips:
+   filter chips are additive selectors, segment tabs are
+   mutually-exclusive views.
+
+   Place inside <ion-header class="m7-header-shadow"> AFTER the
+   <ion-toolbar> closes, OR at the top of <ion-content> below the
+   header — same render either way. The container provides its
+   own pill-track background.
+
+   Usage:
+     <div class="m7-segment-tabs">
+       <button class="m7-segment-tab"
+               [class.m7-segment-tab--active]="activeTab === 'a'"
+               (click)="switch('a')">Tab A</button>
+       <button class="m7-segment-tab"
+               [class.m7-segment-tab--active]="activeTab === 'b'"
+               (click)="switch('b')">Tab B</button>
+       <button class="m7-segment-tab"
+               [class.m7-segment-tab--active]="activeTab === 'c'"
+               (click)="switch('c')">Tab C</button>
+     </div>
+   ============================================================ */
+
+.m7-segment-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin: 0 16px 12px;
+  background: var(--ax-color-bg-canvas);  /* warm beige track */
+  border-radius: 999px;
+}
+
+.m7-segment-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 4px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ax-color-text-secondary);  /* muted by default */
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, font-weight 0.15s ease;
+  white-space: nowrap;
+
+  &:active {
+    /* Subtle press feedback when not active */
+    opacity: 0.7;
+  }
+}
+
+.m7-segment-tab--active {
+  background: var(--ax-palette-neutral-0);  /* white pill on beige track */
+  color: var(--ax-color-text-primary);
+  font-weight: 500;
+  /* Soft shadow for the lifted-pill effect */
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.08),
+              0 1px 1px rgba(46, 36, 28, 0.04);
+
+  &:active {
+    /* Already active — no opacity dip on tap */
+    opacity: 1;
+  }
+}
+

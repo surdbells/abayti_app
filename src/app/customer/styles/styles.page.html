@@ -1,38 +1,38 @@
-<ion-header class="ion-no-border ion-padding-horizontal page-header ion-no-border">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" (click)="triggerBack()" class="icon_left">
-        <ax-icon name="corner-up-left"></ax-icon>
-      </button>
+      <ion-button (click)="triggerBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="header-title ion-text-center">Style Hub</ion-title>
+    <ion-title class="m7-title">Style Hub</ion-title>
     <ion-buttons slot="end">
-      <button type="button" (click)="createStyle()" class="icon-btn">
-        <ax-icon name="plus"></ax-icon>
-      </button>
+      <ion-button (click)="createStyle()" class="m7-header-action" aria-label="Create style">
+        <ax-icon name="plus" />
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <!-- Toggle Tabs -->
-  <div class="toggle-row">
+  <!-- Segment Tabs -->
+  <div class="m7-segment-tabs">
     <button
       type="button"
-      class="toggle-btn"
-      [class.active]="activeTab === 'community'"
+      class="m7-segment-tab"
+      [class.m7-segment-tab--active]="activeTab === 'community'"
       (click)="switchTab('community')">
       Community
     </button>
     <button
       type="button"
-      class="toggle-btn"
-      [class.active]="activeTab === 'abayti'"
+      class="m7-segment-tab"
+      [class.m7-segment-tab--active]="activeTab === 'abayti'"
       (click)="switchTab('abayti')">
       3bayti
     </button>
     <button
       type="button"
-      class="toggle-btn"
-      [class.active]="activeTab === 'personal'"
+      class="m7-segment-tab"
+      [class.m7-segment-tab--active]="activeTab === 'personal'"
       (click)="switchTab('personal')">
       My Styles
     </button>
