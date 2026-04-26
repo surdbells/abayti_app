@@ -4,11 +4,12 @@ import { ScreenOrientation } from '@capacitor/screen-orientation';
 import {ActionPerformed, PushNotifications, PushNotificationSchema, Token} from "@capacitor/push-notifications";
 import {ToastController} from "@ionic/angular";
 import {fadeTransition} from "../fade.transition";
+import {AxNotificationHostComponent} from "./shared/ax-mobile/notification";
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonApp, IonRouterOutlet, AxNotificationHostComponent],
   standalone: true
 })
 export class AppComponent {
