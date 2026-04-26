@@ -1,27 +1,53 @@
 .h-100 { height: 100%; }
 
-.fashion-bg {
-  --background: none;
-  background: var(--ion-color-primary);
-  position: relative;
-  overflow: hidden;
+ion-content.app-bg {
+  /* M2 beige canvas */
+  --background: var(--ax-color-bg-canvas);
 }
 
+@media (prefers-color-scheme: dark) {
+  ion-content.app-bg {
+    --background: var(--ax-color-bg-canvas);
+  }
+}
+
+@media (orientation: landscape) {
+  ion-content.app-bg {
+    --background: var(--ax-color-bg-canvas);
+  }
+}
+
+/* ----- Auth container — centered column with breathing room ----- */
+.auth-container {
+  /* Replaces the old <ion-grid> + <ion-row> + <ion-col> framing.
+     A single full-width column centered on the page. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+/* ----- Header stack (logo + title + subtitle) ----- */
 .stack {
-  display: grid;
-  justify-items: center;
-  gap: .3rem;
-  padding: 0.5rem 0 1.5rem;
-  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.brand-badge {
-  width: 160px; height: 72px;
+.auth-logo {
+  max-width: 160px;
+  height: auto;
+  margin-bottom: 0.5rem;
 }
 
-/* Title & subtitle — M2 typography (Poltawski display + Inter) */
+/* Title — Poltawski display, sentence case */
 .title {
-  font-family: var(--ax-font-display);   /* Poltawski Nowy */
+  font-family: var(--ax-font-display);
   font-weight: 400;
   font-size: 30px;
   letter-spacing: -0.005em;
@@ -31,15 +57,43 @@
 }
 
 .subtitle {
-  font-family: inherit;                  /* Inter */
+  font-family: inherit;
   font-weight: 400;
-  margin: 0.4rem 0 .6rem;
+  margin: 0;
   color: var(--ax-color-text-secondary);
   font-size: 14px;
   line-height: 1.5;
 }
 
-/* "or" divider — line · text · line, on the canvas bg */
+/* ----- Forgot password link — right-aligned, subtle ----- */
+.forgot-password-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0 12px;
+}
+
+.forgot-password-link {
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ax-color-text-brand);   /* M2 brown */
+  cursor: pointer;
+  text-decoration: none;
+  padding: 4px 0;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+/* ----- Loader row — centered ----- */
+.loader-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* ----- "or" divider — line · text · line ----- */
 .login-divider {
   display: flex;
   align-items: center;
@@ -63,30 +117,23 @@
   }
 }
 
-
-ion-content.app-bg {
-  /* Ionic supports setting background via a CSS var */
-  --background: var(--ax-color-bg-canvas);
+/* ----- Sign-up link line ("Don't have an account? Sign up") ----- */
+.signup-link {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ax-color-text-secondary);
+  text-align: center;
+  margin: 1.5rem 0 0;
+  line-height: 1.5;
 }
 
-/* Dark mode swap (optional) */
-@media (prefers-color-scheme: dark) {
-  ion-content.app-bg {
-    --background: var(--ax-color-bg-canvas);
-  }
-}
+.signup-link-action {
+  color: var(--ax-color-text-brand);
+  font-weight: 500;
+  cursor: pointer;
+  margin-inline-start: 4px;
 
-/* Landscape override (optional) */
-@media (orientation: landscape) {
-  ion-content.app-bg {
-    --background: var(--ax-color-bg-canvas);
-  }
-}
-
-/* Tablet-specific tweaks (optional) */
-@media (min-width: 768px) {
-  ion-content.app-bg {
-    /* you can choose a tablet-optimized asset here if needed */
-    /* --background: var(--ax-color-bg-canvas); */
+  &:active {
+    opacity: 0.7;
   }
 }

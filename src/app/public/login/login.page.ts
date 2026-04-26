@@ -2,9 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   IonContent,
   IonButton,
-  IonCol,
-  IonGrid,
-  IonRow,
   Platform, IonText
 } from '@ionic/angular/standalone';
 import { Preferences } from '@capacitor/preferences';
@@ -36,10 +33,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   imports: [
     IonContent,
     IonButton,
-    IonGrid,
-    IonRow,
     TuiIcon,
-    IonCol,
     TuiTextfieldComponent,
     TuiTextfieldDirective,
     TuiTextfieldOptionsDirective,
