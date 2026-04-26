@@ -67,35 +67,40 @@ $system-bg: rgba(0, 0, 0, 0.05);
 }
 
 /* ========================================
-   PINNED ORDER HEADER
+   PINNED ORDER HEADER (M7 white-bg redesign)
    ======================================== */
+/* Card sits inside <ion-header class="m7-header-shadow"> below
+   the toolbar. Cream bg lets it feel like part of the chrome
+   without needing its own border. The whole thing is tappable
+   (opens order details modal). */
 .pinned-order {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 5px;
-  background: linear-gradient(135deg, rgba(124, 33, 8, 0.04), rgba(177, 44, 6, 0.04));
-  border-top: 1px solid rgba(124, 33, 8, 0.08);
-  cursor: pointer;
+  padding: 10px;
+  margin: 4px 12px 12px;
+  background: var(--ax-palette-beige-50, #f8f4f0);  /* cream */
   border: none;
-  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  width: calc(100% - 24px);  /* match left+right margin */
   text-align: left;
   -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
 
   &:active {
-    background: rgba(124, 33, 8, 0.08);
+    background: var(--ax-palette-beige-100, #f0e9df);
   }
 }
 
 .pinned-image {
   width: 56px;
   height: 56px;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-  background: #f5f0ed;
+  background: var(--ax-palette-brown-100);  /* warm-brown placeholder */
 
   .img-skeleton {
     position: absolute;
@@ -103,7 +108,7 @@ $system-bg: rgba(0, 0, 0, 0.05);
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
+    background: var(--ax-palette-brown-100);
 
     &::after {
       content: '';
@@ -136,13 +141,15 @@ $system-bg: rgba(0, 0, 0, 0.05);
 }
 
 .pinned-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ax-color-text-primary);
   margin: 0 0 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.3;
 }
 
 .pinned-meta {
@@ -152,37 +159,42 @@ $system-bg: rgba(0, 0, 0, 0.05);
   margin-bottom: 6px;
 
   .order-id {
-    font-size: 12px;
-    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    color: var(--ax-color-text-secondary);
   }
 
   .order-status {
+    font-family: inherit;
     font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    text-transform: uppercase;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 999px;
+    line-height: 1.2;
+    text-transform: none;
   }
 }
 
 .pinned-details {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   flex-wrap: wrap;
 
   .detail-chip {
-    font-size: 11px;
-    padding: 2px 8px;
-    background: #fff;
-    border: 1px solid rgba(124, 33, 8, 0.15);
-    border-radius: 8px;
-    color: $brand-dark;
+    font-family: inherit;
+    font-size: 10px;
+    padding: 2px 7px;
+    background: var(--ax-palette-neutral-0);
+    border: 0.5px solid var(--ax-color-border-default);
+    border-radius: 4px;
+    color: var(--ax-color-text-secondary);
+    line-height: 1.2;
   }
 }
 
 .pinned-arrow {
-  font-size: 20px;
-  color: #999;
+  font-size: 18px;
+  color: var(--ax-color-text-brand);  /* brown — matches M2 accent */
   flex-shrink: 0;
 }
 

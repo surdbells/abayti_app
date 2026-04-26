@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border page-header ion-padding-horizontal">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" class="back-btn" (click)="goBack()" aria-label="Go back">
-        <ax-icon name="arrow-left"></ax-icon>
-      </button>
+      <ion-button class="m7-header-back" (click)="goBack()" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="title">
+    <ion-title class="m7-title">
       @if(orderContext){
         <span class="vendor-name">{{ orderContext.store_name }}</span>
       }
@@ -31,7 +31,7 @@
       <div class="pinned-info">
         <p class="pinned-name">{{ orderContext.product_name }}</p>
         <div class="pinned-meta">
-          <span class="order-id">Order #{{ orderContext.order_id }}</span>
+          <span class="order-id">#{{ orderContext.order_id }}</span>
           <span class="order-status" [class]="getStatusClass(orderContext.status)">
             {{ orderContext.status }}
           </span>
@@ -46,7 +46,7 @@
           <span class="detail-chip">Qty: {{ orderContext.quantity }}</span>
         </div>
       </div>
-      <ax-icon name="chevron-right" style="color: #ffffff" class="pinned-arrow"></ax-icon>
+      <ax-icon name="chevron-right" class="pinned-arrow"></ax-icon>
     </button>
   }
 </ion-header>
