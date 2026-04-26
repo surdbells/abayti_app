@@ -19,8 +19,49 @@
   width: 160px; height: 72px;
 }
 
-.title { font-weight: 600; font-size: 35px; margin: 0; color: #000000; }
-.subtitle {font-weight: 400; margin: 0.4rem 0 .6rem; color: #000000; font-size: 16px; }
+/* Title & subtitle — M2 typography (Poltawski display + Inter) */
+.title {
+  font-family: var(--ax-font-display);   /* Poltawski Nowy */
+  font-weight: 400;
+  font-size: 30px;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--ax-color-text-primary);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: inherit;                  /* Inter */
+  font-weight: 400;
+  margin: 0.4rem 0 .6rem;
+  color: var(--ax-color-text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* "or" divider — line · text · line, on the canvas bg */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 1rem 0;
+  color: var(--ax-color-text-tertiary);
+  font-family: inherit;
+  font-size: 12px;
+  font-style: italic;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 0.5px;
+    background: var(--ax-color-border-default);
+  }
+
+  span {
+    flex-shrink: 0;
+  }
+}
 
 
 ion-content.app-bg {

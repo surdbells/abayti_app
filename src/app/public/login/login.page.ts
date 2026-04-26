@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   IonContent,
+  IonButton,
   IonCol,
   IonGrid,
   IonRow,
@@ -34,6 +35,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   standalone: true,
   imports: [
     IonContent,
+    IonButton,
     IonGrid,
     IonRow,
     TuiIcon,

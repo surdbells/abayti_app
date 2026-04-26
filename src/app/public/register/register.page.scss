@@ -19,8 +19,25 @@
   width: 160px; height: 72px;
 }
 
-.title { font-weight: 600; font-size: 25px; margin: 0; color: #000000; }
-.subtitle {font-weight: 400; margin: 0.4rem 0 .6rem; color: #000000; font-size: 16px; }
+/* Title & subtitle — M2 typography (Poltawski display + Inter) */
+.title {
+  font-family: var(--ax-font-display);   /* Poltawski Nowy */
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--ax-color-text-primary);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: inherit;                  /* Inter */
+  font-weight: 400;
+  margin: 0.4rem 0 .6rem;
+  color: var(--ax-color-text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
 
 ion-content.app-bg {
   /* Ionic supports setting background via a CSS var */
@@ -81,11 +98,6 @@ ion-content.app-bg {
 
 .app-bg {
   --background: var(--ion-background-color);
-}
-
-.title {
-  font-weight: 800;
-  line-height: 1.05;
 }
 
 .muted {
