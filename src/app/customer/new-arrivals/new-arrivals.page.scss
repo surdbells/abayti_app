@@ -57,128 +57,10 @@ $cta-2: #AF2C06;
 }
 
 /* ========================================
-   HEADER
-   ======================================== */
-.page-header {
-  background: linear-gradient(to bottom, $brand-dark, $brand-light);
-  padding-bottom: 14px;
-}
-
-.toolbar {
-  --background: transparent;
-}
-
-.title {
-  font-size: 20px;
-  color: #fff;
-  font-weight: 700;
-}
-
-.toggle-row {
-  display: flex;
-  justify-content: left;
-  padding: 8px 0 4px;
-
-  ion-text {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    font-weight: 400;
-  }
-}
-
-.icon_left {
-  background: #BE431F;
-  padding: 10px;
-  border-radius: 14px;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
-
-  tui-icon {
-    font-size: 18px;
-  }
-
-  &:active {
-    transform: scale(0.92);
-  }
-}
-
-/* ========================================
    PAGE BACKGROUND
    ======================================== */
 .page-bg {
   --background: #{$peach-0};
-}
-
-/* ========================================
-   FILTER SECTION
-   ======================================== */
-.filter-section {}
-
-.h-scroll {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 4px 0;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  scroll-snap-type: x mandatory;
-  overscroll-behavior-x: contain;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.categories {
-  .chip {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 14px;
-    background: var(--brand-peach);
-    border: 2px solid transparent;
-    border-radius: 18px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    -webkit-tap-highlight-color: transparent;
-    scroll-snap-align: start;
-
-    .chip-text {
-      font-size: 13px;
-      font-weight: 700;
-      color: $brand-dark;
-      white-space: nowrap;
-    }
-
-    &:active {
-      transform: scale(0.96);
-    }
-
-    &.all-chip {
-      background: $brand-dark;
-
-      .chip-text {
-        color: #fff;
-      }
-    }
-
-    &.cat_active {
-      border-color: $stroke;
-      background: $peach-1;
-
-      &.all-chip {
-        background: $brand-dark;
-        border-color: #fff;
-      }
-    }
-  }
 }
 
 /* ========================================
@@ -207,191 +89,6 @@ $cta-2: #AF2C06;
 
   // Performance optimization
   contain: layout style;
-}
-
-/* ========================================
-   PRODUCT CARD
-   ======================================== */
-.product-card {
-  background: #fff;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  margin-bottom: 12px;
-
-  // GPU acceleration
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
-
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
-/* Image Container */
-.img-wrap {
-  position: relative;
-  height: 160px;
-  background: linear-gradient(135deg, #5a1507 0%, #7a2a10 100%);
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  overflow: hidden;
-}
-
-/* Skeleton Loader */
-.img-skeleton {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #5a1507 0%, #7a2a10 50%, #5a1507 100%);
-  z-index: 2;
-  overflow: hidden;
-  transition: opacity 0.3s ease;
-
-  &.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-}
-
-/* Product Image */
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  // Performance optimization
-  content-visibility: auto;
-
-  &.loaded {
-    opacity: 1;
-  }
-}
-
-/* NEW Badge - Distinctive for New Arrivals */
-.new-badge {
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
-  font-size: 8px;
-  font-weight: 800;
-  padding: 4px 8px;
-  border-radius: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  z-index: 4;
-  animation: pulse 2s infinite;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-}
-
-/* Store Badge */
-.tag {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: $brand-dark;
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 5px 8px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 70%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  z-index: 3;
-}
-
-/* Wishlist Button */
-.like {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 3;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-  tui-icon {
-    font-size: 16px;
-    color: $cta-2;
-  }
-
-  &:active {
-    transform: scale(0.9);
-    background: #fff;
-  }
-}
-
-/* Product Info */
-.info {
-  padding: 12px;
-  cursor: pointer;
-}
-
-.desc {
-  font-size: 12px;
-  font-weight: 500;
-  color: #333;
-  margin: 0 0 8px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.price {
-  font-size: 14px;
-  font-weight: 800;
-  color: $brand-dark;
-}
-
-/* ========================================
-   SKELETON CARDS
-   ======================================== */
-.skeleton-card {
-  .img-wrap {
-    background: linear-gradient(135deg, #5a1507 0%, #7a2a10 100%);
-  }
-
-  .skeleton-text {
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-
-    &.name-sk {
-      height: 14px;
-      width: 90%;
-      background: linear-gradient(135deg, #e8dcd4 0%, #f5ebe4 50%, #e8dcd4 100%);
-      margin-bottom: 10px;
-    }
-
-    &.price-sk {
-      height: 16px;
-      width: 50%;
-      background: linear-gradient(135deg, #dbc8bc 0%, #f0e0d4 50%, #dbc8bc 100%);
-    }
-  }
 }
 
 /* ========================================
@@ -510,33 +207,25 @@ $cta-2: #AF2C06;
 /* ========================================
    RESPONSIVE
    ======================================== */
-@media (max-width: 360px) {
-  .img-wrap {
-    height: 140px;
-  }
+/* Skeleton text placeholders (lifted from .skeleton-card during M7-cleanup) */
+.skeleton-text {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
 
-  .desc {
-    font-size: 11px;
-  }
+    &.name-sk {
+      height: 14px;
+      width: 90%;
+      background: linear-gradient(135deg, #e8dcd4 0%, #f5ebe4 50%, #e8dcd4 100%);
+      margin-bottom: 10px;
+    }
 
-  .price {
-    font-size: 13px;
+    &.price-sk {
+      height: 16px;
+      width: 50%;
+      background: linear-gradient(135deg, #dbc8bc 0%, #f0e0d4 50%, #dbc8bc 100%);
+    }
   }
-
-  .chip .chip-text {
-    font-size: 12px;
-  }
-
-  .info {
-    padding: 10px;
-  }
-
-  .new-badge {
-    font-size: 7px;
-    padding: 3px 6px;
-    right: 46px;
-  }
-}
 
 @media (min-width: 768px) {
   .products-grid {
@@ -544,27 +233,6 @@ $cta-2: #AF2C06;
       flex: 0 0 33.333%;
       max-width: 33.333%;
     }
-  }
-
-  .img-wrap {
-    height: 200px;
-  }
-
-  .desc {
-    font-size: 14px;
-  }
-
-  .price {
-    font-size: 16px;
-  }
-
-  .info {
-    padding: 16px;
-  }
-
-  .new-badge {
-    font-size: 9px;
-    padding: 5px 10px;
   }
 }
 
@@ -575,29 +243,5 @@ $cta-2: #AF2C06;
   .skeleton-shimmer {
     animation: none;
   }
-
-  .new-badge {
-    animation: none;
-  }
-
-  .product-card,
-  .chip,
-  .like,
-  .icon_left,
-  .reset-btn {
-    transition: none;
-  }
-
-  .product-image,
-  .img-skeleton {
-    transition: none;
-  }
 }
 
-/* ========================================
-   LEGACY SUPPORT
-   ======================================== */
-// Keep original class names for compatibility
-.cat_active {
-  border: 2px solid $stroke !important;
-}

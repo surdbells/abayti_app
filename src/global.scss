@@ -543,33 +543,12 @@ ion-header.md ion-toolbar {
 }
 
 /* ============================================================
-   M7-2 — Page header (back + title + actions)
-   App-wide back-and-title header pattern. Used by every page
-   that's not the account home (which uses .m6-header instead).
-   Replaces the peach-bg + 87x87 SVG back button + inline color
-   hacks that were on every page before this milestone.
-
-   Apply to <ion-header class="m7-header"> with the toolbar inside
-   using .m7-toolbar. Title goes inside <ion-title class="m7-title">.
-   Back button is a single <ion-button class="m7-header-back"> in
-   the start slot containing <ax-icon name="arrow-left">. Right-side
-   actions go in slot="end" with class="m7-header-action" on each
-   <ion-button>.
+   M7-2 — Page header inner classes (shared by all variants)
+   These classes (.m7-title, .m7-header-back, .m7-header-action)
+   are reused by all three M7 header style variants
+   (.m7-header-shadow, .m7-header-pill, .m7-floating-buttons).
+   Defined once here, used everywhere.
    ============================================================ */
-
-.m7-header {
-  background: var(--ax-palette-neutral-0);  /* white */
-  ion-toolbar.m7-toolbar {
-    --background: var(--ax-palette-neutral-0);
-    --border-color: var(--ax-color-border-subtle);
-    --border-width: 0 0 0.5px 0;
-    --border-style: solid;
-    --color: var(--ax-color-text-primary);
-    --min-height: 56px;
-    --padding-start: 4px;
-    --padding-end: 4px;
-  }
-}
 
 /* Title — Poltawski regular, sentence case, single line ellipsis */
 .m7-title {
