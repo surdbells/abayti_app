@@ -146,6 +146,10 @@ export class OrdersPage implements OnInit, OnDestroy {
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
+
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+  }
   ngOnInit() {
     this.getObject().then(r => console.log(r));
     if (this.isOnline) {

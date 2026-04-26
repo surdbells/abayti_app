@@ -576,88 +576,11 @@
 /* ============================================================ */
 
 /* ============================================================
-   M6f — Tab bar + wishlist modal
+   M6f tab bar styles moved to src/global.scss in M7-1 so they
+   apply app-wide. Wishlist modal styles below remain page-scoped
+   since the modal only exists on account.page.
    ============================================================ */
 
-/* Footer wrapper — white background replaces the deep red #7C2108
-   that was on every page. The 0.5px top border separates the tab
-   bar from content above without being heavy. */
-.m6f-footer {
-  background: var(--ax-palette-neutral-0);  /* white */
-
-  /* Ionic safe-area handling preserved: the original had
-     padding-bottom: 15px to clear iOS home indicator area;
-     keep this generous bottom padding. */
-  padding-bottom: 15px;
-}
-
-.m6f-tab-bar {
-  /* Override Ionic's default tab-bar styling */
-  --background: var(--ax-palette-neutral-0);
-  --border: 0.5px solid var(--ax-color-border-subtle);
-  --color: var(--ax-color-text-tertiary);
-  /* Active color is set per-tab below since we don't bind to
-     route — see comment in the .m6f-tab--active block. */
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-/* Each tab — by default muted grey. */
-.m6f-tab {
-  --color: var(--ax-color-text-tertiary);
-  --color-selected: var(--ax-color-text-tertiary);
-  --background: transparent;
-  --background-focused: transparent;
-  --background-hover: transparent;
-  --ripple-color: transparent;
-
-  ax-icon {
-    font-size: 22px;
-    color: var(--ax-color-text-tertiary);  /* #a8a092 */
-  }
-
-  ion-label {
-    font-family: inherit;
-    font-size: 10px;
-    font-weight: 400;
-    color: var(--ax-color-text-tertiary);
-    margin-top: 4px;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-}
-
-/* Active tab — brown accent. The active state is currently
-   driven by a hardcoded class on the Home tab (the existing
-   production behavior was an underline on the Home label,
-   never updated based on route). When a route-driven active
-   state is wired up later, this class can be applied dynamically
-   via [class.m6f-tab--active] on each <ion-tab-button>. */
-.m6f-tab--active {
-  ax-icon {
-    color: var(--ax-color-bg-brand);  /* #906952 */
-  }
-
-  ion-label {
-    color: var(--ax-color-bg-brand);
-    font-weight: 500;
-  }
-
-  position: relative;
-
-  /* 2px brown underline 6px below the label */
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--ax-color-bg-brand);
-  }
-}
 
 /* ----- Wishlist modal ----- */
 

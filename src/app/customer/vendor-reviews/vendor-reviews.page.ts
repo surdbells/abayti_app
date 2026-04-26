@@ -176,6 +176,10 @@ export class VendorReviewsPage implements OnInit {
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
   error_notification(message: string) {
     this.toast.error(message, {
       position: "top-center"

@@ -277,4 +277,7 @@ goToReviews(id: number, name: string) {
   go_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
 }

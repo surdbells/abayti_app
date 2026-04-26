@@ -165,26 +165,26 @@
   </ion-modal>
 </ion-content>
 
-<ion-footer class="app-footer ion-no-border">
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button type="button" (click)="user_home()" tab="home">
-      <ax-icon name="house"/>
+<ion-footer class="m6f-footer ion-no-border">
+  <ion-tab-bar class="m6f-tab-bar" slot="bottom">
+    <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">
+      <ax-icon name="house" />
       <ion-label>Home</ion-label>
     </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_explore()" tab="explore">
-      <ax-icon name="globe"/>
+    <ion-tab-button (click)="user_explore()" tab="explore" class="m6f-tab">
+      <ax-icon name="globe" />
       <ion-label>Explore</ion-label>
     </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_cart()" tab="cart">
-      <ax-icon name="shopping-cart"/>
+    <ion-tab-button (click)="user_cart()" tab="cart" class="m6f-tab">
+      <ax-icon name="shopping-cart" />
       <ion-label>My Cart</ion-label>
     </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_styles()" class="active-tab" tab="sketch">
-      <ax-icon name="blocks"/>
+    <ion-tab-button (click)="user_styles()" tab="sketch" class="m6f-tab m6f-tab--active">
+      <ax-icon name="blocks" />
       <ion-label>Style hub</ion-label>
     </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_profile()" tab="profile">
-      <ax-icon name="user-pen"/>
+    <ion-tab-button (click)="user_profile()" tab="profile" class="m6f-tab">
+      <ax-icon name="user-pen" />
       <ion-label>Profile</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

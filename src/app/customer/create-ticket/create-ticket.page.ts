@@ -21,12 +21,13 @@ import {TuiTextarea, TuiTextareaLimit} from "@taiga-ui/kit";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent]
+  imports: [RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent, AxIconComponent]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;
@@ -156,6 +157,10 @@ export class CreateTicketPage implements OnInit, OnDestroy {
   }
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
+  }
+
+  user_styles() {
+    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));

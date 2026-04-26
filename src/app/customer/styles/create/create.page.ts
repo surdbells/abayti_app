@@ -140,6 +140,10 @@ export class CreatePage implements OnInit {
   user_profile() {
     this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
+
+  user_cart() {
+    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+  }
   user_home() {
     this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
