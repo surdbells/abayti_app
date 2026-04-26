@@ -1,15 +1,15 @@
-<ion-header class="ion-no-border ion-padding-top ion-padding-horizontal page-header">
-  <ion-toolbar class="toolbar">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" class="icon_left" (click)="goBack()" aria-label="Go back">
-        <ax-icon name="arrow-left"></ax-icon>
-      </button>
+      <ion-button (click)="goBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="title ion-text-center">{{ 'store_dashboard' | translate }}</ion-title>
+    <ion-title class="m7-title">{{ 'store_dashboard' | translate }}</ion-title>
     <ion-buttons slot="end">
-      <button type="button" class="icon_right" (click)="openSettings()" aria-label="Settings">
-        <ax-icon name="settings"></ax-icon>
-      </button>
+      <ion-button (click)="openSettings()" class="m7-header-action" aria-label="Settings">
+        <ax-icon name="settings" />
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border ion-padding-horizontal page-header ion-padding-top ion-no-border">
-  <ion-toolbar class="toolbar ion-padding-top">
+<ion-header class="m7-header-shadow ion-no-border">
+  <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
-      <button type="button" (click)="triggerBack()" class="icon_left">
-        <ax-icon name="corner-up-left"></ax-icon>
-      </button>
+      <ion-button (click)="triggerBack()" class="m7-header-back" aria-label="Back">
+        <ax-icon name="arrow-left" />
+      </ion-button>
     </ion-buttons>
-    <ion-title class="header-title">{{ style.style_name }}</ion-title>
+    <ion-title class="m7-title">{{ style.style_name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
