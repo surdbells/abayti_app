@@ -203,6 +203,15 @@ migration step strips the `@tui.` prefix from the data source
 a backend with the `@tui.` prefix baked in, the migration adds a
 `stripTuiPrefix()` helper or fixes the data at source.
 
+**Confirmed at spec time:** This case appears in `chat.page.html` only.
+Data source is `chatService.getPrompts(lang)` → `chat_get_prompts`
+backend endpoint, returning `PromptCategory[]` where each has an
+`icon: string` field. The backend sends bare lucide names (e.g.
+`"shopping-bag"`) — the template currently force-prepends `@tui.`.
+Migration is straightforward: change the template to
+`<ax-icon [name]="category.icon">` and the existing data flows
+through unchanged. No backend or stripping helper needed.
+
 Build script: a Python migration script (similar to M2e/M3b style)
 sweeps all 39 HTML files, transforming `<tui-icon icon="@tui.NAME">`
 to `<ax-icon name="NAME">`. Spot-check a few files post-migration to
