@@ -158,8 +158,6 @@ export class GlobalComponent {
     return !!number.match(numbers);
   }
 
-  public static StripePublicKey = 'pk_live_51LoXZtDpGyy9me6FXi8GPmjnURCVAKDkPKIMMS0GAYXwDIG11nXea9MbSI73QgfFBSt83MwGWmrQR6YKA6T0tK3n00WM36z7vK' // public
-  public static StripeSecretKey = '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' // secret
   static convertFile(file : File) {
     const result = new ReplaySubject<string>(1);
     const reader = new FileReader();
