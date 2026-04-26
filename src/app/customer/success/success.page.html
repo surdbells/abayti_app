@@ -7,14 +7,14 @@
             <ion-card-content class="ion-text-center">
               <ion-img src="assets/images/success.gif" alt="success"></ion-img>
               <h1>{{ 'text_purchase_successful' | translate }}</h1>
-              <button appearance="floating" tuiButton size="m" class="ion-margin-vertical" [routerLink]="['/account']">
+              <ion-button shape="round" class="ion-margin-vertical" [routerLink]="['/account']">
                 <ax-icon name="house" class="ion-padding-horizontal"></ax-icon>
                 <span>{{ 'button_home' | translate }}</span>
-              </button>
-              <button appearance="floating" class="ion-margin-vertical" tuiButton size="m" [routerLink]="['/messages']">
+              </ion-button>
+              <ion-button shape="round" class="ion-margin-vertical" [routerLink]="['/messages']">
                 <ax-icon name="message-square-text" class="ion-padding-horizontal"></ax-icon>
                 <span>{{ 'button_message_vendor' | translate }}</span>
-              </button>
+              </ion-button>
             </ion-card-content>
           </ion-card>
         </div>
