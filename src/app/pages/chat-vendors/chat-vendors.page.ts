@@ -5,7 +5,7 @@ import { IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonText, IonIc
 import { TuiIcon } from '@taiga-ui/core';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
-import { ChatService } from '../../services/chat.service';
+import { ChatService } from '../../service/chat.service';
 import { ChatVendor } from '../../models/chat.models';
 import {TranslatePipe} from "../../translate.pipe";
 

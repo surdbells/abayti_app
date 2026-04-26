@@ -32,7 +32,7 @@ import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
-import { ChatService } from '../../services/chat.service';
+import { ChatService } from '../../service/chat.service';
 import {
   ChatMessage,
   OrderContext,
