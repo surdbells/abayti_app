@@ -247,7 +247,7 @@
 
 .m6d-img-wrap {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3 / 2;
   background: var(--ax-palette-brown-100);  /* #ead9ca — warm neutral */
   /* No standalone border-radius here — the parent .m6d-product-card's
      border-radius + overflow:hidden gives the image rounded top corners.
@@ -409,7 +409,7 @@
    bottom gradient overlay carrying the store name + rating. */
 .m6e-featured-hero {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 5;
   background: var(--ax-palette-brown-200);  /* warm placeholder */
   cursor: pointer;
   overflow: hidden;
