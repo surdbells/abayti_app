@@ -1,6 +1,9 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 :root {
+	/* Font family — body uses Inter, display via global.scss heading rules */
+	--ion-font-family: var(--ax-font-body);
+
 	--ion-color-primary: #792108;
 	--ion-color-primary-rgb: 127,92,72;
 	--ion-color-primary-contrast: #000000;

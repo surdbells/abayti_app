@@ -42,10 +42,21 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
 @import "animate.css/animate.min.css";
-@import url('https://fonts.googleapis.com/css2?family=Poltawski+Nowy:ital,wght@0,400..700;1,400..700&display=swap');
-* {
-  font-family: 'Poltawski Nowy', serif !important;
+
+/* Body type. Display type is applied selectively via headings + .ax-display. */
+:root,
+body {
+  font-family: var(--ax-font-body);
 }
+
+/* Display type for headings and any element opting in via .ax-display */
+h1, h2, h3, h4, h5, h6,
+.ax-display,
+ion-toolbar ion-title {
+  font-family: var(--ax-font-display);
+  letter-spacing: var(--ax-ls-tight);
+}
+
 .abayti_primary_background {
   background-color: #8E2508
 }
