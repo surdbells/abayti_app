@@ -247,26 +247,26 @@ ion-content {
    ========================================================================= */
 
 .abayti_primary_background {
-  background-color: #8E2508
+  background-color: var(--ax-color-bg-brand);
 }
 
 .abayti_primary_color {
-  color: #e8dccb;
+  color: var(--ax-palette-beige-300);
 }
 .abayti_white {
-  color: #fff !important;
+  color: var(--ax-palette-neutral-0) !important;
 }
 .abayti_secondary_background {
-  color: #fff !important;
-  background-color: #8E2508 !important;
+  color: var(--ax-palette-neutral-0) !important;
+  background-color: var(--ax-color-bg-brand) !important;
 }
 .abayti_light_background {
-  color: #fff !important;
-  background-color: #b37a6b !important;
+  color: var(--ax-palette-neutral-0) !important;
+  background-color: var(--ax-palette-brown-400) !important;
 }
 
 .abayti_secondary_color {
-  color: #8E2508;
+  color: var(--ax-color-text-brand);
 }
 
 .back-chip{
@@ -274,12 +274,12 @@ ion-content {
   display:inline-flex; align-items:center; gap:6px;
   padding:4px 10px; border-radius:9999px;
   margin-bottom: 20px;
-  color:#fff; text-decoration:none; font-weight:800; letter-spacing:.02em;
+  color: var(--ax-palette-neutral-0); text-decoration:none; font-weight:800; letter-spacing:.02em;
   background: rgba(255,255,255,.14);
   border: 1px solid rgba(255,255,255,.35);
   backdrop-filter: saturate(120%) blur(2px);
 }
-.back-chip tui-icon{ width:18px; height:18px; color:#fff; }
+.back-chip tui-icon{ width:18px; height:18px; color: var(--ax-palette-neutral-0); }
 
 /* Search */
 .search-wrap {
@@ -288,19 +288,19 @@ ion-content {
   margin-top: 8px;
 
   ion-searchbar {
-    --background: #fff;
-    --border-radius: 16px;
-    --box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-    --placeholder-color: #9c8f8b;
+    --background: var(--ax-palette-neutral-0);
+    --border-radius: var(--ax-radius-xl);
+    --box-shadow: var(--ax-shadow-sm);
+    --placeholder-color: var(--ax-color-text-tertiary);
     --color: var(--text);
     padding: 0;
     height: 44px;
   }
 
   .filter-btn {
-    --background: #fff;
-    --border-radius: 14px;
-    --box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    --background: var(--ax-palette-neutral-0);
+    --border-radius: var(--ax-radius-lg);
+    --box-shadow: var(--ax-shadow-sm);
     width: 44px;
     height: 44px;
     color: var(--accent);
@@ -368,13 +368,6 @@ ion-toolbar {
   }
 }
 
-/* ----- Colors from your palette ----- */
-$peach-1:  #F8D1B9; // bg top
-$peach-2:  #F2C3AB; // mid
-$peach-3:  #F1BEA8; // bottom
-$deep-red: #7f5c48;
-$deep-red-2: #7f5c48;
-
 ion-content.page-bg {
   /* Ionic supports setting background via a CSS var */
   --background: var(--home-bg-image) center / cover no-repeat;
@@ -406,37 +399,37 @@ ion-tab-button  {
 .custom-list {
   background: transparent !important;
   ion-item {
-    --background: #ffffff;
+    --background: var(--ax-palette-neutral-0);
     --inner-border-width: 0;
     --padding-start: 12px;
     --padding-end: 12px;
     --min-height: 54px;
-    border-radius: 12px;
+    border-radius: var(--ax-radius-lg);
     margin: 8px 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--ax-shadow-sm);
     backdrop-filter: blur(6px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--ax-shadow-md);
     }
 
     ion-icon[slot="start"] {
       font-size: 22px;
-      color: #BA2E06; // your brand color
+      color: var(--ax-color-bg-brand); /* brand brown */
       margin-right: 12px;
     }
 
     ion-icon[slot="end"] {
       font-size: 18px;
-      color: #999;
+      color: var(--ax-color-text-tertiary);
     }
 
     ion-label {
       font-size: 16px;
       font-weight: 500;
-      color: #222;
+      color: var(--ax-color-text-primary);
     }
   }
 }
@@ -444,13 +437,13 @@ ion-tab-button  {
   margin-top: 120px !important;
 }
 .abayti_border {
-  border: 2px solid #b37a6b;
+  border: 2px solid var(--ax-palette-brown-400);
   border-radius: var(--radius-2xl);
 }
 
 .remove_nudge {
   padding-top: 0.7rem !important;
-  color: #fff !important;
+  color: var(--ax-palette-neutral-0) !important;
 }
 
 ion-header.ios ion-toolbar {
