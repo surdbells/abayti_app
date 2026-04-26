@@ -492,3 +492,201 @@ the same logic to other pages' redesigns.
 - One-shot won: phased adds 3× the deploy/test cycles for the same
   endpoint, and the M2 design system is internally consistent —
   shipping half of it would look broken.
+
+---
+
+## Implementation history (appended after rollout)
+
+This section captures what actually shipped vs what the spec
+anticipated. Added after M6f-1 to keep the spec honest. The
+"Locked decisions log" above remains as the original contract;
+this section documents how implementation deviated from it, and
+why.
+
+### Phases as shipped
+
+The original spec listed M6c / M6d / M6e / M6f as four phases. In
+practice we shipped six commits across those four phases:
+
+  M6c (b54572c)         Header + search + categories
+  M6d (f5f9ae6)         Section headers + product cards
+  M6d-fix1 (feffbd4)    Card chrome added (real-use feedback)
+  M6e (f91e6f2)         Vendor featured + full Taiga divorce
+  M6f-1 (dc1a3e6)       Tab bar + wishlist modal
+  M6f-2 (this commit)   Dead CSS cleanup + this spec amendment
+
+Total: ~1100 lines of HTML/SCSS/TS modified across account.page,
+plus the M2 design tokens already in place (no new tokens added).
+
+### Locked-decisions overrides
+
+Four decisions in the original "Locked decisions log" were
+overridden during implementation. Documenting each here so the
+log isn't silently wrong.
+
+**Override 1: Category icons kept (M6c)**
+
+Original decision: "Drop category icons. Cleaner, more Net-a-
+Porter, lets the chip text breathe."
+
+What shipped: Icons kept inside the M6c chips, restyled smaller
+and brown.
+
+Reason: With 7 categories (not the 3 in the original mockup),
+icon recognition aids fast scanning. The mockup-with-3-chips
+case argued for cleaner-without-icons; the real-with-7-chips
+case argues the other way. Discovered during M6c implementation
+when grepping the actual category list.
+
+**Override 2: Product card chrome added (M6d-fix1)**
+
+Original decision: "Product card with no chrome. The image IS
+the product. Adding a card around it competes with the image."
+
+What shipped: White card with soft warm-brown-tinted shadow and
+12px outer radius wrapping image + caption together.
+
+Reason: User feedback after M6d deploy — cards looked too
+floaty without surrounding chrome. Reference image showed the
+white-card + soft-shadow treatment which groups image and
+caption into a clear object and works on any background. The
+"no chrome" direction relied on calm, consistent page
+backgrounds; in practice account.page transitions across beige,
+white, and other surfaces, so background-independent cards are
+correct. Two-layer shadow (tight contact + softer ambient)
+chosen for warmth; warm-brown-tint rather than neutral grey to
+harmonize with the M2 palette.
+
+**Override 3: Vendor card hero-led with first product (M6e)**
+
+Original decision: "Vendor featured card: hero photo with bottom
+gradient, store name in Poltawski regular 18px white, gold star
++ rating in Inter 11px, 'FEATURED COLLECTION' label, 3-square
+preview row."
+
+What shipped: Same visual direction, but the hero is the
+vendor's first product (not a separate vendor hero photo).
+Label changed to "FEATURED STORE" (translate key) for unambiguous
+framing. Thumb row uses remaining products, count varies based
+on what the vendor has (not fixed at 3 squares).
+
+Reason: Spec assumed a vendor hero photo field in the data
+model. There isn't one — vendors only have product images. User
+chose Option A (use first product as hero) over Option B (data-
+led header layout) when shown both. The "FEATURED STORE" label
+is a small clarification I made during impl: the *store* is
+what's featured, the products are samples. This avoids the
+"is this card featuring the product or the store?" cognitive
+misfire.
+
+**Override 4: Modal submit button skipped (M6f-1)**
+
+Original decision: "Bottom: brown <ion-button expand='block'>
+'Add to closet' matching M6a Pattern A."
+
+What shipped: No bottom submit button. Tap any list row to add
+to that closet directly.
+
+Reason: Production interaction is tap-to-add-from-list-row, not
+select-then-submit. Adding a submit button would require
+restructuring addToCloset() to take selection state first, which
+is a UX change not a redesign. Spec was written without seeing
+the actual interaction. The tap-to-add pattern is also more
+mobile-native and faster.
+
+### Sections that didn't apply
+
+Two sections of the spec turned out not to apply to the
+production code:
+
+**Popular stores section (M6e)**
+
+Spec called for a redesigned Popular Stores carousel with 80px
+round store-logo items. Production has only an orphan
+`<h2>{{ 'popular_stores' | translate }}</h2>` heading with no
+items underneath it — the vendor featured cards effectively
+serve as "popular stores" content. The orphan heading was
+dropped during M6e. A real Popular Stores feature with items
+would be separate product work, not redesign.
+
+**Empty state (M6e)**
+
+Spec called for an M2-styled empty state with brand-icon +
+heading + subtext + brown CTA button. Production has no rendered
+empty state — only a loader (when `is_loading`) and an
+`<ion-infinite-scroll>` (when `!is_empty`). Users with no
+content currently see... nothing. Adding a real empty state
+would be a feature addition, not redesign. Skipped per user
+direction during M6e.
+
+### What's still pending
+
+Three items shipped behind-the-spec (deferred or partially done):
+
+**Other pages' tab bars.** M6f-1 redesigned the tab bar in
+account.page only. The deep red `#7C2108` footer still appears
+on every other page in the app (cart, orders, search, etc.).
+Each page has its own copy of the deep-red footer styling.
+Migrating those is its own work — probably an "M7 page sweep"
+rather than continued M6.
+
+**Tab active state route binding.** M6f-1 hardcoded Home as the
+active tab (matching production's pre-existing hardcoded
+`text-decoration: underline` behavior). Wiring the active class
+to the current route would require Router injection + route
+subscription + conditional class binding. Separate work.
+
+**Cart tab bug.** M6f-1 fixed `tab="explore"` on the Cart tab to
+`tab="cart"`. If Ionic's tab-outlet machinery is wired up
+elsewhere and was relying on the duplicate, this could surface
+as a bug. Click handler `user_cart()` is unchanged so primary
+navigation works regardless. Flagged for monitoring.
+
+### Token audit
+
+The spec's "Color tokens used by this redesign" table listed 12
+semantic tokens. All 12 were already present in M2's
+`_tokens.scss` at exactly the values listed. Zero new tokens
+were added during M6 implementation. This is a sign M2 was
+designed thoroughly enough to support real page redesigns
+without extension.
+
+### Taiga divorce
+
+After M6e, account.page is the **first page in the entire
+codebase** with zero `@taiga-ui/*` imports, zero `<tui-*>`
+elements, and zero `tui*` directive references. M6f-2's CSS
+cleanup completes the picture by removing the legacy SCSS that
+referenced Taiga's `tui-icon` selector inside dead style blocks.
+
+The page is now fully on Ionic + ax-mobile primitives + M2 tokens.
+
+### Lessons for the next page redesign
+
+When a future page (cart, orders, settings, etc.) gets the same
+treatment, the things this redesign's experience suggests:
+
+1. **Audit the actual data + interactions BEFORE writing the
+   spec, not just the visible HTML.** Three of four overrides
+   above came from the spec assuming features (hero photo,
+   submit button) or items (Popular Stores) that the production
+   code didn't have.
+
+2. **Phases of 1-2 sections each work better than 4 sections in
+   one phase.** M6c through M6f-1 each shipped a discrete,
+   testable visible change. User confirmation between phases
+   caught one bug early (M6d-fix1 chrome) that would have been
+   harder to address if M6d-f had been one commit.
+
+3. **Spec-as-direction beats spec-as-contract.** Four overrides
+   on six sections sounds like a lot, but the high-level
+   direction (palette, typography, hierarchy, calmer rhythm)
+   was right and held. The mistakes were all in stylistic
+   specifics that needed implementation reality to settle.
+
+4. **Bug-fixes-in-passing should be flagged in commit messages,
+   not silently absorbed.** The Cart tab bug (`tab="explore"`),
+   the M6c missing search icon, the M4b inline-template miss in
+   cart-icon.component.ts — all caught and fixed during M6
+   implementation. All flagged openly so they're discoverable
+   later.
