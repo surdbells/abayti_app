@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title class="m7-title">{{ 'best_seller' | translate }}</ion-title>
   </ion-toolbar>
-  <div class="m7-subtitle">Most loved items by our customers</div>
+  <div class="m7-subtitle">{{ 'subtitle_best_sellers' | translate }}</div>
   <div class="m7-filter-chips">
     <!-- All Button -->
     <button
@@ -15,7 +15,7 @@
       class="m7-filter-chip"
       [class.m7-filter-chip--active]="selectedFilter === 'all'"
       (click)="selectFilter('all'); bestSellers()">
-      All
+      {{ 'button_all' | translate }}
     </button>
 
     <!-- Price Filter Chips -->
@@ -25,7 +25,7 @@
         class="m7-filter-chip"
         [class.m7-filter-chip--active]="selectedFilter === price"
         (click)="selectFilter(price); filterByPrice(price)">
-        Under Ð{{ price | number }}
+        {{ 'label_under' | translate }} Ð{{ price | number }}
       </button>
     }
   </div>
@@ -42,7 +42,7 @@
   <!-- Results Count -->
   @if(!ui_controls.is_loading && best_sellers.length > 0){
     <div class="results-count">
-      <span>{{ best_sellers.length }} products found</span>
+      <span>{{ best_sellers.length }} {{ 'label_products_found' | translate }}</span>
     </div>
   }
 
@@ -130,10 +130,10 @@
       <div class="empty-icon">
         <ax-icon name="package-x"></ax-icon>
       </div>
-      <h3>No Products Found</h3>
-      <p>Try adjusting your price filter or check back later</p>
+      <h3>{{ 'heading_no_products_found' | translate }}</h3>
+      <p>{{ 'text_try_adjusting_filter' | translate }}</p>
       <button type="button" class="reset-btn" (click)="selectFilter('all'); bestSellers()">
-        View All Products
+        {{ 'button_view_all_products' | translate }}
       </button>
     </div>
   }
@@ -141,7 +141,7 @@
   <!-- Infinite Scroll -->
   @if(!ui_controls.is_empty && !ui_controls.is_loading && best_sellers.length > 0){
     <ion-infinite-scroll threshold="150px" (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content loadingText="Loading more..." loadingSpinner="dots"></ion-infinite-scroll-content>
+      <ion-infinite-scroll-content [loadingText]="'text_loading_more' | translate" loadingSpinner="dots"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   }
 

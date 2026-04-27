@@ -16,7 +16,6 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonRow,
-  IonText,
   IonTitle,
   IonToolbar,
   NavController,
@@ -61,7 +60,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonRefresher,
     IonRefresherContent,
     IonRow,
-    IonText,
     TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class CategoryPage implements OnInit, OnDestroy {

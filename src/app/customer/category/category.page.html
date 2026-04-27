@@ -7,14 +7,14 @@
     </ion-buttons>
     <ion-title class="m7-title">{{ initial.name }}</ion-title>
   </ion-toolbar>
-  <div class="m7-subtitle">Everything 3bayti has to offer.</div>
+  <div class="m7-subtitle">{{ 'subtitle_category' | translate }}</div>
   <div class="m7-filter-chips">
     <button
       type="button"
       class="m7-filter-chip"
       [class.m7-filter-chip--active]="selectedFilter === 'all'"
       (click)="selectFilter('all'); productCategory()">
-      All
+      {{ 'button_all' | translate }}
     </button>
     @for(price of priceFilters; track price){
       <button
@@ -22,7 +22,7 @@
         class="m7-filter-chip"
         [class.m7-filter-chip--active]="selectedFilter === price"
         (click)="selectFilter(price); filterByPrice(price)">
-        Under Ð{{price}}
+        {{ 'label_under' | translate }} Ð{{price}}
       </button>
     }
   </div>
@@ -37,7 +37,7 @@
   <!-- Results count -->
   @if(!ui_controls.is_loading && category_listing.length > 0){
     <div class="results-info">
-      <span class="count">{{category_listing.length}} products</span>
+      <span class="count">{{category_listing.length}} {{ 'label_products' | translate }}</span>
     </div>
   }
 
@@ -128,10 +128,10 @@
       <div class="empty-icon-wrap">
         <ax-icon name="package-x"></ax-icon>
       </div>
-      <h3>No products found</h3>
-      <p>Try adjusting your price filter</p>
-      <ion-button type="button" fill="outline" size="small" (click)="selectFilter('all'); productCategory()">
-        View All Products
+      <h3>{{ 'heading_no_products_found' | translate }}</h3>
+      <p>{{ 'text_try_adjusting_filter' | translate }}</p>
+      <ion-button type="button" fill="outline" size="small" class="reset-btn-ion" (click)="selectFilter('all'); productCategory()">
+        {{ 'button_view_all_products' | translate }}
       </ion-button>
     </div>
   }
