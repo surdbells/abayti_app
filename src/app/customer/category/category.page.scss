@@ -64,21 +64,20 @@ $brand-light: #B12C06;
   );
   animation: shimmer 1.5s infinite;
 }
-
 /* ========================================
-   PRODUCT GRID
+   PRODUCTS GRID
    ======================================== */
-.product-grid {
+.products-grid {
   --ion-grid-padding: 0;
 
   ion-row {
-    margin: 0 -6px;
+    --ion-grid-column-padding: 6px;
   }
 
-  ion-col {
-    padding: 0 6px;
-  }
+  // Performance optimization
+  contain: layout style;
 }
+
 
 /* ========================================
    EMPTY STATE
