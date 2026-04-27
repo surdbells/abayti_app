@@ -3,24 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons, IonCard, IonCardContent,
-  IonCol,
   IonContent,
   IonFooter,
-  IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, IonText,
-  IonTitle,
-  IonToolbar, NavController, Platform
+  IonHeader,
+  IonLabel,
+  IonTabBar,
+  IonTabButton,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
-import {LanguageSwitcherComponent} from "../../language-switcher.component";
-import {
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Preferences} from "@capacitor/preferences";
 import {ConnectionService} from "../../service/connection.service";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ActionSheetController} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
@@ -37,12 +31,30 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './vendors.page.html',
   styleUrls: ['./vendors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonCol, IonFooter, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton, LanguageSwitcherComponent, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonCard, IonCardContent, RouterLink, TranslatePipe, HScrollProgressComponent, IonText, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonFooter,
+    IonButton,
+    IonLabel,
+    IonTabBar,
+    IonTabButton,
+    CommonModule,
+    FormsModule,
+    TranslatePipe,
+    HScrollProgressComponent,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class VendorsPage implements OnInit {
   latest: Products[] = [];
   products: Products[] = [];
   categories: Labels[] = [];
+  /** Per-product image-loaded tracking for the m6d card skeleton overlay.
+      Keys are prefixed ('latest-' or 'cat-') to distinguish products
+      shared across the latest and per-category sections. */
+  imageLoaded: { [key: string]: boolean } = {};
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -257,6 +269,13 @@ goToReviews(id: number, name: string) {
       ['/', 'product'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
+  }
+  onImageLoad(key: string): void {
+    this.imageLoaded[key] = true;
+  }
+  onImageError(key: string): void {
+    /* Hide skeleton even on error so the placeholder doesn't loop */
+    this.imageLoaded[key] = true;
   }
   error_notification(message: string) {
     this.toast.error(message, {

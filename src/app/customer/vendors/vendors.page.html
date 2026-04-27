@@ -1,16 +1,17 @@
 <ion-header class="vendor-header ion-no-border">
-  <!-- COVER IMAGE -->
+  <!-- Cover image with gradient overlay -->
   <div class="vendor-cover-wrapper">
-    <img loading="lazy" class="vendor-cover"  [src]="view_vendor.cover || 'assets/images/vendor-cover-default.png'" alt="Vendor cover" />
-    <!-- LOGO + META -->
+    <img loading="lazy"
+         class="vendor-cover"
+         [src]="view_vendor.cover || 'assets/images/vendor-cover-default.png'"
+         alt="Vendor cover" />
+    <!-- Logo + name + tagline overlay -->
     <div class="vendor-overlay">
       <div class="vendor-logo">
         @if (view_vendor.logo) {
           <img loading="lazy" [src]="view_vendor.logo" alt="{{ view_vendor.name }}" />
         } @else {
-          <span class="logo-initial">
-            {{ view_vendor.name | slice:0:1 }}
-          </span>
+          <span class="logo-initial">{{ view_vendor.name | slice:0:1 }}</span>
         }
       </div>
       <div class="vendor-meta">
@@ -20,96 +21,113 @@
     </div>
   </div>
 </ion-header>
-<ion-content fullscreen="true" class="page-bg">
-  <!-- ACTION BUTTONS -->
+
+<ion-content [fullscreen]="true" class="page-bg">
+  <!-- Action buttons: follow + reviews -->
   <div class="vendor-actions ion-padding">
-    <ion-button expand="block" shape="round" [fill]="view_vendor.following ? 'outline' : 'solid'" (click)="toggleFollow()">
-      @if (view_vendor.following){
-        <ax-icon name="user-check" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+    <ion-button expand="block"
+                shape="round"
+                [fill]="view_vendor.following ? 'outline' : 'solid'"
+                (click)="toggleFollow()"
+                class="vendor-action-btn">
+      @if (view_vendor.following) {
+        <ax-icon name="user-check" slot="start" />
       } @else {
-        <ax-icon name="user-minus" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/>
+        <ax-icon name="user-minus" slot="start" />
       }
-      {{ view_vendor.following ? 'Followed' : 'Follow' }}
+      {{ (view_vendor.following ? 'button_followed' : 'button_follow') | translate }}
     </ion-button>
-    <ion-button expand="block" shape="round" [fill]="'outline'" (click)="goToReviews(read_vendor.store_id, view_vendor.name)">
-      <ax-icon name="star" class="ion-margin-end" [style.color]="'var(--ion-color-secondary-contrast)'"/> Reviews
+    <ion-button expand="block"
+                shape="round"
+                fill="outline"
+                (click)="goToReviews(read_vendor.store_id, view_vendor.name)"
+                class="vendor-action-btn">
+      <ax-icon name="star" slot="start" />
+      {{ 'button_reviews' | translate }}
     </ion-button>
   </div>
-  @if (!ui_controls.is_loading){
+
+  <!-- Latest section -->
+  @if (!ui_controls.is_loading && latest.length > 0) {
     <section class="section ion-padding-horizontal">
-      <div class="section-head ion-padding-bottom">
-        <h2>{{ 'heading_latest' | translate }}</h2>
-      </div>
+      <h2 class="section-title">{{ 'heading_latest' | translate }}</h2>
       <app-h-scroll-progress>
-        @for(best_seller of latest; track best_seller.product_id){
-          <article (click)="open_product(best_seller.product_id, best_seller.product_name)" class="product-card">
-            <div class="img-wrap" [style.background]="'#7A1C09'">
-              <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{best_seller.image_1}}" alt="{{best_seller.product_name}}" />
+        @for(latest_product of latest; track latest_product.product_id){
+          <article class="m6d-product-card">
+            <div class="m6d-img-wrap">
+              <!-- Image skeleton -->
+              <div class="m6d-img-skeleton" [class.hidden]="imageLoaded['latest-' + latest_product.product_id]">
+                <div class="skeleton-shimmer"></div>
+              </div>
+              <!-- Actual image -->
+              <img
+                (click)="open_product(latest_product.product_id, latest_product.product_name)"
+                [class.loaded]="imageLoaded['latest-' + latest_product.product_id]"
+                (load)="onImageLoad('latest-' + latest_product.product_id)"
+                (error)="onImageError('latest-' + latest_product.product_id)"
+                [src]="latest_product.image_1"
+                alt="{{latest_product.product_name}}" />
             </div>
-            <div class="info">
-              <p class="desc">
-                {{best_seller.product_name}} - <span [innerHTML]="best_seller.description"></span>
-              </p>
-              <ion-row>
-                <ion-col class="ion-text-start">
-                  Ð{{best_seller.price}}
-                </ion-col>
-                <ion-col class="ion-text-end">
-                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="19" height="19" rx="6" fill="#7C2108"/>
-                    <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
-                  </svg>
-                </ion-col>
-              </ion-row>
+            <div (click)="open_product(latest_product.product_id, latest_product.product_name)" class="m6d-info">
+              <p class="m6d-name">{{latest_product.product_name}}</p>
+              <div class="m6d-price-row">
+                <span class="m6d-price">Ð{{latest_product.price}}</span>
+                <button (click)="open_product(latest_product.product_id, latest_product.product_name); $event.stopPropagation()" class="m6d-add-to-cart" type="button" aria-label="Add to cart">
+                  <ax-icon name="plus" />
+                </button>
+              </div>
             </div>
           </article>
         }
       </app-h-scroll-progress>
     </section>
   }
+
+  <!-- Per-category sections -->
   @if (!ui_controls.is_loading) {
-    <div class="sheet ion-padding-horizontal">
-      @for(category of categories; track category.id){
-        <section class="section ion-margin-top">
-          <div class="section-head ion-margin-bottom">
-            <h2>{{category.name}}</h2>
-          </div>
-          <app-h-scroll-progress>
-            @for(product of products; track product.product_id){
-              @if(category.id == product.collection){
-                <article (click)="open_product(product.product_id, product.product_name)" class="product-card">
-                  <div class="img-wrap" [style.background]="'#7A1C09'">
-                    <img loading="lazy"  style="object-fit: cover; object-position: top center;" src="{{product.image_1}}" alt="{{product.product_name}}" />
+    @for(category of categories; track category.id){
+      <section class="section ion-padding-horizontal">
+        <h2 class="section-title">{{ category.name }}</h2>
+        <app-h-scroll-progress>
+          @for(product of products; track product.product_id){
+            @if(category.id == product.collection){
+              <article class="m6d-product-card">
+                <div class="m6d-img-wrap">
+                  <!-- Image skeleton -->
+                  <div class="m6d-img-skeleton" [class.hidden]="imageLoaded['cat-' + product.product_id]">
+                    <div class="skeleton-shimmer"></div>
                   </div>
-                  <div class="info">
-                    <p class="desc">
-                      {{product.product_name}} - <span [innerHTML]="product.description"></span>
-                    </p>
-                    <ion-row>
-                      <ion-col class="ion-text-start">
-                        Ð{{product.price}}
-                      </ion-col>
-                      <ion-col class="ion-text-end">
-                        <svg (click)="open_product(product.product_id, product.product_name)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect width="19" height="19" rx="6" fill="#7C2108"/>
-                          <path d="M12.75 7.75H10.25V5.25C10.25 4.91848 10.1183 4.60054 9.88388 4.36612C9.64946 4.1317 9.33152 4 9 4C8.66848 4 8.35054 4.1317 8.11612 4.36612C7.8817 4.60054 7.75 4.91848 7.75 5.25L7.79437 7.75H5.25C4.91848 7.75 4.60054 7.8817 4.36612 8.11612C4.1317 8.35054 4 8.66848 4 9C4 9.33152 4.1317 9.64946 4.36612 9.88388C4.60054 10.1183 4.91848 10.25 5.25 10.25L7.79437 10.2056L7.75 12.75C7.75 13.0815 7.8817 13.3995 8.11612 13.6339C8.35054 13.8683 8.66848 14 9 14C9.33152 14 9.64946 13.8683 9.88388 13.6339C10.1183 13.3995 10.25 13.0815 10.25 12.75V10.2056L12.75 10.25C13.0815 10.25 13.3995 10.1183 13.6339 9.88388C13.8683 9.64946 14 9.33152 14 9C14 8.66848 13.8683 8.35054 13.6339 8.11612C13.3995 7.8817 13.0815 7.75 12.75 7.75Z" fill="white"/>
-                        </svg>
-                      </ion-col>
-                    </ion-row>
+                  <!-- Actual image -->
+                  <img
+                    (click)="open_product(product.product_id, product.product_name)"
+                    [class.loaded]="imageLoaded['cat-' + product.product_id]"
+                    (load)="onImageLoad('cat-' + product.product_id)"
+                    (error)="onImageError('cat-' + product.product_id)"
+                    [src]="product.image_1"
+                    alt="{{product.product_name}}" />
+                </div>
+                <div (click)="open_product(product.product_id, product.product_name)" class="m6d-info">
+                  <p class="m6d-name">{{product.product_name}}</p>
+                  <div class="m6d-price-row">
+                    <span class="m6d-price">Ð{{product.price}}</span>
+                    <button (click)="open_product(product.product_id, product.product_name); $event.stopPropagation()" class="m6d-add-to-cart" type="button" aria-label="Add to cart">
+                      <ax-icon name="plus" />
+                    </button>
                   </div>
-                </article>
-              }
+                </div>
+              </article>
             }
-          </app-h-scroll-progress>
-        </section>
-      }
+          }
+        </app-h-scroll-progress>
+      </section>
+    }
+  }
+
+  @if (ui_controls.is_loading) {
+    <div class="loader-row">
+      <ax-loader></ax-loader>
     </div>
   }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-    @if (ui_controls.is_loading){
-      <ax-loader></ax-loader>
-    }
-  </span>
 </ion-content>
 
 <ion-footer class="m6f-footer ion-no-border">
