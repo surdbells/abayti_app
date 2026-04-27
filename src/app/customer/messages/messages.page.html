@@ -7,68 +7,40 @@
     </ion-buttons>
     <ion-title class="m7-title">{{ 'messages' | translate }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/ticketlist']" fill="clear" class="m7-header-action">
-        <ion-chip class="abayti_primary_background abayti_white">
-          <ion-avatar>
-            <ax-icon name="headset"/>
-          </ion-avatar>
-          <ion-label>{{ 'support' | translate }}</ion-label>
-        </ion-chip>
+      <ion-button [routerLink]="['/ticketlist']" fill="solid" class="support-cta">
+        <ax-icon name="headset" slot="start" />
+        {{ 'support' | translate }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" class="page-bg">
-<!--  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <svg width="99" height="94" viewBox="0 0 99 94" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g filter="url(#filter0_d_81_330)">
-        <rect x="12" y="12" width="75" height="70" rx="20" fill="url(#paint0_linear_81_330)"/>
-        <path d="M33.4082 27.5547H65.2238C67.0989 27.5547 68.8972 28.3267 70.2232 29.701C71.5491 31.0752 72.2939 32.9391 72.2939 34.8825V53.2021C72.2939 55.1455 71.5491 57.0094 70.2232 58.3836C68.8972 59.7579 67.0989 60.5299 65.2238 60.5299H45.7809L35.1757 67.8577V60.5299H33.4082C31.5331 60.5299 29.7348 59.7579 28.4089 58.3836C27.083 57.0094 26.3381 55.1455 26.3381 53.2021V34.8825C26.3381 32.9391 27.083 31.0752 28.4089 29.701C29.7348 28.3267 31.5331 27.5547 33.4082 27.5547Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M59.922 45.8749C59.922 46.3608 60.1082 46.8268 60.4397 47.1703C60.7711 47.5139 61.2207 47.7069 61.6895 47.7069C62.1583 47.7069 62.6079 47.5139 62.9393 47.1703C63.2708 46.8268 63.457 46.3608 63.457 45.8749C63.457 45.3891 63.2708 44.9231 62.9393 44.5795C62.6079 44.236 62.1583 44.043 61.6895 44.043C61.2207 44.043 60.7711 44.236 60.4397 44.5795C60.1082 44.9231 59.922 45.3891 59.922 45.8749ZM49.3168 45.8749C49.3168 46.3608 49.503 46.8268 49.8345 47.1703C50.1659 47.5139 50.6155 47.7069 51.0843 47.7069C51.5531 47.7069 52.0027 47.5139 52.3341 47.1703C52.6656 46.8268 52.8518 46.3608 52.8518 45.8749C52.8518 45.3891 52.6656 44.9231 52.3341 44.5795C52.0027 44.236 51.5531 44.043 51.0843 44.043C50.6155 44.043 50.1659 44.236 49.8345 44.5795C49.503 44.9231 49.3168 45.3891 49.3168 45.8749ZM38.7116 45.8749C38.7116 46.3608 38.8978 46.8268 39.2293 47.1703C39.5607 47.5139 40.0103 47.7069 40.4791 47.7069C40.9479 47.7069 41.3974 47.5139 41.7289 47.1703C42.0604 46.8268 42.2466 46.3608 42.2466 45.8749C42.2466 45.3891 42.0604 44.9231 41.7289 44.5795C41.3974 44.236 40.9479 44.043 40.4791 44.043C40.0103 44.043 39.5607 44.236 39.2293 44.5795C38.8978 44.9231 38.7116 45.3891 38.7116 45.8749Z" fill="white" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-      </g>
-      <defs>
-        <filter id="filter0_d_81_330" x="0.6" y="0.6" width="97.8" height="92.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-          <feOffset/>
-          <feGaussianBlur stdDeviation="5.7"/>
-          <feComposite in2="hardAlpha" operator="out"/>
-          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_81_330"/>
-          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_81_330" result="shape"/>
-        </filter>
-        <linearGradient id="paint0_linear_81_330" x1="100.421" y1="45.9394" x2="12" y2="45.9394" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#FF3D00"/>
-          <stop offset="1" stop-color="#D83202"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  </ion-fab>-->
-  @if (!ui_controls.is_loading){
-  <div class="sheet ion-padding-horizontal">
-    @for(store of stores; track $index){
-      <ion-list class="contact-list">
-        <ion-item (click)="conversations(store.store,store.store_name)" class="animate__animated animate__fadeInDown" detail="false">
-          <ion-label>
-            <ion-text> <strong>{{ store.store_name }}</strong></ion-text><br />
-            <ion-note color="medium" class="ion-text-wrap">
-              {{ store.store_address }}
-            </ion-note>
-          </ion-label>
-          <ion-chip class="online_status" slot="end">
-            <ion-label style="color: #ffffff">{{ store.total_products }}</ion-label>
-          </ion-chip>
-        </ion-item>
-      </ion-list>
-    }
-  </div>
-  }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <ax-loader></ax-loader>
+  @if (!ui_controls.is_loading) {
+    <div class="contacts-sheet ion-padding-horizontal">
+      @for(store of stores; track store.store){
+        <ion-list class="contact-list">
+          <ion-item (click)="conversations(store.store, store.store_name)" detail="false" button class="contact-item">
+            <ion-label>
+              <strong class="contact-name">{{ store.store_name }}</strong>
+              <ion-note color="medium" class="ion-text-wrap contact-address">
+                {{ store.store_address }}
+              </ion-note>
+            </ion-label>
+            <span class="count-pill" slot="end">{{ store.total_products }}</span>
+          </ion-item>
+        </ion-list>
       }
-   </span>
+    </div>
+  }
+
+  @if (ui_controls.is_loading) {
+    <div class="loader-row">
+      <ax-loader></ax-loader>
+    </div>
+  }
 </ion-content>
+
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">

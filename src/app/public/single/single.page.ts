@@ -12,23 +12,13 @@ import {
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons,
   IonCard,
-  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
-  IonContent, IonGrid,
-  IonHeader, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText,
-  IonTitle,
-  IonToolbar, NavController
+  IonCardContent,
+  IonContent,
+  IonImg,
+  NavController
 } from '@ionic/angular/standalone';
-import {CartIconComponent} from "../../cart-icon.component";
-import {SizeChipsComponent} from "../../size-chips/size-chips.component";
 import {TranslatePipe} from "../../translate.pipe";
-import {
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {Platform} from "@ionic/angular";
@@ -45,11 +35,20 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
   styleUrls: ['./single.page.scss'],
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonLabel, IonModal, IonRow, IonSelect, IonSelectOption, IonText, SizeChipsComponent, TranslatePipe, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, AxLoaderComponent, AxIconComponent]
+  imports: [
+    IonContent,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonImg,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class SinglePage implements OnInit {
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
-  @ViewChild(IonModal) modal!: IonModal;
   index = signal(0);
   isOnline = true;
   private sub: Subscription;
@@ -191,9 +190,6 @@ product = {
           }
         }
       }))
-  }
-  cancel() {
-    this.modal.dismiss(null, 'cancel').then(r => console.log(r));
   }
   imgLoaded: boolean[] = [false, false, false, false];
   onWillLoad(index: number) {

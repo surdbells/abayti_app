@@ -1,36 +1,23 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import {
-  IonAvatar,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent, IonChip,
-  IonCol,
-  IonContent, IonFab, IonFabButton,
+  IonContent,
   IonFooter,
   IonHeader,
-  IonIcon,
-  IonItem, IonLabel, IonList,
-  IonModal, IonNote,
-  IonRefresher,
-  IonRefresherContent,
-  IonRow,
-  IonSearchbar,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonNote,
   IonTabBar,
-  IonTabButton, IonText,
+  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
   Platform
 } from '@ionic/angular/standalone';
-import {
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router, RouterLink} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -54,13 +41,31 @@ export interface StoreRecord {
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, RouterLink, IonButton, IonCol, IonFooter, IonIcon, IonModal, IonRow, IonTabBar, IonTabButton, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonLabel, IonList, IonNote, IonAvatar, IonChip, IonFab, IonFabButton, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonFooter,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonNote,
+    IonTabBar,
+    IonTabButton,
+    RouterLink,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class MessagesPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
-  @ViewChild(IonModal) modal!: IonModal;
   stores: StoreRecord[] = [];
   constructor(
     private nav: NavController,

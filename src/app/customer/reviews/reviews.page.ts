@@ -5,18 +5,14 @@ import {
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
-  IonContent, IonFab, IonFabButton,
-  IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow, IonText,
+  IonCardContent,
+  IonContent,
+  IonHeader,
   IonTitle,
-  IonToolbar, NavController, Platform
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
-import {
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router, RouterLink} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -37,7 +33,21 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './reviews.page.html',
   styleUrls: ['./reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    RouterLink,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class ReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

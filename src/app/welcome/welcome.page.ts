@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IonCol, IonContent, IonGrid,  IonRow, Platform } from '@ionic/angular/standalone';
-import { TuiTextfieldComponent} from "@taiga-ui/core";
+import { IonButton, IonContent, Platform } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../service/connection.service";
 import {Router} from "@angular/router";
+import {TranslatePipe} from "../translate.pipe";
 
 
 @Component({
@@ -11,11 +11,9 @@ import {Router} from "@angular/router";
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
   imports: [
-    IonCol,
-    IonRow,
     IonContent,
-    IonGrid,
-    TuiTextfieldComponent
+    IonButton,
+    TranslatePipe,
   ],
   standalone: true
 })

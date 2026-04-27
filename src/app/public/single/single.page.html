@@ -1,9 +1,13 @@
-<ion-content fullscreen="true" class="page-bg">
+<ion-content [fullscreen]="true" class="page-bg">
+
+  <!-- Floating back button -->
   <div class="m7-floating-buttons has-back-only">
     <ion-button class="m7-btn-shadow" (click)="triggerBack()" aria-label="Back">
       <ax-icon name="arrow-left" />
     </ion-button>
   </div>
+
+  <!-- Image swiper -->
   <div class="safe-area">
     <div class="slides-wrapper">
       <swiper-container
@@ -31,56 +35,59 @@
         }
       </swiper-container>
     </div>
-
   </div>
 
-  @if(!ui_controls.is_loading){
+  <!-- Product info card -->
+  @if (!ui_controls.is_loading) {
     <ion-card class="product-card ion-no-margin">
-      <div class="footer">
-        <div class="pager">
-          @for(product of images; track $index){
-            <span class="dot" [class.active]="index()===$index"></span>
-          }
-        </div>
+      <div class="card-pager">
+        @for(product of images; track $index){
+          <span class="dot" [class.dot--active]="index() === $index"></span>
+        }
       </div>
       <ion-card-content>
-        <ion-row class="product-row">
-          <ion-col size="8" class="product-title">
-            <ion-card-title>{{ single.category_name }}</ion-card-title>
-            <ion-card-subtitle class="title">{{ single.name }}</ion-card-subtitle>
-          </ion-col>
-        </ion-row>
-        <div class="row second-line">
-          <div class="description" [innerHTML]="single.description"></div>
+        <div class="product-meta">
+          <p class="product-category">{{ single.category_name }}</p>
+          <h2 class="product-name">{{ single.name }}</h2>
         </div>
-        <div class="quantity" style="padding-top: 5px; padding-bottom: 5px">
-          <ion-label>
-            @if(single.delivery_time != 'custom'){
-              <ion-text class="ion-text-start ion-padding-bottom">{{ 'delivery' | translate }}: {{single.delivery_time}} {{ 'days' | translate }}</ion-text>
+
+        <div class="product-description" [innerHTML]="single.description"></div>
+
+        <div class="product-delivery">
+          <ax-icon name="truck" class="product-delivery__icon" />
+          <span>
+            {{ 'delivery' | translate }}:
+            @if (single.delivery_time != 'custom') {
+              {{ single.delivery_time }}
             } @else {
-              <ion-text class="ion-text-start ion-padding-bottom">{{ 'delivery' | translate }}: {{single.custom_delivery_time}} {{ 'days' | translate }}</ion-text>
+              {{ single.custom_delivery_time }}
             }
-
-          </ion-label>
-        </div>
-        <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-              @if(ui_controls.is_adding_to_cart){
-                <ax-loader></ax-loader>
-              }
+            {{ 'days' | translate }}
           </span>
+        </div>
 
-        @if(!ui_controls.is_adding_to_cart){
-          <button style="border-radius: 20px; color: #ffffff; font-size: 18px; margin-bottom: 20px" (click)="SignIn()" class="ion-padding-vertical gradient_bg ion-padding-bottom ion-margin-vertical">
-            {{ 'button_add_to_cart' | translate }} Ð{{single.price_formated}}
-          </button>
+        @if (ui_controls.is_adding_to_cart) {
+          <div class="loader-row">
+            <ax-loader></ax-loader>
+          </div>
         }
 
+        @if (!ui_controls.is_adding_to_cart) {
+          <ion-button
+            (click)="SignIn()"
+            expand="block"
+            class="add-to-cart-btn"
+            type="button">
+            {{ 'button_add_to_cart' | translate }} · Ð{{ single.price_formated }}
+          </ion-button>
+        }
       </ion-card-content>
     </ion-card>
   }
-  @if (ui_controls.is_loading){
-    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-        <ax-loader></ax-loader>
-  </span>
+
+  @if (ui_controls.is_loading) {
+    <div class="loader-row">
+      <ax-loader></ax-loader>
+    </div>
   }
 </ion-content>
