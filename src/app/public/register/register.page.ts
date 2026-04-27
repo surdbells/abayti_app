@@ -29,7 +29,6 @@ import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
-import {getCountries} from "libphonenumber-js";
 import {TranslatePipe} from "../../translate.pipe";
 import {Preferences} from "@capacitor/preferences";
 import {BlockerService} from "../../blocker.service";
@@ -71,10 +70,8 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 export class RegisterPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
-  protected readonly countries = getCountries();
-  protected value = '';
   showResendToken: boolean = false; // Initially hide the button
-  isTermsOpen = false; // or control this as you like
+  isTermsOpen = false; // controls the terms-of-service modal visibility
   constructor(
     private net: ConnectionService,
     private platform: Platform,
