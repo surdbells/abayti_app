@@ -7,6 +7,7 @@ import {
   IonCol,
   IonContent,
   IonFooter,
+  IonGrid,
   IonHeader,
   IonLabel,
   IonModal,
@@ -50,6 +51,7 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonCol,
     IonModal,
     IonRow,
+    IonGrid,
     IonFooter,
     IonTabBar,
     IonTabButton,
@@ -236,7 +238,7 @@ export class WishlistPage implements OnInit, OnDestroy {
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-  open_product(id: number) {
+  open_product(id: number, name: string) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }

@@ -49,16 +49,28 @@
         <h3 class="section-title">{{ selected_label }}</h3>
 
         @if (wishlists.length > 0) {
-          <div class="items-grid">
-            @for (a_wishlist of wishlists; track a_wishlist.id) {
-              <button (click)="open_product(a_wishlist.product)" class="item-card" type="button">
-                <div class="item-card__image-wrap">
-                  <img loading="lazy" src="{{ a_wishlist.image }}" alt="{{ a_wishlist.name }}" />
-                </div>
-                <span class="item-card__name">{{ a_wishlist.name }}</span>
-              </button>
-            }
-          </div>
+          <ion-grid class="products-grid">
+            <ion-row>
+              @for (a_wishlist of wishlists; track a_wishlist.id) {
+                <ion-col size="6">
+                  <article class="m6d-product-card">
+                    <div class="m6d-img-wrap">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        [src]="a_wishlist.image"
+                        [alt]="a_wishlist.name"
+                        class="loaded"
+                        (click)="open_product(a_wishlist.product, a_wishlist.name)" />
+                    </div>
+                    <div (click)="open_product(a_wishlist.product, a_wishlist.name)" class="m6d-info">
+                      <p class="m6d-name">{{ a_wishlist.name }}</p>
+                    </div>
+                  </article>
+                </ion-col>
+              }
+            </ion-row>
+          </ion-grid>
         }
 
         @if (ui_controls.is_empty) {
