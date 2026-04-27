@@ -1,17 +1,20 @@
 /* ========================================
-   VARIABLES
-   ======================================== */
+   PAGE-LOCAL TOKEN MAP — points to M2
+   ========================================
+   These page-scoped CSS vars exist for backward compat with the
+   ~49 `var(--brand-*)` / `var(--text-*)` / `var(--radius-*)` refs
+   throughout this file. New code should reference M2 tokens
+   directly via `var(--ax-color-text-brand)` etc. */
 :host {
-  --brand-dark: #7C2108;
-  --brand-light: #B12C06;
-  --brand-cream: #FBEDE2;
-  --brand-peach: #FFF8F4;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --brand-dark: var(--ax-color-text-brand);     /* was #7C2108 (deep-red) */
+  --brand-light: var(--ax-color-bg-brand-hover); /* was #B12C06 */
+  --brand-cream: var(--ax-color-bg-brand-subtle); /* was #FBEDE2 */
+  --text-primary: var(--ax-color-text-primary);   /* was #1a1a1a */
+  --text-secondary: var(--ax-color-text-secondary); /* was #666 */
+  --radius-sm: var(--ax-radius-sm, 8px);
+  --radius-md: var(--ax-radius-md, 12px);
+  --radius-lg: var(--ax-radius-lg, 16px);
+  --radius-xl: var(--ax-radius-xl, 24px);
 }
 
 /* ========================================
@@ -39,20 +42,15 @@
 
 /* ========================================
    HEADER
-   ======================================== */
-.page-header {
-  background-color: var(--brand-cream);
-}
-
-.toolbar {
-  --background: transparent;
-}
+   ========================================
+   The page now uses standard .m7-header-shadow chrome from
+   global.scss, so no page-scoped header rules are needed. */
 
 .back-btn {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--ax-color-bg-surface);
   border: none;
   display: flex;
   align-items: center;
@@ -137,7 +135,7 @@ swiper-slide,
   width: 100%;
   height: 100%;
   aspect-ratio: 4 / 5;
-  background: linear-gradient(135deg, #f0e6df 0%, #e8dcd4 100%);
+  background: linear-gradient(135deg, var(--ax-palette-beige-100) 0%, var(--ax-palette-beige-200) 100%);
   overflow: hidden;
 
   ion-img, img {
@@ -161,7 +159,7 @@ swiper-slide,
   .skeleton {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #e8dcd4 0%, #f5ebe4 50%, #e8dcd4 100%);
+    background: linear-gradient(135deg, var(--ax-palette-beige-200) 0%, var(--ax-palette-beige-100) 50%, var(--ax-palette-beige-200) 100%);
     overflow: hidden;
   }
 }
@@ -170,7 +168,7 @@ swiper-slide,
    PRODUCT CARD
    ======================================== */
 .product-card {
-  background: #fff;
+  background: var(--ax-color-bg-surface);
   border-top-left-radius: var(--radius-xl);
   border-top-right-radius: var(--radius-xl);
   margin-top: -24px;
@@ -246,7 +244,7 @@ swiper-slide,
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f5f5f5;
+  background: var(--ax-color-bg-muted);
   border-radius: var(--radius-md);
   padding: 4px;
 
@@ -255,7 +253,7 @@ swiper-slide,
     height: 32px;
     border-radius: var(--radius-sm);
     border: none;
-    background: #fff;
+    background: var(--ax-color-bg-surface);
     font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
@@ -267,7 +265,7 @@ swiper-slide,
     -webkit-tap-highlight-color: transparent;
 
     &:active {
-      background: #eee;
+      background: var(--ax-color-bg-muted);
       transform: scale(0.95);
     }
 
@@ -299,7 +297,7 @@ swiper-slide,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(124, 33, 8, 0.08);
+  background: rgba(144, 105, 82, 0.08);
   padding: 8px 14px;
   border-radius: var(--radius-md);
   margin-bottom: 20px;
@@ -353,7 +351,7 @@ swiper-slide,
   align-items: center;
   gap: 8px;
   padding: 6px 12px 6px 6px;
-  background: #f8f8f8;
+  background: var(--ax-color-bg-canvas);
   border: 2px solid transparent;
   border-radius: 50px;
   cursor: pointer;
@@ -366,7 +364,7 @@ swiper-slide,
 
   &.selected {
     border-color: var(--brand-dark);
-    background: rgba(124, 33, 8, 0.06);
+    background: rgba(144, 105, 82, 0.06);
 
     .color-label {
       color: var(--brand-dark);
@@ -390,7 +388,7 @@ swiper-slide,
       border-color: rgba(0, 0, 0, 0.15);
 
       .check-icon {
-        color: #333 !important;
+        color: var(--ax-color-text-primary) !important;
       }
     }
 
@@ -403,7 +401,7 @@ swiper-slide,
 
     .check-icon {
       font-size: 14px;
-      color: #fff;
+      color: var(--ax-color-bg-surface);
       filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
     }
   }
@@ -448,7 +446,7 @@ swiper-slide,
   }
 
   &:active {
-    background: rgba(124, 33, 8, 0.1);
+    background: rgba(144, 105, 82, 0.1);
   }
 }
 
@@ -459,8 +457,8 @@ swiper-slide,
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  background: #f8f8f8;
-  border: 2px dashed rgba(124, 33, 8, 0.3);
+  background: var(--ax-color-bg-canvas);
+  border: 2px dashed rgba(144, 105, 82, 0.3);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -489,7 +487,7 @@ swiper-slide,
   }
 
   &:active {
-    background: rgba(124, 33, 8, 0.08);
+    background: rgba(144, 105, 82, 0.08);
   }
 }
 
@@ -514,7 +512,7 @@ swiper-slide,
 
 .store-size-pill {
   padding: 8px 16px;
-  background: #f5f5f5;
+  background: var(--ax-color-bg-muted);
   border: 2px solid transparent;
   border-radius: var(--radius-sm);
   font-size: 13px;
@@ -526,7 +524,7 @@ swiper-slide,
 
   &.selected {
     background: var(--brand-dark);
-    color: #fff;
+    color: var(--ax-color-bg-surface);
     border-color: var(--brand-dark);
   }
 
@@ -539,7 +537,7 @@ swiper-slide,
    LOADING SKELETON
    ======================================== */
 .loading-skeleton {
-  background: #fff;
+  background: var(--ax-color-bg-surface);
   border-top-left-radius: var(--radius-xl);
   border-top-right-radius: var(--radius-xl);
   margin-top: -24px;
@@ -558,7 +556,7 @@ swiper-slide,
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background: #e5e5e5;
+    background: var(--ax-color-border-subtle);
     position: relative;
     overflow: hidden;
   }
@@ -573,21 +571,21 @@ swiper-slide,
     &.title-sk {
       width: 40%;
       height: 14px;
-      background: #eee;
+      background: var(--ax-color-bg-muted);
       margin-bottom: 8px;
     }
 
     &.name-sk {
       width: 70%;
       height: 22px;
-      background: #e5e5e5;
+      background: var(--ax-color-border-subtle);
       margin-bottom: 16px;
     }
 
     &.desc-sk {
       width: 100%;
       height: 14px;
-      background: #f0f0f0;
+      background: var(--ax-color-bg-muted);
       margin-bottom: 8px;
 
       &.short {
@@ -606,7 +604,7 @@ swiper-slide,
     width: 90px;
     height: 40px;
     border-radius: 50px;
-    background: #f0f0f0;
+    background: var(--ax-color-bg-muted);
     position: relative;
     overflow: hidden;
   }
@@ -616,7 +614,7 @@ swiper-slide,
    SIZE CHART MODAL
    ======================================== */
 .size-chart {
-  background: #f8f9fa;
+  background: var(--ax-color-bg-canvas);
   border-radius: var(--radius-md);
   overflow: hidden;
 
@@ -628,14 +626,14 @@ swiper-slide,
       padding: 12px 8px;
       text-align: center;
       font-size: 12px;
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid var(--ax-color-border-subtle);
     }
 
     &.header {
       background: var(--brand-dark);
 
       span {
-        color: #000000;
+        color: var(--ax-color-text-primary);
         font-weight: 600;
         writing-mode: vertical-lr;
         border-bottom: none;
@@ -652,7 +650,7 @@ swiper-slide,
    MEASUREMENT MODAL
    ======================================== */
 .measurement-modal-content {
-  --background: #f8f8f8;
+  --background: var(--ax-color-bg-canvas);
 }
 
 .measurement-grid {
@@ -673,9 +671,9 @@ swiper-slide,
   .input-wrap {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: var(--ax-color-bg-surface);
     border-radius: var(--radius-sm);
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--ax-color-border-subtle);
     overflow: hidden;
 
     input {
@@ -686,13 +684,13 @@ swiper-slide,
       outline: none;
 
       &::placeholder {
-        color: #ccc;
+        color: var(--ax-color-border-default);
       }
     }
 
     .unit {
       padding: 12px;
-      background: #f5f5f5;
+      background: var(--ax-color-bg-muted);
       font-size: 12px;
       color: var(--text-secondary);
       font-weight: 500;
@@ -719,7 +717,7 @@ swiper-slide,
   textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--ax-color-border-subtle);
     border-radius: var(--radius-sm);
     font-size: 14px;
     resize: none;
@@ -734,10 +732,10 @@ swiper-slide,
 .confirm-measurement-btn {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #7C2108, #B12C06);
+  background: linear-gradient(135deg, var(--ax-color-bg-brand), var(--ax-color-bg-brand-hover));
   border: none;
   border-radius: var(--radius-md);
-  color: #fff;
+  color: var(--ax-color-bg-surface);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -760,7 +758,7 @@ swiper-slide,
    FOOTER
    ======================================== */
 .product-footer {
-  background: #fff;
+  background: var(--ax-color-bg-surface);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
   padding: 16px 20px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
@@ -797,7 +795,7 @@ swiper-slide,
   background: linear-gradient(135deg, var(--brand-dark), var(--brand-light));
   border: none;
   border-radius: var(--radius-lg);
-  color: #fff;
+  color: var(--ax-color-bg-surface);
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -813,16 +811,16 @@ swiper-slide,
   }
 
   &.out-of-stock {
-    background: #ccc;
+    background: var(--ax-color-border-default);
     cursor: not-allowed;
   }
 
   &.in-cart {
-    background: #2e7d32;
+    background: var(--ax-color-text-success);
   }
 
   &.backorder {
-    background: #f57c00;
+    background: var(--ax-color-text-warning);
   }
 }
 

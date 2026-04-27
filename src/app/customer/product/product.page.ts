@@ -18,11 +18,9 @@ import {
   IonButtons, IonCard,
   IonCol,
   IonContent,
-  IonFooter, IonGrid,
+  IonFooter,
   IonHeader,
   IonImg,
-  IonItem,
-  IonLabel,
   IonModal,
   IonRow,
   IonText,
@@ -30,8 +28,7 @@ import {
   IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import {TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective} from "@taiga-ui/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Platform } from "@ionic/angular";
 import { ConnectionService } from "../../service/connection.service";
@@ -46,6 +43,7 @@ import { Products } from "../../class/products";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -83,23 +81,20 @@ export interface ColorOption {
     FormsModule,
     IonButtons,
     IonImg,
-    RouterLink,
     IonButton,
     IonText,
-    IonItem,
-    IonLabel,
     IonCol,
     IonModal,
     IonRow,
-    TuiLabel,
     IonFooter,
     CartIconComponent,
     SizeChipsComponent,
     TranslatePipe,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    IonGrid,
-    IonCard, AxIconComponent, AxLoaderComponent]
+    IonCard,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class ProductPage implements OnInit, OnDestroy {
   store_measurement: StoreMeasurement[] = [];
