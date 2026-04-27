@@ -7,177 +7,157 @@
     </ion-buttons>
     <ion-title class="m7-title">{{ 'title_my_cart' | translate }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="user_wishlist()" fill="clear" class="m7-header-action">
+      <ion-button (click)="user_wishlist()" class="m7-header-action" aria-label="Wishlist">
         <ax-icon name="heart"/>
       </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content fullscreen="true" class="page-bg ion-padding-horizontal">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  @if (!ui_controls.is_loading && !ui_controls.is_empty){
-  <ion-text style="font-size: 13px; padding-left: 12px;"> {{bill.count}} {{ 'label_item' | translate }}</ion-text>
+
+  @if (!ui_controls.is_loading && !ui_controls.is_empty) {
+    <p class="cart-count">{{ bill.count }} {{ 'label_item' | translate }}</p>
   }
-  @for (cart of carts; track cart.id){
-    @if (!ui_controls.is_loading){
-    <ion-card class="cart-card">
-      <div class="card-row">
-        <div (click)="open_product(cart.product_id)" class="img-wrap" role="button">
-          <img loading="lazy" loading="lazy"  style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" />
-        </div>
-        <div class="content-wrap">
-          <div class="row row-top">
-            <div (click)="open_product(cart.product_id)" class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
-            <div class="icons">
-              <ion-button (click)="startAddToCloset(cart.product_id, cart.product_name, cart.product_image)" fill="clear" size="small" class="icon-btn">
-                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <mask id="mask0_75_228" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="20">
-                    <path d="M6.5 1C3.4625 1 1 3.4625 1 6.5C1 12 7.5 17 11 18.163C14.5 17 21 12 21 6.5C21 3.4625 18.5375 1 15.5 1C13.64 1 11.995 1.9235 11 3.337C10.4928 2.61469 9.81897 2.0252 9.03568 1.61841C8.25238 1.21162 7.38263 0.999502 6.5 1Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 9.5H14M11 6.5V12.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </mask>
-                  <g mask="url(#mask0_75_228)">
-                    <path d="M-1 -2.5H23V21.5H-1V-2.5Z" fill="#FF3A00"/>
-                  </g>
-                </svg>
-              </ion-button>
-              <ion-button (click)="startRemove(cart.item, cart.product_name)" fill="clear" size="small" class="icon-btn">
-                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.41933 5.86553L2.62779 18.4074C2.71439 19.3119 3.61052 20.021 4.66656 20.021H15.8013C16.8573 20.021 17.7534 19.3119 17.84 18.4074L19.0484 5.86553H1.41933ZM6.82195 17.6748C6.46481 17.6748 6.16435 17.4359 6.1417 17.1249L5.45944 7.66182C5.4361 7.3382 5.72193 7.05983 6.09771 7.03977C6.48747 7.01626 6.7973 7.26488 6.82127 7.5885L7.50353 17.0516C7.52768 17.3867 7.21926 17.6748 6.82195 17.6748ZM10.9161 17.0882C10.9161 17.4124 10.611 17.6748 10.2339 17.6748C9.85678 17.6748 9.55163 17.4124 9.55163 17.0882V7.62518C9.55163 7.30098 9.85678 7.03863 10.2339 7.03863C10.611 7.03863 10.9161 7.30098 10.9161 7.62518V17.0882ZM15.0083 7.66186L14.3261 17.1249C14.3037 17.4328 14.0051 17.6894 13.6025 17.6737C13.2267 17.6536 12.9409 17.3752 12.9642 17.0516L13.6465 7.58854C13.6698 7.26492 13.9996 7.02948 14.3701 7.0398C14.7458 7.05986 15.0317 7.33824 15.0083 7.66186ZM19.1033 2.34621H15.0097V1.75966C15.0097 0.789343 14.0916 0 12.9629 0H7.50485C6.37621 0 5.45807 0.789343 5.45807 1.75966V2.34621H1.36452C0.610895 2.34621 0 2.87141 0 3.51932C0 4.16714 0.610895 4.69242 1.36452 4.69242H19.1033C19.8569 4.69242 20.4678 4.16714 20.4678 3.51932C20.4678 2.87141 19.8569 2.34621 19.1033 2.34621ZM13.6452 2.34621H6.82259V1.75966C6.82259 1.43604 7.12843 1.17311 7.50485 1.17311H12.9629C13.3393 1.17311 13.6452 1.43604 13.6452 1.75966V2.34621Z" fill="#F93838"/>
-                </svg>
-              </ion-button>
-            </div>
+
+  @for (cart of carts; track cart.id) {
+    @if (!ui_controls.is_loading) {
+      <ion-card class="cart-card">
+        <div class="card-row">
+          <div (click)="open_product(cart.product_id)" class="img-wrap" role="button">
+            <img loading="lazy" class="cart-img" src="{{ cart.product_image }}" alt="{{ cart.product_name }}" />
           </div>
-          <div (click)="open_product(cart.product_id)" class="row row-mid">
-            <div class="desc" [innerHTML]="cart.description"></div>
-          </div>
-          <div class="row row-bottom">
-            <div class="left-meta">
-              <div (click)="open_product(cart.product_id)" class="price">
-                Ð{{ cart.price_formatted }}
+          <div class="content-wrap">
+            <div class="row row-top">
+              <div (click)="open_product(cart.product_id)" class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
+              <div class="icons">
+                <ion-button (click)="startAddToCloset(cart.product_id, cart.product_name, cart.product_image)" fill="clear" size="small" class="icon-btn icon-btn--save" aria-label="Save to closet">
+                  <ax-icon name="heart-plus" />
+                </ion-button>
+                <ion-button (click)="startRemove(cart.item, cart.product_name)" fill="clear" size="small" class="icon-btn icon-btn--remove" aria-label="Remove">
+                  <ax-icon name="trash-2" />
+                </ion-button>
               </div>
             </div>
-            <div class="size"><strong>{{ cart.size }}</strong></div>
-            <div class="qty-controls">
-              <ion-button [disabled]="cart.quantity == 1"  (click)="DecreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
-                <ax-icon name="minus" [style.color]="'var(--text)'"/>
-              </ion-button>
-              <div class="qty" aria-live="polite">{{ cart.quantity }}</div>
-              <ion-button (click)="IncreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
-                <ax-icon name="plus" [style.color]="'var(--text)'"/>
-              </ion-button>
+            <div (click)="open_product(cart.product_id)" class="row row-mid">
+              <div class="desc" [innerHTML]="cart.description"></div>
+            </div>
+            <div class="row row-bottom">
+              <div class="left-meta">
+                <div (click)="open_product(cart.product_id)" class="price">
+                  Ð{{ cart.price_formatted }}
+                </div>
+              </div>
+              <div class="size"><strong>{{ cart.size }}</strong></div>
+              <div class="qty-controls">
+                <ion-button [disabled]="cart.quantity == 1" (click)="DecreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
+                  <ax-icon name="minus" />
+                </ion-button>
+                <div class="qty" aria-live="polite">{{ cart.quantity }}</div>
+                <ion-button (click)="IncreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
+                  <ax-icon name="plus" />
+                </ion-button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ion-card>
+      </ion-card>
     }
   }
-    @if (!ui_controls.is_loading && !ui_controls.is_empty){
-      <ion-card class="cart-card">
-        <ion-title style="color: #000000; font-size: 16px">{{ 'title_order_summary' | translate }}</ion-title>
-        <ion-list lines="none" class="contact-list">
-            <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>{{ 'label_items' | translate }}</ion-label>
-              <ion-text slot="end">{{bill.count}}</ion-text>
-            </ion-item>
-          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>{{ 'label_delivery_fee' | translate }}</ion-label>
-            Ð{{ bill.f_delivery }}
-          </ion-item>
-          <ion-item class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>{{ 'label_discount' | translate }}</ion-label>
-            <ion-text slot="end">
-              Ð{{ bill.f_discount }}
-            </ion-text>
-          </ion-item>
-            <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
-              <ion-label>{{ 'label_sub_total' | translate }}</ion-label>
-              <ion-text slot="end">
-                Ð{{ bill.f_subtotal }}
-              </ion-text>
-            </ion-item>
-            <ion-item class="animate__animated animate__fadeInDown" detail="false">
-              <svg width="365" height="1" viewBox="0 0 365 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="0.5" y1="0.5" x2="364.497" y2="0.5" stroke="#A9A6A6" stroke-linecap="round"/>
-              </svg>
-            </ion-item>
-            <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-              <ion-label>{{ 'label_total' | translate }}</ion-label>
-              <ion-text slot="end">
-                Ð{{ bill.total }}
-              </ion-text>
-            </ion-item>
-          </ion-list>
-      </ion-card>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <svg (click)="check_out()" width="327" height="58" viewBox="0 0 327 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="327" height="58" rx="29" fill="#7C2108"/>
-          <path d="M105 19H106.74C107.82 19 108.67 19.93 108.58 21L107.75 30.96C107.61 32.59 108.9 33.99 110.54 33.99H121.19C122.63 33.99 123.89 32.81 124 31.38L124.54 23.88C124.66 22.22 123.4 20.87 121.73 20.87H108.82" stroke="#FDFDFD" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M119.25 39C119.94 39 120.5 38.4404 120.5 37.75C120.5 37.0596 119.94 36.5 119.25 36.5C118.56 36.5 118 37.0596 118 37.75C118 38.4404 118.56 39 119.25 39Z" stroke="#FDFDFD" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M111.25 39C111.94 39 112.5 38.4404 112.5 37.75C112.5 37.0596 111.94 36.5 111.25 36.5C110.56 36.5 110 37.0596 110 37.75C110 38.4404 110.56 39 111.25 39Z" stroke="#FDFDFD" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M112 25H124" stroke="#FDFDFD" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M146.7 20.46H147.2L147.5 24.96H147.04C146.613 23.76 146.053 22.8733 145.36 22.3C144.667 21.7267 143.747 21.44 142.6 21.44C141.333 21.44 140.313 21.9867 139.54 23.08C138.767 24.1467 138.38 25.66 138.38 27.62C138.38 29.4067 138.793 30.7867 139.62 31.76C140.447 32.72 141.573 33.2 143 33.2C143.947 33.2 144.72 33 145.32 32.6C145.92 32.2 146.54 31.54 147.18 30.62L147.64 30.9C147 32.06 146.24 32.92 145.36 33.48C144.493 34.0267 143.427 34.3 142.16 34.3C140.253 34.3 138.64 33.66 137.32 32.38C136 31.0867 135.34 29.5067 135.34 27.64C135.34 25.6267 136.027 23.9333 137.4 22.56C138.787 21.1733 140.487 20.48 142.5 20.48C143.007 20.48 143.52 20.5467 144.04 20.68C144.573 20.8133 145 20.9533 145.32 21.1C145.64 21.2333 145.807 21.3 145.82 21.3C146.18 21.3 146.473 21.02 146.7 20.46ZM157.403 28.26V32.14C157.403 32.66 157.496 33.0133 157.683 33.2C157.87 33.3867 158.21 33.48 158.703 33.48V34H153.823V33.48C154.33 33.48 154.663 33.3933 154.823 33.22C154.996 33.0467 155.083 32.6867 155.083 32.14V28.62C155.083 27.86 154.983 27.32 154.783 27C154.583 26.6667 154.263 26.5 153.823 26.5C153.196 26.5 152.616 26.78 152.083 27.34V32.14C152.083 32.62 152.17 32.96 152.343 33.16C152.516 33.36 152.836 33.4667 153.303 33.48V34H148.503V33.48C148.996 33.4667 149.33 33.3733 149.503 33.2C149.676 33.0133 149.763 32.66 149.763 32.14V23.62C149.763 22.9 149.703 22.4 149.583 22.12C149.463 21.84 149.263 21.7 148.983 21.7C148.823 21.7 148.656 21.7333 148.483 21.8L148.283 21.32L151.343 20.12H152.083V26.34C152.59 25.7533 153.043 25.3467 153.443 25.12C153.856 24.8933 154.31 24.78 154.803 24.78C156.536 24.78 157.403 25.94 157.403 28.26ZM166.952 28.44H160.952C160.952 29.5333 161.225 30.4067 161.772 31.06C162.332 31.7 163.065 32.02 163.972 32.02C165.105 32.02 165.965 31.5067 166.552 30.48L166.952 30.8C166.779 31.76 166.352 32.5867 165.672 33.28C165.005 33.9467 164.205 34.28 163.272 34.28C162.072 34.28 161.079 33.8467 160.292 32.98C159.505 32.0867 159.112 30.9867 159.112 29.68C159.112 28.2667 159.492 27.1 160.252 26.18C161.012 25.2467 162.019 24.78 163.272 24.78C164.419 24.78 165.319 25.1133 165.972 25.78C166.625 26.4333 166.952 27.32 166.952 28.44ZM160.972 27.68H164.472C164.352 26.3333 163.792 25.66 162.792 25.66C162.299 25.66 161.879 25.8533 161.532 26.24C161.185 26.6133 160.999 27.0933 160.972 27.68ZM175.759 30.5L176.199 30.78C175.919 31.78 175.432 32.6133 174.739 33.28C174.032 33.9467 173.219 34.28 172.299 34.28C171.086 34.28 170.079 33.84 169.279 32.96C168.479 32.0533 168.079 30.9267 168.079 29.58C168.079 28.3 168.519 27.18 169.399 26.22C170.292 25.26 171.352 24.78 172.579 24.78C173.552 24.78 174.359 25 174.999 25.44C175.652 25.8533 175.979 26.3467 175.979 26.92C175.979 27.2267 175.866 27.4867 175.639 27.7C175.426 27.9 175.152 28 174.819 28C173.966 28 173.519 27.5333 173.479 26.6C173.452 25.9733 173.072 25.66 172.339 25.66C171.779 25.66 171.319 25.92 170.959 26.44C170.599 26.96 170.419 27.6533 170.419 28.52C170.419 29.64 170.666 30.54 171.159 31.22C171.666 31.8867 172.306 32.22 173.079 32.22C173.679 32.22 174.186 32.08 174.599 31.8C175.012 31.5067 175.399 31.0733 175.759 30.5ZM182.593 32.5L180.133 29.02L182.533 26.94C182.959 26.58 183.173 26.2733 183.173 26.02C183.173 25.8467 183.119 25.7333 183.013 25.68C182.906 25.6133 182.719 25.58 182.453 25.58V25.06H186.893V25.58C186.359 25.58 185.919 25.66 185.573 25.82C185.253 25.9667 184.793 26.3 184.193 26.82L182.413 28.44L184.973 31.78C185.559 32.5667 185.979 33.0467 186.233 33.22C186.486 33.3933 186.859 33.48 187.353 33.48V34H182.253V33.48C182.666 33.48 182.873 33.3533 182.873 33.1C182.873 33.0067 182.779 32.8067 182.593 32.5ZM179.373 20.12H180.113V32.14C180.113 32.6867 180.199 33.0467 180.373 33.22C180.559 33.3933 180.933 33.48 181.493 33.48V34H176.393V33.48C176.939 33.48 177.306 33.3933 177.493 33.22C177.679 33.0333 177.773 32.6733 177.773 32.14V23.6C177.773 22.8133 177.713 22.3 177.593 22.06C177.486 21.82 177.266 21.7 176.933 21.7C176.719 21.7 176.539 21.7267 176.393 21.78L176.213 21.3L179.373 20.12ZM199.779 34.3C197.752 34.3 196.105 33.6267 194.839 32.28C193.599 30.92 192.979 29.2867 192.979 27.38C192.979 25.4467 193.605 23.8133 194.859 22.48C196.125 21.1333 197.765 20.46 199.779 20.46C201.805 20.46 203.452 21.1333 204.719 22.48C205.972 23.8133 206.599 25.4467 206.599 27.38C206.599 29.26 205.965 30.8867 204.699 32.26C203.432 33.62 201.792 34.3 199.779 34.3ZM199.779 33.22C202.299 33.22 203.559 31.2733 203.559 27.38C203.559 25.46 203.232 24.0067 202.579 23.02C201.925 22.02 200.992 21.52 199.779 21.52C198.565 21.52 197.632 22.02 196.979 23.02C196.339 24.02 196.019 25.4733 196.019 27.38C196.019 29.3 196.352 30.7533 197.019 31.74C197.685 32.7267 198.605 33.22 199.779 33.22ZM212.471 25.06H216.271V30.9C216.271 32.1267 216.471 32.74 216.871 32.74C217.031 32.74 217.265 32.68 217.571 32.56L217.751 33.02L214.691 34.28H213.951V32.7C213.591 33.1667 213.158 33.5467 212.651 33.84C212.158 34.1333 211.678 34.28 211.211 34.28C209.478 34.28 208.611 33.1133 208.611 30.78V27.14C208.611 26.5 208.518 26.0867 208.331 25.9C208.158 25.7133 207.758 25.6067 207.131 25.58V25.06H210.931V30.72C210.931 31.3467 211.031 31.7933 211.231 32.06C211.445 32.3267 211.791 32.46 212.271 32.46C212.525 32.46 212.811 32.36 213.131 32.16C213.451 31.9467 213.725 31.6867 213.951 31.38V27.14C213.951 26.5267 213.851 26.1133 213.651 25.9C213.465 25.6867 213.071 25.58 212.471 25.58V25.06ZM221.292 22.32V25.06H223.392V26.3H221.292V31.2C221.292 31.8133 221.365 32.2467 221.512 32.5C221.658 32.7533 221.892 32.88 222.212 32.88C222.598 32.88 222.898 32.7333 223.112 32.44H223.632C223.085 33.5867 222.292 34.16 221.252 34.16C220.532 34.16 219.972 33.98 219.572 33.62C219.172 33.26 218.972 32.74 218.972 32.06V26.3H217.912V25.62C218.512 25.26 219.012 24.8333 219.412 24.34C219.812 23.8333 220.218 23.16 220.632 22.32H221.292Z" fill="#FDFDFD"/>
-        </svg>
-      </div>
-    }
-  @if(ui_controls.is_empty){
+
+  @if (!ui_controls.is_loading && !ui_controls.is_empty) {
+    <ion-card class="cart-card summary-card">
+      <h2 class="summary-title">{{ 'title_order_summary' | translate }}</h2>
+      <ion-list lines="none" class="summary-list">
+        <ion-item lines="none" class="summary-item" detail="false">
+          <ion-label>{{ 'label_items' | translate }}</ion-label>
+          <ion-text slot="end">{{ bill.count }}</ion-text>
+        </ion-item>
+        <ion-item lines="none" class="summary-item" detail="false">
+          <ion-label>{{ 'label_delivery_fee' | translate }}</ion-label>
+          <ion-text slot="end">Ð{{ bill.f_delivery }}</ion-text>
+        </ion-item>
+        <ion-item class="summary-item" detail="false">
+          <ion-label>{{ 'label_discount' | translate }}</ion-label>
+          <ion-text slot="end">Ð{{ bill.f_discount }}</ion-text>
+        </ion-item>
+        <ion-item lines="none" class="summary-item" detail="false">
+          <ion-label>{{ 'label_sub_total' | translate }}</ion-label>
+          <ion-text slot="end">Ð{{ bill.f_subtotal }}</ion-text>
+        </ion-item>
+        <div class="summary-divider"></div>
+        <ion-item lines="none" class="summary-item summary-item--total" detail="false">
+          <ion-label>{{ 'label_total' | translate }}</ion-label>
+          <ion-text slot="end">Ð{{ bill.total }}</ion-text>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+    <ion-button
+      (click)="check_out()"
+      expand="block"
+      class="checkout-btn"
+      type="button">
+      <ax-icon name="shopping-bag" slot="start"></ax-icon>
+      {{ 'button_checkout' | translate }}
+    </ion-button>
+  }
+
+  @if (ui_controls.is_empty) {
     <div class="empty-state">
-      <ion-card>
-        <ion-card-content class="ion-text-center">
-          <ax-icon name="shopping-basket" [style.font-size.rem]="2"></ax-icon>
-          <h2>{{ 'cart_empty_title' | translate }}</h2>
-          <p>{{ 'cart_empty_message' | translate }}</p>
-          <ion-button shape="round" class="mt-4" [routerLink]="['/account']">
-            <ax-icon name="shopping-cart"></ax-icon>
-            <span>{{ 'button_start_shopping' | translate }}</span>
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+      <div class="empty-icon-wrap">
+        <ax-icon name="shopping-basket" />
+      </div>
+      <h2>{{ 'cart_empty_title' | translate }}</h2>
+      <p>{{ 'cart_empty_message' | translate }}</p>
+      <ion-button class="empty-cta" [routerLink]="['/account']">
+        <ax-icon name="shopping-cart" slot="start"></ax-icon>
+        {{ 'button_start_shopping' | translate }}
+      </ion-button>
     </div>
   }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <ax-loader></ax-loader>
-      }
-   </span>
-  <ion-modal swipeToClose="true" [backdropDismiss]="true" (didDismiss)="onDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+
+  @if (ui_controls.is_loading) {
+    <div class="loader-row">
+      <ax-loader></ax-loader>
+    </div>
+  }
+
+  <!-- Wishlist modal -->
+  <ion-modal swipeToClose="true" [backdropDismiss]="true" (didDismiss)="onDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]" class="wishlist-modal">
     <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }} </ion-title>
+      <ion-header class="wishlist-modal__header ion-no-border">
+        <ion-toolbar class="wishlist-modal__toolbar ion-no-border">
+          <ion-title class="wishlist-modal__title">{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false">Close</ion-button>
+            <ion-button (click)="isWishOpen = false" class="wishlist-modal__close-btn">{{ 'close' | translate }}</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        @if (!ui_controls.is_loading_category){
+      <ion-content class="wishlist-modal__content ion-padding">
+        @if (!ui_controls.is_loading_category) {
           <ion-list class="custom-list">
-            @for(category of categories; track category.id; let i = $index){
-              <ion-item (click)="addToCloset(category.id)" lines="none">
-                <ion-label>
-                  <h2>{{category.name}}</h2>
-                </ion-label>
+            @for (category of categories; track category.id) {
+              <ion-item (click)="addToCloset(category.id)" lines="none" button detail="false" class="custom-list__item">
+                <ax-icon name="folder-plus" slot="start" class="custom-list__icon" />
+                <ion-label>{{ category.name }}</ion-label>
               </ion-item>
             }
           </ion-list>
         }
-        <ion-row>
-          <ion-col>
-              <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-                @if (ui_controls.is_loading_category){
-                  <ax-loader></ax-loader>
-                }
-              </span>
-          </ion-col>
-        </ion-row>
+        @if (ui_controls.is_loading_category) {
+          <div class="loader-row">
+            <ax-loader></ax-loader>
+          </div>
+        }
       </ion-content>
     </ng-template>
   </ion-modal>
 </ion-content>
+
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">

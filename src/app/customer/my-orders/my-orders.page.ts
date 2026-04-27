@@ -4,12 +4,19 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCard, IonCardContent,
-  IonContent, IonFooter,
+  IonCard,
+  IonContent,
+  IonFooter,
   IonHeader,
-  IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonItemDivider, IonLabel, IonTabBar, IonTabButton,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLabel,
+  IonTabBar,
+  IonTabButton,
   IonTitle,
-  IonToolbar, NavController, Platform
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
 import {TranslatePipe} from "../../translate.pipe";
 import {ConnectionService} from "../../service/connection.service";
@@ -49,7 +56,26 @@ interface Order {
   templateUrl: './my-orders.page.html',
   styleUrls: ['./my-orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCard, IonButtons, IonIcon, IonItemDivider, IonCardContent, TranslatePipe, IonFooter, IonLabel, IonTabBar, IonTabButton, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonFooter,
+    IonLabel,
+    IonTabBar,
+    IonTabButton,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    CommonModule,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class MyOrdersPage implements OnInit {
   orders: Order[] = [];

@@ -3,15 +3,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons, IonCard, IonCardContent,
+  IonButtons,
+  IonCard,
   IonContent,
   IonFooter,
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonInput,
-  IonItem, IonItemDivider,
-  IonLabel, IonModal, IonRefresher, IonRefresherContent, IonSelect, IonSelectOption,
+  IonItem,
+  IonLabel,
+  IonModal,
+  IonRefresher,
+  IonRefresherContent,
+  IonSelect,
+  IonSelectOption,
   IonTabBar,
   IonTabButton,
   IonTextarea,
@@ -28,7 +34,6 @@ import {ActionSheetController, InfiniteScrollCustomEvent} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
-import {TuiRating} from "@taiga-ui/kit";
 import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
@@ -53,7 +58,33 @@ type Review = {
   templateUrl: './vendor-reviews.page.html',
   styleUrls: ['./vendor-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonTabBar, IonTabButton, IonButtons, IonButton, IonLabel, IonTextarea, TuiRating, IonItem, IonInput, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonModal, IonSelect, IonSelectOption, IonItemDivider, IonRefresher, IonRefresherContent, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonFooter,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonRefresher,
+    IonRefresherContent,
+    IonSelect,
+    IonSelectOption,
+    IonTabBar,
+    IonTabButton,
+    IonTextarea,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class VendorReviewsPage implements OnInit {
   reviews: Review[] = [];
