@@ -1,364 +1,142 @@
-:host {
-  --bg: #f6efe9;
-  --card: #fff;
-  --text: #000;
-  --muted: #4C4C4C;
-  --accent: #b37a6b; // warm brown-pink
-}
+/* ============================================================================
+   Search page — M2 redesign
+   ============================================================================ */
 
-/* ===== Brand palette (from your designs) ===== */
-$peach-0: #FBF0E6;  // very light peach background
-$peach-1: #F8D1B9;
-$peach-2: #F2C3AB;
-$ink:     #000000;
-$muted:   rgba(0,0,0,.68);
-$stroke:  #FAC0B0;
-$chip:    rgba(0,0,0,.10);
-$cta-1:   #A92B07;
-$cta-2:   #AF2C06;
-
-/* Header */
-.toolbar {
-  --background: #fff;
-  --border-width: 0 0 0.5px 0;
-  --border-color: rgba(0,0,0,0.06);
-  padding-inline: 8px;
-
-  .avatar {
-    width: 36px;
-    height: 36px;
-    margin-right: 8px;
-  }
-
-  .hello {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-
-    .hey { font-weight: 600; font-size: 12px; color: var(--text); padding-left: 10px; }
-    .loc { font-size: 12px; padding-bottom: 5px; color: var(--muted); padding-left: 10px; }
-  }
-}
-
-.page {
+ion-content.page-bg {
   --background: var(--ax-color-bg-canvas);
 }
 
+/* ----- Sticky search bar ------------------------------------------------ */
 
-/* Horizontal scroll utility */
-.h-scroll {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content;
-  gap: 12px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
+.search-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 12px 16px;
+  background: var(--ax-color-bg-canvas);
+  border-bottom: 1px solid rgba(46, 36, 28, 0.06);
 
-  /* hide scrollbar (mobile) */
-  &::-webkit-scrollbar { display: none; }
-}
-
-/* ===== Category chips ===== */
-.categories {
-  .chip {
-    display: inline-grid; grid-template-columns: auto 1fr; align-items: center;
-    padding: 0px 7px; border-radius: 16px;
-    background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.02) inset; color: $ink;
-    .chip-ico { font-size: 30px; color: #000000; margin-top: 7px; }
-    .chip-text { font-size: 14px; font-weight: 600; }
-    &.active {
-      background: $peach-1; border-color: transparent;
-      .chip-ico tui-icon { color: #fff; }
-    }
-  }
-}
-.cat_active{
-  border: 2px solid $stroke;
-}
-/* Product cards */
-.product-card {
-  width: 200px;
-  background: #fff;
-  border-radius: 22px;
-  border: 2px solid $stroke;
-  box-shadow: 0 8px 20px rgba(0,0,0,.06);
-  overflow: hidden;
-
-  &.loading {
-    opacity: .6; pointer-events: none;
-  }
-
-  .img-wrap {
-    position: relative;
-    height: 220px;
-    display: flex; align-items: center; justify-content: center;
-    border-top-left-radius: 20px; border-top-right-radius: 20px;
+  /* Visually hide the ax-text-field's label — placeholder is enough
+     visual cue for a search bar. Label remains accessible to screen
+     readers (standard sr-only pattern, not display:none). */
+  .ax-text-field__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
     overflow: hidden;
-
-    img { width: 100%; height: 100%; object-fit: contain; }
-
-    .tag {
-      position: absolute; left: 10px; top: 10px;
-      --color: linear-gradient(90deg, #872308 0%, #B02C06 100%);
-      font-weight: 700; letter-spacing: .4px;
-      padding: 6px 6px; border-radius: 999px; font-size: 12px;
-      text-transform: uppercase;
-      border: 1px solid rgba(255,255,255,.35);
-    }
-
-    .like {
-      position: absolute; top: 10px; right: 10px;
-      width: 36px; height: 36px; border-radius: 999px;
-      background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.6);
-      display: grid; place-items: center;
-      tui-icon { font-size: 18px; color: #fff; filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); }
-      /* dark icon on light bubble */
-      background: #fff; border-color: $stroke;
-      tui-icon { color: $cta-2; }
-    }
-  }
-
-  .info {
-    padding: 12px 14px 16px;
-    .desc {
-      font-size: 11px; font-weight: 400; color: #000000; margin: 0 0 10px;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .cta {
-      --padding-start: 16px; --padding-end: 16px; --border-radius: 14px;
-      --background: linear-gradient(90deg, #872308 0%, #B02C06 100%);
-      --background-activated: linear-gradient(90deg, #872308 0%, #B02C06 100%);
-      height: 28px; text-transform: none; font-weight: 700; letter-spacing: .2px; color: #ffffff;
-    }
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }
 
-/* Brand strip */
-.brand-strip {
-  margin: 8px 16px 84px; // space above tabs
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px;
+/* ----- Results area --------------------------------------------------- */
+
+.results-area {
+  padding-top: 16px;
+  padding-bottom: 24px;
+}
+
+.products-grid {
+  --ion-grid-padding: 0;
+
+  ion-row {
+    --ion-grid-column-padding: 6px;
+  }
+
+  contain: layout style;
+}
+
+/* Tappable vendor badge override — same visual as global .m6d-vendor-badge
+   but as a button with active-press feedback. */
+.m6d-vendor-badge.vendor-badge--tappable {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ----- Initial prompt + empty state ---------------------------------- */
+
+.initial-prompt,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
 
-  .logo { letter-spacing: 6px; font-weight: 700; color: var(--text); }
-  small { color: var(--muted); }
-}
+  ax-icon {
+    font-size: 48px;
+    color: var(--ax-color-text-tertiary);
+    opacity: 0.5;
+  }
 
-/* Tabs */
-.tabs {
-  --background: #fff;
-  --color: #8a7d79;
-  --color-selected: var(--accent);
-  border-top: 1px solid rgba(0,0,0,0.06);
-
-  ion-tab-button {
-    padding-top: 6px;
-    ion-icon { font-size: 20px; }
-    ion-label { font-size: 11px; }
+  p {
+    margin: 0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ax-color-text-secondary);
+    line-height: 1.5;
+    max-width: 280px;
   }
 }
 
+.empty-state {
+  h2 {
+    font-family: var(--ax-font-display);   /* Poltawski Nowy */
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--ax-color-text-primary);
+    margin: 0;
+    line-height: 1.3;
+  }
 
-ion-content.home-bg {
-  /* Ionic supports setting background via a CSS var */
-  --background: var(--ax-color-bg-canvas);
-}
-
-/* Dark mode swap (optional) */
-@media (prefers-color-scheme: dark) {
-  ion-content.home-bg {
-    --background: var(--ax-color-bg-canvas);
+  ion-button {
+    margin-top: 8px;
+    --background: var(--ax-color-text-brand);
+    --color: var(--ax-palette-neutral-0);
+    --border-radius: 999px;
   }
 }
 
-/* Landscape override (optional) */
-@media (orientation: landscape) {
-  ion-content.home-bg {
-    --background: var(--ax-color-bg-canvas);
-  }
+/* ----- Loader row ----------------------------------------------------- */
+
+.loader-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
 }
 
-/* Tablet-specific tweaks (optional) */
-@media (min-width: 768px) {
-  ion-content.home-bg {
-    /* you can choose a tablet-optimized asset here if needed */
-    /* --background: var(--ax-color-bg-canvas); */
-  }
-}
+/* ----- Add-to-closet modal list rows --------------------------------- */
 
-/* ===== Boutique strip ===== */
-.boutique {
-  .b-title { margin: 0; font-size: 16px; font-weight: 700; color: $ink; letter-spacing: .8px; }
-  .b-sub { margin: 2px 0 14px; color: $muted; font-size: 16px; font-weight: 400; letter-spacing: .6px; }
-  .thumbs {
-    img { width: 83px; height: 132px; border-radius: 18px; object-fit: cover; }
-  }
-}
-
-ion-card {
-  --padding-start: 12px;
-  --padding-end: 12px;
-}
-
-.inputs {
-  margin-bottom: 8px;
+.custom-list {
+  background: transparent;
 
   ion-item {
-    --inner-padding-top: 8px;
-    --inner-padding-bottom: 8px;
+    --background: transparent;
+    --background-hover: rgba(90, 58, 44, 0.04);
+    --background-activated: rgba(90, 58, 44, 0.08);
+
+    h2 {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ax-color-text-primary);
+      margin: 0;
+    }
   }
-
-  .notes {
-    display: flex;
-    gap: 12px;
-    padding: 4px 8px 0;
-  }
-}
-
-
-.cart-card {
-  --ion-background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
-  overflow: hidden;
-  padding: 12px;
-  margin-bottom: 12px;
-}
-
-.card-row {
-  display: flex;
-  gap: 12px;
-  align-items: stretch;
-}
-
-/* Left image */
-.img-wrap {
-  flex: 0 0 110px;
-  height: 110px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  cursor: pointer;
-  display: block;
-}
-
-.img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Right content */
-.content-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1 1 auto;
-}
-
-/* Generic row */
-.row {
-  display: flex;
-  align-items: center;
-}
-
-/* Top row: title + icons */
-.row-top {
-  justify-content: space-between;
-}
-
-.title {
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;       /* allow 2 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 8px;
-  max-height: 2.4em;           /* prevents overflow beyond 2 lines */
-}
-
-/* action icons */
-.icons {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.icon-btn {
-  --padding-start: 4px;
-  --padding-end: 4px;
-  --padding-top: 2px;
-  --padding-bottom: 2px;
-}
-
-/* Middle row: description (2 lines max) */
-.row-mid .desc {
-  font-size: 13px;
-  font-weight: 900;
-  color: rgba(0,0,0,0.65);
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: clip;
-}
-
-/* Bottom row: price/size + qty */
-.row-bottom {
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-top: 6px;
-}
-
-.left-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.price {
-  font-weight: 700;
-  font-size: 15px;
-}
-
-.size {
-  font-size: 13px;
-  color: rgba(0,0,0,0.7);
-}
-
-/* Quantity controls */
-.qty-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.qty-btn {
-  --padding-top: 2px;
-  --padding-bottom: 2px;
-  --padding-start: 6px;
-  --padding-end: 6px;
-}
-
-.qty {
-  min-width: 28px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-/* Responsive tweaks */
-@media (max-width: 420px) {
-  .img-wrap { flex-basis: 90px; height: 90px; }
-  .title { font-size: 15px; }
-  .price { font-size: 14px; }
-  .cart-card { padding: 10px; border-radius: 10px; }
-  .qty { min-width: 24px; font-size: 13px; }
 }

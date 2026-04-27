@@ -4,25 +4,28 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent, IonCol,
-  IonContent, IonFooter, IonGrid,
-  IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonRow, IonTabBar, IonTabButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonModal,
+  IonRow,
+  IonTabBar,
+  IonTabButton,
   IonTitle,
-  IonToolbar, NavController, Platform
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
-import {
-  TuiFallbackSrcPipe,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
-import {TuiAvatar, TuiChip} from "@taiga-ui/kit";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Search} from "../../class/search";
@@ -31,12 +34,36 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, RouterLink, IonButton, IonCol, IonGrid, IonRow, TuiAvatar, TuiFallbackSrcPipe, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonItem, IonList, IonModal, TranslatePipe, TuiChip, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonFooter,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonModal,
+    IonTabBar,
+    IonTabButton,
+    RouterLink,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class SearchPage implements OnInit, OnDestroy {
   products: Search[] = [];
@@ -75,6 +102,8 @@ export class SearchPage implements OnInit, OnDestroy {
     is_loading_category: false,
     is_empty: false
   }
+  /** Per-product image-loaded tracking for the m6d card skeleton overlay */
+  imageLoaded: { [key: number]: boolean } = {};
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
@@ -127,6 +156,7 @@ export class SearchPage implements OnInit, OnDestroy {
   searchProduct() {
     this.ui_controls.is_loading = true;
     this.ui_controls.is_empty = false;
+    this.imageLoaded = {};
     this.networkService.post_request(this.search, GlobalComponent.search)
       .subscribe(({
         next: (response) => {
@@ -140,6 +170,13 @@ export class SearchPage implements OnInit, OnDestroy {
           }
         }
       }))
+  }
+  onImageLoad(productId: number): void {
+    this.imageLoaded[productId] = true;
+  }
+  onImageError(productId: number): void {
+    /* Hide skeleton even on error so the placeholder doesn't loop forever */
+    this.imageLoaded[productId] = true;
   }
   user_wishlist() {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
