@@ -65,6 +65,8 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];
   categories: Labels[] = [];
+  /** Tracks per-wishlist-item image load state for the m6d skeleton overlay */
+  imageLoaded: { [key: number]: boolean } = {};
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
@@ -190,6 +192,7 @@ export class WishlistPage implements OnInit, OnDestroy {
     this.ui_controls.is_empty = false;
     this.ui_controls.is_loading = true;
     this.wishlists = [];
+    this.imageLoaded = {};
     this.networkService.post_request(this.rqst_param, GlobalComponent.readWishlist)
       .subscribe(({
         next: (response) => {
@@ -243,5 +246,12 @@ export class WishlistPage implements OnInit, OnDestroy {
       ['/', 'product'],
       { queryParams: { id, name } }
     ).then(r => console.log(r));
+  }
+  onImageLoad(itemId: number): void {
+    this.imageLoaded[itemId] = true;
+  }
+  onImageError(itemId: number): void {
+    // Hide skeleton even on error so the placeholder doesn't loop forever
+    this.imageLoaded[itemId] = true;
   }
 }

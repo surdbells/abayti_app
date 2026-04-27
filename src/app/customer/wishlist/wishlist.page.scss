@@ -1,17 +1,11 @@
 /* ============================================================================
    Wishlist (My Closet) — full M2 redesign
+   Layout matches best-sellers: ion-grid lives directly under ion-content
+   with ion-padding-horizontal, NOT inside a custom .sheet wrapper.
    ============================================================================ */
 
 ion-content.page-bg {
   --background: var(--ax-color-bg-canvas);
-}
-
-.sheet {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 16px;
-  display: grid;
-  gap: 24px;
 }
 
 /* ----- Section ---------------------------------------------------------- */
@@ -20,6 +14,11 @@ ion-content.page-bg {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-bottom: 24px;
+}
+
+.section--categories {
+  margin-top: 16px;
 }
 
 .section-title {
@@ -30,6 +29,10 @@ ion-content.page-bg {
   margin: 0;
   color: var(--ax-color-text-primary);
   line-height: 1.2;
+}
+
+.section-title--items {
+  margin: 8px 0 12px;
 }
 
 /* ----- Categories — horizontal scroll ----------------------------------- */
@@ -75,9 +78,8 @@ ion-content.page-bg {
     transform: scale(0.98);
   }
 
-  /* Active state — currently-selected category */
   &--active {
-    background: var(--ax-color-bg-brand-muted);   /* M2 beige-300, slightly darker */
+    background: var(--ax-color-bg-brand-muted);   /* M2 beige-300 */
     border-color: var(--ax-color-text-brand);
   }
 }
@@ -98,12 +100,12 @@ ion-content.page-bg {
   font-weight: 500;
   color: var(--ax-color-text-primary);
   line-height: 1.3;
-  /* Allow up to 2 lines, ellipsis after */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  word-break: break-word;
 }
 
 .category-card__count {
@@ -128,8 +130,8 @@ ion-content.page-bg {
   }
 }
 
-/* ----- Items grid (2-column) — uses canonical m6d-product-card from
-        global.scss. Only the grid framing lives page-scoped. ---------- */
+/* ----- Items grid — uses canonical m6d-product-card from global.scss ----- */
+/* Identical pattern to best-sellers / new-arrivals / category. */
 
 .products-grid {
   --ion-grid-padding: 0;
@@ -138,8 +140,17 @@ ion-content.page-bg {
     --ion-grid-column-padding: 6px;
   }
 
-  /* Performance optimization (matches best-sellers/new-arrivals/category) */
+  /* Performance optimization */
   contain: layout style;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    ion-col {
+      flex: 0 0 33.333%;
+      max-width: 33.333%;
+    }
+  }
 }
 
 /* ----- Initial prompt (no category selected) --------------------------- */
@@ -167,7 +178,7 @@ ion-content.page-bg {
   }
 }
 
-/* ----- Empty state (selected category, no items) ----------------------- */
+/* ----- Empty state ----------------------------------------------------- */
 
 .empty-state {
   display: flex;
@@ -193,7 +204,7 @@ ion-content.page-bg {
   }
 }
 
-/* ----- Loader row — centered (matches auth + profile pattern) ---------- */
+/* ----- Loader row ------------------------------------------------------- */
 
 .loader-row {
   display: flex;
