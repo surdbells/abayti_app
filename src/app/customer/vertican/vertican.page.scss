@@ -455,49 +455,169 @@ ion-content {
   }
 }
 
-/* ========================================
-   MODALS
-   ======================================== */
-ion-modal ion-content {
-  --background: var(--profile-bg, #fff);
+/* ============================================================================
+   FILTER MODAL (M18-2)
+   ============================================================================ */
+
+ion-modal.filter-modal {
+  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
 }
 
-.filter-label {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 12px;
+.filter-modal__header {
+  background: var(--ax-color-bg-surface);
+}
+
+.filter-modal__toolbar {
+  --background: var(--ax-color-bg-surface);
+  --border-color: transparent;
+  --min-height: 56px;
+}
+
+.filter-modal__title {
+  font-family: var(--ax-font-display);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.005em;
+  color: var(--ax-color-text-primary);
+  text-align: center;
+  padding-inline: 0;
+}
+
+.filter-modal__close-btn {
+  --color: var(--ax-color-text-brand);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.filter-modal__content {
+  --background: var(--ax-color-bg-canvas);
+}
+
+.filter-section {
+  margin-bottom: 28px;
+
+  &:first-of-type {
+    margin-top: 8px;
+  }
+}
+
+.filter-section__label {
   display: block;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ax-color-text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
+/* Category chips — replaces <ion-button> chips with proper button elements */
 .category-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
 
-  ion-button {
-    --border-radius: 20px;
-    font-size: 0.85rem;
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--ax-color-text-brand);
+  border-radius: 999px;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ax-color-text-brand);
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition: background 120ms ease, color 120ms ease;
+
+  &--active {
+    background: var(--ax-color-text-brand);
+    color: var(--ax-palette-neutral-0);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 }
 
+/* Price range — min/max inputs + dual-knob slider */
 .price-inputs {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+}
 
-  ion-input {
-    --background: rgba(0, 0, 0, 0.05);
-    --padding-start: 12px;
-    --padding-end: 12px;
-    border-radius: 8px;
-    text-align: center;
-  }
+.price-input {
+  --background: var(--ax-color-bg-surface);
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  --color: var(--ax-color-text-primary);
+  --placeholder-color: var(--ax-color-text-tertiary);
 
-  .price-separator {
-    font-weight: 600;
-    color: #666;
-  }
+  flex: 1;
+  border: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.12));
+  border-radius: var(--ax-radius-md);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+
+.price-separator {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ax-color-text-tertiary);
+}
+
+.price-range {
+  --bar-background: var(--ax-color-bg-brand-subtle);
+  --bar-background-active: var(--ax-color-text-brand);
+  --bar-height: 4px;
+  --bar-border-radius: 2px;
+  --knob-background: var(--ax-color-text-brand);
+  --knob-size: 22px;
+  padding-inline: 0;
+}
+
+/* Reset / Apply Filters buttons */
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.filter-action-btn {
+  flex: 1;
+  --border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.filter-action-btn--reset {
+  --background: transparent;
+  --border-color: var(--ax-color-text-brand);
+  --color: var(--ax-color-text-brand);
+}
+
+.filter-action-btn--apply {
+  --background: var(--ax-color-text-brand);
+  --color: var(--ax-palette-neutral-0);
 }
 
 /* ========================================
