@@ -6,16 +6,25 @@
       <p class="subtitle ion-text-center">{{ 'sub_title' | translate }}</p>
     </div>
 
-    <label tuiLabel>{{ 'email_Address' | translate }} *</label>
-    <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
-      <input [(ngModel)]="login.email" type="email" name="email" tuiTextfield />
-    </tui-textfield>
+    <ax-text-field
+      class="ion-margin-bottom"
+      [label]="'email_Address' | translate"
+      type="email"
+      [required]="true"
+      autocomplete="email"
+      [(ngModel)]="login.email"
+      name="email">
+    </ax-text-field>
 
-    <label tuiLabel>{{ 'password' | translate }} *</label>
-    <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
-      <input [(ngModel)]="login.password" type="password" name="password" tuiTextfield />
-      <tui-icon tuiPassword />
-    </tui-textfield>
+    <ax-text-field
+      class="ion-margin-bottom"
+      [label]="'password' | translate"
+      type="password"
+      [required]="true"
+      autocomplete="current-password"
+      [(ngModel)]="login.password"
+      name="password">
+    </ax-text-field>
 
     @if (!ui_controls.login_loading) {
       <div class="forgot-password-row">

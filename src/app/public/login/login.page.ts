@@ -9,14 +9,6 @@ import { ConnectionService } from '../../service/connection.service';
 import { Subscription } from 'rxjs';
 
 import { FormsModule } from '@angular/forms';
-import {TuiPassword} from '@taiga-ui/kit';
-import {
-  TuiIcon,
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
@@ -25,6 +17,7 @@ import {BlockerService} from "../../blocker.service";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -33,15 +26,12 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   imports: [
     IonContent,
     IonButton,
-    TuiIcon,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective,
-    TuiLabel,
     FormsModule,
     IonText,
-    TuiPassword,
-    TranslatePipe, AxLoaderComponent]
+    TranslatePipe,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class LoginPage implements OnInit, OnDestroy {
     isOnline = true;
