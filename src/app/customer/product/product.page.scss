@@ -897,3 +897,46 @@ swiper-slide,
     0%, 100% { background-position: 0% 50%; }
   }
 }
+
+/* ----- Floating back button (top-left, fully transparent) -----
+   Sits above the image slider, no background. White icon with a
+   subtle drop-shadow for legibility on light hero images.
+   Uses fixed positioning so it stays visible when scrolling.
+   Safe-area top inset honored for iOS notch / Android status bar.
+*/
+.floating-back-btn {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 12px;
+  z-index: 100;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ax-icon {
+    color: #ffffff;
+    font-size: 22px;
+    /* Subtle drop-shadow for legibility on light hero images */
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  /* RTL: flip to top-right (defensive — i18n service currently
+     doesn't apply dir='rtl' but ready when it does) */
+  :host-context([dir="rtl"]) & {
+    left: auto;
+    right: 12px;
+  }
+}
