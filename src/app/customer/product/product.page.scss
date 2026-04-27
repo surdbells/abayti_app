@@ -99,6 +99,28 @@
   --background: var(--brand-cream);
 }
 
+/* Reserve image-area height upfront — even before `images` data
+   arrives — to prevent layout shift when slides populate.
+   Same aspect-ratio (4:5) and gradient as .img-wrap so the
+   transition between empty placeholder and rendered slides is
+   visually seamless. */
+.slides-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(135deg, var(--ax-palette-beige-100) 0%, var(--ax-palette-beige-200) 100%);
+  overflow: hidden;
+}
+
+/* Placeholder shimmer when images haven't loaded yet (data still
+   in flight). Sits inside .slides-wrapper, fills the reserved
+   height, hidden once swiper-slides render. */
+.slides-placeholder {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 swiper-container,
 .slides {
   display: block;
@@ -134,7 +156,8 @@ swiper-slide,
   position: relative;
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 5;
+  /* aspect-ratio moved up to .slides-wrapper to reserve height
+     even when swiper has zero slides (during initial data load). */
   background: linear-gradient(135deg, var(--ax-palette-beige-100) 0%, var(--ax-palette-beige-200) 100%);
   overflow: hidden;
 

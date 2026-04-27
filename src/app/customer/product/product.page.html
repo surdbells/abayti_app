@@ -5,6 +5,16 @@
   <div class="safe-area">
     <!-- Image Slider -->
     <div class="slides-wrapper">
+      <!-- Placeholder shimmer while data is loading (before any
+           swiper slides exist). Reserves the visual space and
+           shows a skeleton; disappears once images.length > 0. -->
+      @if(images.length === 0){
+        <div class="slides-placeholder">
+          <div class="skeleton">
+            <div class="skeleton-shimmer"></div>
+          </div>
+        </div>
+      }
       <swiper-container
         #swiper
         class="slides"
