@@ -104,8 +104,17 @@ export class SearchPage implements OnInit, OnDestroy {
   }
   /** Per-product image-loaded tracking for the m6d card skeleton overlay */
   imageLoaded: { [key: number]: boolean } = {};
+  /** Debounce timer for onInputChange — prevents firing a search request
+      on every keystroke. Reset on each input change, fires after 300ms
+      of inactivity. */
+  private searchTimer: any = null;
+  private readonly SEARCH_DEBOUNCE_MS = 300;
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
   }
   rqst_param = {
     id: 0,
@@ -254,8 +263,24 @@ export class SearchPage implements OnInit, OnDestroy {
 
   onInputChange(value: string) {
     this.search.search = value;
-    this.searchProduct()
-
+    /* Clear any pending search */
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
+    /* Empty input — clear results immediately, show initial prompt */
+    if (!value || !value.trim()) {
+      this.products = [];
+      this.imageLoaded = {};
+      this.ui_controls.is_loading = false;
+      this.ui_controls.is_empty = false;
+      return;
+    }
+    /* Non-empty input — debounce the actual network call */
+    this.searchTimer = setTimeout(() => {
+      this.searchProduct();
+      this.searchTimer = null;
+    }, this.SEARCH_DEBOUNCE_MS);
   }
 
   user_orders() {
