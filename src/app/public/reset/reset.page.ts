@@ -7,36 +7,18 @@ import {
   IonText,
   Platform,
   IonButton,
-  IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCheckbox,
-  IonHeader,
-  IonLabel, IonModal, IonSegment, IonSegmentButton, IonTitle, IonToolbar
 } from '@ionic/angular/standalone';
 import { ConnectionService } from '../../service/connection.service';
 import { Subscription } from 'rxjs';
 
 import { FormsModule } from '@angular/forms';
-import {
-  TuiIcon,
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
-import {DomSanitizer} from "@angular/platform-browser";
 import {TranslatePipe} from "../../translate.pipe";
-import {TuiPassword} from "@taiga-ui/kit";
-import {getCountries} from "libphonenumber-js";
-import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {GlobalComponent} from "../../global-component";
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.page.html',
@@ -47,38 +29,18 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonGrid,
     IonCol,
     IonRow,
-    TuiTextfieldComponent,
     FormsModule,
-    TuiLabel,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective,
     IonText,
     IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonCheckbox,
-    IonHeader,
-    IonLabel,
-    IonModal,
-    IonSegment,
-    IonSegmentButton,
-    IonTitle,
-    IonToolbar,
     TranslatePipe,
-    TuiIcon,
-    TuiPassword, AxLoaderComponent]
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class ResetPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
-  protected readonly countries = getCountries();
-  protected countryIsoCode: TuiCountryIsoCode = 'CN';
-  protected value = '';
   showResendToken: boolean = false; // Initially hide the button
-  isTermsOpen = false; // or control this as you like
   constructor(
     private net: ConnectionService,
     private platform: Platform,
