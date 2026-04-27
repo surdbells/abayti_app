@@ -2,42 +2,27 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 
 import { FormsModule } from '@angular/forms';
 import {
-    IonAvatar,
-    IonBackButton,
-    IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCol,
-    IonContent,
-    IonFooter,
-    IonHeader,
-    IonIcon,
-    IonImg, IonLabel,
-    IonModal,
-    IonRefresher,
-    IonRefresherContent,
-    IonRow,
-    IonSearchbar,
-    IonTabBar,
-    IonTabButton,
-    IonText,
-    IonTitle,
-    IonToolbar,
-    NavController,
-    Platform
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonLabel,
+  IonModal,
+  IonRow,
+  IonTabBar,
+  IonTabButton,
+  IonTitle,
+  IonToolbar,
+  NavController,
+  Platform
 } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
-import {
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {ActionSheetController} from "@ionic/angular";
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
@@ -47,12 +32,33 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.page.html',
   styleUrls: ['./wishlist.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonBackButton, IonButtons, RouterLink, IonAvatar, IonButton, IonSearchbar, IonRefresher, IonRefresherContent, IonCard, IonCardContent, IonIcon, IonText, IonImg, IonCol, IonModal, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonFooter, IonTabBar, IonTabButton, TranslatePipe, IonLabel, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    FormsModule,
+    IonButtons,
+    RouterLink,
+    IonButton,
+    IonCol,
+    IonModal,
+    IonRow,
+    IonFooter,
+    IonTabBar,
+    IonTabButton,
+    TranslatePipe,
+    IonLabel,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class WishlistPage implements OnInit, OnDestroy {
   wishlists: Wishlist[] = [];
@@ -85,7 +91,10 @@ export class WishlistPage implements OnInit, OnDestroy {
     is_creating: false,
     is_deleting: false
   }
-  selected_label = "Favorite"
+  /** Currently selected category name. Empty string means no selection yet. */
+  selected_label = ""
+  /** Currently selected category id. 0 means no selection yet. */
+  selected_label_id = 0
   single_user = {
     id: 0,
     token: "",
@@ -102,29 +111,20 @@ export class WishlistPage implements OnInit, OnDestroy {
     is_vendor: false,
     is_customer: false
   }
-  delete = {
-    id: 0,
-    token: '',
-    review: 0
-  };
   ngOnInit() {
     this.getObject().then(r => console.log(r));
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  // Called when the page becomes active (Ionic RouterOutlet triggers this)
   ionViewDidEnter() {
-    //  this.getObject().then(r => console.log(r));
     this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
+      this.nav.navigateRoot('/settings').then(r => console.log(r));
     });
   }
-  // Clean up when you leave the page
   ionViewWillLeave() {
     this.backSub?.unsubscribe();
   }
-  star_items = Array(5).fill(0);
   rqst_param = {
     id: 0,
     token: "",
@@ -184,6 +184,7 @@ export class WishlistPage implements OnInit, OnDestroy {
   get_wishlist_by_label(label: number, name: string) {
     this.rqst_param.label = label;
     this.selected_label = name;
+    this.selected_label_id = label;
     this.ui_controls.is_empty = false;
     this.ui_controls.is_loading = true;
     this.wishlists = [];
@@ -209,7 +210,6 @@ export class WishlistPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.categories = response.data;
             this.ui_controls.is_loading = false;
-            this.get_wishlist_by_label(2, 'Favorite');
           }else{
             this.ui_controls.is_empty = true;
             this.ui_controls.is_loading = false;

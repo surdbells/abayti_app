@@ -8,124 +8,122 @@
     <ion-title class="m7-title">{{ 'title_my_closet' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true" class="page-bg">
   <div class="sheet ion-padding-horizontal">
-    <!-- Category -->
+
+    <!-- Categories section: horizontal scroll with Add-card first -->
     @if (!ui_controls.is_loading) {
-      <section  class="section">
-        <div class="section-title ion-margin-bottom">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
-            <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#7C2108"/>
-                <stop offset="1" stop-color="#E23C0F"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <span>{{ 'text_categories' | translate }}</span>
-        </div>
-      </section>
-    }
-    @if (!ui_controls.is_loading) {
-      <div  class="h-scroll categories">
-        <!-- Add New Category -->
-        <div id="add_wish_list" class="category-card add">
-          <svg width="59" height="59" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="29.5" cy="29.5" r="29.5" fill="#7C2108"/>
-            <path d="M29.5 45.612C28.2905 45.612 27.3105 44.632 27.3105 43.4225V15.5762C27.3105 14.3667 28.2905 13.3867 29.5 13.3867C30.7095 13.3867 31.6895 14.3667 31.6895 15.5762V43.4225C31.6895 44.632 30.7095 45.612 29.5 45.612Z" fill="white"/>
-            <path d="M43.4235 31.6895H15.5771C14.3677 31.6895 13.3877 30.7095 13.3877 29.5C13.3877 28.2905 14.3677 27.3105 15.5771 27.3105H43.4235C44.6329 27.3105 45.6129 28.2905 45.6129 29.5C45.6129 30.7095 44.6329 31.6895 43.4235 31.6895Z" fill="white"/>
-          </svg>
-          <h4>{{ 'heading_new_category' | translate }}</h4>
-        </div>
-        @for (cat of categories; track cat) {
-          <div (click)="get_wishlist_by_label(cat.id, cat.name)" class="category-card more">
-            <div class="add-icon">
-              <ax-icon name="heart"></ax-icon>
-            </div>
-            <h4>{{ cat.name }}</h4>
-            <p class="item_count">{{ cat.count }} {{ 'text_items' | translate }}</p>
-          </div>
-        }
-      </div>
-    }
-    @if (!ui_controls.is_loading) {
-      <section  class="section">
-        <div class="section-title ion-margin-bottom">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="22" height="22" rx="5" fill="url(#paint0_linear_81_630)"/>
-            <path d="M5.13379 14.9931V8.4618C5.13379 7.63819 5.13379 7.22638 5.27239 6.90298C5.44542 6.49999 5.76659 6.17882 6.16958 6.00579C6.49298 5.86719 6.9008 5.86719 7.72897 5.86719H8.01074C8.1811 5.86721 8.34929 5.90538 8.50297 5.97892C8.65665 6.05245 8.7919 6.15947 8.8988 6.29211L9.93517 7.5783M9.93517 7.5783H13.119C13.9175 7.5783 14.3168 7.5783 14.6219 7.73344C14.8901 7.87027 15.1082 8.0885 15.2447 8.35685C15.4005 8.662 15.4005 9.06126 15.4005 9.85978V10.4302M9.93517 7.5783H7.98564" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.79427 13.0043L5.96424 12.5811C6.38289 11.5391 6.59221 11.0183 7.02855 10.724C7.46488 10.4297 8.02898 10.4297 9.15603 10.4297H13.7532C15.2864 10.4297 16.0535 10.4297 16.394 10.931C16.7351 11.4324 16.4499 12.1408 15.8807 13.5587L15.7107 13.982C15.2921 15.024 15.0827 15.5448 14.6464 15.8391C14.2101 16.1334 13.646 16.1334 12.5189 16.1334H7.92175C6.38859 16.1334 5.62144 16.1334 5.28093 15.632C4.93985 15.1313 5.22504 14.4223 5.79427 13.0043Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-            <defs>
-              <linearGradient id="paint0_linear_81_630" x1="11" y1="0" x2="11" y2="22" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#7C2108"/>
-                <stop offset="1" stop-color="#E23C0F"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          @if (!ui_controls.is_loading) {
-            <span>{{ selected_label }}</span>
-          }
-        </div>
-        <div class="recent-grid">
-          @for (a_wishlist of wishlists; track a_wishlist) {
-            <div (click)="open_product(a_wishlist.product)" class="recent-card">
-              <img loading="lazy" style="object-fit: cover; object-position: top center;" src="{{a_wishlist.image}}" alt="{{a_wishlist.name}}" />
-              <h5>{{ a_wishlist.name }}</h5>
-            </div>
+      <section class="section">
+        <h3 class="section-title">{{ 'text_categories' | translate }}</h3>
+
+        <div class="categories-row">
+          <!-- Add new category card -->
+          <button id="add_wish_list" class="category-card category-card--add" type="button" aria-label="{{ 'heading_new_category' | translate }}">
+            <span class="category-card__icon-wrap category-card__icon-wrap--add">
+              <ax-icon name="plus" size="md"></ax-icon>
+            </span>
+            <span class="category-card__name">{{ 'heading_new_category' | translate }}</span>
+          </button>
+
+          <!-- User-created categories -->
+          @for (cat of categories; track cat.id) {
+            <button (click)="get_wishlist_by_label(cat.id, cat.name)"
+                    class="category-card"
+                    [class.category-card--active]="selected_label_id === cat.id"
+                    type="button">
+              <span class="category-card__icon-wrap">
+                <ax-icon name="heart" size="md"></ax-icon>
+              </span>
+              <span class="category-card__name">{{ cat.name }}</span>
+              <span class="category-card__count">{{ cat.count }} {{ 'text_items' | translate }}</span>
+            </button>
           }
         </div>
       </section>
     }
 
-    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <ax-loader></ax-loader>
-      }
-    </span>
-    @if (ui_controls.is_empty && !ui_controls.is_loading) {
-      <div class="empty-state">
-        <ion-card>
-          <ion-card-content class="ion-text-center">
-            <ax-icon name="heart" [style.font-size.rem]="2"></ax-icon>
+    <!-- Items section: only shown when a category has been selected -->
+    @if (!ui_controls.is_loading && selected_label_id !== 0) {
+      <section class="section">
+        <h3 class="section-title">{{ selected_label }}</h3>
+
+        @if (wishlists.length > 0) {
+          <div class="items-grid">
+            @for (a_wishlist of wishlists; track a_wishlist.id) {
+              <button (click)="open_product(a_wishlist.product)" class="item-card" type="button">
+                <div class="item-card__image-wrap">
+                  <img loading="lazy" src="{{ a_wishlist.image }}" alt="{{ a_wishlist.name }}" />
+                </div>
+                <span class="item-card__name">{{ a_wishlist.name }}</span>
+              </button>
+            }
+          </div>
+        }
+
+        @if (ui_controls.is_empty) {
+          <div class="empty-state">
+            <ax-icon name="heart" size="xl"></ax-icon>
             <h2>{{ 'heading_no_items_in_wishlist' | translate }}</h2>
-          </ion-card-content>
-        </ion-card>
+          </div>
+        }
+      </section>
+    }
+
+    <!-- Initial state: prompt to tap a category -->
+    @if (!ui_controls.is_loading && selected_label_id === 0 && categories.length > 0) {
+      <div class="initial-prompt">
+        <ax-icon name="heart" size="xl"></ax-icon>
+        <p>{{ 'text_tap_category_to_view' | translate }}</p>
+      </div>
+    }
+
+    <!-- Loader -->
+    @if (ui_controls.is_loading) {
+      <div class="loader-row">
+        <ax-loader></ax-loader>
       </div>
     }
   </div>
+
+  <!-- Add new category modal -->
   @if (!ui_controls.is_loading) {
-    <ion-modal  [backdropDismiss]="false" #wishlistModal trigger="add_wish_list" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
+    <ion-modal [backdropDismiss]="false" #wishlistModal trigger="add_wish_list" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
       <ng-template>
         <ion-header>
           <ion-toolbar>
             <ion-title>{{ 'button_add_new' | translate }}</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="wishlistModal.dismiss()">Close</ion-button>
+              <ion-button (click)="wishlistModal.dismiss()">{{ 'close' | translate }}</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <ion-row class="animate__animated ion-padding-bottom">
+          <ion-row class="ion-padding-bottom">
             @if (!ui_controls.is_creating) {
-              <ion-col >
-                <label tuiLabel>{{ 'label_category_name' | translate }}</label>
-                <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                  <input [maxlength]="25" [(ngModel)]="add_label.label_name" type="text" name="name" tuiTextfield />
-                </tui-textfield>
+              <ion-col>
+                <ax-text-field
+                  [label]="'label_category_name' | translate"
+                  type="text"
+                  [maxlength]="25"
+                  [required]="true"
+                  [(ngModel)]="add_label.label_name"
+                  name="label_name">
+                </ax-text-field>
               </ion-col>
             }
             @if (!ui_controls.is_creating) {
-              <ion-button (click)="add_wishlist_label()" expand="block" class="ion-margin-vertical" type="button"> {{ 'button_add' | translate }}
+              <ion-button (click)="add_wishlist_label()" expand="block" class="ion-margin-vertical" type="button">
+                {{ 'button_add' | translate }}
               </ion-button>
             }
           </ion-row>
           <ion-row>
             <ion-col>
               @if (ui_controls.is_creating) {
-                <ax-loader></ax-loader>
+                <div class="loader-row">
+                  <ax-loader></ax-loader>
+                </div>
               }
             </ion-col>
           </ion-row>
@@ -134,7 +132,6 @@
     </ion-modal>
   }
 </ion-content>
-
 
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
