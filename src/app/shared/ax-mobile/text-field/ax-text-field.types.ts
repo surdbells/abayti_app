@@ -2,7 +2,12 @@
  * Public types for the abayti mobile text field primitive.
  */
 
-/** Supported native input types. */
+/**
+ * Supported native input types.
+ *
+ * Note: when `multiline` is true on the component, this type is ignored
+ * (textareas don't take a type attribute).
+ */
 export type AxTextFieldType =
   | 'text'
   | 'email'

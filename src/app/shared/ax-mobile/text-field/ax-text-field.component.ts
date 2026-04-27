@@ -6,6 +6,7 @@
  *   - Native <input> with M2 border, focus ring (brown), 48px height
  *   - Optional helper or error text below
  *   - Built-in password visibility toggle when type="password"
+ *   - Optional multiline mode (renders <textarea> instead of <input>)
  *   - ControlValueAccessor for [(ngModel)] / FormControl support
  *
  * Usage:
@@ -37,6 +38,16 @@
  *     hint="10 digits, no spaces"
  *     [(ngModel)]="phone"
  *     name="phone">
+ *   </ax-text-field>
+ *
+ *   <!-- Multiline / textarea mode -->
+ *   <ax-text-field
+ *     label="Tell us more"
+ *     [multiline]="true"
+ *     [rows]="4"
+ *     placeholder="Optional notes…"
+ *     [(ngModel)]="notes"
+ *     name="notes">
  *   </ax-text-field>
  *
  * See docs/m8-auth-input-spec.md for design rationale (TBD).
@@ -109,6 +120,17 @@ export class AxTextFieldComponent implements ControlValueAccessor {
   @Input() name?: string;
 
   /**
+   * Render as a <textarea> instead of <input>. When true:
+   *   - The `type` prop is ignored (textareas don't have a type)
+   *   - The password toggle is suppressed
+   *   - Height is determined by `rows`, with manual vertical resize allowed
+   */
+  @Input() multiline = false;
+
+  /** Visible row count when `multiline` is true. Defaults to 3. */
+  @Input() rows = 3;
+
+  /**
    * Stable ID generated once per instance, used to wire <label for>.
    * Prefixed to avoid collisions if multiple instances render.
    */
@@ -142,7 +164,7 @@ export class AxTextFieldComponent implements ControlValueAccessor {
 
   /** True when this input has a password visibility toggle. */
   get hasPasswordToggle(): boolean {
-    return this.type === 'password';
+    return this.type === 'password' && !this.multiline;
   }
 
   /** Aria label for the password toggle, switching with state. */
@@ -175,9 +197,9 @@ export class AxTextFieldComponent implements ControlValueAccessor {
 
   // --- Internal handlers --------------------------------------------------
 
-  /** Called on every keystroke. */
+  /** Called on every keystroke. Works for both <input> and <textarea>. */
   handleInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLInputElement | HTMLTextAreaElement;
     this.value = target.value;
     this.onChange(this.value);
   }

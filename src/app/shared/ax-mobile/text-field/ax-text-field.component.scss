@@ -107,6 +107,20 @@
     padding-inline-end: var(--ax-input-padding-x-end, 44px);
   }
 
+  /* Multiline / textarea variant. Replaces fixed height with min-height
+     based on rows + padding, allows manual vertical resize. */
+  &--multiline {
+    height: auto;
+    min-height: calc(var(--ax-input-height, 48px) + 36px); /* ~3 rows by default */
+    padding: 12px var(--ax-input-padding-x, 14px);
+    line-height: 1.5;
+    resize: vertical;
+    /* iOS: prevent the default rounded textarea look from overriding our radius */
+    -webkit-appearance: none;
+    /* Use the same font as the input */
+    font-family: inherit;
+  }
+
   /* Error state — ring becomes danger */
   .ax-text-field--error & {
     border-color: var(--ax-palette-danger-500);
