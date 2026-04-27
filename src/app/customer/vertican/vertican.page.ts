@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCol,
   IonContent,
   IonHeader,
   IonInput,
@@ -23,7 +22,6 @@ import {
   IonList,
   IonModal,
   IonRange,
-  IonRow,
   IonTitle,
   IonToolbar,
   NavController
@@ -63,8 +61,6 @@ type DualRange = { lower: number; upper: number };
     IonTitle,
     IonButton,
     IonButtons,
-    IonRow,
-    IonCol,
     IonInput,
     IonItem,
     IonLabel,

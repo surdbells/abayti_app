@@ -636,3 +636,78 @@ ion-modal.filter-modal {
     bottom: calc(200px + env(safe-area-inset-bottom));
   }
 }
+
+/* ============================================================================
+   WISHLIST MODAL (M18-3)
+   ============================================================================ */
+
+ion-modal.wishlist-modal {
+  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
+}
+
+.wishlist-modal__header {
+  background: var(--ax-color-bg-surface);
+}
+
+.wishlist-modal__toolbar {
+  --background: var(--ax-color-bg-surface);
+  --border-color: transparent;
+  --min-height: 56px;
+}
+
+.wishlist-modal__title {
+  font-family: var(--ax-font-display);
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: -0.005em;
+  color: var(--ax-color-text-primary);
+  /* The title is built from 3 segments ('save' + product name +
+     'to') so the full string can be long. Single-line ellipsis
+     prevents header height blowout. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wishlist-modal__close-btn {
+  --color: var(--ax-color-text-brand);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.wishlist-modal__content {
+  --background: var(--ax-color-bg-canvas);
+}
+
+/* Custom list (closet category rows) */
+.custom-list {
+  background: transparent;
+  padding: 0;
+}
+
+.custom-list__item {
+  --background: transparent;
+  --background-hover: rgba(90, 58, 44, 0.04);
+  --background-activated: rgba(90, 58, 44, 0.08);
+  --color: var(--ax-color-text-primary);
+  --border-color: rgba(46, 36, 28, 0.06);
+  --inner-padding-end: 12px;
+  --padding-start: 12px;
+  --min-height: 52px;
+
+  ion-label {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ax-color-text-primary);
+    margin: 0;
+  }
+}
+
+.custom-list__icon {
+  color: var(--ax-color-text-brand);
+  font-size: 20px;
+  margin-inline-end: 12px;
+}
