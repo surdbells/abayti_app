@@ -1,33 +1,60 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
+  IonTabBar,
+  IonTabButton,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular/standalone';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
-import {ActionSheetController, IonicModule} from "@ionic/angular";
+import {ActionSheetController} from "@ionic/angular";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {StoreRecord} from "../messages/messages.page";
 import {NavController, Platform} from "@ionic/angular/standalone";
-import {TuiTextarea, TuiTextareaLimit} from "@taiga-ui/kit";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-create-ticket',
   templateUrl: './create-ticket.page.html',
   styleUrls: ['./create-ticket.page.scss'],
   standalone: true,
-  imports: [RouterLink, IonicModule, ReactiveFormsModule, FormsModule, TuiTextarea, TuiTextareaLimit, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, TranslatePipe, AxLoaderComponent, AxIconComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButton,
+    IonButtons,
+    IonFooter,
+    IonLabel,
+    IonSelect,
+    IonSelectOption,
+    IonTabBar,
+    IonTabButton,
+    RouterLink,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class CreateTicketPage implements OnInit, OnDestroy {
   isOnline = true;

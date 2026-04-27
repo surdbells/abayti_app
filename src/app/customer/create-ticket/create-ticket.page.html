@@ -5,43 +5,70 @@
         <ax-icon name="arrow-left" />
       </ion-button>
     </ion-buttons>
-    <ion-title class="m7-title">Create ticket</ion-title>
+    <ion-title class="m7-title">{{ 'title_create_ticket' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" class="page-bg">
-  @if (!ui_controls.is_loading){
-    <div class="sheet ion-padding-horizontal ion-margin-horizontal">
-      <tui-textfield  #m tuiTextfieldSize="m" class="animate__animated animate__fadeIn ion-margin-bottom" style="width:100%">
-        <input style="border: 1px solid #FAC0B0" [maxlength]="60" [(ngModel)]="create.subject" placeholder="{{'placeholder_short_subject' | translate}}" type="text" name="subject" tuiTextfield />
-      </tui-textfield>
-      <tui-textfield style="width: 100%" [style.margin-block-end.rem]="1">
-        <label tuiLabel>{{ 'label_summary' | translate }}</label>
-        <textarea name="summary" placeholder="{{'placeholder_describe_issue' | translate}}" tuiTextarea [(ngModel)]="create.message" [limit]="160" [max]="120" [min]="5"></textarea>
-      </tui-textfield>
-      <ion-label position="stacked">{{ 'label_reference' | translate }}</ion-label>
-      <ion-select [(ngModel)]="create.store" interface="action-sheet">
-        @for(t of stores; track $index){
-          <ion-select-option [value]="t.store">{{ t.store_name }}</ion-select-option>
-        }
-      </ion-select>
-      @if (!ui_controls.is_loading) {
-        <ion-button (click)="create_ticket()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button"> {{'button_create_ticket' | translate}}
-        </ion-button>
-      }
-      <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-        @if (ui_controls.is_loading){
-          <ax-loader></ax-loader>
-        }
-      </span>
-    </div>
 
+<ion-content [fullscreen]="true" class="page-bg">
+  @if (!ui_controls.is_loading) {
+    <div class="form-sheet ion-padding">
+
+      <!-- Subject -->
+      <div class="form-field">
+        <ax-text-field
+          [label]="'placeholder_short_subject' | translate"
+          [placeholder]="'placeholder_short_subject' | translate"
+          [(ngModel)]="create.subject"
+          [maxlength]="60"
+          name="subject">
+        </ax-text-field>
+      </div>
+
+      <!-- Summary (multiline) -->
+      <div class="form-field">
+        <ax-text-field
+          [label]="'label_summary' | translate"
+          [placeholder]="'placeholder_describe_issue' | translate"
+          [(ngModel)]="create.message"
+          [multiline]="true"
+          [rows]="4"
+          [maxlength]="160"
+          name="summary">
+        </ax-text-field>
+      </div>
+
+      <!-- Reference (store selector) -->
+      <div class="form-field">
+        <label class="form-field__label">{{ 'label_reference' | translate }}</label>
+        <ion-select
+          [(ngModel)]="create.store"
+          interface="action-sheet"
+          class="form-select"
+          [interfaceOptions]="{ cssClass: 'ax-action-sheet' }">
+          @for(t of stores; track t.store){
+            <ion-select-option [value]="t.store">{{ t.store_name }}</ion-select-option>
+          }
+        </ion-select>
+      </div>
+
+      <!-- Submit -->
+      <ion-button
+        (click)="create_ticket()"
+        expand="block"
+        class="submit-btn"
+        type="button">
+        {{ 'button_create_ticket' | translate }}
+      </ion-button>
+    </div>
   }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-    @if (ui_controls.is_loading){
+
+  @if (ui_controls.is_loading) {
+    <div class="loader-row">
       <ax-loader></ax-loader>
-    }
-  </span>
+    </div>
+  }
 </ion-content>
+
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">

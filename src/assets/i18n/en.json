@@ -98,6 +98,7 @@
   "label_reference": "Reference",
   "explore": "Explore",
   "button_create_ticket": "Create ticket",
+  "title_create_ticket": "Create ticket",
   "title_payment_failed": "Payment Failed.",
   "button_try_again": "Try Again.",
   "title_update_measurement": "Update measurement",
