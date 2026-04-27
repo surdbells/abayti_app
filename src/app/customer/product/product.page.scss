@@ -156,8 +156,14 @@ swiper-slide,
   position: relative;
   width: 100%;
   height: 100%;
-  /* aspect-ratio moved up to .slides-wrapper to reserve height
-     even when swiper has zero slides (during initial data load). */
+  /* aspect-ratio kept here too — .slides-wrapper has the same
+     ratio set as a fallback for the empty/loading state, but
+     .img-wrap needs its own intrinsic height because .hero
+     parent has no explicit height (flex shrink-fits to content
+     by default). Without aspect-ratio here, height: 100% has
+     nothing to resolve against and the wrap collapses to 0,
+     hiding the absolutely-positioned <ion-img> inside. */
+  aspect-ratio: 4 / 5;
   background: linear-gradient(135deg, var(--ax-palette-beige-100) 0%, var(--ax-palette-beige-200) 100%);
   overflow: hidden;
 
