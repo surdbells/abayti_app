@@ -1,118 +1,35 @@
-.billing-address-card.compact {
-  border-radius: 0.75rem;
-  box-shadow: var(--ion-box-shadow);
-  --gap: 0.5rem;
+/* ============================================================================
+   Profile page — edit user details
+   Used in HTML: .sheet, .cc-flag, .cc-code, .code-line/.flag/.name/.code
+   ============================================================================ */
 
-  ion-card-content {
-    padding: 0.9rem 1rem;
-  }
-  /* ======= Rounded sheet ======= */
-  .sheet {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: clamp(12px, 3vw, 20px);
-    display: grid;
-    gap: 16px;
-  }
-  .row-top {
-    display: flex;
-    align-items: center;
-    gap: var(--gap);
-    margin-bottom: 0.35rem;
-
-    tui-icon {
-      width: 1rem; height: 1rem; opacity: 0.9;
-    }
-    .name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      line-height: 1.1;
-      letter-spacing: .2px;
-    }
-  }
-
-  .contact {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
-
-    .item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.85rem;
-      color: var(--ion-color-medium);
-
-      tui-icon { width: 0.95rem; height: 0.95rem; }
-      .value { color: inherit; text-decoration: none; }
-    }
-
-    .dot {
-      color: var(--ion-color-medium);
-      user-select: none;
-      line-height: 1;
-      margin: 0 .1rem;
-    }
-  }
-
-  .address-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.82rem;
-      padding: 0.25rem 0.5rem;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 999px;
-      background: var(--ion-color-light, #f6f6f6);
-
-      tui-icon { width: 0.9rem; height: 0.9rem; opacity: 0.9; }
-      span { white-space: nowrap; }
-    }
-  }
-}
-
-
-
-/* Page background */
-ion-content.profile-sheet { --background: var(--bg); }
-
-/* Header */
-.sheet-header {
+.sheet {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: clamp(12px, 3vw, 20px);
   display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 16px;
 }
 
-.phone-row {
-  --padding-start: 0.5rem;
-  --inner-padding-end: 0.5rem;
+/* ----- Form field label (matches ax-text-field's internal label style)
+         Used for the dial-code button's label, since it sits next to
+         migrated <ax-text-field> phone input and needs to align visually. */
+.profile-field-label {
+  display: block;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--ax-color-text-secondary);
+  margin-bottom: 6px;
 }
 
-.cc-btn {
-  --padding-start: 0.5rem;
-  --padding-end: 0.5rem;
-  margin-right: 0.5rem;
-  min-width: 5.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+/* ----- Country-code picker — flag + code displayed inside the dial-code button */
+.cc-flag { font-size: 1rem; line-height: 1; }
+.cc-code { font-weight: 600; }
 
-  .cc-flag { font-size: 1rem; line-height: 1; }
-  .cc-code { font-weight: 600; }
-}
-
-.phone-input { width: 100%; }
-
+/* ----- Country-code modal list rows */
 .code-line {
   display: flex;
   align-items: baseline;

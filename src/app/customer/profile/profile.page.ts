@@ -6,17 +6,11 @@ import {
     IonButtons,
     IonCard,
     IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
-    IonContent, IonFooter,
-    IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonRow, IonSearchbar, IonTabBar, IonTabButton, IonText,
+    IonContent,
+    IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow, IonSearchbar,
     IonTitle,
     IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
-import {
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Reviews} from "../../class/reviews";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -31,19 +25,44 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonText, RouterLink, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, IonSearchbar, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonIcon, IonTabBar, IonTabButton, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    FormsModule,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    RouterLink,
+    IonCol,
+    IonRow,
+    IonButton,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonModal,
+    IonSearchbar,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardTitle,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class ProfilePage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];
   isOnline = true;
   private sub: Subscription;
   private backSub?: Subscription;
-  protected value = '';
   constructor(
     private nav: NavController,
     private net: ConnectionService,
