@@ -56,7 +56,7 @@
               @if(order.color){
                 <span class="detail-tag">{{ order.color }}</span>
               }
-              <span class="detail-tag">Qty: {{ order.quantity }}</span>
+              <span class="detail-tag">{{ 'label_qty' | translate }}: {{ order.quantity }}</span>
             </div>
 
             <div class="order-footer">
@@ -69,7 +69,7 @@
             @if(order.unread_count > 0){
               <div class="unread-badge">{{ order.unread_count }}</div>
             }
-            <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+            <ax-icon name="chevron-right" class="arrow-icon"></ax-icon>
           </div>
         </button>
       }
@@ -79,8 +79,8 @@
   <!-- Empty State -->
   @if(!isLoading && orders.length === 0){
     <div class="empty-state">
-      <div class="empty-icon">
-        <ion-icon name="bag-outline"></ion-icon>
+      <div class="empty-icon-wrap">
+        <ax-icon name="shopping-bag" />
       </div>
       <h3>{{ 'no_orders_from_vendor' | translate }}</h3>
       <p>{{ 'no_orders_description' | translate }}</p>

@@ -67,9 +67,9 @@
             <div class="conv-footer">
               <p class="last-message" [class.unread]="conv.vendor_unread_count > 0">
                 @if(conv.last_message_sender === 'vendor'){
-                  <span class="you-prefix">You: </span>
+                  <span class="you-prefix">{{ 'label_you' | translate }}: </span>
                 }
-                {{ conv.last_message_preview || 'No messages yet' }}
+                {{ conv.last_message_preview || ('text_no_messages_yet' | translate) }}
               </p>
 
               @if(conv.vendor_unread_count > 0){
@@ -105,7 +105,7 @@
   <!-- Empty State -->
   @if(!isLoading && conversations.length === 0){
     <div class="empty-state">
-      <div class="empty-icon">
+      <div class="empty-icon-wrap">
         <ax-icon name="message-circle"></ax-icon>
       </div>
       <h3>{{ 'no_customer_messages' | translate }}</h3>

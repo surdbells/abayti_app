@@ -14,10 +14,9 @@ import {
   IonTitle,
   IonButton,
   IonButtons,
-  IonText,
   IonRefresher,
   IonRefresherContent,
-  NavController, IonIcon
+  NavController
 } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
@@ -41,11 +40,11 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonTitle,
     IonButton,
     IonButtons,
-    IonText,
     IonRefresher,
     IonRefresherContent,
     TranslatePipe,
-    IonIcon, AxIconComponent]
+    AxIconComponent,
+  ]
 })
 export class ChatOrdersPage implements OnInit, OnDestroy {
   orders: ChatOrder[] = [];

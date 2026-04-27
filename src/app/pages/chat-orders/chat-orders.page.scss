@@ -1,201 +1,114 @@
-/* ========================================
-   VARIABLES
-   ======================================== */
-$brand-dark: #7C2108;
-$brand-light: #B12C06;
-$peach-bg: #FBF0E6;
+/* ============================================================================
+   Chat orders page — M2 redesign (M24 Tier 3)
+   ============================================================================ */
 
-/* ========================================
-   SKELETON ANIMATION
-   ======================================== */
+ion-content.page-content {
+  --background: var(--ax-color-bg-canvas);
+}
+
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
 }
 
-/* ========================================
-   HEADER
-   ======================================== */
-.page-header {
-  background: linear-gradient(to bottom, $brand-dark, $brand-light);
-  padding-bottom: 14px;
-}
+/* ----- Order list -------------------------------------- */
 
-.toolbar {
-  --background: transparent;
-}
-
-.title {
-  font-size: 18px;
-  color: #fff;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.subtitle-row {
-  display: flex;
-  justify-content: left;
-  padding: 8px 0 4px;
-
-  ion-text {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 14px;
-  }
-}
-.back-btn {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  tui-icon {
-    font-size: 20px;
-    color: #fff;
-  }
-
-  &:active { transform: scale(0.95); }
-}
-
-.icon_left {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-
-  tui-icon {
-    font-size: 20px;
-    color: #fff;
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
-/* ========================================
-   CONTENT
-   ======================================== */
-.page-content {
-  --background: #{$peach-bg};
-}
-
-/* ========================================
-   ORDER LIST
-   ======================================== */
 .order-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  padding-bottom: 12px;
 }
 
 .order-card {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px;
-  background: #fff;
-  border-radius: 16px;
+  gap: 12px;
+  align-items: stretch;
+  padding: 12px;
+  background: var(--ax-color-bg-surface);
   border: none;
-  width: 100%;
-  text-align: left;
+  border-radius: var(--ax-radius-lg);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-align: start;
+  transition: transform 120ms ease, box-shadow 120ms ease;
   -webkit-tap-highlight-color: transparent;
 
   &:active {
-    transform: scale(0.98);
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
-  }
-
-  &.skeleton {
-    pointer-events: none;
+    transform: scale(0.99);
+    box-shadow: 0 1px 3px rgba(46, 36, 28, 0.04);
   }
 }
 
-/* Order Image */
 .order-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  overflow: hidden;
+  position: relative;
+  width: 76px;
+  height: 76px;
   flex-shrink: 0;
-  background: rgba(124, 33, 8, 0.05);
+  border-radius: var(--ax-radius-md);
+  overflow: hidden;
+  background: var(--ax-color-bg-brand-subtle);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
   }
 }
 
-/* Order Info */
 .order-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .order-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 6px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ax-color-text-primary);
+  line-height: 1.3;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-height: 1.3;
 }
 
 .order-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-
-  .order-id {
-    font-size: 12px;
-    font-weight: 600;
-    color: $brand-dark;
-  }
+  gap: 4px;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--ax-color-text-tertiary);
 
   .separator {
-    color: #ccc;
-    font-size: 10px;
-  }
-
-  .order-date {
-    font-size: 12px;
-    color: #888;
+    opacity: 0.5;
   }
 }
 
 .order-details {
   display: flex;
+  gap: 4px;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
+}
 
-  .detail-tag {
-    font-size: 11px;
-    padding: 3px 8px;
-    background: rgba(124, 33, 8, 0.08);
-    border-radius: 6px;
-    color: #666;
-  }
+.detail-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: var(--ax-color-bg-brand-subtle);
+  color: var(--ax-color-text-secondary);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 500;
 }
 
 .order-footer {
@@ -203,219 +116,186 @@ $peach-bg: #FBF0E6;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-top: auto;
 }
 
 .order-status {
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 10px;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 8px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
 
+  /* Status modifier classes (set by getStatusClass()) */
   &.status-pending {
-    background: #fef3c7;
-    color: #92400e;
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
   }
 
   &.status-processing {
-    background: #dbeafe;
-    color: #1e40af;
+    background: rgba(59, 130, 246, 0.12);
+    color: #1e6fdb;
   }
 
+  &.status-shipping,
+  &.status-shipped,
   &.status-ready {
-    background: #d1fae5;
-    color: #065f46;
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
   }
 
-  &.status-delivered {
-    background: #d1fae5;
-    color: #065f46;
+  &.status-delivered,
+  &.status-completed {
+    background: rgba(34, 197, 94, 0.14);
+    color: #15803d;
   }
 
+  &.status-cancelled,
   &.status-return {
-    background: #fef3c7;
-    color: #92400e;
-  }
-
-  &.status-cancelled {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(192, 57, 43, 0.12);
+    color: #c0392b;
   }
 }
 
 .order-price {
-  font-size: 14px;
-  font-weight: 700;
-  color: #333;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ax-color-text-brand);
 }
 
-/* Order Actions */
 .order-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  padding-top: 4px;
+  flex-shrink: 0;
 }
 
 .unread-badge {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: $brand-dark;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  span {
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-  }
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--ax-color-text-brand);
+  color: var(--ax-palette-neutral-0);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .arrow-icon {
-  font-size: 18px;
-  color: #999;
+  color: var(--ax-color-text-tertiary);
+  font-size: 16px;
 }
 
-/* ========================================
-   SKELETON STATES
-   ======================================== */
+/* ----- Empty state ------------------------------------ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+
+  .empty-icon-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--ax-color-bg-brand-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    ax-icon {
+      font-size: 36px;
+      color: var(--ax-color-text-brand);
+    }
+  }
+
+  h3 {
+    font-family: var(--ax-font-display);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--ax-color-text-primary);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+
+  p {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ax-color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+    max-width: 280px;
+  }
+}
+
+/* ----- Skeleton state -------------------------------- */
+
+.order-card.skeleton {
+  pointer-events: none;
+}
+
 .skeleton-box {
   position: relative;
+  background: var(--ax-color-bg-brand-subtle);
   overflow: hidden;
-  background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
     animation: shimmer 1.5s infinite;
   }
 }
 
 .skeleton-text {
   position: relative;
-  overflow: hidden;
+  height: 12px;
   border-radius: 4px;
-  background: linear-gradient(90deg, #e8e0da 0%, #f5ebe4 50%, #e8e0da 100%);
+  background: var(--ax-color-bg-brand-subtle);
+  overflow: hidden;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
     animation: shimmer 1.5s infinite;
   }
 
-  &.title-sk {
-    height: 16px;
-    width: 85%;
-    margin-bottom: 8px;
-  }
-
-  &.meta-sk {
-    height: 12px;
-    width: 50%;
-    margin-bottom: 8px;
-  }
-
-  &.status-sk {
-    height: 24px;
-    width: 60px;
-    border-radius: 8px;
-  }
+  &.title-sk { width: 70%; height: 13px; }
+  &.meta-sk  { width: 50%; height: 11px; }
+  &.status-sk { width: 40%; height: 11px; }
 }
 
-/* ========================================
-   EMPTY STATE
-   ======================================== */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 24px;
-  text-align: center;
-
-  .empty-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: rgba(124, 33, 8, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-
-    tui-icon {
-      font-size: 36px;
-      color: $brand-dark;
-    }
-  }
-
-  h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: #333;
-    margin: 0 0 8px;
-  }
-
-  p {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-    line-height: 1.5;
-  }
-}
-
-/* ========================================
-   RTL SUPPORT
-   ======================================== */
-:host-context([dir="rtl"]) {
-  .order-card {
-    text-align: right;
-  }
-
-  .arrow-icon {
-    transform: rotate(180deg);
-  }
-}
-
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 360px) {
-  .order-image {
-    width: 70px;
-    height: 70px;
-  }
-
-  .order-name {
-    font-size: 14px;
-  }
-}
-
-/* ========================================
-   REDUCED MOTION
-   ======================================== */
 @media (prefers-reduced-motion: reduce) {
   .skeleton-box::after,
   .skeleton-text::after {
     animation: none;
-  }
-
-  .order-card,
-  .icon_left {
-    transition: none;
   }
 }
