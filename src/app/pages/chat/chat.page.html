@@ -43,7 +43,7 @@
           @if(orderContext.color){
             <span class="detail-chip">{{ orderContext.color }}</span>
           }
-          <span class="detail-chip">Qty: {{ orderContext.quantity }}</span>
+          <span class="detail-chip">{{ 'label_qty' | translate }}: {{ orderContext.quantity }}</span>
         </div>
       </div>
       <ax-icon name="chevron-right" class="pinned-arrow"></ax-icon>
@@ -250,7 +250,7 @@
   <!-- Disabled Notice -->
   @if(!canSend){
     <div class="disabled-notice">
-      <ion-icon name="information-circle-outline"></ion-icon>
+      <ax-icon name="info"></ax-icon>
       <span>{{ 'chat_disabled_notice' | translate }}</span>
     </div>
   }
@@ -270,7 +270,7 @@
         <ion-title>{{ 'order_details' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="isOrderModalOpen = false">
-            <ion-icon name="close"></ion-icon>
+            <ax-icon name="x"></ax-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>

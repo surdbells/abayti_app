@@ -22,10 +22,9 @@ import {
   IonButton,
   IonFooter,
   IonModal,
-  IonIcon,
   IonSpinner,
   NavController,
-  Platform, IonText
+  Platform
 } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
@@ -61,10 +60,10 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonButton,
     IonFooter,
     IonModal,
-    IonIcon,
     IonSpinner,
     TranslatePipe,
-    IonText, AxIconComponent]
+    AxIconComponent,
+  ]
 })
 export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('chatContent', { static: false }) chatContent!: IonContent;
