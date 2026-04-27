@@ -10,24 +10,14 @@ import {
   signal,
   ViewChild, ViewChildren,
 } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonCol,
   IonContent,
-  IonFab,
-  IonFabButton,
-  IonFooter,
   IonGrid,
   IonHeader,
-  IonIcon,
-  IonImg,
   IonInput,
   IonItem,
   IonLabel,
@@ -35,35 +25,20 @@ import {
   IonModal,
   IonRange,
   IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonSkeletonText,
-  IonTabBar,
-  IonTabButton,
-  IonText,
-  IonThumbnail,
   IonTitle,
   IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
 import {Gesture, GestureController, Platform, ToastController} from "@ionic/angular";
-import {
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import { Products } from "../../class/products";
 import { Labels } from "../../class/labels";
 import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { NetworkService } from "../../service/network.service";
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
-import { TuiCarouselButtons, TuiCarouselComponent, TuiRadioComponent } from "@taiga-ui/kit";
-import { TuiItem } from "@taiga-ui/cdk";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -83,49 +58,26 @@ type DualRange = { lower: number; upper: number };
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    IonButton,
     IonContent,
     IonHeader,
     IonToolbar,
-    FormsModule,
+    IonTitle,
+    IonButton,
     IonButtons,
-    IonCard,
-    IonCardContent,
-    RouterLink,
-    IonCardHeader,
-    IonCardTitle,
-    IonCol,
     IonGrid,
+    IonRow,
+    IonCol,
     IonInput,
     IonItem,
     IonLabel,
+    IonList,
     IonModal,
     IonRange,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonTitle,
-    TuiLabel,
-    TuiRadioComponent,
-    IonImg,
-    IonText,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective,
-    IonList,
-    IonFooter,
-    IonIcon,
-    IonTabBar,
-    IonTabButton,
-    IonFab,
-    IonFabButton,
-    IonSkeletonText,
-    IonThumbnail,
-    TuiCarouselComponent,
-    TuiItem,
-    TuiCarouselButtons,
-    NgOptimizedImage,
-    TranslatePipe, AxIconComponent, AxLoaderComponent]
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   products: Products[] = [];

@@ -1,10 +1,4 @@
 :host {
-  --color: #ffffff;
-  --card: #fff;
-  --text: #000;
-  --muted: #4C4C4C;
-  --accent: #b37a6b;
-
   display: block;
   position: relative;
   height: 100%;
@@ -252,7 +246,8 @@ ion-content {
   height: 48px;
   min-height: 48px;
 
-  tui-icon {
+  ax-icon {
+    color: var(--ax-palette-neutral-0);
     font-size: 20px;
   }
 }
@@ -296,7 +291,8 @@ ion-content {
     opacity: 0.3;
   }
 
-  tui-icon {
+  ax-icon {
+    color: var(--ax-palette-neutral-0);
     font-size: 22px;
   }
 }
@@ -380,6 +376,20 @@ ion-content {
   }
 }
 
+.store-cta-btn {
+  --background: rgba(255, 255, 255, 0.2);
+  --background-hover: rgba(255, 255, 255, 0.3);
+  --background-activated: rgba(255, 255, 255, 0.35);
+  --color: var(--ax-palette-neutral-0);
+  --border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  margin: 0;
+}
+
 /* ========================================
    LOADING & EMPTY STATES
    ======================================== */
@@ -430,11 +440,17 @@ ion-content {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: #fff;
+  color: var(--ax-palette-neutral-0);
   z-index: 100;
+
+  ax-icon {
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.5);
+  }
 
   p {
     margin: 16px 0;
+    font-family: inherit;
     font-size: 1.1rem;
   }
 }

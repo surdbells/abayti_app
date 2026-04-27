@@ -68,13 +68,13 @@
           <!-- Floating action buttons -->
           <div class="floating-buttons">
             <ion-button type="button" (click)="triggerBack()" aria-label="Back" fill="clear" class="action-btn">
-              <ax-icon name="arrow-left" style="color: #fff" />
+              <ax-icon name="arrow-left" />
             </ion-button>
             <ion-button type="button" (click)="startAddToCloset(product.product_id, product.product_name, product.image_1)" fill="clear" class="action-btn">
-              <ax-icon name="heart" style="color: #fff" />
+              <ax-icon name="heart" />
             </ion-button>
             <ion-button type="button" (click)="openHome()" fill="clear" class="action-btn">
-              <ax-icon name="house" style="color: #fff" />
+              <ax-icon name="house" />
             </ion-button>
           </div>
 
@@ -86,7 +86,7 @@
               [disabled]="currentProductIndex === 0"
               fill="clear"
               class="nav-btn">
-              <ax-icon name="chevron-up" style="color: #fff" />
+              <ax-icon name="chevron-up" />
             </ion-button>
             <span class="nav-counter">{{currentProductIndex + 1}}/{{products.length}}</span>
             <ion-button
@@ -95,7 +95,7 @@
               [disabled]="currentProductIndex >= products.length - 1"
               fill="clear"
               class="nav-btn">
-              <ax-icon name="chevron-down" style="color: #fff" />
+              <ax-icon name="chevron-down" />
             </ion-button>
           </div>
 
@@ -114,10 +114,10 @@
               </span>
               <ion-button
                 type="button"
-                style="--background: rgba(255,255,255,0.2); --color: #fff;"
+                class="store-cta-btn"
                 (click)="open_vendor(product.store_id, product.store_name)"
                 size="small">
-                Go to Store
+                {{ 'button_go_to_store' | translate }}
               </ion-button>
             </div>
           </div>
@@ -148,9 +148,9 @@
   <!-- Empty state -->
   @if(ui_controls.is_empty && !ui_controls.is_loading){
     <div class="empty-state">
-      <ax-icon name="package" style="font-size: 48px; color: #999;"></ax-icon>
-      <p>No products available</p>
-      <ion-button type="button" (click)="explore_products()">Refresh</ion-button>
+      <ax-icon name="package" />
+      <p>{{ 'text_no_products_available' | translate }}</p>
+      <ion-button type="button" (click)="explore_products()">{{ 'button_refresh' | translate }}</ion-button>
     </div>
   }
 
