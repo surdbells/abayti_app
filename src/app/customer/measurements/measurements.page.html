@@ -1,5 +1,4 @@
-<ion-content fullscreen="true" class="page-bg">
-  <ion-header class="m7-header-shadow ion-no-border">
+<ion-header class="m7-header-shadow ion-no-border">
   <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
       <ion-button [routerLink]="['/settings']" class="m7-header-back" aria-label="Back">
@@ -9,6 +8,8 @@
     <ion-title class="m7-title">Measurements</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content [fullscreen]="true" class="page-bg">
   <div class="sheet">
     <ion-card>
       @if (!ui_controls.is_loading) {
@@ -23,75 +24,88 @@
       }
       <ion-card-content>
         @if (!ui_controls.is_loading) {
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_bust' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.bust" name="bust" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_bust' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.bust"
+                name="bust">
+              </ax-text-field>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_shoulder' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.shoulder" name="waist" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_shoulder' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.shoulder"
+                name="shoulder">
+              </ax-text-field>
             </ion-col>
           </ion-row>
         }
         @if (!ui_controls.is_loading) {
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_hip' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.hip" name="hip" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_hip' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.hip"
+                name="hip">
+              </ax-text-field>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_length' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.length" name="length" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_length' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.length"
+                name="length">
+              </ax-text-field>
             </ion-col>
           </ion-row>
         }
         @if (!ui_controls.is_loading) {
-          <ion-row class="animate__animated ion-padding-bottom animate__fadeInDown">
+          <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_armhole' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.armhole" name="neck" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_armhole' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.armhole"
+                name="armhole">
+              </ax-text-field>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label class="animate__animated animate__fadeInDown" tuiLabel>{{ 'label_arm' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input type="text" [(ngModel)]="update.arm" name="arm" tuiTextfield />
-              </tui-textfield>
-              <ion-text class="ion-text-center">{{ 'text_inches' | translate }}</ion-text>
+              <ax-text-field
+                [label]="'label_arm' | translate"
+                type="text"
+                inputmode="decimal"
+                [hint]="'text_inches' | translate"
+                [(ngModel)]="update.arm"
+                name="arm">
+              </ax-text-field>
             </ion-col>
           </ion-row>
         }
         <ion-row>
           <ion-col class="ion-text-center">
             @if (!ui_controls.is_loading) {
-              <svg  (click)="update_measurement()"  width="176" height="51" viewBox="0 0 176 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="176" height="51" rx="15" fill="url(#paint0_linear_255_4113)"/>
-                <path d="M68.9 21.24L68.82 27.5L68.4 30.9L66.48 32.98L64.94 33.34H62.62L59.88 32.76L58.4 30.66L58.02 27.7L58.18 21.82L58.08 20L56.48 19.6L56.58 18.8L59.02 19L61.76 18.8L61.72 19.6L60.38 20L60.16 21.9L60 26.48L60.14 29.66L61.04 31.46L63.54 32.4L65.82 32.04L67.28 30.04L67.72 26.9L67.6 21.4L67.46 19.92L66.18 19.6L66.28 18.8L68.32 19L70.46 18.8L70.42 19.6L69.04 19.92L68.9 21.24ZM74.2898 23.9H74.4298L76.5698 22.6L78.7898 22.84L80.2498 23.88L81.4098 26.26L81.4298 29.66L80.6698 31.24L78.3698 33.1L76.1498 33.4L74.2498 32.9L74.3098 34.68L74.4698 37L75.9298 37.4L75.8298 38.1L73.3898 38L70.9498 38.1L70.9898 37.4L72.3098 37L72.4098 34.9L72.4898 30.52L72.3698 26.06L72.2698 23.92L70.8498 23.98L70.7498 23.28L73.5098 22.74L74.2698 22.96L74.2898 23.9ZM74.2698 31.8L76.4298 32.5L77.6898 32.14L79.2298 30.5L79.5098 28.2L78.9098 24.84L77.1298 23.78L74.3298 24.74L74.3698 25.74L74.2698 31.8ZM90.3881 32.1H90.2881L88.0681 33.4L85.8481 33.16L84.3881 32.12L83.2281 29.74L83.2081 26.34L83.9681 24.76L86.2681 22.9L88.4881 22.6L90.4281 23.1L90.3081 19.28L88.6481 19.12L88.7481 18.42L91.5081 17.88L92.3081 18.1L92.1681 25.84L92.3081 32.18L93.6881 32.38L93.5481 33.04L90.7681 33.28L90.3881 32.1ZM87.4481 32.38L90.3881 31.26L90.4281 24.2L88.2081 23.5L86.9481 23.86L85.4081 25.5L85.1281 27.8L85.7281 31.16L87.4481 32.38ZM102.227 29.36L102.367 32.18L103.747 32.38L103.607 33.04L100.827 33.28L100.567 32.1H100.467L98.4869 33.28H96.4069L95.0069 32.26L94.5869 30.3L95.4669 28.74L97.8669 27.7L100.507 27.6L100.427 25.1L100.047 23.86L98.4269 23.4L96.4869 23.86L96.4269 25.98L95.6469 26.14L95.1269 23.4L97.4269 22.72L100.007 22.6L101.567 23.36L102.207 25.08L102.227 29.36ZM97.0669 31.88L98.5669 32.26L100.587 31.1L100.507 28.4H98.7669L97.2269 29.02L96.5269 30.26L97.0669 31.88ZM109.189 33.2L107.829 33.4L106.409 32.92L105.769 31.32L105.869 27.6L105.769 24.24L104.389 24.04L104.269 23.34L105.849 22.92L106.569 20.9H107.589L107.529 23.14L109.949 23.22L109.829 24.1L107.729 24.24L107.649 25.16L107.729 31.22L108.129 32.42L110.009 31.92L110.309 32.52L109.189 33.2ZM113.214 27.62L113.194 27.8L113.734 30.62L115.314 32.18L117.154 32.38L119.034 31.38L119.394 31.9L117.814 33.16L115.934 33.4L113.974 32.94L112.274 31.52L111.254 28.52L111.594 25.84L112.634 23.96L114.734 22.8L116.494 22.58L117.894 23.02L118.974 24L119.594 25.78L119.614 27.44L119.334 27.66L116.674 27.84L113.214 27.62ZM114.214 24.38L113.434 25.9L113.314 26.8L116.354 26.84L117.734 26.54L117.614 24.68L117.014 23.66L115.734 23.48L114.214 24.38Z" fill="white"/>
-                <defs>
-                  <linearGradient id="paint0_linear_255_4113" x1="0" y1="25.5" x2="176" y2="25.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#7C2108"/>
-                    <stop offset="1" stop-color="#E23C0F"/>
-                  </linearGradient>
-                </defs>
-              </svg>
+              <ion-button (click)="update_measurement()" expand="block" class="ion-margin-vertical" type="button">
+                {{ 'button_update' | translate }}
+              </ion-button>
             }
             @if (ui_controls.is_loading) {
-              <ax-loader></ax-loader>
+              <div class="loader-row">
+                <ax-loader></ax-loader>
+              </div>
             }
           </ion-col>
         </ion-row>

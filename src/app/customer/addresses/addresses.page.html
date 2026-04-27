@@ -1,5 +1,4 @@
-<ion-content [fullscreen]="true" class="page-bg">
-  <ion-header class="m7-header-shadow ion-no-border">
+<ion-header class="m7-header-shadow ion-no-border">
   <ion-toolbar class="m7-toolbar ion-no-border">
     <ion-buttons slot="start">
       <ion-button [routerLink]="['/settings']" class="m7-header-back" aria-label="Back">
@@ -8,89 +7,111 @@
     </ion-buttons>
     <ion-title class="m7-title">My addresses</ion-title>
     <ion-buttons slot="end">
-        <ion-button (click)="user_wishlist()" fill="clear" class="m7-header-action">
-          <ax-icon name="heart"/>
-        </ion-button>
-        <ion-button (click)="user_cart()" fill="clear" class="m7-header-action">
-          <app-cart-icon [count]="0"></app-cart-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-button (click)="user_wishlist()" fill="clear" class="m7-header-action">
+        <ax-icon name="heart"/>
+      </ion-button>
+      <ion-button (click)="user_cart()" fill="clear" class="m7-header-action">
+        <app-cart-icon [count]="0"></app-cart-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-content [fullscreen]="true" class="page-bg">
   <div class="sheet ion-padding-horizontal">
     @if (ui_controls.is_loading) {
-      <ax-loader></ax-loader>
+      <div class="loader-row">
+        <ax-loader></ax-loader>
+      </div>
     }
     @if (!ui_controls.is_loading){
-      <ion-row class="animate__animated ion-padding-bottom">
+      <ion-row class="ion-padding-bottom">
         <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>{{ 'label_name' | translate }}</label>
-            <input  [(ngModel)]="update.name" name="name" maxlength="15" type="text" tuiTextfield />
-          </tui-textfield>
+          <ax-text-field
+            [label]="'label_name' | translate"
+            type="text"
+            [maxlength]="15"
+            autocomplete="name"
+            [(ngModel)]="update.name"
+            name="name">
+          </ax-text-field>
         </ion-col>
       </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
+      <ion-row class="ion-padding-bottom">
         <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>{{ 'label_phone' | translate }}</label>
-            <input  [(ngModel)]="update.phone" name="phone" type="text" tuiTextfield />
-          </tui-textfield>
+          <ax-text-field
+            [label]="'label_phone' | translate"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="tel-national"
+            [(ngModel)]="update.phone"
+            name="phone">
+          </ax-text-field>
         </ion-col>
         <ion-col>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <label tuiLabel>{{ 'label_email' | translate }}</label>
-            <input  [(ngModel)]="update.email" name="email" type="text" tuiTextfield />
-          </tui-textfield>
+          <ax-text-field
+            [label]="'label_email' | translate"
+            type="email"
+            autocomplete="email"
+            [(ngModel)]="update.email"
+            name="email">
+          </ax-text-field>
         </ion-col>
       </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
+      <ion-row class="ion-padding-bottom">
         <ion-col>
-          <label tuiLabel class="ion-color-light">{{ 'label_city' | translate }}</label>
-          <ion-button expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button" id="open-city">
+          <label class="address-field-label">{{ 'label_city' | translate }}</label>
+          <ion-button expand="block" class="ion-margin-vertical" type="button" id="open-city">
             <span class="cc-code">{{ update.city }}</span>
             <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
           </ion-button>
         </ion-col>
         <ion-col>
           @if (ui_controls.is_loading_area) {
-            <ax-loader></ax-loader>
+            <div class="loader-row">
+              <ax-loader></ax-loader>
+            </div>
           }
           @if (!ui_controls.is_loading_area) {
-            <label tuiLabel class="ion-color-light">{{ 'label_area' | translate }}</label>
-          }
-          @if (!ui_controls.is_loading_area) {
-            <ion-button expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button" id="open-area">
+            <label class="address-field-label">{{ 'label_area' | translate }}</label>
+            <ion-button expand="block" class="ion-margin-vertical" type="button" id="open-area">
               <span class="cc-code">{{ update.area }}</span>
               <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
             </ion-button>
           }
         </ion-col>
       </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
+      <ion-row class="ion-padding-bottom">
         <ion-col>
-          <label tuiLabel>{{ 'label_street_address' | translate }}</label>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <input  [(ngModel)]="update.street" name="street" type="text" tuiTextfield />
-          </tui-textfield>
+          <ax-text-field
+            [label]="'label_street_address' | translate"
+            type="text"
+            autocomplete="street-address"
+            [(ngModel)]="update.street"
+            name="street">
+          </ax-text-field>
         </ion-col>
       </ion-row>
-      <ion-row class="animate__animated ion-padding-bottom">
+      <ion-row class="ion-padding-bottom">
         <ion-col>
-          <label tuiLabel>{{ "label_villa_number" | translate }}</label>
-          <tui-textfield class="animate__animated animate__fadeInDown"  #m tuiTextfieldSize="m" style="width:100%">
-            <input  [(ngModel)]="update.villa_number" name="villa_number" type="text" tuiTextfield />
-          </tui-textfield>
+          <ax-text-field
+            [label]="'label_villa_number' | translate"
+            type="text"
+            [(ngModel)]="update.villa_number"
+            name="villa_number">
+          </ax-text-field>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           @if (!ui_controls.is_updating) {
-            <ion-button (click)="update_billing()" expand="block" class="ion-margin-vertical animate__animated animate__fadeInDown" type="button"> {{ 'button_update' | translate }}
+            <ion-button (click)="update_billing()" expand="block" class="ion-margin-vertical" type="button"> {{ 'button_update' | translate }}
             </ion-button>
           }
           @if (ui_controls.is_updating) {
-            <ax-loader></ax-loader>
+            <div class="loader-row">
+              <ax-loader></ax-loader>
+            </div>
           }
         </ion-col>
       </ion-row>
@@ -110,7 +131,7 @@
         <ion-content>
           <ion-list>
             @for (cities of city; track cities) {
-              <ion-item  button detail (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()" >
+              <ion-item button detail (click)="selectCode(cities.name, cities.city_ID); cityModal.dismiss()">
                 <ion-label>
                   <div class="code-line">
                     <span class="name">{{ cities.name }}</span>
@@ -130,14 +151,14 @@
           <ion-toolbar>
             <ion-title>{{ 'title_select_area' | translate }}</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="areaModal.dismiss()">{{ "button_close" | translate }}</ion-button>
+              <ion-button (click)="areaModal.dismiss()">{{ 'close' | translate }}</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content>
           <ion-list>
             @for (areas of area; track areas) {
-              <ion-item  button detail (click)="selectArea(areas.name); areaModal.dismiss()" >
+              <ion-item button detail (click)="selectArea(areas.name); areaModal.dismiss()">
                 <ion-label>
                   <div class="code-line">
                     <span class="name">{{ areas.name }}</span>

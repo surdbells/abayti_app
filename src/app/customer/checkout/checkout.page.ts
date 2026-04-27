@@ -5,14 +5,22 @@ import {Subscription} from "rxjs";
 import {
   IonAccordion,
   IonAccordionGroup,
-  IonButton, IonButtons,
-  IonCard, IonCol, IonContent,
-  IonFooter, IonGrid, IonHeader,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCol,
+  IonContent,
+  IonHeader,
   IonItem,
   IonLabel,
-  IonList, IonModal, IonNote, IonRefresher, IonRefresherContent, IonRow,
+  IonList,
+  IonModal,
+  IonRefresher,
+  IonRefresherContent,
+  IonRow,
   IonText,
-  IonTitle, IonToolbar,
+  IonTitle,
+  IonToolbar,
   NavController,
   Platform
 } from "@ionic/angular/standalone";
@@ -23,28 +31,22 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
-import {
-  TuiLabel, TuiNotification,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {InAppBrowser} from "@capgo/inappbrowser";
 import {TranslatePipe} from "../../translate.pipe";
 import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
 
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
   styleUrls: ['./checkout.page.scss'],
   imports: [
-    IonFooter,
     IonItem,
     IonText,
     IonLabel,
@@ -59,21 +61,17 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     RouterLink,
     IonRefresher,
     IonRefresherContent,
-    IonNote,
     IonCol,
-    IonGrid,
     IonRow,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective,
     TranslatePipe,
     IonAccordionGroup,
     IonAccordion,
-    TuiNotification,
-    ReactiveFormsModule,
-    TuiLabel,
     FormsModule,
-    IonModal, AxIconComponent, AxLoaderComponent],
+    IonModal,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ],
   standalone: true
 })
 export class CheckoutPage implements OnInit, OnDestroy {
@@ -83,7 +81,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
   area: Area[] = [];
   categories: Labels[] = [];
   isOnline = true;
-  isWishOpen = false; // or control this as you like
   isConfirmBilling = false;
   private sub: Subscription;
   @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;

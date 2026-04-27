@@ -4,18 +4,19 @@ import {
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCol,
   IonContent,
-  IonFab,
-  IonFabButton,
-  IonHeader, IonInput, IonItem, IonRow, IonSelect, IonSelectOption, IonText, IonTitle,
+  IonHeader,
+  IonRow,
+  IonTitle,
   IonToolbar,
   NavController,
   Platform
 } from '@ionic/angular/standalone';
-import {
-    TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {ConnectionService} from "../../service/connection.service";
 import {Router, RouterLink} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
@@ -24,12 +25,11 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {List} from "../../class/list";
-import {TuiAccordionDirective, TuiCarouselComponent} from "@taiga-ui/kit";
-import {TuiItem} from "@taiga-ui/cdk";
 import {FormsModule} from "@angular/forms";
 import {TranslatePipe} from "../../translate.pipe";
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-measurements',
   standalone: true,
@@ -43,29 +43,19 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonContent,
     IonCard,
     IonCardContent,
-    IonFab,
-    IonFabButton,
-    TuiCarouselComponent,
-    TuiItem,
-    IonItem,
-    IonInput,
-    IonSelect,
-    IonSelectOption,
     FormsModule,
-    TuiAccordionDirective,
     IonCol,
     IonRow,
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective,
     IonTitle,
-    IonText,
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
     IonButton,
-    TranslatePipe, AxLoaderComponent, AxIconComponent]
+    TranslatePipe,
+    AxLoaderComponent,
+    AxIconComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class MeasurementsPage implements OnInit, OnDestroy {
   list: List[] = [];

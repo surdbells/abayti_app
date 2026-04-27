@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
-  IonContent, IonFab, IonFabButton,
-  IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonModal,
+  IonRow,
   IonTitle,
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
-import {
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective,
-    TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Router, RouterLink} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -32,12 +30,33 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.page.html',
   styleUrls: ['./addresses.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonFab, IonFabButton, RouterLink, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCol, IonRow, TuiLabel, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonButton, IonItem, IonLabel, IonList, IonModal, CartIconComponent, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    FormsModule,
+    IonButtons,
+    RouterLink,
+    IonCol,
+    IonRow,
+    IonButton,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonModal,
+    CartIconComponent,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class AddressesPage implements OnInit, OnDestroy {
   billing: Billing[] = [];

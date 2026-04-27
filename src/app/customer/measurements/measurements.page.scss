@@ -1,9 +1,8 @@
+/* ============================================================================
+   Measurements page — M2 styling
+   ============================================================================ */
 
-/* Page background */
-ion-content.profile-sheet { --background: var(--bg); }
-
-
-/* ======= Rounded sheet ======= */
+/* Rounded content sheet */
 .sheet {
   max-width: 520px;
   margin: 0 auto;
@@ -12,112 +11,10 @@ ion-content.profile-sheet { --background: var(--bg); }
   gap: 16px;
 }
 
-/* Card */
-.measure-card {
-  border-radius: 0.75rem; /* ~rounded-lg */
-  box-shadow: 0 1px 2px rgba(0,0,0,.06);
-  padding: 1rem; /* p-4 */
-  background: var(--ion-item-background, #fff);
-}
-
-/* Row layout: image left, content right */
-.mc-row {
+/* Loader row — centered (matches auth pattern) */
+.loader-row {
   display: flex;
-  align-items: center; /* items-center */
-  gap: 1rem;           /* space-x-4 */
-}
-
-/* Image */
-.mc-img {
-  width: 8.5rem;   /* w-24 */
-  height: 8.5rem;  /* h-24 */
-  object-fit: contain;
-  border-radius: 0.5rem;        /* rounded */
-  background: rgba(0,0,0,.02);  /* subtle bg to match Tailwind feel */
-}
-
-/* Right side */
-.mc-body {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.mc-title {
-  color: var(--ion-text-color, #1f2937); /* text-gray-800 */
-  font-weight: 600;                      /* font-semibold */
-  margin-bottom: 0.5rem;                 /* mb-2 */
-  line-height: 1.25;
-}
-
-/* Input group (ion-item acts like a field wrapper) */
-.mc-input-item {
-  --background: transparent;
-  --inner-padding-end: 0;
-  --padding-start: 0;
-  --padding-end: 0;
-  --min-height: auto;
-  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: .5rem;
-  border: 1px solid rgba(0,0,0,.12);  /* border */
-  border-radius: .5rem;               /* rounded-md */
-  padding: .25rem .5rem;              /* px-2 py-1 */
-  transition: box-shadow .15s, border-color .15s;
-  background: #fff;
-}
-
-/* Focus-within ring effect like Tailwind focus:ring */
-.mc-input-item:focus-within {
-  border-color: var(--ion-color-primary, #3b82f6);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ion-color-primary, #3b82f6) 25%, transparent);
-}
-
-/* Make input fill the row; tidy paddings */
-.mc-input-item ion-input {
-  --padding-start: .5rem;
-  --padding-end: .5rem;
-  --padding-top: .375rem;
-  --padding-bottom: .375rem;
-  font-size: 0.95rem;
-  flex: 1 1 auto;
-}
-
-/* Unit select kept compact on the right */
-.mc-input-item .mc-unit {
-  --padding-start: .5rem;
-  --padding-end: .5rem;
-  min-width: 4.5rem; /* ~w-18 */
-  text-transform: lowercase;
-}
-
-/* Responsive: stack vertically on small screens */
-@media (max-width: 576px) {
-  .mc-row {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-
-  .mc-img {
-    margin: 0 auto .5rem;
-  }
-
-  .mc-input-item {
-    text-align: left;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .measure-card {
-    border-color: rgba(255,255,255,.06);
-    background: var(--ion-item-background, #1f1f1f);
-  }
-  .mc-img {
-    background: rgba(255,255,255,.04);
-  }
-  .mc-input-item {
-    background: #111;
-    border-color: rgba(255,255,255,.12);
-  }
+  padding: 1rem 0;
 }

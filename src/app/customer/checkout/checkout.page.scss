@@ -1,176 +1,84 @@
+/* ============================================================================
+   Checkout — M2 redesign
+   ============================================================================ */
+
+/* ----- Info notices (replaces <button tuiNotification> banners) ---------- */
+
+.info-notice {
+  display: block;
+  padding: 12px 14px;
+  margin: 8px 0;
+  background: var(--ax-color-bg-brand-subtle);
+  border: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.08));
+  border-radius: var(--ax-radius-md);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ax-color-text-secondary);
+}
+
+/* ----- Field label (matches ax-text-field's __label, used on city/area
+        picker buttons for visual alignment with adjacent inputs) ---------- */
+
+.checkout-field-label {
+  display: block;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--ax-color-text-secondary);
+  margin-bottom: 6px;
+}
+
+/* ----- Order summary card --------------------------------------------- */
+
 .cart-card {
-  --ion-background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(10, 10, 10, 0.08);
+  --ion-background-color: var(--ax-color-bg-surface, #ffffff);
+  border-radius: var(--ax-radius-lg);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
   overflow: hidden;
   padding: 12px;
   margin-bottom: 12px;
 }
 
-.card-row {
-  display: flex;
-  gap: 12px;
-  align-items: stretch;
-}
-
-/* Left image */
-.img-wrap {
-  flex: 0 0 110px;
-  height: 110px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  cursor: pointer;
-  display: block;
-}
-
-.img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Right content */
-.content-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1 1 auto;
-}
-
-/* Generic row */
-.row {
-  display: flex;
-  align-items: center;
-}
-
-/* Top row: title + icons */
-.row-top {
-  justify-content: space-between;
-}
-
-.title {
+.cart-card__title {
+  font-family: inherit;
   font-size: 16px;
-  font-weight: 900;
-  color: #000000;
-  line-height: 1.2;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;       /* allow 2 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 8px;
-  max-height: 2.4em;           /* prevents overflow beyond 2 lines */
-}
-
-/* action icons */
-.icons {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.icon-btn {
-  --padding-start: 4px;
-  --padding-end: 4px;
-  --padding-top: 2px;
-  --padding-bottom: 2px;
-}
-
-/* Middle row: description (2 lines max) */
-.row-mid .desc {
-  font-size: 10px;
-  color: #000000;
-  font-weight: bolder;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: clip;
-}
-
-/* Bottom row: price/size + qty */
-.row-bottom {
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  margin-top: 6px;
-}
-
-.left-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.price {
-  font-weight: 900;
-  color: #000000;
-  font-size: 15px;
-  text-wrap: none;
-}
-
-.size {
-  font-size: 14px;
-  color: #000000;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.7);
-}
-
-/* Quantity controls */
-.qty-controls {
-  display: flex;
-  align-items: center;
-}
-
-.qty-btn {
-  --padding-top: 2px;
-  --padding-bottom: 2px;
-  --padding-start: 2px;
-  --padding-end: 2px;
-}
-
-.qty {
-  min-width: 28px;
-  text-align: center;
   font-weight: 600;
-  font-size: 14px;
+  color: var(--ax-color-text-primary);
+  margin: 0 0 8px;
+  padding: 0 4px;
 }
 
-/* Responsive tweaks */
-@media (max-width: 420px) {
-  .img-wrap { flex-basis: 90px; height: 90px; }
-  .title { font-size: 15px; }
-  .price { font-size: 14px; }
-  .cart-card { padding: 10px; border-radius: 10px; }
-  .qty { min-width: 24px; font-size: 13px; }
+.contact-list {
+  background: transparent;
 }
-.billing-list {
-  ion-item {
-    --inner-border-width: 0;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    --min-height: 54px;
-    --background: transparent;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    padding: 6px 2px;
-    ion-icon[slot="start"] {
-      font-size: 22px;
-      color: #BA2E06; // your brand color
-      margin-right: 12px;
-    }
 
-    ion-icon[slot="end"] {
-      font-size: 18px;
-      color: #999;
-    }
+/* ----- Order summary divider (replaces inline-SVG line) --------------- */
 
-    ion-label {
-      font-size: 16px;
-      font-weight: 500;
-      color: #222;
-    }
-  }
+.summary-divider {
+  border: none;
+  height: 1px;
+  background: var(--ax-color-border-subtle, rgba(46, 36, 28, 0.12));
+  margin: 4px 0;
+  width: 100%;
+}
+
+/* ----- Checkout CTA (the big "Proceed to Checkout" button) ----------- */
+
+.checkout-cta {
+  --border-radius: var(--ax-radius-pill, 999px);
+  font-weight: 500;
+}
+
+/* ----- Loader row (matches auth + addresses pattern) ----------------- */
+
+.loader-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
 }
