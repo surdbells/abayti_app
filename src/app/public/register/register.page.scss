@@ -165,3 +165,11 @@ ion-content.app-bg {
   div[dir="ltr"], div[dir="rtl"] { font-size: 13px !important; }
 }
 
+
+/* Loader row — centered (matches login + reset pattern) */
+.loader-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}

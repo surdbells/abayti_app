@@ -17,6 +17,7 @@
                 [maxlength]="10"
                 [required]="true"
                 [placeholder]="'enter_phone' | translate"
+                autocomplete="tel-national"
                 [(ngModel)]="register.phone"
                 name="phone">
               </ax-text-field>
@@ -36,6 +37,9 @@
               <ax-text-field
                 [label]="'otp' | translate"
                 type="text"
+                inputmode="numeric"
+                [required]="true"
+                autocomplete="one-time-code"
                 [(ngModel)]="validateOtp.code"
                 name="input_otp">
               </ax-text-field>
@@ -73,6 +77,7 @@
                 type="text"
                 [required]="true"
                 [placeholder]="'e_first_name' | translate"
+                autocomplete="given-name"
                 [(ngModel)]="register.first_name"
                 name="first_name">
               </ax-text-field>
@@ -83,8 +88,9 @@
                 type="text"
                 [required]="true"
                 [placeholder]="'e_last_name' | translate"
+                autocomplete="family-name"
                 [(ngModel)]="register.last_name"
-                name="first_name">
+                name="last_name">
               </ax-text-field>
             </ion-col>
           </ion-row>
@@ -92,9 +98,10 @@
             <ion-col class="ion-no-padding">
               <ax-text-field
                 [label]="'email_Address' | translate"
-                type="text"
+                type="email"
                 [required]="true"
                 [placeholder]="'e_email_Address' | translate"
+                autocomplete="email"
                 [(ngModel)]="register.email"
                 name="email">
               </ax-text-field>
@@ -107,6 +114,7 @@
                 [label]="'password' | translate"
                 type="password"
                 [required]="true"
+                autocomplete="new-password"
                 [(ngModel)]="register.password"
                 name="password">
               </ax-text-field>
@@ -117,6 +125,7 @@
                 [label]="'confirm_password' | translate"
                 type="password"
                 [required]="true"
+                autocomplete="new-password"
                 [(ngModel)]="register.confirm_password"
                 name="confirm_password">
               </ax-text-field>
@@ -124,7 +133,7 @@
           </ion-row>
           <div (click)="isTermsOpen = true" class="ion-margin-bottom">
             <ion-checkbox label-placement="end" [checked]="register.accepted_terms" (ionChange)="register.accepted_terms = !register.accepted_terms">
-              <span style="color: #0d0d0d;">{{ 'accept_terms' | translate }}</span>
+              <span>{{ 'accept_terms' | translate }}</span>
             </ion-checkbox>
           </div>
           @if (ui_controls.otpValidated) {
@@ -146,9 +155,9 @@
           </div>
         }
         @if (ui_controls.loading) {
-          <span  class="ion-text-center ion-padding-vertical">
+          <div class="loader-row">
             <ax-loader></ax-loader>
-          </span>
+          </div>
         }
       </ion-col>
     </ion-row>
