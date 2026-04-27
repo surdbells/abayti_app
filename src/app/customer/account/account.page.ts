@@ -111,7 +111,8 @@ export class AccountPage implements OnInit, OnDestroy {
     {id: 4, name: 'Bags'},
     {id: 5, name: 'Accessories'},
     {id: 6, name: 'Modest clothes'},
-    {id: 7, name: 'Dresses'}
+    {id: 7, name: 'Dresses'},
+    {id: 8, name: 'Pyjamas'}
   ];
   protected value: Category | null = {id: 1, name: 'Abayas'};
   private sub: Subscription;

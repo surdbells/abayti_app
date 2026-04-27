@@ -1,20 +1,3 @@
-<ion-header class="m7-header-shadow ion-no-border">
-  <ion-toolbar class="m7-toolbar ion-no-border">
-    <ion-buttons slot="start">
-      <ion-button (click)="triggerBack()" class="m7-header-back" aria-label="Back">
-        <ax-icon name="arrow-left" />
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="user_wishlist()" fill="clear" class="m7-header-action">
-        <ax-icon name="heart" />
-      </ion-button>
-      <ion-button (click)="openCart()" fill="clear" class="m7-header-action">
-        <app-cart-icon [count]="bill.count"></app-cart-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content fullscreen="true" class="page-bg">
   <div class="safe-area">
     <!-- Image Slider -->
