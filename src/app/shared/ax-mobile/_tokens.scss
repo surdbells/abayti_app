@@ -284,6 +284,19 @@
 
 
   /* -----------------------------------------------------------------------
+     INPUTS
+     Sizing tokens for the M2 text-field primitive (ax-text-field).
+     Height + padding chosen for mobile tap targets (48px tall).
+     ----------------------------------------------------------------------- */
+  --ax-input-height:             48px;
+  --ax-input-padding-x:          14px;
+  --ax-input-padding-x-end:      44px;  /* with trailing toggle (eye icon) */
+  --ax-input-radius:             var(--ax-radius-md);
+  --ax-input-border-width:       1px;
+  --ax-input-border-width-focus: 1.5px;
+
+
+  /* -----------------------------------------------------------------------
      Z-INDEX
      Mobile shell uses Ionic's overlay layer (10000+ for modals) so our
      z-tokens stay below those. Toasts ride above Ionic.
