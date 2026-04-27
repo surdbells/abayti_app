@@ -1,40 +1,19 @@
 import {Component, Input, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
 
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
   IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle, IonChip,
-  IonCol,
   IonContent,
-  IonFooter,
-  IonGrid,
   IonHeader,
-  IonIcon, IonInfiniteScroll, IonInfiniteScrollContent,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
-  IonRange,
-  IonRefresher,
-  IonRefresherContent,
-  IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
-import {CartIconComponent} from "../../cart-icon.component";
 import {TranslatePipe} from "../../translate.pipe";
-import {TuiAvatar, TuiChip, TuiRadioComponent} from "@taiga-ui/kit";
-import {
-    TuiFallbackSrcPipe,
-    TuiLabel,
-    TuiTextfieldComponent,
-    TuiTextfieldDirective, TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
 import {Subscription} from "rxjs";
@@ -45,7 +24,6 @@ import {BlockerService} from "../../blocker.service";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
-import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 interface Category {
@@ -72,7 +50,22 @@ export interface Store {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, CartIconComponent, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonFooter, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonList, IonModal, IonRange, IonRefresher, IonRefresherContent, IonRow, IonSelect, IonSelectOption, IonTabBar, IonTabButton, TranslatePipe, TuiAvatar, TuiFallbackSrcPipe, TuiLabel, TuiRadioComponent, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, TuiChip, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    CommonModule,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class HomePage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];
