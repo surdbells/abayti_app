@@ -1,256 +1,282 @@
-/* Bootstrap-style select wrapper */
-.bootstrap-select {
-  --background: #fff;
-  --border-radius: 8px;
-  --border-width: 1px;
-  --border-color: #ced4da;
+/* ============================================================================
+   Create Style page — M2 redesign (M22 Tier 3)
+   ============================================================================ */
 
-  border: 2px solid #ced4da !important;
-  border-radius: 11px;
-  padding: 6px 12px !important;
-  margin-bottom: 16px;
-
-  font-size: 1rem;
-  color: #495057;
-
-  display: flex;
-  align-items: center;
-  height: 58px;
+ion-content.page-bg {
+  --background: var(--ax-color-bg-canvas);
 }
 
-/* Remove Ionic bottom border */
-.bootstrap-select::part(native) {
-  border: none !important;
-}
+/* ----- Form card --------------------------------------------- */
 
-/* Select text alignment */
-.bootstrap-select ion-select {
-  width: 100%;
-  padding-left: 2px;
-}
-
-/* Chevron icon like Bootstrap */
-.bootstrap-select ion-select::part(icon) {
-  color: #6c757d;
-  font-size: 20px;
-}
-.page-header {
-  background: linear-gradient(to bottom, #7C2108, #B12C06);
-  padding-bottom: 14px;
-}
-
-.toolbar {
-  --background: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.title {
-  color: #fff;
-  font-size: 26px;
-  font-weight: 700;
-}
-.section_title {
-  color: #000;
-  font-size: 26px;
-  font-weight: 700;
-}
-.subtitle {
-  color: #fff;
-  font-size: 16px;
-}
-.icon-btn {
-  background: #FAD9C4;
-  padding: 10px;
-  border-radius: 14px;
-}
-.icon_left {
-  background: #BE431F;
-  padding: 10px;
-  border-radius: 14px;
-  color: #fff;
-  border: 1px solid #fff;
-}
-.form_label_title {
-  color: #7C2108;
-  font-size: 16px;
-  font-weight: 700;
-}
 .form-card {
-  background: transparent;
-  box-shadow: none !important;
-  border: none !important;
-  border-radius: 22px;
-  padding-bottom: 20px;
+  margin: 0;
+  border-radius: var(--ax-radius-lg);
+  background: var(--ax-color-bg-surface);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06);
+  border: none;
+  padding: 16px;
 }
 
-.input-field {
-  --background: transparent;
-  margin-bottom: 10px;
-  border-radius: 14px;
+.field {
+  margin-bottom: 4px;
+}
 
-  ion-label {
-    font-weight: bold;
-  }
+.field__label {
+  display: block;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ax-color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.input-frame {
+  --background: transparent;
+  --border-color: var(--ax-color-border-subtle, rgba(46, 36, 28, 0.12));
+  --inner-padding-end: 0;
+  --padding-start: 12px;
+  --min-height: 44px;
+  border: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.12));
+  border-radius: var(--ax-radius-md);
+}
+
+.input-box {
+  --color: var(--ax-color-text-primary);
+  --placeholder-color: var(--ax-color-text-tertiary);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+ion-select {
+  --color: var(--ax-color-text-primary);
+  --placeholder-color: var(--ax-color-text-tertiary);
+  font-family: inherit;
+  font-size: 14px;
+  min-height: 44px;
+  width: 100%;
+  padding-inline-start: 0;
+}
+
+ion-checkbox {
+  --color: var(--ax-color-text-primary);
+  --color-checked: var(--ax-color-text-brand);
+  --background-checked: var(--ax-color-text-brand);
+  --border-color: var(--ax-color-border-subtle, rgba(46, 36, 28, 0.3));
+  --border-color-checked: var(--ax-color-text-brand);
+  --border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* ----- Selected products section ------------------------------ */
+
+.section-label-row {
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
 .section-label {
-  font-weight: bold;
-  margin: 20px 0 10px 0;
-  font-size: 1.1rem;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ax-color-text-secondary);
 }
+
+.selected-grid {
+  --ion-grid-padding: 0;
+
+  ion-row {
+    --ion-grid-column-padding: 4px;
+  }
+}
+
+/* ----- Product card (in selected grid + modal) --------------- */
+
+.product-card {
+  position: relative;
+  margin: 0;
+  border-radius: var(--ax-radius-md);
+  background: var(--ax-color-bg-surface);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+
+  .product-image {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--ax-palette-neutral-0);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    ax-icon {
+      font-size: 14px;
+    }
+  }
+
+  .product-title {
+    padding: 8px 8px 0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ax-color-text-primary);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-price {
+    padding: 4px 8px 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ax-color-text-brand);
+  }
+}
+
+/* ----- Action buttons ---------------------------------------- */
 
 .button-row {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.primary-btn {
-  --background: #b84c30;
-  --border-radius: 14px;
-  font-weight: bold;
-  color: #fff;
-  height: 54px;
-}
-
 .secondary-btn {
-  --background: #d7b5aa;
-  --color: #000;
-  --border-radius: 14px;
-  font-weight: bold;
-  border: 2px dashed #b84c30;
-  border-radius: 18px;
-  height: 54px;
-}
-.select-products-modal {
-  // Ensure no display:none or 0 opacity
-  --background: rgba(0,0,0,0.5);
-}
-
-.sort-item {
-  background: #ffffff;
-  border-radius: 12px;
-  border: 2px solid #b84c30;
-  padding: 0 8px;
-  min-width: 150px;
-
-  ion-select {
-    width: 100%;
-    font-weight: 600;
-    color: #5f4a40;
-  }
+  --background: transparent;
+  --background-hover: rgba(90, 58, 44, 0.06);
+  --background-activated: rgba(90, 58, 44, 0.10);
+  --color: var(--ax-color-text-brand);
+  --border-color: var(--ax-color-text-brand);
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 999px;
+  --box-shadow: none;
+  --min-height: 44px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
-.field {
-  margin: 12px 4px;
-
-  &__label {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: #6a1c0b;
-    margin-bottom: 8px;
-    letter-spacing: 0.2px;
-  }
+.primary-btn {
+  --background: var(--ax-color-text-brand);
+  --background-hover: var(--ax-color-text-brand);
+  --background-activated: rgba(90, 58, 44, 0.85);
+  --color: var(--ax-palette-neutral-0);
+  --border-radius: 999px;
+  --box-shadow: none;
+  --min-height: 48px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
-/** Shared input frame styles */
-.input-frame {
-  --background: #fff;
-  --border-radius: 12px;
-  --inner-border-width: 0;
+/* ----- Loader --------------------------------------------- */
+
+.loader-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* ============================================================================
+   Select Products modal
+   ============================================================================ */
+
+ion-modal.select-products-modal {
+  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
+}
+
+.select-products-modal__header {
+  background: var(--ax-color-bg-surface);
+}
+
+.select-products-modal__toolbar {
+  --background: var(--ax-color-bg-surface);
+  --border-color: transparent;
   --min-height: 56px;
-  border: 2px solid rgba(#c1461c, 0.35);
-  border-radius: 12px;
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.12),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-  padding-inline: 12px;
+}
 
-  /* remove default item highlight */
-  --highlight-color-focused: transparent;
-  --highlight-color-valid: transparent;
-  --highlight-color-invalid: transparent;
+.select-products-modal__title {
+  font-family: var(--ax-font-display);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--ax-color-text-primary);
+  text-align: center;
+}
 
-  .input-box,
-  .textarea-box {
-    font-size: 15px;
-    color: #2f2f2f;
+.select-products-modal__close-btn {
+  --color: var(--ax-color-text-brand);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: none;
+}
 
-    &::placeholder {
-      color: #8a8a8a;
-    }
+.select-products-modal__content {
+  --background: var(--ax-color-bg-canvas);
+}
+
+.store-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.store-accordion {
+  background: var(--ax-color-bg-surface);
+  border-radius: var(--ax-radius-md);
+  margin-bottom: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06);
+}
+
+.store-header {
+  --background: var(--ax-color-bg-surface);
+  --inner-padding-end: 12px;
+  --padding-start: 14px;
+  --min-height: 48px;
+
+  ion-label {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ax-color-text-primary);
   }
 }
 
-
-
-.select-products {
-  --background: #fff;
-  padding: 8px 12px;
-}
-
-/* Header title alignment similar to screenshot */
-ion-title {
-  font-weight: 700;
-}
-
-/* Store accordion header pill look */
-.store-header {
-  --background: #f4e8e1;
-  --border-radius: 10px;
-  margin: 8px 0;
-  border-radius: 10px;
-  box-shadow: none;
-  padding-left: 12px;
-  height: 44px;
-  font-weight: 600;
-}
-
-/* Content container spacing */
 .store-content {
-  padding: 6px 2px 14px 2px;
-}
-
-/* Product card styling */
-.product-card {
-  border: 1px solid #e5cfc5;
-  border-radius: 14px;
-  box-shadow: none
-}
-
-.product-image {
-  border-radius: 12px;
-  height: 100px;
-  object-fit: cover;
-}
-
-.product-title {
-  font-size: 10px;
-  color: #6a1c0b;
-  text-align: center;
-  font-weight: 700;
-  margin-top: 8px;
-}
-
-.product-price {
-  text-align: center;
-  color: #6a1c0b;
-  font-weight: 600;
-  padding-bottom: 5px;
-}
-
-
-.like {
-  position: absolute; top: 10px; right: 10px;
-  width: 24px; height: 24px; border-radius: 999px;
-  background: rgba(255,255,255,.9);
-  display: grid; place-items: center;
-  tui-icon { font-size: 18px; color: #fff; filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); }
-  /* dark icon on light bubble */
-  background: #fff; border-color: #eaeaea;
-  tui-icon { color: #6a1c0b; }
+  padding: 8px;
+  background: var(--ax-color-bg-canvas);
 }

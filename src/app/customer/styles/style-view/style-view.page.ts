@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonButtons,
-  IonCol,
   IonContent,
   IonFooter,
   IonHeader,
@@ -12,7 +11,6 @@ import {
   IonLabel,
   IonList,
   IonModal,
-  IonRow,
   IonTabBar,
   IonTabButton,
   IonTitle,
@@ -67,12 +65,13 @@ export interface Styles {
     IonLabel,
     IonTabBar,
     IonTabButton,
-    IonCol,
     IonItem,
     IonList,
     IonModal,
-    IonRow,
-    TranslatePipe, AxIconComponent, AxLoaderComponent]
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class StyleViewPage implements OnInit, OnDestroy {
   isOnline = true;

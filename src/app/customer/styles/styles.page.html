@@ -5,7 +5,7 @@
         <ax-icon name="arrow-left" />
       </ion-button>
     </ion-buttons>
-    <ion-title class="m7-title">Style Hub</ion-title>
+    <ion-title class="m7-title">{{ 'title_style_hub' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="createStyle()" class="m7-header-action" aria-label="Create style">
         <ax-icon name="plus" />
@@ -20,21 +20,21 @@
       class="m7-segment-tab"
       [class.m7-segment-tab--active]="activeTab === 'community'"
       (click)="switchTab('community')">
-      Community
+      {{ 'tab_community' | translate }}
     </button>
     <button
       type="button"
       class="m7-segment-tab"
       [class.m7-segment-tab--active]="activeTab === 'abayti'"
       (click)="switchTab('abayti')">
-      3bayti
+      {{ 'tab_3bayti' | translate }}
     </button>
     <button
       type="button"
       class="m7-segment-tab"
       [class.m7-segment-tab--active]="activeTab === 'personal'"
       (click)="switchTab('personal')">
-      My Styles
+      {{ 'tab_my_styles' | translate }}
     </button>
   </div>
 </ion-header>
@@ -50,12 +50,12 @@
       <div class="empty-icon-wrap">
         <ax-icon name="shirt"></ax-icon>
       </div>
-      <h3>{{ activeTab === 'personal' ? 'No styles yet' : 'No styles available' }}</h3>
-      <p>{{ activeTab === 'personal' ? 'Create your first style collection' : 'Check back later for new styles' }}</p>
+      <h3>{{ activeTab === 'personal' ? ('heading_no_styles_yet' | translate) : ('heading_no_styles_available' | translate) }}</h3>
+      <p>{{ activeTab === 'personal' ? ('text_create_first_style' | translate) : ('text_check_back_styles' | translate) }}</p>
       @if(activeTab === 'personal'){
-        <ion-button type="button" fill="outline" size="small" (click)="createStyle()">
-          <ax-icon name="plus" style="margin-right: 6px;"></ax-icon>
-          Create Style
+        <ion-button type="button" fill="outline" size="small" class="empty-cta" (click)="createStyle()">
+          <ax-icon name="plus" slot="start"></ax-icon>
+          {{ 'button_create_style' | translate }}
         </ion-button>
       }
     </div>
@@ -155,7 +155,7 @@
 
           <div class="card-info">
             <h3 class="style-title">{{ style.style_name }}</h3>
-            <p class="style-count">{{ style.products.length }} items</p>
+            <p class="style-count">{{ style.products.length }} {{ 'label_items' | translate }}</p>
             @if(style.total_price){
               <p class="style-price">Ð{{ style.total_price }}</p>
             }
@@ -174,30 +174,6 @@
 </ion-content>
 
 
-<!--<ion-footer class="app-footer ion-no-border">
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button type="button" (click)="user_home()" tab="home">
-      <ax-icon name="house"/>
-      <ion-label>{{ 'nav_home' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_explore()" tab="explore">
-      <ax-icon name="globe"/>
-      <ion-label>{{ 'explore' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_cart()" tab="cart">
-      <ax-icon name="shopping-cart"/>
-      <ion-label>{{ 'title_my_cart' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button type="button" class="active-tab" tab="sketch">
-      <ax-icon name="blocks"/>
-      <ion-label>{{ 'nav_style_hub' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button type="button" (click)="user_profile()" tab="profile">
-      <ax-icon name="user-pen"/>
-      <ion-label>{{ 'title_user_profile' | translate }}</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>-->
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">

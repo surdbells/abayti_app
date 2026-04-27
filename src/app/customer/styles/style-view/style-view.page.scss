@@ -1,237 +1,177 @@
-/* ========================================
-   VARIABLES
-   ======================================== */
-$brand-dark: #7C2108;
-$brand-light: #B12C06;
-$brand-peach: #fdeee6;
-$brand-cream: #FFF8F4;
-$brand-accent: #952d0f;
+/* ============================================================================
+   Style View page — M2 redesign (M22 Tier 3)
+   ============================================================================ */
 
-/* ========================================
-   HEADER
-   ======================================== */
-.page-header {
-  background: linear-gradient(to bottom, $brand-dark, $brand-light);
-  padding-bottom: 16px;
+ion-content.page-bg {
+  --background: var(--ax-color-bg-canvas);
 }
 
-.toolbar {
-  --background: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* ----- Skeleton shimmer ---------------------------------------- */
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
 }
 
-.header-title {
-  color: #fff;
-  font-size: 18px;
-  font-weight: 700;
+.skeleton-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
 }
 
-.icon_left {
-  background: #BE431F;
-  padding: 10px;
-  border-radius: 14px;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
+/* ----- Summary card ------------------------------------------- */
 
-  &:active {
-    transform: scale(0.92);
-  }
-}
-
-/* ========================================
-   STYLE NAME
-   ======================================== */
-.style-name-wrap {
-  padding: 8px 16px 12px;
-}
-
-.style-name {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* ========================================
-   SUMMARY CARD
-   ======================================== */
 .summary-card {
-  padding: 16px;
-  background: #7C2108;
-  border-radius: 16px;
-  border: 2px solid #B12C06;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--ax-color-bg-surface);
+  border-radius: var(--ax-radius-lg);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
 }
 
 .summary-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
 
   h2 {
-    color: #fff;
     margin: 0;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ax-color-text-secondary);
   }
 }
 
 .item-badge {
-  background: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: var(--ax-color-bg-brand-subtle);
+  color: var(--ax-color-text-brand);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .summary-items {
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .item-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 2px 0;
-  color: #fff;
+  align-items: baseline;
+  gap: 12px;
 
   .item-name {
-    font-size: 13px;
-    opacity: 0.95;
     flex: 1;
-    padding-right: 12px;
-    white-space: nowrap;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ax-color-text-primary);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .item-price {
-    font-size: 13px;
-    font-weight: 700;
     flex-shrink: 0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ax-color-text-secondary);
   }
 }
 
 .summary-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.4);
-  margin: 12px 0;
+  background: var(--ax-color-border-subtle, rgba(46, 36, 28, 0.08));
+  margin: 14px 0;
 }
 
 .total-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  color: #fff;
+  align-items: baseline;
 
   .total-label {
-    font-size: 14px;
-    font-weight: 600;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ax-color-text-primary);
   }
 
   .total-price {
-    font-size: 20px;
-    font-weight: 800;
+    font-family: var(--ax-font-display);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--ax-color-text-brand);
   }
 }
 
-/* ========================================
-   PAGE BACKGROUND
-   ======================================== */
-.page-bg {
-  --background: $brand-cream;
-}
+/* ----- Section header --------------------------------------- */
 
-/* ========================================
-   SECTION HEADER
-   ======================================== */
 .section-header {
-  padding: 8px 0 16px;
+  margin-bottom: 12px;
+  margin-top: 8px;
 }
 
 .section-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
   margin: 0;
+  font-family: var(--ax-font-display);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--ax-color-text-primary);
+  line-height: 1.3;
 }
 
-/* ========================================
-   SKELETON ANIMATIONS
-   ======================================== */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
+/* ----- Product card ----------------------------------------- */
 
-.skeleton-shimmer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 100%
-  );
-  animation: shimmer 1.5s infinite;
-}
-
-/* ========================================
-   PRODUCT CARDS
-   ======================================== */
 .product-card {
-  background: $brand-peach;
-  border: 2px solid rgba(231, 123, 83, 0.6);
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  margin-bottom: 16px;
-
-  // GPU acceleration
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: var(--ax-color-bg-surface);
+  border-radius: var(--ax-radius-lg);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
+              0 4px 12px rgba(46, 36, 28, 0.04);
 }
 
-/* Image Wrapper */
 .image-wrapper {
   position: relative;
-  width: 100%;
-  height: 220px;
+  width: 100px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: var(--ax-radius-md);
   overflow: hidden;
-  background: linear-gradient(135deg, #e8d5cc 0%, #f5e8e0 50%, #e8d5cc 100%);
+  background: var(--ax-color-bg-brand-subtle);
 }
 
 .img-skeleton {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #dbc8bc 0%, #f0e0d4 50%, #dbc8bc 100%);
-  z-index: 2;
-  overflow: hidden;
-  transition: opacity 0.3s ease;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--ax-palette-brown-100) 0%,
+    var(--ax-palette-brown-200, #d6c0a8) 100%
+  );
 
   &.hidden {
     opacity: 0;
@@ -243,165 +183,188 @@ $brand-accent: #952d0f;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center top;
   opacity: 0;
-  transition: opacity 0.3s ease;
-
-  // Performance optimization
-  content-visibility: auto;
+  transition: opacity 200ms ease;
 
   &.loaded {
     opacity: 1;
   }
 }
 
-/* Card Content */
 .card-content {
-  padding: 16px 18px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
 .product-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: $brand-accent;
-  margin: 0 0 8px;
+  margin: 0;
+  font-family: var(--ax-font-display);
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ax-color-text-primary);
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .product-price {
-  font-size: 22px;
-  font-weight: 900;
-  color: #000;
-  margin: 0 0 16px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ax-color-text-brand);
 }
 
-/* Action Buttons */
 .actions {
   display: flex;
-  gap: 12px;
+  gap: 6px;
+  margin-top: auto;
 }
 
 .action-btn {
+  --border-radius: 999px;
+  --box-shadow: none;
+  --padding-start: 10px;
+  --padding-end: 10px;
   flex: 1;
-  height: 48px;
-  --border-radius: 14px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: none;
+  height: 32px;
   margin: 0;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
 
-  tui-icon {
-    font-size: 16px;
-    margin-right: 6px;
+  ax-icon {
+    font-size: 13px;
+    margin-inline-end: 2px;
   }
 }
 
 .cart-btn {
-  --background: #952d0f;
-  --background-activated: darken(#952d0f, 10%);
-  --color: #fff;
+  --background: var(--ax-color-text-brand);
+  --background-hover: var(--ax-color-text-brand);
+  --background-activated: rgba(90, 58, 44, 0.85);
+  --color: var(--ax-palette-neutral-0);
 }
 
 .closet-btn {
-  --background: rgba(149, 45, 15, 0.12);
-  --background-activated: rgba(149, 45, 15, 0.2);
-  --color: $brand-accent;
+  --background: transparent;
+  --background-hover: rgba(90, 58, 44, 0.06);
+  --background-activated: rgba(90, 58, 44, 0.10);
+  --color: var(--ax-color-text-brand);
+  --border-color: var(--ax-color-text-brand);
+  --border-width: 1px;
+  --border-style: solid;
 }
 
-/* ========================================
-   SKELETON CARDS
-   ======================================== */
-.skeleton-card {
-  .skeleton-text {
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-
-    &.section-skeleton {
-      height: 20px;
-      width: 60%;
-      background: linear-gradient(135deg, #e0d5cc 0%, #f0e5dc 50%, #e0d5cc 100%);
-    }
-
-    &.title-skeleton {
-      height: 20px;
-      width: 70%;
-      background: linear-gradient(135deg, #e0d5cc 0%, #f0e5dc 50%, #e0d5cc 100%);
-      margin-bottom: 12px;
-    }
-
-    &.price-skeleton {
-      height: 24px;
-      width: 35%;
-      background: linear-gradient(135deg, #d8ccc2 0%, #ece0d6 50%, #d8ccc2 100%);
-      margin-bottom: 16px;
-    }
-  }
-
-  .skeleton-buttons {
-    display: flex;
-    gap: 12px;
-  }
-
-  .skeleton-btn {
-    flex: 1;
-    height: 48px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #e5dad0 0%, #f5eae0 50%, #e5dad0 100%);
-    position: relative;
-    overflow: hidden;
-  }
-}
+/* ----- Loading state -------------------------------------- */
 
 .loading-state {
-  padding-top: 8px;
+  padding: 20px 0;
 }
 
-/* ========================================
-   WISHLIST MODAL
-   ======================================== */
+.skeleton-text {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--ax-color-bg-brand-subtle);
+
+  &.section-skeleton {
+    height: 16px;
+    width: 60%;
+    margin-bottom: 12px;
+  }
+
+  &.title-skeleton {
+    height: 14px;
+    width: 80%;
+    margin-bottom: 6px;
+  }
+
+  &.price-skeleton {
+    height: 12px;
+    width: 40%;
+    margin-bottom: 8px;
+  }
+}
+
+.skeleton-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.skeleton-btn {
+  position: relative;
+  flex: 1;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--ax-color-bg-brand-subtle);
+  overflow: hidden;
+}
+
+/* ============================================================================
+   Wishlist modal
+   ============================================================================ */
+
+ion-modal {
+  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
+}
+
 .modal-content {
-  --background: #f8f4f1;
+  --background: var(--ax-color-bg-canvas);
 }
 
 .wishlist-list {
   background: transparent;
+  padding: 0;
+}
 
-  .wishlist-item {
-    --background: #fff;
-    --padding-start: 12px;
-    --padding-end: 12px;
-    --inner-padding-end: 0;
-    margin-bottom: 8px;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+.wishlist-item {
+  --background: var(--ax-color-bg-surface);
+  --background-hover: rgba(90, 58, 44, 0.04);
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --inner-padding-end: 0;
+  margin-bottom: 8px;
+  border-radius: var(--ax-radius-md);
+  box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06);
 
-    .folder-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(124, 33, 8, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 12px;
+  .folder-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--ax-radius-md);
+    background: var(--ax-color-bg-brand-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
 
-      tui-icon {
-        font-size: 20px;
-        color: $brand-dark;
-      }
+    ax-icon {
+      font-size: 20px;
+      color: var(--ax-color-text-brand);
     }
+  }
 
-    h2 {
-      font-size: 15px;
-      font-weight: 500;
-      color: #333;
-    }
+  h2 {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ax-color-text-primary);
+    margin: 0;
+  }
 
-    .chevron {
-      font-size: 18px;
-      color: #ccc;
-    }
+  .chevron {
+    font-size: 18px;
+    color: var(--ax-color-text-tertiary);
   }
 }
 
@@ -412,124 +375,8 @@ $brand-accent: #952d0f;
   padding: 60px;
 }
 
-/* ========================================
-   FOOTER
-   ======================================== */
-.app-footer {
-  background-color: $brand-dark;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-
-  ion-tab-bar {
-    background: $brand-dark;
-    padding-top: 4px;
-    padding-bottom: 8px;
-    border-top: none;
-
-    ion-tab-button {
-      --color: rgba(255, 255, 255, 0.7);
-      --color-selected: #fff;
-
-      tui-icon {
-        font-size: 20px;
-        color: rgba(255, 255, 255, 0.85);
-      }
-
-      ion-label {
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.85);
-        margin-top: 2px;
-      }
-
-      &.active-tab {
-        ion-label {
-          text-decoration: underline;
-          color: #fff;
-        }
-
-        tui-icon {
-          color: #fff;
-        }
-      }
-    }
-  }
-}
-
-/* ========================================
-   RESPONSIVE ADJUSTMENTS
-   ======================================== */
-@media (max-width: 360px) {
-  .style-name {
-    font-size: 20px;
-  }
-
-  .summary-card {
-    padding: 14px;
-  }
-
-  .image-wrapper {
-    height: 180px;
-  }
-
-  .product-title {
-    font-size: 16px;
-  }
-
-  .product-price {
-    font-size: 18px;
-  }
-
-  .action-btn {
-    height: 44px;
-    font-size: 12px;
-
-    tui-icon {
-      font-size: 14px;
-      margin-right: 4px;
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  .style-name {
-    font-size: 28px;
-  }
-
-  .image-wrapper {
-    height: 300px;
-  }
-
-  .product-title {
-    font-size: 22px;
-  }
-
-  .product-price {
-    font-size: 26px;
-  }
-
-  .card-content {
-    padding: 20px 24px 24px;
-  }
-
-  .action-btn {
-    height: 54px;
-    font-size: 15px;
-  }
-}
-
-/* ========================================
-   REDUCED MOTION
-   ======================================== */
 @media (prefers-reduced-motion: reduce) {
   .skeleton-shimmer {
     animation: none;
-  }
-
-  .product-image,
-  .img-skeleton {
-    transition: none;
-  }
-
-  .icon_left {
-    transition: none;
   }
 }

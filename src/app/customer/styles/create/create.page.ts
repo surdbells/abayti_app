@@ -5,11 +5,41 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {ConnectionService} from "../../../service/connection.service";
 import {BlockerService} from "../../../blocker.service";
-import {ActionSheetController, InfiniteScrollCustomEvent, IonicModule, ModalController} from "@ionic/angular";
+import {ActionSheetController, InfiniteScrollCustomEvent, ModalController} from "@ionic/angular";
 import {NetworkService} from "../../../service/network.service";
 import {AxNotificationService} from '../../../shared/ax-mobile/notification';
-import {SelectProductsComponent} from "../../../modals/select-products/select-products.component";
-import {NavController, Platform} from "@ionic/angular/standalone";
+import {
+  IonAccordion,
+  IonAccordionGroup,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCheckbox,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonImg,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonModal,
+  IonRow,
+  IonSelect,
+  IonSelectOption,
+  IonTabBar,
+  IonTabButton,
+  IonTitle,
+  IonToolbar,
+  NavController,
+  Platform
+} from "@ionic/angular/standalone";
 import {TranslatePipe} from "../../../translate.pipe";
 import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
@@ -42,7 +72,40 @@ export interface selectedProduct {
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
   standalone: true,
-  imports: [IonicModule, SelectProductsComponent, FormsModule, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [
+    IonAccordion,
+    IonAccordionGroup,
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+    IonCheckbox,
+    IonCol,
+    IonContent,
+    IonFooter,
+    IonGrid,
+    IonHeader,
+    IonImg,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonTabBar,
+    IonTabButton,
+    IonTitle,
+    IonToolbar,
+    FormsModule,
+    TranslatePipe,
+    AxIconComponent,
+    AxLoaderComponent,
+  ]
 })
 export class CreatePage implements OnInit {
   stores: Store[] = [];

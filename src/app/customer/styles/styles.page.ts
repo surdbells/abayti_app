@@ -19,7 +19,7 @@ import {
   IonToolbar,
   NavController
 } from "@ionic/angular/standalone";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ConnectionService } from "../../service/connection.service";
 import { NetworkService } from "../../service/network.service";
@@ -57,7 +57,6 @@ type TabType = 'community' | 'abayti' | 'personal';
     IonButtons,
     IonTitle,
     IonButton,
-    RouterLink,
     IonContent,
     IonFooter,
     IonTabBar,
@@ -65,9 +64,11 @@ type TabType = 'community' | 'abayti' | 'personal';
     IonLabel,
     IonRefresher,
     IonRefresherContent,
-    TranslatePipe,
     IonInfiniteScroll,
-    IonInfiniteScrollContent, AxIconComponent]
+    IonInfiniteScrollContent,
+    TranslatePipe,
+    AxIconComponent,
+  ]
 })
 export class StylesPage implements OnInit, OnDestroy {
   activeTab: TabType = 'community';
