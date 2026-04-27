@@ -25,19 +25,10 @@ import { ConnectionService } from '../../service/connection.service';
 import {defer, Subscription} from 'rxjs';
 
 import { FormsModule } from '@angular/forms';
-import {
-  TuiIcon,
-  TuiLabel,
-  TuiTextfieldComponent,
-  TuiTextfieldDirective,
-  TuiTextfieldOptionsDirective
-} from "@taiga-ui/core";
-import {tuiInputPhoneInternationalOptionsProvider, TuiPassword, TuiSortCountriesPipe,} from "@taiga-ui/kit";
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
-import {TuiCountryIsoCode} from "@taiga-ui/i18n";
 import {getCountries} from "libphonenumber-js";
 import {TranslatePipe} from "../../translate.pipe";
 import {Preferences} from "@capacitor/preferences";
@@ -45,18 +36,42 @@ import {BlockerService} from "../../blocker.service";
 
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonContent, FormsModule, IonCol, IonGrid, IonRow, IonText, TuiIcon, TuiLabel, TuiPassword, TuiTextfieldComponent, TuiTextfieldDirective, TuiTextfieldOptionsDirective, IonLabel, IonButton, IonToolbar, IonHeader, IonModal, IonTitle, IonButtons, IonSegmentButton, IonSegment, IonCheckbox, IonCard, IonCardHeader, IonCardTitle, IonCardContent, TranslatePipe, AxLoaderComponent]
+  imports: [
+    IonContent,
+    FormsModule,
+    IonCol,
+    IonGrid,
+    IonRow,
+    IonText,
+    IonLabel,
+    IonButton,
+    IonToolbar,
+    IonHeader,
+    IonModal,
+    IonTitle,
+    IonButtons,
+    IonSegmentButton,
+    IonSegment,
+    IonCheckbox,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    TranslatePipe,
+    AxLoaderComponent,
+    AxTextFieldComponent,
+  ]
 })
 export class RegisterPage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
   protected readonly countries = getCountries();
-  protected countryIsoCode: TuiCountryIsoCode = 'CN';
   protected value = '';
   showResendToken: boolean = false; // Initially hide the button
   isTermsOpen = false; // or control this as you like

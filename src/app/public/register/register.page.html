@@ -10,10 +10,16 @@
         @if(!ui_controls.loading && !ui_controls.otpValidated && !ui_controls.otpSent){
           <ion-row>
             <ion-col>
-              <label  tuiLabel>{{ 'phone_number' | translate }} *</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input placeholder="{{'enter_phone' | translate}}" type="tel" inputmode="numeric" [maxlength]="10" [(ngModel)]="register.phone" name="phone" tuiTextfield />
-              </tui-textfield>
+              <ax-text-field
+                [label]="'phone_number' | translate"
+                type="tel"
+                inputmode="numeric"
+                [maxlength]="10"
+                [required]="true"
+                [placeholder]="'enter_phone' | translate"
+                [(ngModel)]="register.phone"
+                name="phone">
+              </ax-text-field>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -27,10 +33,12 @@
         @if(!ui_controls.loading && !ui_controls.otpValidated && ui_controls.otpSent){
           <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label tuiLabel>{{ 'otp' | translate }}</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input [max]="6" [(ngModel)]="validateOtp.code" type="text" name="input_otp" tuiTextfield />
-              </tui-textfield>
+              <ax-text-field
+                [label]="'otp' | translate"
+                type="text"
+                [(ngModel)]="validateOtp.code"
+                name="input_otp">
+              </ax-text-field>
             </ion-col>
           </ion-row>
           <ion-button (click)="validate_otp()" expand="block" class="ion-margin-vertical" type="button">
@@ -60,40 +68,58 @@
         @if(!ui_controls.loading && ui_controls.otpValidated && ui_controls.otpSent){
           <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label tuiLabel>{{ 'first_name' | translate }}*</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input placeholder="{{'e_first_name' | translate}}" [(ngModel)]="register.first_name" type="text" name="first_name" tuiTextfield />
-              </tui-textfield>
+              <ax-text-field
+                [label]="'first_name' | translate"
+                type="text"
+                [required]="true"
+                [placeholder]="'e_first_name' | translate"
+                [(ngModel)]="register.first_name"
+                name="first_name">
+              </ax-text-field>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label  tuiLabel>{{ 'last_name' | translate }}*</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input placeholder="{{ 'e_last_name' | translate }}" [(ngModel)]="register.last_name" type="text" name="first_name" tuiTextfield />
-              </tui-textfield>
+              <ax-text-field
+                [label]="'last_name' | translate"
+                type="text"
+                [required]="true"
+                [placeholder]="'e_last_name' | translate"
+                [(ngModel)]="register.last_name"
+                name="first_name">
+              </ax-text-field>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-bottom">
             <ion-col class="ion-no-padding">
-              <label tuiLabel>{{ 'email_Address' | translate }}*</label>
-              <tui-textfield  #m tuiTextfieldSize="m" style="width:100%">
-                <input placeholder="{{'e_email_Address' | translate}}" [(ngModel)]="register.email" type="text" name="email" tuiTextfield />
-              </tui-textfield>
+              <ax-text-field
+                [label]="'email_Address' | translate"
+                type="text"
+                [required]="true"
+                [placeholder]="'e_email_Address' | translate"
+                [(ngModel)]="register.email"
+                name="email">
+              </ax-text-field>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col class="ion-no-padding">
-              <label  tuiLabel>{{ 'password' | translate }} *</label>
-              <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
-                <input [(ngModel)]="register.password" type="password" name="password" tuiTextfield />
-                <tui-icon tuiPassword />
-              </tui-textfield>
+              <ax-text-field
+                class="ion-margin-bottom"
+                [label]="'password' | translate"
+                type="password"
+                [required]="true"
+                [(ngModel)]="register.password"
+                name="password">
+              </ax-text-field>
             </ion-col>
             <ion-col class="ion-no-padding ion-padding-start">
-              <label  tuiLabel>{{ 'confirm_password' | translate }} *</label>
-              <tui-textfield #m tuiTextfieldSize="m" class="ion-margin-bottom" style="width:100%">
-                <input [(ngModel)]="register.confirm_password" type="password" name="confirm_password" tuiTextfield />
-                <tui-icon tuiPassword />
-              </tui-textfield>
+              <ax-text-field
+                class="ion-margin-bottom"
+                [label]="'confirm_password' | translate"
+                type="password"
+                [required]="true"
+                [(ngModel)]="register.confirm_password"
+                name="confirm_password">
+              </ax-text-field>
             </ion-col>
           </ion-row>
           <div (click)="isTermsOpen = true" class="ion-margin-bottom">
