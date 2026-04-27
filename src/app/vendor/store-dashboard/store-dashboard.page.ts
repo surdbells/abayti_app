@@ -14,7 +14,6 @@ import {
   IonTitle,
   IonButton,
   IonButtons,
-  IonIcon,
   IonRefresher,
   IonRefresherContent,
   IonToggle,
@@ -72,11 +71,12 @@ export interface StoreStats {
     IonTitle,
     IonButton,
     IonButtons,
-    IonIcon,
     IonRefresher,
     IonRefresherContent,
     IonToggle,
-    TranslatePipe, AxIconComponent]
+    TranslatePipe,
+    AxIconComponent,
+  ]
 })
 export class StoreDashboardPage implements OnInit, OnDestroy {
   storeData: StoreData | null = null;

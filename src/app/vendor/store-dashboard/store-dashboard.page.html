@@ -42,20 +42,20 @@
           }
         </div>
         <div class="store-details">
-          <h1 class="store-name">{{ storeData?.name || 'My Store' }}</h1>
+          <h1 class="store-name">{{ storeData?.name || ('my_store' | translate) }}</h1>
           <div class="store-status" [class.active]="storeData?.is_active" [class.inactive]="!storeData?.is_active">
             <span class="status-dot"></span>
             <span>{{ storeData?.is_active ? ('store_active' | translate) : ('store_inactive' | translate) }}</span>
           </div>
           @if(storeData?.rating){
             <div class="store-rating">
-              <ion-icon name="star"></ion-icon>
+              <ax-icon name="star"></ax-icon>
               <span>{{ storeData?.rating | number:'1.1-1' }}</span>
               <span class="rating-count">({{ storeData?.review_count || 0 }})</span>
             </div>
           }
         </div>
-        <button type="button" class="edit-store-btn" (click)="editStoreProfile()">
+        <button type="button" class="edit-store-btn" (click)="editStoreProfile()" aria-label="Edit">
           <ax-icon name="pencil"></ax-icon>
         </button>
       </div>
@@ -74,7 +74,7 @@
       }
     } @else {
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-orders')">
-        <div class="stat-icon orders">
+        <div class="stat-icon stat-icon--orders">
           <ax-icon name="shopping-bag"></ax-icon>
         </div>
         <span class="stat-value">{{ stats.pending_orders }}</span>
@@ -82,10 +82,10 @@
       </button>
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-chat-list')">
-        <div class="stat-icon messages">
+        <div class="stat-icon stat-icon--messages">
           <ax-icon name="message-circle"></ax-icon>
           @if(stats.unread_messages > 0){
-            <span class="badge">{{ stats.unread_messages > 99 ? '99+' : stats.unread_messages }}</span>
+            <span class="stat-badge">{{ stats.unread_messages > 99 ? '99+' : stats.unread_messages }}</span>
           }
         </div>
         <span class="stat-value">{{ stats.unread_messages }}</span>
@@ -93,7 +93,7 @@
       </button>
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-products')">
-        <div class="stat-icon products">
+        <div class="stat-icon stat-icon--products">
           <ax-icon name="package"></ax-icon>
         </div>
         <span class="stat-value">{{ stats.total_products }}</span>
@@ -101,7 +101,7 @@
       </button>
 
       <button type="button" class="stat-card" (click)="navigateTo('/vendor-earnings')">
-        <div class="stat-icon earnings">
+        <div class="stat-icon stat-icon--earnings">
           <ax-icon name="banknote"></ax-icon>
         </div>
         <span class="stat-value">Ð{{ stats.monthly_earnings | number:'1.0-0' }}</span>
@@ -116,7 +116,7 @@
 
     <div class="action-grid">
       <!-- Messages / Chat -->
-      <button type="button" class="action-card highlight" (click)="navigateTo('/vendor-chat-list')">
+      <button type="button" class="action-card action-card--highlight" (click)="navigateTo('/vendor-chat-list')">
         <div class="action-icon">
           <ax-icon name="message-circle"></ax-icon>
           @if(stats.unread_messages > 0){
@@ -129,208 +129,17 @@
         </div>
         <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
       </button>
-
-      <!-- Orders -->
-      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-orders')">
-        <div class="action-icon">
-          <ax-icon name="clipboard-list"></ax-icon>
-          @if(stats.pending_orders > 0){
-            <span class="action-badge warning">{{ stats.pending_orders }}</span>
-          }
-        </div>
-        <div class="action-content">
-          <h3>{{ 'manage_orders' | translate }}</h3>
-          <p>{{ 'view_update_orders' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
-      </button>-->
-
-      <!-- Products -->
-      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-products')">
-        <div class="action-icon">
-          <ax-icon name="package"></ax-icon>
-        </div>
-        <div class="action-content">
-          <h3>{{ 'my_products' | translate }}</h3>
-          <p>{{ 'add_edit_products' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
-      </button>-->
-
-      <!-- Add Product -->
-      <!--<button type="button" class="action-card" (click)="navigateTo('/vendor-add-product')">
-        <div class="action-icon add">
-          <ax-icon name="plus"></ax-icon>
-        </div>
-        <div class="action-content">
-          <h3>{{ 'add_product' | translate }}</h3>
-          <p>{{ 'list_new_product' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="action-arrow"></ax-icon>
-      </button>-->
     </div>
   </div>
-
-  <!-- Store Management -->
-  <!--<div class="section">
-    <h2 class="section-title">{{ 'store_management' | translate }}</h2>
-
-    <div class="menu-list">
-      &lt;!&ndash; Earnings & Payouts &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-earnings')">
-        <div class="menu-icon earnings">
-          <ax-icon name="wallet"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'earnings_payouts' | translate }}</h3>
-          <p>{{ 'view_earnings_request_payout' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Analytics &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-analytics')">
-        <div class="menu-icon analytics">
-          <ax-icon name="chart-pie"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'analytics' | translate }}</h3>
-          <p>{{ 'sales_performance_insights' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Reviews &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-reviews')">
-        <div class="menu-icon reviews">
-          <ax-icon name="star"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'customer_reviews' | translate }}</h3>
-          <p>{{ 'view_respond_reviews' | translate }}</p>
-        </div>
-        @if(stats.pending_reviews > 0){
-          <span class="menu-badge">{{ stats.pending_reviews }}</span>
-        }
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Promotions &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-promotions')">
-        <div class="menu-icon promotions">
-          <ax-icon name="percent"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'promotions' | translate }}</h3>
-          <p>{{ 'create_manage_discounts' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Inventory &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-inventory')">
-        <div class="menu-icon inventory">
-          <ax-icon name="layers"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'inventory' | translate }}</h3>
-          <p>{{ 'manage_stock_levels' | translate }}</p>
-        </div>
-        @if(stats.low_stock_items > 0){
-          <span class="menu-badge warning">{{ stats.low_stock_items }}</span>
-        }
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-    </div>
-  </div>-->
-
-  <!-- Store Settings -->
-  <!--  <div class="section">
-    <h2 class="section-title">{{ 'settings' | translate }}</h2>
-
-    <div class="menu-list">
-      &lt;!&ndash; Store Profile &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-store-profile')">
-        <div class="menu-icon profile">
-          <ax-icon name="store"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'store_profile' | translate }}</h3>
-          <p>{{ 'edit_store_info' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Business Hours &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-hours')">
-        <div class="menu-icon hours">
-          <ax-icon name="clock"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'business_hours' | translate }}</h3>
-          <p>{{ 'set_availability' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Shipping Settings &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-shipping')">
-        <div class="menu-icon shipping">
-          <ax-icon name="truck"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'shipping_settings' | translate }}</h3>
-          <p>{{ 'delivery_zones_rates' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Payment Settings &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-payment-settings')">
-        <div class="menu-icon payment">
-          <ax-icon name="credit-card"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'payment_settings' | translate }}</h3>
-          <p>{{ 'bank_payout_details' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-
-      &lt;!&ndash; Notifications &ndash;&gt;
-      <button type="button" class="menu-item" (click)="navigateTo('/vendor-notifications')">
-        <div class="menu-icon notifications">
-          <ax-icon name="bell"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'notifications' | translate }}</h3>
-          <p>{{ 'manage_alerts' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>
-    </div>
-  </div>-->
 
   <!-- Help & Support -->
   <div class="section last-section">
     <h2 class="section-title">{{ 'help_support' | translate }}</h2>
 
     <div class="menu-list">
-      <!-- Seller Guide -->
-<!--      <button type="button" class="menu-item" (click)="navigateTo('/vendor-guide')">
-        <div class="menu-icon guide">
-          <ax-icon name="book-open"></ax-icon>
-        </div>
-        <div class="menu-content">
-          <h3>{{ 'seller_guide' | translate }}</h3>
-          <p>{{ 'tips_best_practices' | translate }}</p>
-        </div>
-        <ax-icon name="chevron-right" class="menu-arrow"></ax-icon>
-      </button>-->
-
       <!-- Contact Support -->
       <button type="button" class="menu-item" (click)="contactSupport()">
-        <div class="menu-icon support">
+        <div class="menu-icon menu-icon--support">
           <ax-icon name="headphones"></ax-icon>
         </div>
         <div class="menu-content">
@@ -356,5 +165,4 @@
       </ion-toggle>
     </div>
   </div>
-
 </ion-content>
