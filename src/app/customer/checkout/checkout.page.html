@@ -5,7 +5,7 @@
         <ax-icon name="arrow-left" />
       </ion-button>
     </ion-buttons>
-    <ion-title class="m7-title">Checkout</ion-title>
+    <ion-title class="m7-title">{{ 'button_checkout' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="user_wishlist()" fill="clear" class="m7-header-action">
         <ax-icon name="heart"/>
@@ -136,7 +136,7 @@
       <div class="ion-padding" slot="content">
         @if (!ui_controls.is_loading){
           <ion-card class="cart-card">
-            <ion-title class="cart-card__title">Order summary</ion-title>
+            <ion-title class="cart-card__title">{{ 'order_summary' | translate }}</ion-title>
             <ion-list lines="none" class="contact-list">
               <ion-item lines="none" detail="false">
                 <ion-label>{{ 'label_items' | translate }}</ion-label>

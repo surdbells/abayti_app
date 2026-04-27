@@ -145,23 +145,23 @@
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
     <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">
       <ax-icon name="house" />
-      <ion-label>Home</ion-label>
+      <ion-label>{{ 'nav_home' | translate }}</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_explore()" tab="explore" class="m6f-tab">
       <ax-icon name="globe" />
-      <ion-label>Explore</ion-label>
+      <ion-label>{{ 'explore' | translate }}</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_cart()" tab="cart" class="m6f-tab">
       <ax-icon name="shopping-cart" />
-      <ion-label>My Cart</ion-label>
+      <ion-label>{{ 'title_my_cart' | translate }}</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_styles()" tab="sketch" class="m6f-tab">
       <ax-icon name="blocks" />
-      <ion-label>Style hub</ion-label>
+      <ion-label>{{ 'nav_style_hub' | translate }}</ion-label>
     </ion-tab-button>
     <ion-tab-button (click)="user_profile()" tab="profile" class="m6f-tab">
       <ax-icon name="user-pen" />
-      <ion-label>Profile</ion-label>
+      <ion-label>{{ 'title_user_profile' | translate }}</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>

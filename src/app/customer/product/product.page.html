@@ -97,7 +97,7 @@
         @if(single.category_id !== '5' && colors.length > 0){
           <div class="color-section">
             <div class="section-label">
-              <span class="label-text">Color</span>
+              <span class="label-text">{{ 'color' | translate }}</span>
               @if(add_cart.color){
                 <span class="selected-color-name">{{ getColorLabel(add_cart.color) }}</span>
               }
@@ -131,10 +131,10 @@
         @if(single.category_id !== '4' && single.category_id !== '5'){
           <div class="size-section">
                 <div class="section-label">
-                  <span class="label-text">Size</span>
+                  <span class="label-text">{{ 'size' | translate }}</span>
                   <button type="button" class="size-guide-link" id="size_guide">
                     <ax-icon name="ruler"></ax-icon>
-                    Size Chart
+                    {{ 'text_size_chart' | translate }}
                   </button>
                 </div>
 
@@ -145,7 +145,7 @@
               <button  type="button" class="custom-measurement-btn" (click)="openMeasurement()" id="measurement">
                 <div class="btn-content">
                   <ax-icon name="pencil-ruler"></ax-icon>
-                  <span>Custom Measurements</span>
+                  <span>{{ 'custom_measurements' | translate }}</span>
                 </div>
                 <ax-icon name="chevron-right"></ax-icon>
               </button>
@@ -228,7 +228,7 @@
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Size Guide</ion-title>
+            <ion-title>{{ 'title_size_guide' | translate }}</ion-title>
             <ion-buttons slot="end">
               <ion-button type="button" (click)="modal.dismiss()">{{ 'close' | translate }}</ion-button>
             </ion-buttons>
@@ -287,7 +287,7 @@
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Custom Measurements</ion-title>
+            <ion-title>{{ 'custom_measurements' | translate }}</ion-title>
             <ion-buttons slot="end">
               <ion-button type="button" (click)="isMeasureOpen = false">{{ 'close' | translate }}</ion-button>
             </ion-buttons>
@@ -382,7 +382,7 @@
   @if(!ui_controls.is_adding_to_cart && !ui_controls.is_loading){
     <div class="footer-content">
       <div class="price-display">
-        <span class="price-label">Total</span>
+        <span class="price-label">{{ 'total' | translate }}</span>
         <span class="price-value">Ð{{ single.price_formated }}</span>
       </div>
 
