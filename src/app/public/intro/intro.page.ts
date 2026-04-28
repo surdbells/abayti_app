@@ -10,8 +10,13 @@ import {
 } from '@angular/core';
 import { Router } from "@angular/router";
 import { Preferences } from "@capacitor/preferences";
-import {IonicModule, ViewWillEnter} from "@ionic/angular";
-import { Platform } from "@ionic/angular/standalone";
+import {
+  IonButton,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  Platform
+} from "@ionic/angular/standalone";
 import { BlockerService } from "../../blocker.service";
 import { CommonModule } from "@angular/common";
 import { TranslatePipe } from "../../translate.pipe";
@@ -33,7 +38,10 @@ export interface IntroSlide {
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    IonicModule,
+    IonContent,
+    IonButton,
+    IonFab,
+    IonFabButton,
     CommonModule,
     TranslatePipe, AxIconComponent]
 })
