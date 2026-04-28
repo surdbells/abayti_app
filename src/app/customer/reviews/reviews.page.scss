@@ -100,37 +100,15 @@ ion-content.page-bg {
 
 /* ----- Empty state -------------------------------------------------- */
 
+/* M38/M47: layout, h2, p covered by global .empty-state. This page uses
+   a bare ax-icon (no .empty-icon-wrap bubble) — keep the bare ax-icon styling. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 60px 24px;
-  text-align: center;
+  --empty-state-padding: 60px 24px;
 
   ax-icon {
     font-size: 48px;
     color: var(--ax-color-text-tertiary);
     opacity: 0.5;
-  }
-
-  h2 {
-    font-family: var(--ax-font-display);
-    font-weight: 400;
-    font-size: 18px;
-    color: var(--ax-color-text-primary);
-    margin: 0;
-    line-height: 1.3;
-  }
-
-  p {
-    margin: 0;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--ax-color-text-secondary);
-    line-height: 1.5;
-    max-width: 280px;
   }
 }
 

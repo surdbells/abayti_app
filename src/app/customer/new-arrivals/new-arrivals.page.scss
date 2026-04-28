@@ -35,46 +35,20 @@ ion-content.page-bg {
 
 /* ----- Empty state -------------------------------------------- */
 
+/* M38/M47: layout, icon-wrap, h3, p covered by global .empty-state.
+   This page keeps the .reset-btn child + small margin overrides. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
 
-  .empty-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--ax-color-bg-brand-subtle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-
-    ax-icon {
-      font-size: 36px;
-      color: var(--ax-color-text-brand);
-    }
+  .empty-icon ax-icon {
+    font-size: 36px;
   }
 
   h3 {
-    font-family: var(--ax-font-display);
-    font-weight: 400;
-    font-size: 18px;
-    color: var(--ax-color-text-primary);
     margin: 0 0 8px;
-    line-height: 1.3;
   }
 
   p {
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--ax-color-text-secondary);
     margin: 0 0 24px;
-    line-height: 1.5;
-    max-width: 280px;
   }
 
   .reset-btn {
