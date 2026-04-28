@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {IonApp, IonRouterOutlet, Platform} from '@ionic/angular/standalone';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
+import { SplashScreen } from '@capacitor/splash-screen';
 import {ActionPerformed, PushNotifications, PushNotificationSchema, Token} from "@capacitor/push-notifications";
 import {ToastController} from "@ionic/angular";
 import {fadeTransition} from "../fade.transition";
@@ -17,6 +18,16 @@ export class AppComponent {
   constructor(private platform: Platform,private toastCtrl: ToastController) {
       this.initializeApp();
       this.platform.ready().then(async () => {
+          // Dismiss the native splash now that Angular has bootstrapped
+          // and platform.ready() has resolved. The 200ms fade hands off
+          // to the canvas-color #faf8f5 body bg (set inline in
+          // src/index.html — see M29) so there is no visible flash.
+          try {
+            await SplashScreen.hide({ fadeOutDuration: 200 });
+          } catch (e) {
+            // Plugin not available (e.g. web build) — safe to ignore.
+            console.warn('SplashScreen.hide failed:', e);
+          }
           //  try {
           // await StatusBar.setOverlaysWebView({ overlay: false }); // push content below status bar
           // Optional:
