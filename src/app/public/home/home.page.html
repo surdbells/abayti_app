@@ -1,18 +1,8 @@
 <ion-header class="public-header ion-no-border">
   <ion-toolbar class="public-header__toolbar ion-no-border">
-    <ion-buttons slot="start">
-      <ion-button (click)="user_register()" fill="solid" class="auth-cta auth-cta--primary">
-        {{ 'sign_up' | translate }}
-      </ion-button>
-    </ion-buttons>
     <ion-title class="brand-title">
       <img src="assets/images/abayti_small.png" alt="3bayti" class="brand-mark" />
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="user_login()" fill="outline" class="auth-cta auth-cta--secondary">
-        {{ 'sign_in' | translate }}
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -172,3 +162,14 @@
   }
 
 </ion-content>
+<!-- Footer -->
+<ion-footer class="product-footer ion-no-border">
+    <div class="footer-content">
+      <button type="button" class="add-cart-btn backorder" (click)="user_register()">
+        <span>{{ 'sign_up' | translate }}</span>
+      </button>
+      <button type="button" class="add-cart-btn" (click)="user_login()">
+        <span>{{ 'sign_in' | translate }}</span>
+      </button>
+    </div>
+</ion-footer>

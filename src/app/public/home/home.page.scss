@@ -2,6 +2,17 @@
    Home (public/logged-out) — Tier 1 redesign
    ============================================================================ */
 
+:host {
+  --brand-dark: var(--ax-color-text-brand);     /* was #7C2108 (deep-red) */
+  --brand-light: var(--ax-color-bg-brand-hover); /* was #B12C06 */
+  --brand-cream: var(--ax-color-bg-brand-subtle); /* was #FBEDE2 */
+  --text-primary: var(--ax-color-text-primary);   /* was #1a1a1a */
+  --text-secondary: var(--ax-color-text-secondary); /* was #666 */
+  --radius-sm: var(--ax-radius-sm, 8px);
+  --radius-md: var(--ax-radius-md, 12px);
+  --radius-lg: var(--ax-radius-lg, 16px);
+  --radius-xl: var(--ax-radius-xl, 24px);
+}
 ion-content.page-bg {
   --background: var(--ax-color-bg-canvas);
 }
@@ -332,4 +343,75 @@ ion-header.public-header {
   --border-style: solid;
   --border-color: rgba(90, 58, 44, 0.4);
   --box-shadow: none;
+}
+
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.product-footer {
+  background: var(--ax-color-bg-surface);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0));
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.price-display {
+  .price-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .price-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+}
+
+.add-cart-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand-light));
+  border: none;
+  border-radius: var(--radius-lg);
+  color: var(--ax-color-bg-surface);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  tui-icon {
+    font-size: 18px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.out-of-stock {
+    background: var(--ax-color-border-default);
+    cursor: not-allowed;
+  }
+
+  &.in-cart {
+    background: var(--ax-color-text-success);
+  }
+
+  &.backorder {
+    background: var(--ax-color-text-warning);
+  }
 }

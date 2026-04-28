@@ -11,8 +11,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
+  IonToolbar, IonFooter } from '@ionic/angular/standalone';
 import {TranslatePipe} from "../../translate.pipe";
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
@@ -50,7 +49,7 @@ export interface Store {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonFooter, 
     IonContent,
     IonHeader,
     IonTitle,
