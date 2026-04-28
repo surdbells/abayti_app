@@ -1261,3 +1261,83 @@ ion-header.md ion-toolbar {
   }
 }
 
+
+
+/* ============================================================
+ * M38: Shared empty-state + loader-row utilities
+ *
+ * The .empty-state pattern was duplicated across 17+ pages.
+ * Pages had two minor variants of the icon wrapper class
+ * (.empty-icon-wrap on 11 pages, .empty-icon on 3 pages) and
+ * two heading levels (h2 on 12 pages, h3 on 7 pages). This
+ * rule covers both so any page using the standard structure
+ * picks up the same look without per-page styling.
+ *
+ * Page-level rules still apply via CSS specificity (page rules
+ * are equally-specific or more, so a page can override). New
+ * pages just adding markup get the right styling for free.
+ *
+ * CSS variables let pages tweak proportions without redeclaring
+ * the entire ruleset.
+ * ============================================================ */
+
+.empty-state {
+  --empty-state-padding: 60px 20px;
+  --empty-state-gap: 12px;
+  --empty-state-icon-size: 80px;
+  --empty-state-icon-margin-bottom: 20px;
+  --empty-state-text-max-width: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--empty-state-padding);
+  gap: var(--empty-state-gap);
+
+  .empty-icon-wrap,
+  .empty-icon {
+    width: var(--empty-state-icon-size);
+    height: var(--empty-state-icon-size);
+    border-radius: 50%;
+    background: var(--ax-color-bg-brand-subtle);
+    color: var(--ax-color-text-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--empty-state-icon-margin-bottom);
+
+    /* ax-icon inherits color from parent */
+    ax-icon {
+      color: var(--ax-color-text-brand);
+    }
+  }
+
+  h2,
+  h3 {
+    font-family: var(--ax-font-display);
+    font-size: 18px;
+    font-weight: 400;  /* Tier 3 default; Tier 4 pages can override to 700 */
+    color: var(--ax-color-text-primary);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--ax-color-text-secondary);
+    margin: 0;
+    max-width: var(--empty-state-text-max-width);
+    line-height: 1.5;
+  }
+}
+
+.loader-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* End M38 utilities */
