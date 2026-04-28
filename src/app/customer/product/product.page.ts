@@ -170,7 +170,7 @@ export class ProductPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.rqst_param.product = Number(this.route.snapshot.queryParamMap.get('id'));
     this.rqst_param.product_name = this.route.snapshot.queryParamMap.get('name') || '';
-    this.getObject().then(r => console.log(r));
+    this.getObject();
     this.initSwiper();
   }
 
@@ -472,19 +472,19 @@ export class ProductPage implements OnInit, OnDestroy {
   }
 
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
 
   user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
 
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
 
   openCart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
 
   onDismiss() {
@@ -502,7 +502,7 @@ export class ProductPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;

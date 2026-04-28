@@ -92,12 +92,12 @@ export class MyOrdersPage implements OnInit {
     is_creating: false
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
@@ -185,19 +185,19 @@ export class MyOrdersPage implements OnInit {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
   search() {
-    this.router.navigate(['/', 'search']).then(r => console.log(r));
+    this.router.navigate(['/', 'search']);
   }
   open_vendor(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendor-reviews'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 }

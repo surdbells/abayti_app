@@ -33,7 +33,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.loadUserAndVendors().then(r => console.log(r));
+    this.loadUserAndVendors();
   }
 
   ngOnDestroy() {
@@ -43,7 +43,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   async loadUserAndVendors() {
     const userData = await Preferences.get({ key: 'user' });
     if (!userData.value) {
-      this.router.navigate(['/login']).then(r => console.log(r));
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -76,7 +76,7 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   selectVendor(vendor: ChatVendor) {
     this.router.navigate(['/chat-orders'], {
       queryParams: { vendor_id: vendor.vendor_id, store_name: vendor.store_name }
-    }).then(r => console.log(r));
+    });
   }
 
   handleRefresh(event: any) {
@@ -89,6 +89,6 @@ export class ChatVendorsPage implements OnInit, OnDestroy {
   }
 
   goToShop() {
-    this.router.navigate(['/account']).then(r => console.log(r));
+    this.router.navigate(['/account']);
   }
 }

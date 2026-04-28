@@ -150,14 +150,14 @@ export class CartPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
     if (this.isOnline) {
       console.log('You are online');
     } else {
@@ -167,7 +167,7 @@ export class CartPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id
@@ -195,7 +195,7 @@ export class CartPage implements OnInit, OnDestroy {
           if (response.response_code === 200) {
             this.carts = response.data;
             this.bill = response.message;
-            Preferences.set({key: 'count', value: String(this.bill.count)}).then(r => console.log(r));
+            Preferences.set({key: 'count', value: String(this.bill.count)});
             this.ui_controls.is_loading = false;
           }else{
             this.ui_controls.is_loading = false;
@@ -260,13 +260,13 @@ export class CartPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -326,7 +326,7 @@ export class CartPage implements OnInit, OnDestroy {
   }
 
   check_out() {
-    this.router.navigate(['/', 'checkout']).then(r => console.log(r));
+    this.router.navigate(['/', 'checkout']);
   }
   triggerBack() {
     this.nav.back();
@@ -335,7 +335,7 @@ export class CartPage implements OnInit, OnDestroy {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
   onDismiss() {

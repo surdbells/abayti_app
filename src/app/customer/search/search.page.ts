@@ -83,7 +83,7 @@ export class SearchPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as any).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
   ui_controls = {
@@ -140,12 +140,12 @@ export class SearchPage implements OnInit, OnDestroy {
     product_image: ""
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.search.id = this.single_user.id
@@ -178,10 +178,10 @@ export class SearchPage implements OnInit, OnDestroy {
     this.imageLoaded[productId] = true;
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_support() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   get_label() {
     this.ui_controls.is_loading_category = true;
@@ -226,7 +226,7 @@ export class SearchPage implements OnInit, OnDestroy {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
   error_notification(message: string) {
     this.toast.error(message, {
@@ -262,13 +262,13 @@ export class SearchPage implements OnInit, OnDestroy {
   }
 
   user_orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   open_vendor(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendors'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
   onDismiss() {

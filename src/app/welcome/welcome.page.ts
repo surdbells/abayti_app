@@ -46,10 +46,10 @@ export class WelcomePage implements OnInit {
   };
 
   start_shopping() {
-    this.router.navigate(['/', 'login']).then(r => console.log(r));
+    this.router.navigate(['/', 'login']);
   }
   explore() {
-    this.router.navigate(['/', 'home']).then(r => console.log(r));
+    this.router.navigate(['/', 'home']);
   }
 
 }

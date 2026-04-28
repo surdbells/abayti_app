@@ -133,14 +133,14 @@ export class OrdersPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
     if (this.isOnline) {
       console.log('You are online');
     } else {
@@ -150,7 +150,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id
@@ -190,13 +190,13 @@ export class OrdersPage implements OnInit, OnDestroy {
       }))
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -217,7 +217,7 @@ export class OrdersPage implements OnInit, OnDestroy {
   }
 
   check_out() {
-    this.router.navigate(['/', 'checkout']).then(r => console.log(r));
+    this.router.navigate(['/', 'checkout']);
   }
   triggerBack() {
     this.nav.back();

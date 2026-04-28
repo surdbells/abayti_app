@@ -52,7 +52,7 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnInit() {
    // this.routerOutlet.swipeGesture = false;
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.blocker.unblock(); // ✅ restore when leaving
@@ -82,7 +82,7 @@ export class LoginPage implements OnInit, OnDestroy {
       //
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.router.navigate(['/', 'account']).then(r => console.log(r));
+      this.router.navigate(['/', 'account']);
     }
   }
   ui_controls = {
@@ -110,10 +110,10 @@ export class LoginPage implements OnInit, OnDestroy {
         return;
       }
       if (this.login.remember) {
-        Preferences.set({key: 'keep_session', value: JSON.stringify(this.login)}).then(r => console.log(r));
+        Preferences.set({key: 'keep_session', value: JSON.stringify(this.login)});
       }
       if (!this.login.remember) {
-        Preferences.remove({key: 'keep_session'}).then(r => console.log(r));
+        Preferences.remove({key: 'keep_session'});
       }
       console.log(this.login);
       this.ui_controls.login_loading = true;
@@ -124,7 +124,7 @@ export class LoginPage implements OnInit, OnDestroy {
               Preferences.set({
                 key: 'user',
                 value: JSON.stringify(response.data)
-              }).then(r => console.log(r));
+              });
               this.ui_controls.login_loading = false;
               this.router.navigate(['/account'], { replaceUrl: true });
               this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
@@ -162,10 +162,10 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   user_register() {
-    this.router.navigate(['/', 'register']).then(r => console.log(r));
+    this.router.navigate(['/', 'register']);
   }
   forgot_password() {
-    this.router.navigate(['/', 'reset']).then(r => console.log(r));
+    this.router.navigate(['/', 'reset']);
   }
   google_signin(): void {
     this.show_error(this.i18n.t('text_google_signin_unavailable'));
@@ -175,6 +175,6 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   goHome() {
-    this.router.navigate(['/', 'home']).then(r => console.log(r));
+    this.router.navigate(['/', 'home']);
   }
 }

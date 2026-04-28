@@ -70,11 +70,11 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
       this.storeName = params['store_name'] || 'Store';
 
       if (!this.vendorId) {
-        this.router.navigate(['/chat-vendors']).then(r => console.log(r));
+        this.router.navigate(['/chat-vendors']);
         return;
       }
 
-      this.loadUserAndOrders().then(r => console.log(r));
+      this.loadUserAndOrders();
     });
   }
 
@@ -86,7 +86,7 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
     const userData = await Preferences.get({ key: 'user' });
 
     if (!userData.value) {
-      this.router.navigate(['/login']).then(r => console.log(r));
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -130,7 +130,7 @@ export class ChatOrdersPage implements OnInit, OnDestroy {
       queryParams: {
         order_item_id: order.order_item_id
       }
-    }).then(r => console.log(r));
+    });
   }
 
   getStatusClass(status: OrderStatus): string {

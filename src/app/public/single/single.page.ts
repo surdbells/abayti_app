@@ -205,7 +205,7 @@ product = {
   }
   SignIn() {
     this.show_error(this.i18n.t('text_signin_to_continue'));
-    this.router.navigate(['/', 'login']).then(r => console.log(r));
+    this.router.navigate(['/', 'login']);
   }
   show_error(message: string) {
     this.toast.error(message, {

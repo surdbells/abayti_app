@@ -110,7 +110,7 @@ goToReviews(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendor-reviews'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
   single_user = {
     id: 0,
@@ -134,12 +134,12 @@ goToReviews(id: number, name: string) {
   }
   ionViewDidEnter(){
     this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;
@@ -249,13 +249,13 @@ goToReviews(id: number, name: string) {
       }))
   }
   orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   open_product(id: number, name: string) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
   onImageLoad(key: string): void {
     this.imageLoaded[key] = true;

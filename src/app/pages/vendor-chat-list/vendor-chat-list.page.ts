@@ -84,16 +84,16 @@ export class VendorChatListPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
       return;
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.loadUserAndConversations().then(r => console.log(r));
+      this.loadUserAndConversations();
     }
   }
   ngOnDestroy() {
@@ -105,7 +105,7 @@ export class VendorChatListPage implements OnInit, OnDestroy {
     this.userToken = this.single_user.token;
     // Check if user is a vendor
     if (!this.single_user.is_vendor || !this.single_user.is_store_active) {
-      this.router.navigate(['/account']).then(r => console.log(r));
+      this.router.navigate(['/account']);
       return;
     }
 
@@ -164,7 +164,7 @@ export class VendorChatListPage implements OnInit, OnDestroy {
       queryParams: {
         order_item_id: conv.order_item_id
       }
-    }).then(r => console.log(r));
+    });
   }
 
   getInitials(name: string): string {

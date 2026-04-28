@@ -145,7 +145,7 @@ export class CreatePage implements OnInit {
 
   }
   ionViewDidEnter(){
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ui_controls = {
     is_loading: false,
@@ -176,7 +176,7 @@ export class CreatePage implements OnInit {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
@@ -242,12 +242,12 @@ export class CreatePage implements OnInit {
           if (response.response_code === 200 && response.status === "success") {
             this.products = response.data;
             this.ui_controls.is_creating = false;
-            this.router.navigate(['/', 'styles']).then(r => console.log(r));
+            this.router.navigate(['/', 'styles']);
             this.success_notification(response.message);
           }else {
             this.ui_controls.is_creating = false;
             this.error_notification(response.message);
-            this.router.navigate(['/', 'styles']).then(r => console.log(r));
+            this.router.navigate(['/', 'styles']);
           }
         }
       }))
@@ -324,7 +324,7 @@ export class CreatePage implements OnInit {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
 

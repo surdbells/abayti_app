@@ -82,7 +82,7 @@ export class WishlistPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
   ui_controls = {
@@ -112,14 +112,14 @@ export class WishlistPage implements OnInit, OnDestroy {
     is_customer: false
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
   ionViewDidEnter() {
     this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r));
+      this.nav.navigateRoot('/settings');
     });
   }
   ionViewWillLeave() {
@@ -138,7 +138,7 @@ export class WishlistPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
@@ -219,13 +219,13 @@ export class WishlistPage implements OnInit, OnDestroy {
       }))
   }
   orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   open_product(id: number, name: string) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
   onImageLoad(itemId: number): void {
     this.imageLoaded[itemId] = true;

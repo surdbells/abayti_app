@@ -127,10 +127,10 @@ export class StyleViewPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.style = history.state?.style;
     if (!this.style) {
-      this.router.navigate(['/styles']).then(r => console.log(r));
+      this.router.navigate(['/styles']);
       return;
     }
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   ngOnDestroy() {
@@ -140,7 +140,7 @@ export class StyleViewPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
     }
@@ -241,7 +241,7 @@ export class StyleViewPage implements OnInit, OnDestroy {
   // ========================================
 
   open_product(id: number, name: string) {
-    this.router.navigate(['/', 'product'], { queryParams: { id, name } }).then(r => console.log(r));
+    this.router.navigate(['/', 'product'], { queryParams: { id, name } });
   }
 
   triggerBack() {

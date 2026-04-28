@@ -267,10 +267,10 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
   user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+    this.router.navigate(['/', 'settings']);
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
     if (this.isOnline) {
       console.log('You are online');
     } else {
@@ -281,7 +281,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id
@@ -404,7 +404,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
                   this.open_processing(orderId, merchantReference, paymentType, deliveryFee);
                 }
               };
-              closeWebview().then(r => console.log(r));
+              closeWebview();
             } catch (err) {
               console.error('Error handling urlChangeEvent', err);
             }
@@ -431,22 +431,22 @@ export class CheckoutPage implements OnInit, OnDestroy {
       });
   }
   user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
+    this.router.navigate(['/', 'account']);
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+    this.router.navigate(['/', 'explore']);
   }
   user_orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -468,7 +468,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
     this.router.navigate(
       ['/', 'process'],
       { queryParams: { orderId, merchantReference, paymentType, deliveryFee } }
-    ).then(r => console.log(r));
+    );
   }
   toggleAccordion = () => {
     const nativeEl = this.accordionGroup;
@@ -561,7 +561,7 @@ export class CheckoutPage implements OnInit, OnDestroy {
               Preferences.set({
                 key: 'user',
                 value: JSON.stringify(this.single_user)
-              }).then(r => console.log(r));
+              });
               this.toggleAccordion();
             }else{
               this.ui_controls.is_updating = false

@@ -79,7 +79,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r));
+      this.nav.navigateRoot('/settings');
     });
   }
   ui_controls = {
@@ -132,16 +132,16 @@ export class ProfilePage implements OnInit, OnDestroy {
     return `${this.update.countryCode}${(this.update.phone || '').replace(/\D/g, '')}`;
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
   // Called when the page becomes active (Ionic RouterOutlet triggers this)
   ionViewDidEnter() {
-    //  this.getObject().then(r => console.log(r));
+    //  this.getObject();
     this.backSub = this.platform.backButton.subscribeWithPriority(9999, () => {
-      this.nav.navigateRoot('/settings').then(r => console.log(r)); // or Router: navigateByUrl('/account', { replaceUrl: true })
+      this.nav.navigateRoot('/settings'); // or Router: navigateByUrl('/account', { replaceUrl: true })
     });
   }
   // Clean up when you leave the page
@@ -155,7 +155,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id

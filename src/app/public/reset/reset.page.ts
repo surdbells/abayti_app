@@ -142,7 +142,7 @@ export class ResetPage implements OnInit, OnDestroy {
           if (response.response_code === 200 && response.status === "success") {
             this.ui_controls.loading = false;
             this.success_notification(response.message);
-            this.router.navigate(['/login']).then(r => console.log(r));
+            this.router.navigate(['/login']);
           }
         },
         error: (e) => {
@@ -256,10 +256,10 @@ export class ResetPage implements OnInit, OnDestroy {
     });
   }
   sign_in() {
-    this.router.navigate(['/', 'login']).then(r => console.log(r));
+    this.router.navigate(['/', 'login']);
   }
   user_register() {
-    this.router.navigate(['/', 'register']).then(r => console.log(r));
+    this.router.navigate(['/', 'register']);
   }
 
 }

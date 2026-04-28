@@ -78,7 +78,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
   ui_controls = {
@@ -109,10 +109,10 @@ export class MessagesPage implements OnInit, OnDestroy {
     review: 0
   };
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   IonOnViewDidEnter(){
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
@@ -124,7 +124,7 @@ export class MessagesPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;
@@ -148,11 +148,11 @@ export class MessagesPage implements OnInit, OnDestroy {
       }))
   }
   orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   conversations(store: number, name: string) {
     this.router.navigate(['/', 'conversations'],
       { queryParams: { store, name } }
-    ).then(r => console.log(r));
+    );
   }
 }

@@ -94,7 +94,7 @@ export class TicketListPage implements OnInit {
     token: ""
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
     if (this.isOnline) {
       console.log('You are online');
     } else {
@@ -104,7 +104,7 @@ export class TicketListPage implements OnInit {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.user_tickets.id = this.single_user.id
@@ -132,6 +132,6 @@ export class TicketListPage implements OnInit {
   openTicket(ticket: number, subject: string) {
     this.router.navigate(['/', 'ticketmessages'],
       { queryParams: { ticket, subject } }
-    ).then(r => console.log(r));
+    );
   }
 }

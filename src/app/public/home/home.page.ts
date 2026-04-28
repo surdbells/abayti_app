@@ -145,7 +145,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.router.navigate(
       ['/', 'single'],
       { queryParams: { id } }
-    ).then(r => console.log(r));
+    );
   }
 
   get_best_sellers() {
@@ -200,10 +200,10 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   user_register() {
-    this.router.navigate(['/', 'register']).then(r => console.log(r));
+    this.router.navigate(['/', 'register']);
   }
   user_login() {
-    this.router.navigate(['/', 'login']).then(r => console.log(r));
+    this.router.navigate(['/', 'login']);
   }
   getMoreItems() {
     this.get_featured.offset = this.get_featured.offset + this.get_featured.limit
@@ -221,7 +221,7 @@ export class HomePage implements OnInit, OnDestroy {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
   open_category(id: number, name: string) {

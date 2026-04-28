@@ -79,7 +79,7 @@ export class TicketMessagesPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.request.ticket = Number(this.route.snapshot.queryParamMap.get('ticket'));
     this.request.subject = this.route.snapshot.queryParamMap.get('subject') || '';
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
@@ -100,7 +100,7 @@ export class TicketMessagesPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id;
@@ -110,7 +110,7 @@ export class TicketMessagesPage implements OnInit, OnDestroy {
     }
   }
   IonOnViewDidEnter(){
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   get_conversations(show_loading: boolean = false) {
     if (show_loading){

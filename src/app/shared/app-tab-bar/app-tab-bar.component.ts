@@ -106,6 +106,6 @@ export class AppTabBarComponent {
 
   go(tab: AppTabBarTab): void {
     const route = AppTabBarComponent.ROUTES[tab];
-    this.router.navigate([route]).then(r => console.log(r));
+    this.router.navigate([route]);
   }
 }

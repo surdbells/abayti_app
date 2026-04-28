@@ -97,7 +97,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
     message: "",
   }
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
@@ -116,7 +116,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.request.id = this.single_user.id;
@@ -125,7 +125,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
     }
   }
   IonOnViewDidEnter(){
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   get_vendors() {
     this.ui_controls.is_loading = true;
@@ -161,7 +161,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
           if (response.response_code === 200) {
             this.success_notification(response.message)
             this.ui_controls.is_loading = false;
-            this.router.navigate(['/', 'ticketlist']).then(r => console.log(r));
+            this.router.navigate(['/', 'ticketlist']);
           }else{
             this.ui_controls.is_loading = false;
             this.error_notification(response.message);
@@ -179,7 +179,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
       }))
   }
   orders() {
-    this.router.navigate(['/', 'orders']).then(r => console.log(r));
+    this.router.navigate(['/', 'orders']);
   }
   error_notification(message: string) {
     this.toast.error(message, {

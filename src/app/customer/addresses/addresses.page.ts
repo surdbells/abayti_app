@@ -118,7 +118,7 @@ export class AddressesPage implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
@@ -133,7 +133,7 @@ export class AddressesPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id
@@ -228,7 +228,7 @@ export class AddressesPage implements OnInit, OnDestroy {
               Preferences.set({
                 key: 'user',
                 value: JSON.stringify(this.single_user)
-              }).then(r => console.log(r));
+              });
               this.get_billing();
             }else{
               this.ui_controls.is_updating = false
@@ -245,13 +245,13 @@ export class AddressesPage implements OnInit, OnDestroy {
     }
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_messages() {
-    this.router.navigate(['/', 'messages']).then(r => console.log(r));
+    this.router.navigate(['/', 'messages']);
   }
   user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
   error_notification(message: string) {
     this.toast.error(message, {

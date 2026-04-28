@@ -204,13 +204,13 @@ export class AccountPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.get_best_sellers();
@@ -247,40 +247,40 @@ export class AccountPage implements OnInit, OnDestroy {
   // ========================================
 
   user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
+    this.router.navigate(['/', 'settings']);
   }
   user_wishlist() {
-    this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
+    this.router.navigate(['/', 'wishlist']);
   }
   user_messages() {
-    this.router.navigate(['/', 'chat-vendors']).then(r => console.log(r));
+    this.router.navigate(['/', 'chat-vendors']);
   }
   bestSellers() {
-    this.router.navigate(['/', 'best-sellers']).then(r => console.log(r));
+    this.router.navigate(['/', 'best-sellers']);
   }
   newArrivals() {
-    this.router.navigate(['/', 'new-arrivals']).then(r => console.log(r));
+    this.router.navigate(['/', 'new-arrivals']);
   }
   search() {
-    this.router.navigate(['/', 'search']).then(r => console.log(r));
+    this.router.navigate(['/', 'search']);
   }
   user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
+    this.router.navigate(['/', 'explore']);
   }
   user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
   user_search() {
-    this.router.navigate(['/', 'search']).then(r => console.log(r));
+    this.router.navigate(['/', 'search']);
   }
   user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
+    this.router.navigate(['/', 'styles']);
   }
   open_product(id: number) {
     this.router.navigate(
       ['/', 'product'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
 
@@ -292,9 +292,9 @@ export class AccountPage implements OnInit, OnDestroy {
           text: this.i18n.t('button_sign_out'),
           role: 'destructive',
           handler: () => {
-            Preferences.remove({key: 'keep_session'}).then(r => console.log(r));
-            Preferences.remove({key: 'user'}).then(r => console.log(r));
-            this.router.navigate(['/', 'login']).then(r => console.log(r));
+            Preferences.remove({key: 'keep_session'});
+            Preferences.remove({key: 'user'});
+            this.router.navigate(['/', 'login']);
           }
         }, {
           text: this.i18n.t('cancel'),
@@ -412,28 +412,28 @@ export class AccountPage implements OnInit, OnDestroy {
   }
 
   openCart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
+    this.router.navigate(['/', 'cart']);
   }
 
   open_reviews(id: any, name: any) {
     this.router.navigate(
       ['/', 'store_reviews'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
   open_vendor(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendors'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
   open_category(id: number, name: string) {
     this.router.navigate(
       ['/', 'category'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 
   refresh_products() {
@@ -482,11 +482,11 @@ export class AccountPage implements OnInit, OnDestroy {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
 
   user_store() {
-    this.router.navigate(['/', 'store-dashboard']).then(r => console.log(r));
+    this.router.navigate(['/', 'store-dashboard']);
   }
 }

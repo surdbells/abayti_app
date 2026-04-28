@@ -43,13 +43,13 @@ export class ProcessPage implements OnInit {
     this.rqst_param.paymentType = this.route.snapshot.queryParamMap.get('paymentType') || '';
     this.rqst_param.delivery_fee = Number(this.route.snapshot.queryParamMap.get('deliveryFee') || 0);
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
-    this.getObject().then(r => console.log(r));
+    this.getObject();
 
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;
@@ -119,24 +119,24 @@ finalize() {
           next: (response) => {
             if (response.status === "SUCCESS") {
               this.ui_controls.confirming_transaction = false;
-              this.router.navigate(['/success'], {replaceUrl: true}).then(r =>console.log(r));
+              this.router.navigate(['/success'], {replaceUrl: true});
             }
             if (response.status === "FAILED") {
               this.ui_controls.confirming_transaction = false;
-              this.router.navigate(['/failed'], {replaceUrl: true}).then(r =>console.log(r));
+              this.router.navigate(['/failed'], {replaceUrl: true});
             }
             if (response.status === "UNKNOWN") {
               this.ui_controls.confirming_transaction = false;
-              this.router.navigate(['/failed'], {replaceUrl: true}).then(r =>console.log(r));
+              this.router.navigate(['/failed'], {replaceUrl: true});
             }
             if (response.status === "ERROR") {
               this.ui_controls.confirming_transaction = false;
-              this.router.navigate(['/failed'], {replaceUrl: true}).then(r =>console.log(r));
+              this.router.navigate(['/failed'], {replaceUrl: true});
             }
           },
           error: (e) => {
             this.ui_controls.confirming_transaction = false;
-            this.router.navigate(['/failed'], {replaceUrl: true}).then(r =>console.log(r));
+            this.router.navigate(['/failed'], {replaceUrl: true});
           },
           complete: () => {
             console.info('complete');

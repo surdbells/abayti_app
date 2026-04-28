@@ -22,4 +22,4 @@ bootstrapApplication(AppComponent, {
     provideAxIcons(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
-}).then(r =>console.log(r));
+});

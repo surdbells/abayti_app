@@ -35,7 +35,7 @@ export class AppComponent {
           // await StatusBar.setBackgroundColor({ color: '#ffffff' });
       // } catch {}
       });
-      this.initPush().then(r => console.log(r));
+      this.initPush();
   }
   initializeApp() {
     ScreenOrientation.lock({orientation: 'portrait'}).then(r => console.log('ScreenOrientation loaded'));

@@ -222,7 +222,7 @@ export class RegisterPage implements OnInit, OnDestroy {
               Preferences.set({
                 key: 'user',
                 value: JSON.stringify(response.data)
-              }).then(r => console.log(r));
+              });
               this.router.navigate(['/account'], { replaceUrl: true });
               this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
             }
@@ -330,9 +330,9 @@ export class RegisterPage implements OnInit, OnDestroy {
     });
   }
   sign_in() {
-    this.router.navigate(['/', 'login']).then(r => console.log(r));
+    this.router.navigate(['/', 'login']);
   }
   forgot_password() {
-    this.router.navigate(['/', 'reset']).then(r => console.log(r));
+    this.router.navigate(['/', 'reset']);
   }
 }

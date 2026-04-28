@@ -132,16 +132,16 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
       return;
     }else{
       this.single_user = JSON.parse(ret.value);
-      this.loadUserAndDashboard().then(r => console.log(r));
+      this.loadUserAndDashboard();
     }
   }
   ngOnDestroy(): void {
@@ -153,7 +153,7 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
     this.userId = this.single_user.id;
     this.userToken = this.single_user.token;
     if (!this.single_user.is_vendor) {
-      this.router.navigate(['/account']).then(r => console.log(r));
+      this.router.navigate(['/account']);
       return;
     }
 

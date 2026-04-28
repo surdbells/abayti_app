@@ -122,14 +122,14 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     // Determine language from locale or stored preference
-    this.initializeLanguage().then(r => console.log(r));
+    this.initializeLanguage();
 
     this.route.queryParams.subscribe(params => {
       this.orderItemId = Number(params['order_item_id']);
       if (this.orderItemId) {
-        this.initializeChat().then(r => console.log(r));
+        this.initializeChat();
       } else {
-        this.router.navigate(['/chat-vendors']).then(r => console.log(r));
+        this.router.navigate(['/chat-vendors']);
       }
     });
   }
@@ -160,7 +160,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
   async initializeChat(): Promise<void> {
     const userData = await Preferences.get({ key: 'user' });
     if (!userData.value) {
-      this.router.navigate(['/login']).then(r => console.log(r));
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -277,7 +277,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
     this.messages = [...this.messages, tempMessage];
     this.scrollToBottom();
-    this.triggerHaptic().then(r => console.log(r));
+    this.triggerHaptic();
     this.cdr.markForCheck();
 
     const sub = this.chatService.sendMessage(
@@ -327,7 +327,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
     this.messages = [...this.messages, tempMessage];
     this.scrollToBottom();
-    this.triggerHaptic().then(r => console.log(r));
+    this.triggerHaptic();
     this.cdr.markForCheck();
 
     const sub = this.chatService.sendMessage(
@@ -444,7 +444,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
         this.messages = [...this.messages, data.message];
         this.isUploading = false;
         this.scrollToBottom();
-        this.triggerHaptic().then(r => console.log(r));
+        this.triggerHaptic();
         this.cdr.markForCheck();
       },
       error: (err) => {
@@ -467,7 +467,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
 
   selectCategory(category: PromptCategory): void {
     this.selectedCategory = category;
-    this.triggerHaptic('light').then(r => console.log(r));
+    this.triggerHaptic('light');
     this.cdr.markForCheck();
   }
 

@@ -97,7 +97,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
 
@@ -139,13 +139,13 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ionViewWillEnter() {
     console.log('[Vertican] ionViewWillEnter');
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
       if (this.products.length === 0) {

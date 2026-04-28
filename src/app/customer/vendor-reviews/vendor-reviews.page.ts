@@ -170,7 +170,7 @@ export class VendorReviewsPage implements OnInit {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null){
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     }else{
       this.single_user = JSON.parse(ret.value);
       this.rqst_param.id = this.single_user.id;
@@ -187,7 +187,7 @@ export class VendorReviewsPage implements OnInit {
   }
   ionViewDidEnter(){
     this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   error_notification(message: string) {
     this.toast.error(message, {
@@ -323,13 +323,13 @@ export class VendorReviewsPage implements OnInit {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
   triggerBack(id: number, name: string) {
     this.router.navigate(
       ['/', 'vendors'],
       { queryParams: { id, name } }
-    ).then(r => console.log(r));
+    );
   }
 }

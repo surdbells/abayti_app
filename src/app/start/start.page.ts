@@ -51,7 +51,7 @@ export class StartPage implements AfterViewInit {
     if (!sw) return;
 
     if (this.index() === 2) {
-      this.router.navigate(['/', 'welcome']).then(r => console.log(r));
+      this.router.navigate(['/', 'welcome']);
       return;
     }
 

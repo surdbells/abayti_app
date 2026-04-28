@@ -135,12 +135,12 @@ export class BestSellersPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
 
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   ngOnDestroy(): void {
@@ -150,7 +150,7 @@ export class BestSellersPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
@@ -274,7 +274,7 @@ export class BestSellersPage implements OnInit, OnDestroy {
   onIonInfinite(event: InfiniteScrollCustomEvent): void {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
 
@@ -351,7 +351,7 @@ export class BestSellersPage implements OnInit, OnDestroy {
   // ========================================
 
   open_product(id: number, name: string): void {
-    this.router.navigate(['/', 'product'], { queryParams: { id, name } }).then(r => console.log(r));
+    this.router.navigate(['/', 'product'], { queryParams: { id, name } });
   }
 
   triggerBack(): void {

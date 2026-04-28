@@ -91,14 +91,14 @@ export class StylesPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
   ionViewDidEnter(){
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
   single_user = {
     id: 0,
@@ -134,7 +134,7 @@ export class StylesPage implements OnInit, OnDestroy {
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
@@ -230,7 +230,7 @@ export class StylesPage implements OnInit, OnDestroy {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
 
@@ -253,7 +253,7 @@ export class StylesPage implements OnInit, OnDestroy {
   open_style(style: Styles) {
     this.router.navigate(['/style-view'], {
       state: { style }
-    }).then(r => console.log(r));
+    });
   }
 
   triggerBack() {
@@ -261,7 +261,7 @@ export class StylesPage implements OnInit, OnDestroy {
   }
 
   createStyle() {
-    this.router.navigate(['/', 'create']).then(r => console.log(r));
+    this.router.navigate(['/', 'create']);
   }
 
   // ========================================

@@ -88,7 +88,7 @@ export class CategoryPage implements OnInit, OnDestroy {
   @HostListener('window:ionBackButton', ['$event'])
   onHardwareBack(ev: Event) {
     (ev as CustomEvent).detail.register(100, () => {
-      this.nav.navigateRoot('/account').then(r => console.log(r));
+      this.nav.navigateRoot('/account');
     });
   }
 
@@ -142,13 +142,13 @@ export class CategoryPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.initial.category = Number(this.route.snapshot.queryParamMap.get('id'));
     this.initial.name = this.route.snapshot.queryParamMap.get('name') || '';
-    this.getObject().then(r => console.log(r));
+    this.getObject();
   }
 
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });
     if (ret.value == null) {
-      this.router.navigate(['/', 'login']).then(r => console.log(r));
+      this.router.navigate(['/', 'login']);
     } else {
       this.single_user = JSON.parse(ret.value);
       this.initial.id = this.single_user.id;
@@ -331,7 +331,7 @@ export class CategoryPage implements OnInit, OnDestroy {
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     this.getMoreItems();
     setTimeout(() => {
-      event.target.complete().then(r => console.log(r));
+      event.target.complete();
     }, 500);
   }
 
@@ -353,7 +353,7 @@ export class CategoryPage implements OnInit, OnDestroy {
   // ========================================
 
   open_product(id: number, name: string) {
-    this.router.navigate(['/', 'product'], { queryParams: { id, name } }).then(r => console.log(r));
+    this.router.navigate(['/', 'product'], { queryParams: { id, name } });
   }
 
   triggerBack() {
