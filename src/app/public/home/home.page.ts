@@ -3,8 +3,6 @@ import {Component, Input, OnDestroy, OnInit, signal, ViewChild} from '@angular/c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonButton,
-  IonButtons,
   IonCard,
   IonContent,
   IonHeader,
@@ -54,8 +52,6 @@ export interface Store {
     IonHeader,
     IonTitle,
     IonToolbar,
-    IonButton,
-    IonButtons,
     IonCard,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
