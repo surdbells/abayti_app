@@ -40,7 +40,6 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
-@import "animate.css/animate.min.css";
 
 /* Body type. Display type is applied selectively via headings + .ax-display. */
 :root,
@@ -1450,3 +1449,32 @@ ion-header.md ion-toolbar {
 }
 
 /* End M44 utilities */
+
+
+/* ============================================================
+ * M59: Tiny replacement for animate.css's animate__fadeIn
+ *
+ * The animate.css library was used in just 4 places across the
+ * codebase, all for a single one-time mount-time fade-in. The
+ * full library is ~3000 lines of CSS for hundreds of effects
+ * we don't use; this 9-line drop-in replacement replaces all
+ * usage of `animate__animated animate__fadeIn` and lets us
+ * drop the dependency.
+ * ============================================================ */
+
+@keyframes app-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.app-fade-in {
+  animation: app-fade-in 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-fade-in {
+    animation: none;
+  }
+}
+
+/* End M59 utility */
