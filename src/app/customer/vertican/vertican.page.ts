@@ -31,12 +31,6 @@ import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
-interface Category {
-  readonly id: number;
-  readonly name: string;
-}
-
-type DualRange = { lower: number; upper: number };
 
 @Component({
   selector: 'app-vertican',
@@ -79,20 +73,7 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   index = signal(0);
   isOnline = true;
-  range = signal<DualRange>({ lower: 5, upper: 500 });
 
-  protected readonly category: Category[] = [
-    { id: 1, name: 'Abayas' },
-    { id: 2, name: 'Mukhawars' },
-    { id: 3, name: 'Kaftans' },
-    { id: 4, name: 'Bags' },
-    { id: 5, name: 'Accessories' },
-    { id: 6, name: 'Modest clothes' },
-    { id: 7, name: 'Dresses' }
-  ];
-
-  protected value: Category | null = { id: 1, name: 'Abayas' };
-  isFilterOpen = false;
   isWishOpen = false;
   images: string[] = [];
   private sub: Subscription;
@@ -131,15 +112,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
     is_empty: false,
     hasMore: true,
     is_loading_category: false
-  }
-
-  filter = {
-    id: 0,
-    token: "",
-    category: [1] as number[],
-    price_start: 5,
-    price_end: 500,
-    delivery: "1 - 3"
   }
 
   single_user = {
@@ -351,36 +323,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ========================================
-  // Filter methods
-  // ========================================
-
-  closeFilter() {
-    this.isFilterOpen = false;
-  }
-
-  isCategorySelected(categoryId: number): boolean {
-    return this.filter.category.includes(categoryId);
-  }
-
-  toggleCategory(categoryId: number) {
-    const index = this.filter.category.indexOf(categoryId);
-    if (index > -1) {
-      if (this.filter.category.length > 1) {
-        this.filter.category.splice(index, 1);
-      }
-    } else {
-      this.filter.category.push(categoryId);
-    }
-  }
-
-  resetFilters() {
-    this.filter.category = [1];
-    this.range.set({ lower: 5, upper: 500 });
-    this.filter.price_start = 5;
-    this.filter.price_end = 500;
-  }
-
-  // ========================================
   // API request parameters
   // ========================================
 
@@ -406,78 +348,8 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ========================================
-  // Range slider
-  // ========================================
-
-  readonly min = 1;
-  readonly max = 5000;
-  readonly step = 5;
-
-  onRangeChange(ev: any) {
-    const v = ev?.detail?.value as DualRange | number;
-    if (typeof v === 'number') return;
-    const lower = this.clamp(v.lower, this.min, Math.min(v.upper, this.max));
-    const upper = this.clamp(v.upper, Math.max(v.lower, this.min), this.max);
-    this.range.set({ lower: this.snap(lower), upper: this.snap(upper) });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  onLowerInput(ev: any) {
-    const raw = Number(ev?.target?.value ?? this.range().lower);
-    const snapped = this.snap(this.clamp(raw, this.min, this.range().upper));
-    this.range.set({ lower: snapped, upper: this.range().upper });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  onUpperInput(ev: any) {
-    const raw = Number(ev?.target?.value ?? this.range().upper);
-    const snapped = this.snap(this.clamp(raw, this.range().lower, this.max));
-    this.range.set({ lower: this.range().lower, upper: snapped });
-    this.filter.price_start = this.range().lower;
-    this.filter.price_end = this.range().upper;
-  }
-
-  private clamp(n: number, lo: number, hi: number) {
-    return Math.min(Math.max(n, lo), hi);
-  }
-
-  private snap(n: number) {
-    return Math.round(n / this.step) * this.step;
-  }
-
-  // ========================================
   // API calls
   // ========================================
-
-  get_filtered_products() {
-    this.isFilterOpen = false;
-    this.resetState();
-
-    this.ui_controls.is_loading = true;
-    this.cdr.markForCheck();
-
-    this.filter.id = this.single_user.id;
-    this.filter.token = this.single_user.token;
-
-    this.networkService.post_request(this.filter, GlobalComponent.filterexplore)
-      .subscribe({
-        next: (response) => {
-          if (response.response_code === 200 && response.status === "success") {
-            this.products = response.data;
-            this.ui_controls.is_loading = false;
-            this.ui_controls.is_loaded = true;
-            this.cdr.markForCheck();
-            setTimeout(() => this.initializeSwipers(), 200);
-          } else {
-            this.ui_controls.is_loading = false;
-            this.cdr.markForCheck();
-            this.presentToast('middle', "No product for the selected filter");
-          }
-        }
-      });
-  }
 
   explore_products() {
     console.log('[Vertican] explore_products');
