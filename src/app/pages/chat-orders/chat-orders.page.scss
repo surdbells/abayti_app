@@ -5,12 +5,6 @@
 ion-content.page-content {
   --background: var(--ax-color-bg-canvas);
 }
-
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%);  }
-}
-
 /* ----- Order list -------------------------------------- */
 
 .order-list {

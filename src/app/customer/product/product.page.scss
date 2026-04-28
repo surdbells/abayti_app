@@ -20,24 +20,9 @@
 /* ========================================
    SKELETON ANIMATION
    ======================================== */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
+/* M44: shimmer pattern in global.scss; this page overrides the opacity. */
 .skeleton-shimmer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.4) 50%,
-      transparent 100%
-  );
-  animation: shimmer 1.5s infinite;
+  --skeleton-shimmer-color: rgba(255, 255, 255, 0.40);
 }
 
 /* ========================================

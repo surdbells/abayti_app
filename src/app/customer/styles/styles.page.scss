@@ -7,24 +7,6 @@ ion-content.page-bg {
 }
 
 /* ----- Skeleton shimmer ---------------------------------------- */
-
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%);  }
-}
-
-.skeleton-shimmer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 100%
-  );
-  animation: shimmer 1.5s infinite;
-}
-
 /* ----- Style grid (2-col responsive) -------------------------- */
 
 .style-grid {
@@ -260,11 +242,5 @@ ion-content.page-bg {
     height: 10px;
     width: 50%;
     background: var(--ax-color-bg-brand-subtle);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skeleton-shimmer {
-    animation: none;
   }
 }

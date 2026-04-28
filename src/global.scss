@@ -1402,3 +1402,51 @@ ion-header.md ion-toolbar {
 }
 
 /* End M39 utilities */
+
+
+/* ============================================================
+ * M44: Shared skeleton shimmer keyframe + baseline overlay
+ *
+ * The .skeleton-shimmer pattern is duplicated across 8 pages
+ * with near-identical bodies, plus an additional 6 pages have
+ * @keyframes shimmer with no .skeleton-shimmer rule. Total of
+ * 14 duplicate keyframe definitions across the app.
+ *
+ * This rule covers all of them. Per-page rules still cascade
+ * so any page that wants a stronger or weaker shimmer (e.g.
+ * vertican uses 0.08, product uses 0.40) can override the
+ * --skeleton-shimmer-color CSS variable.
+ *
+ * NOTE: This is foundation-only. The page-level .skeleton-text,
+ * .skeleton-card, .skeleton-box, .skeleton-pager, etc rules
+ * are NOT extracted because their structure varies too much
+ * across pages (each page's skeleton matches its own card
+ * shape). Per-page deduplication of those is deferred.
+ * ============================================================ */
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-shimmer {
+  --skeleton-shimmer-color: rgba(255, 255, 255, 0.35);
+
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--skeleton-shimmer-color) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
+}
+
+/* End M44 utilities */

@@ -9,11 +9,6 @@ $cream-bg: #FAF3EB;
 /* ========================================
    ANIMATIONS
    ======================================== */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;

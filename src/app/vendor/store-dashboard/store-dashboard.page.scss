@@ -6,12 +6,6 @@ ion-content.page-content {
   --background: var(--ax-color-bg-canvas);
   --padding-bottom: 24px;
 }
-
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%);  }
-}
-
 /* ============================================================================
    Store header card
    ============================================================================ */
