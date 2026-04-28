@@ -26,6 +26,7 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {List} from "../../class/list";
 import {FormsModule} from "@angular/forms";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -70,6 +71,7 @@ export class MeasurementsPage implements OnInit, OnDestroy {
     private router: Router,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -184,11 +186,11 @@ export class MeasurementsPage implements OnInit, OnDestroy {
           },
           error: () => {
             this.ui_controls.is_loading = false;
-            this.error_notification("unable to save measurement");
+            this.error_notification(this.i18n.t('text_unable_to_save_measurement'));
           }
         }))
     }else {
-      this.error_notification("You are not online, check your connection")
+      this.error_notification(this.i18n.t('text_offline_check_connection'))
     }
   }
   error_notification(message: string) {

@@ -21,6 +21,7 @@ import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {DIAL_CODES, DialCode} from "../../dial-codes";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -70,6 +71,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -178,19 +180,19 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.update.id = this.single_user.id;
       this.update.token = this.single_user.token;
       if (this.update.first_name.length == 0) {
-        this.error_notification("First name is require");
+        this.error_notification(this.i18n.t('text_first_name_required'));
         return;
       }
       if (this.update.last_name.length == 0) {
-        this.error_notification("Last name is require");
+        this.error_notification(this.i18n.t('text_last_name_required'));
         return;
       }
       if (this.update.phone.length == 0) {
-        this.error_notification("Phone number is required");
+        this.error_notification(this.i18n.t('text_phone_required'));
         return;
       }
       if (this.update.countryCode.length === 0) {
-        this.error_notification("Country code is required");
+        this.error_notification(this.i18n.t('text_country_code_required'));
         return;
       }
       this.ui_controls.is_updating = true;
@@ -209,11 +211,11 @@ export class ProfilePage implements OnInit, OnDestroy {
           },
           error: () => {
             this.ui_controls.is_updating = false;
-            this.error_notification("unable to save");
+            this.error_notification(this.i18n.t('text_unable_to_save_profile'));
           }
         }))
     }else {
-      this.error_notification("You are not online, check your connection")
+      this.error_notification(this.i18n.t('text_offline_check_connection'))
     }
   }
   error_notification(message: string) {

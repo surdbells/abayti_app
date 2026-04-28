@@ -32,6 +32,7 @@ import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { GlobalComponent } from "../../global-component";
 import { Preferences } from "@capacitor/preferences";
 import { SizeChipsComponent } from "../../size-chips/size-chips.component";
+import { I18nService } from '../../i18n.service';
 import { TranslatePipe } from "../../translate.pipe";
 import { Products } from "../../class/products";
 
@@ -156,7 +157,8 @@ export class ProductPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private networkService: NetworkService,
     private toast: AxNotificationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private i18n: I18nService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Back button handler');
@@ -637,14 +639,14 @@ export class ProductPage implements OnInit, OnDestroy {
 
   addToCart() {
     if (this.add_cart.quantity === 0) {
-      this.error_notification("Quantity is required.");
+      this.error_notification(this.i18n.t('text_quantity_required'));
       return;
     }
 
     if (!this.single.size_custom) {
       if (this.single.category_id !== "4" && this.single.category_id !== "5" && this.single.category_id !== "2") {
         if (this.add_cart.size.length === 0) {
-          this.error_notification("Select your preferred size.");
+          this.error_notification(this.i18n.t('text_select_size'));
           return;
         }
       }
@@ -652,7 +654,7 @@ export class ProductPage implements OnInit, OnDestroy {
 
     if (this.single.category_id !== "5") {
       if (this.add_cart.color.length === 0) {
-        this.error_notification("Select your preferred color.");
+        this.error_notification(this.i18n.t('text_select_color'));
         return;
       }
     }
@@ -685,7 +687,7 @@ export class ProductPage implements OnInit, OnDestroy {
     if (this.isOnline) {
       if (this.single.require_extra_msmt) {
         if (this.add_cart.extra_measurement.length === 0) {
-          this.error_notification("Provide extra measurement to proceed");
+          this.error_notification(this.i18n.t('text_provide_measurement'));
           return;
         }
       }
@@ -698,7 +700,7 @@ export class ProductPage implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             if (response.response_code === 200 && response.status === "success") {
-              this.success_notification("Measurement confirmed successfully.");
+              this.success_notification(this.i18n.t('text_measurement_confirmed'));
               this.ui_controls.is_loading_measurement = false;
               this.process_controls.confirmed_measurement = true;
               this.get_measurement();
@@ -712,12 +714,12 @@ export class ProductPage implements OnInit, OnDestroy {
           },
           error: () => {
             this.ui_controls.is_loading_measurement = false;
-            this.error_notification("Unable to save measurement");
+            this.error_notification(this.i18n.t('text_unable_to_save_measurement'));
             this.cdr.markForCheck();
           }
         });
     } else {
-      this.error_notification("You are not online, check your connection");
+      this.error_notification(this.i18n.t('text_offline_check_connection'));
     }
   }
 
