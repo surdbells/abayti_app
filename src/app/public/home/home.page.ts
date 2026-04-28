@@ -10,6 +10,7 @@ import {
   IonInfiniteScrollContent,
   IonTitle,
   IonToolbar, IonFooter } from '@ionic/angular/standalone';
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
@@ -90,7 +91,8 @@ export class HomePage implements OnInit, OnDestroy {
     private blocker: BlockerService,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: AxNotificationService
+    private toast: AxNotificationService,
+    private i18n: I18nService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');
@@ -223,25 +225,25 @@ export class HomePage implements OnInit, OnDestroy {
     }, 500);
   }
   open_category(id: number, name: string) {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
   bestSellers() {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
   open_vendor(store_id: number, store_name: string) {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
 
   open_reviews(store_id: number, store_name: string) {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
 
   startAddToCloset(product_id: number, product_name: string, image_1: string) {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
 
   newArrivals() {
-    this.error_notification('You need to sign up to continue..');
+    this.error_notification(this.i18n.t('text_signup_to_continue'));
   }
   error_notification(message: string) {
     this.toast.error(message, {

@@ -18,6 +18,7 @@ import {
   IonImg,
   NavController
 } from '@ionic/angular/standalone';
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../../service/connection.service";
@@ -62,6 +63,7 @@ export class SinglePage implements OnInit {
     private route: ActivatedRoute,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');
@@ -202,7 +204,7 @@ product = {
     this.nav.back();
   }
   SignIn() {
-    this.show_error("You need to sign in to continue");
+    this.show_error(this.i18n.t('text_signin_to_continue'));
     this.router.navigate(['/', 'login']).then(r => console.log(r));
   }
   show_error(message: string) {

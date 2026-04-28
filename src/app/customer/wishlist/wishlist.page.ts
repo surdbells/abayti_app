@@ -24,6 +24,7 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {Labels} from "../../class/labels";
 import {Wishlist} from "../../class/wishlist";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -73,6 +74,7 @@ export class WishlistPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -148,7 +150,7 @@ export class WishlistPage implements OnInit, OnDestroy {
     this.add_label.id = this.single_user.id;
     this.add_label.token = this.single_user.token;
     if (this.add_label.label_name.length == 0){
-      this.error_notification("Name is required");
+      this.error_notification(this.i18n.t('text_name_required'));
       return;
     }
     this.ui_controls.is_empty = false;

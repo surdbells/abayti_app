@@ -21,6 +21,7 @@ import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
 import {StoreRecord} from "../messages/messages.page";
 import {NavController, Platform} from "@ionic/angular/standalone";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
@@ -64,6 +65,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -142,15 +144,15 @@ export class CreateTicketPage implements OnInit, OnDestroy {
     this.create.id = this.single_user.id;
     this.create.token = this.single_user.token;
     if (this.create.subject.length == 0){
-      this.error_notification("subject is required");
+      this.error_notification(this.i18n.t('text_subject_required'));
       return;
     }
     if (this.create.message.length == 0){
-      this.error_notification("message is required");
+      this.error_notification(this.i18n.t('text_message_required'));
       return;
     }
     if (this.create.store == 0){
-      this.error_notification("Reference is required");
+      this.error_notification(this.i18n.t('text_reference_required'));
       return;
     }
     this.networkService.post_request(this.create, GlobalComponent.createTicket)
@@ -167,7 +169,7 @@ export class CreateTicketPage implements OnInit, OnDestroy {
         },
         error: (e) => {
           this.ui_controls.is_loading = false;
-          this.error_notification("Unable to complete your request");
+          this.error_notification(this.i18n.t('text_unable_to_complete_request'));
           return;
         },
         complete: () => {
