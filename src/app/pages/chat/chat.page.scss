@@ -645,17 +645,16 @@ ion-content.chat-content {
 }
 
 /* ============================================================================
-   Order details modal
+   Order details sheet (rendered via <ax-bottom-sheet>)
    ============================================================================ */
-
-.order-modal-content {
-  --background: var(--ax-color-bg-canvas);
-}
 
 .modal-product-image {
   width: 100%;
   aspect-ratio: 4 / 3;
   background: var(--ax-color-bg-brand-subtle);
+  border-radius: var(--ax-radius-md);
+  overflow: hidden;
+  margin-bottom: 4px;
 
   img {
     width: 100%;
@@ -666,9 +665,15 @@ ion-content.chat-content {
 }
 
 .modal-section {
-  padding: 14px 16px;
-  background: var(--ax-color-bg-surface);
-  margin-bottom: 8px;
+  padding: 14px 0;
+
+  & + .modal-section {
+    border-top: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.06));
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
 
   h3 {
     margin: 0 0 4px;

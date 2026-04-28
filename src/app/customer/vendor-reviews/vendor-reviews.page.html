@@ -109,69 +109,62 @@
     </ion-infinite-scroll>
   }
 
-  <!-- Write Review modal -->
-  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()" [isOpen]="isReviewOpen" [initialBreakpoint]="0.8" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]" class="review-modal">
-    <ng-template>
-      <ion-header class="review-modal__header ion-no-border">
-        <ion-toolbar class="review-modal__toolbar ion-no-border">
-          <ion-title class="review-modal__title">{{ 'title_write_review' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="isReviewOpen = false" class="review-modal__close-btn">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="review-modal__content ion-padding">
+  <!-- Write Review sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isReviewOpen"
+    (didDismiss)="OnDidDismiss(); isReviewOpen = false"
+    [snapPoints]="[0.8, 0.95]"
+    [initialSnap]="0"
+    [title]="'title_write_review' | translate">
 
-        <!-- Rating (editable) -->
-        <div class="form-field">
-          <label class="form-field__label">{{ 'label_your_rating' | translate }}</label>
-          <div class="rating-input">
-            @for (n of [1, 2, 3, 4, 5]; track n) {
-              <button type="button" class="rating-star-btn" [class.rating-star-btn--filled]="n <= add_new_review.star" (click)="add_new_review.star = n" [attr.aria-label]="n + ' stars'">
-                <ax-icon name="star" />
-              </button>
-            }
-          </div>
-        </div>
-
-        <!-- Review title -->
-        <div class="form-field">
-          <label class="form-field__label">{{ 'label_title' | translate }}</label>
-          <ion-item class="input-frame" lines="none">
-            <ion-input [(ngModel)]="add_new_review.title" [placeholder]="'placeholder_summarize' | translate" class="input-box"></ion-input>
-          </ion-item>
-        </div>
-
-        <!-- Product name (read-only) -->
-        <div class="form-field">
-          <label class="form-field__label">{{ 'label_product' | translate }}</label>
-          <ion-item class="input-frame" lines="none">
-            <ion-input [(ngModel)]="add_new_review.product_name" [readonly]="true" [placeholder]="'placeholder_tell_about_product' | translate" class="input-box"></ion-input>
-          </ion-item>
-        </div>
-
-        <!-- Review body -->
-        <div class="form-field">
-          <label class="form-field__label">{{ 'label_your_review' | translate }}</label>
-          <ion-item class="input-frame" lines="none">
-            <ion-textarea [(ngModel)]="add_new_review.comment" [placeholder]="'placeholder_share_thoughts' | translate" auto-grow="true" class="textarea-box" [rows]="4"></ion-textarea>
-          </ion-item>
-        </div>
-
-        <!-- Submit -->
-        @if (!ui_controls.is_creating){
-          <ion-button (click)="add_review()" class="submit-btn" expand="block" type="button">
-            {{ 'button_submit_review' | translate }}
-          </ion-button>
+    <!-- Rating (editable) -->
+    <div class="form-field">
+      <label class="form-field__label">{{ 'label_your_rating' | translate }}</label>
+      <div class="rating-input">
+        @for (n of [1, 2, 3, 4, 5]; track n) {
+          <button type="button" class="rating-star-btn" [class.rating-star-btn--filled]="n <= add_new_review.star" (click)="add_new_review.star = n" [attr.aria-label]="n + ' stars'">
+            <ax-icon name="star" />
+          </button>
         }
-        @if (ui_controls.is_creating){
-          <div class="loader-row">
-            <ax-loader></ax-loader>
-          </div>
-        }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </div>
+    </div>
+
+    <!-- Review title -->
+    <div class="form-field">
+      <label class="form-field__label">{{ 'label_title' | translate }}</label>
+      <ion-item class="input-frame" lines="none">
+        <ion-input [(ngModel)]="add_new_review.title" [placeholder]="'placeholder_summarize' | translate" class="input-box"></ion-input>
+      </ion-item>
+    </div>
+
+    <!-- Product name (read-only) -->
+    <div class="form-field">
+      <label class="form-field__label">{{ 'label_product' | translate }}</label>
+      <ion-item class="input-frame" lines="none">
+        <ion-input [(ngModel)]="add_new_review.product_name" [readonly]="true" [placeholder]="'placeholder_tell_about_product' | translate" class="input-box"></ion-input>
+      </ion-item>
+    </div>
+
+    <!-- Review body -->
+    <div class="form-field">
+      <label class="form-field__label">{{ 'label_your_review' | translate }}</label>
+      <ion-item class="input-frame" lines="none">
+        <ion-textarea [(ngModel)]="add_new_review.comment" [placeholder]="'placeholder_share_thoughts' | translate" auto-grow="true" class="textarea-box" [rows]="4"></ion-textarea>
+      </ion-item>
+    </div>
+
+    <!-- Submit -->
+    @if (!ui_controls.is_creating){
+      <ion-button (click)="add_review()" class="submit-btn" expand="block" type="button">
+        {{ 'button_submit_review' | translate }}
+      </ion-button>
+    }
+    @if (ui_controls.is_creating){
+      <div class="loader-row">
+        <ax-loader></ax-loader>
+      </div>
+    }
+  </ax-bottom-sheet>
 </ion-content>
 
 <ion-footer class="m6f-footer ion-no-border">

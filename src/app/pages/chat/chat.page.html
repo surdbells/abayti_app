@@ -256,134 +256,120 @@
   }
 </ion-footer>
 
-<!-- Order Details Modal -->
-<ion-modal
+<!-- Order Details sheet -->
+<ax-bottom-sheet
   [isOpen]="isOrderModalOpen"
   (didDismiss)="isOrderModalOpen = false"
-  [initialBreakpoint]="0.75"
-  [breakpoints]="[0, 0.5, 0.75, 1]"
-  [backdropDismiss]="true"
-  class="order-modal">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ 'order_details' | translate }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="isOrderModalOpen = false">
-            <ax-icon name="x"></ax-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="order-modal-content">
-      @if(orderContext){
-        <!-- Product Image -->
-        <div class="modal-product-image">
-          <img [src]="orderContext.product_image" [alt]="orderContext.product_name">
+  [snapPoints]="[0.75, 1]"
+  [initialSnap]="0"
+  [title]="'order_details' | translate">
+
+  @if(orderContext){
+    <!-- Product Image -->
+    <div class="modal-product-image">
+      <img [src]="orderContext.product_image" [alt]="orderContext.product_name">
+    </div>
+
+    <!-- Product Info -->
+    <div class="modal-section">
+      <h3>{{ orderContext.product_name }}</h3>
+      <p class="store-name">{{ orderContext.store_name }}</p>
+    </div>
+
+    <!-- Order Info -->
+    <div class="modal-section">
+      <div class="info-row">
+        <span class="label">{{ 'order_id' | translate }}</span>
+        <span class="value">#{{ orderContext.order_id }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'status' | translate }}</span>
+        <span class="value status-badge" [class]="getStatusClass(orderContext.status)">
+          {{ orderContext.status }}
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'order_date' | translate }}</span>
+        <span class="value">{{ orderContext.order_date | date:'mediumDate' }}</span>
+      </div>
+      @if(orderContext.delivery_time){
+        <div class="info-row">
+          <span class="label">{{ 'delivery_time' | translate }}</span>
+          <span class="value">{{ orderContext.delivery_time }}</span>
         </div>
-
-        <!-- Product Info -->
-        <div class="modal-section">
-          <h3>{{ orderContext.product_name }}</h3>
-          <p class="store-name">{{ orderContext.store_name }}</p>
-        </div>
-
-        <!-- Order Info -->
-        <div class="modal-section">
-          <div class="info-row">
-            <span class="label">{{ 'order_id' | translate }}</span>
-            <span class="value">#{{ orderContext.order_id }}</span>
-          </div>
-          <div class="info-row">
-            <span class="label">{{ 'status' | translate }}</span>
-            <span class="value status-badge" [class]="getStatusClass(orderContext.status)">
-              {{ orderContext.status }}
-            </span>
-          </div>
-          <div class="info-row">
-            <span class="label">{{ 'order_date' | translate }}</span>
-            <span class="value">{{ orderContext.order_date | date:'mediumDate' }}</span>
-          </div>
-          @if(orderContext.delivery_time){
-            <div class="info-row">
-              <span class="label">{{ 'delivery_time' | translate }}</span>
-              <span class="value">{{ orderContext.delivery_time }}</span>
-            </div>
-          }
-        </div>
-
-        <!-- Variant Info -->
-        <div class="modal-section">
-          <h4>{{ 'selected_options' | translate }}</h4>
-          <div class="variant-chips">
-            @if(orderContext.size){
-              <span class="variant-chip">
-                <strong>{{ 'size' | translate }}:</strong> {{ orderContext.size }}
-              </span>
-            }
-            @if(orderContext.color){
-              <span class="variant-chip">
-                <strong>{{ 'color' | translate }}:</strong> {{ orderContext.color }}
-              </span>
-            }
-            <span class="variant-chip">
-              <strong>{{ 'quantity' | translate }}:</strong> {{ orderContext.quantity }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Custom Measurements -->
-        @if(orderContext.is_custom && orderContext.measurement_parsed){
-          <div class="modal-section">
-            <h4>{{ 'custom_measurements' | translate }}</h4>
-            <div class="measurements-grid">
-              @for(item of getMeasurementEntries(); track item.key){
-                <div class="measurement-item">
-                  <span class="measure-label">{{ item.key }}</span>
-                  <span class="measure-value">{{ item.value }}</span>
-                </div>
-              }
-            </div>
-            @if(orderContext.extra_measurement){
-              <p class="extra-note">{{ orderContext.extra_measurement }}</p>
-            }
-          </div>
-        }
-
-        <!-- Price Breakdown -->
-        <div class="modal-section price-section">
-          <h4>{{ 'price_details' | translate }}</h4>
-          <div class="price-row">
-            <span>{{ 'unit_price' | translate }}</span>
-            <span>Ð{{ orderContext.price | number }}</span>
-          </div>
-          <div class="price-row">
-            <span>{{ 'quantity' | translate }}</span>
-            <span>× {{ orderContext.quantity }}</span>
-          </div>
-          @if(orderContext.discount > 0){
-            <div class="price-row discount">
-              <span>{{ 'discount' | translate }}</span>
-              <span>-Ð{{ orderContext.discount | number }}</span>
-            </div>
-          }
-          <div class="price-row total">
-            <span>{{ 'total' | translate }}</span>
-            <span>Ð{{ orderContext.total_price | number }}</span>
-          </div>
-        </div>
-
-        <!-- Note -->
-        @if(orderContext.note){
-          <div class="modal-section">
-            <h4>{{ 'note' | translate }}</h4>
-            <p class="order-note">{{ orderContext.note }}</p>
-          </div>
-        }
       }
-    </ion-content>
-  </ng-template>
-</ion-modal>
+    </div>
+
+    <!-- Variant Info -->
+    <div class="modal-section">
+      <h4>{{ 'selected_options' | translate }}</h4>
+      <div class="variant-chips">
+        @if(orderContext.size){
+          <span class="variant-chip">
+            <strong>{{ 'size' | translate }}:</strong> {{ orderContext.size }}
+          </span>
+        }
+        @if(orderContext.color){
+          <span class="variant-chip">
+            <strong>{{ 'color' | translate }}:</strong> {{ orderContext.color }}
+          </span>
+        }
+        <span class="variant-chip">
+          <strong>{{ 'quantity' | translate }}:</strong> {{ orderContext.quantity }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Custom Measurements -->
+    @if(orderContext.is_custom && orderContext.measurement_parsed){
+      <div class="modal-section">
+        <h4>{{ 'custom_measurements' | translate }}</h4>
+        <div class="measurements-grid">
+          @for(item of getMeasurementEntries(); track item.key){
+            <div class="measurement-item">
+              <span class="measure-label">{{ item.key }}</span>
+              <span class="measure-value">{{ item.value }}</span>
+            </div>
+          }
+        </div>
+        @if(orderContext.extra_measurement){
+          <p class="extra-note">{{ orderContext.extra_measurement }}</p>
+        }
+      </div>
+    }
+
+    <!-- Price Breakdown -->
+    <div class="modal-section price-section">
+      <h4>{{ 'price_details' | translate }}</h4>
+      <div class="price-row">
+        <span>{{ 'unit_price' | translate }}</span>
+        <span>Ð{{ orderContext.price | number }}</span>
+      </div>
+      <div class="price-row">
+        <span>{{ 'quantity' | translate }}</span>
+        <span>× {{ orderContext.quantity }}</span>
+      </div>
+      @if(orderContext.discount > 0){
+        <div class="price-row discount">
+          <span>{{ 'discount' | translate }}</span>
+          <span>-Ð{{ orderContext.discount | number }}</span>
+        </div>
+      }
+      <div class="price-row total">
+        <span>{{ 'total' | translate }}</span>
+        <span>Ð{{ orderContext.total_price | number }}</span>
+      </div>
+    </div>
+
+    <!-- Note -->
+    @if(orderContext.note){
+      <div class="modal-section">
+        <h4>{{ 'note' | translate }}</h4>
+        <p class="order-note">{{ orderContext.note }}</p>
+      </div>
+    }
+  }
+</ax-bottom-sheet>
 
 <!-- Image Viewer Modal -->
 <ion-modal

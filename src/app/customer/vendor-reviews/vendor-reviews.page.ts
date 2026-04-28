@@ -13,7 +13,6 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonModal,
   IonRefresher,
   IonRefresherContent,
   IonSelect,
@@ -39,6 +38,7 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 type Review = {
   id: number;
   author: string;
@@ -72,7 +72,6 @@ type Review = {
     IonInput,
     IonItem,
     IonLabel,
-    IonModal,
     IonRefresher,
     IonRefresherContent,
     IonSelect,
@@ -84,6 +83,7 @@ type Review = {
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class VendorReviewsPage implements OnInit {

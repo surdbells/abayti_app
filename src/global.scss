@@ -1,4 +1,5 @@
 @use '@taiga-ui/core/styles/taiga-ui-local' as *;
+@use '@angular/cdk/overlay-prebuilt.css';
 
 /* Abayti mobile design tokens — must load before any rule that consumes them.
    Defined as :root CSS custom properties; SCSS doesn't transform them. */

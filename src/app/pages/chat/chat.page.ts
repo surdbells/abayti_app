@@ -43,6 +43,7 @@ import {
 import { TranslatePipe } from '../../translate.pipe';
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -63,6 +64,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
     IonSpinner,
     TranslatePipe,
     AxIconComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class ChatPage implements OnInit, OnDestroy, AfterViewInit {

@@ -335,41 +335,9 @@ ion-content.page-bg {
 }
 
 /* ============================================================================
-   Write review modal
+   Write review sheet (rendered via <ax-bottom-sheet> using inline title prop —
+   no per-page modal chrome SCSS needed)
    ============================================================================ */
-
-ion-modal.review-modal {
-  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
-}
-
-.review-modal__header {
-  background: var(--ax-color-bg-surface);
-}
-
-.review-modal__toolbar {
-  --background: var(--ax-color-bg-surface);
-  --border-color: transparent;
-  --min-height: 56px;
-}
-
-.review-modal__title {
-  font-family: var(--ax-font-display);
-  font-weight: 400;
-  font-size: 18px;
-  color: var(--ax-color-text-primary);
-}
-
-.review-modal__close-btn {
-  --color: var(--ax-color-text-brand);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: none;
-}
-
-.review-modal__content {
-  --background: var(--ax-color-bg-canvas);
-}
 
 .form-field {
   margin-bottom: 18px;

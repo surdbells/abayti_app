@@ -11,7 +11,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonModal,
   IonRefresher,
   IonRefresherContent,
   IonTabBar,
@@ -35,6 +34,7 @@ import {Labels} from "../../class/labels";
 import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.page.html',
@@ -54,7 +54,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonItem,
     IonLabel,
     IonList,
-    IonModal,
     IonTabBar,
     IonTabButton,
     IonText,
@@ -63,6 +62,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class CartPage implements OnInit, OnDestroy {
