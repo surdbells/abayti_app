@@ -39,6 +39,33 @@ ion-header.vendor-header {
   }
 }
 
+/* Floating back button — overlays the cover image, top-left */
+.vendor-back-btn {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 16px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--ax-palette-neutral-0, #ffffff);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.18s ease, transform 0.12s ease;
+
+  &:active {
+    transform: scale(0.94);
+    background: rgba(0, 0, 0, 0.65);
+  }
+}
+
 .vendor-cover {
   display: block;
   width: 100%;

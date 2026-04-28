@@ -98,6 +98,7 @@
   "button_followed": "Followed",
   "button_reviews": "Reviews",
   "button_go_to_store": "Go to Store",
+  "text_vendor_tagline_fallback": "A trusted vendor on our platform",
   "text_no_products_available": "No products available",
   "button_refresh": "Refresh",
   "placeholder_min": "Min",

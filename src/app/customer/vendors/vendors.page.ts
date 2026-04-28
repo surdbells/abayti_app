@@ -290,6 +290,9 @@ goToReviews(id: number, name: string) {
   triggerBack() {
     this.nav.back();
   }
+  goBack() {
+    this.nav.back();
+  }
   user_styles() {
     this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }

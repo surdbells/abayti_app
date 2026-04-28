@@ -5,6 +5,15 @@
          class="vendor-cover"
          [src]="view_vendor.cover || 'assets/images/vendor-cover-default.png'"
          alt="Vendor cover" />
+
+    <!-- Floating back button (overlay, top-left) -->
+    <button type="button"
+            class="vendor-back-btn"
+            (click)="goBack()"
+            aria-label="Back">
+      <ax-icon name="arrow-left" [size]="20" />
+    </button>
+
     <!-- Logo + name + tagline overlay -->
     <div class="vendor-overlay">
       <div class="vendor-logo">
@@ -16,7 +25,7 @@
       </div>
       <div class="vendor-meta">
         <h2>{{ view_vendor.name }}</h2>
-        <p [innerHTML]="view_vendor.tagline || 'A trusted vendor on our platform'"></p>
+        <p [innerHTML]="view_vendor.tagline || ('text_vendor_tagline_fallback' | translate)"></p>
       </div>
     </div>
   </div>
