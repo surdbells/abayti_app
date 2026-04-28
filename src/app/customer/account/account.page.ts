@@ -223,8 +223,7 @@ export class AccountPage implements OnInit, OnDestroy {
 
   ionViewDidEnter(){
     this.load_cart();
-    this.getObject().then(r => console.log(r));
-  }
+    }
 
   ngOnDestroy(): void {
     this.blocker.unblock();
