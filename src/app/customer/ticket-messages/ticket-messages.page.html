@@ -9,52 +9,48 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="page-bg">
+
   @if (!ui_controls.is_loading){
-  <div class="sheet ion-padding-horizontal">
-    <ion-list class="contact-list">
-      @for(conversation of messages; track $index){
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-item detail="false">
-                <ion-label>
-                  <ion-note  class="ion-text-wrap">
-                    {{conversation.message }}
-                  </ion-note>
-                </ion-label>
-              </ion-item>
-              <ion-text class="muted">{{conversation.timestamp}}</ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+    <div class="thread ion-padding-horizontal">
+      @for (conversation of messages; track $index){
+        <div class="message">
+          <div class="message-bubble">
+            <p class="message-text">{{ conversation.message }}</p>
+          </div>
+          <span class="message-time">{{ conversation.timestamp }}</span>
+        </div>
       }
-    </ion-list>
-  </div>
+    </div>
   }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <ax-loader></ax-loader>
-      }
-   </span>
+
+  <div class="loader-row">
+    @if (ui_controls.is_loading){
+      <ax-loader></ax-loader>
+    }
+  </div>
+
 </ion-content>
-<ion-footer collapse="none" style="padding-bottom: 35px; background-color: #FFFFFF" class="ion-padding ion-no-border chat-footer">
-    <ion-toolbar class="chat-toolbar">
-      <div class="chat-row">
-        <div class="chat-input-wrap">
-          <label class="sr-only" for="chatMessage">{{ 'label_type_message' | translate }}</label>
-          <input [maxlength]="200" [(ngModel)]="message.message" id="chatMessage" class="chat-input" type="text" aria-label="Message" autocomplete="off" />
-        </div>
-        <!-- RIGHT: send -->
-        <div class="chat-send-wrap">
-          @if(!ui_controls.sending){
-            <button (click)="send_message()" class="send-btn">
-              <ax-icon name="send-horizontal" />
-            </button>
-          }
-          @if(ui_controls.sending){
-            <ax-loader></ax-loader>
-          }
-        </div>
+<ion-footer collapse="none" class="ion-no-border ticket-footer">
+  <div class="composer">
+    <label class="sr-only" for="ticketMessage">{{ 'label_type_message' | translate }}</label>
+    <input
+      id="ticketMessage"
+      class="composer-input"
+      type="text"
+      [maxlength]="200"
+      [(ngModel)]="message.message"
+      [attr.placeholder]="'label_type_message' | translate"
+      autocomplete="off" />
+
+    @if (!ui_controls.sending){
+      <button (click)="send_message()" class="send-btn" aria-label="Send message">
+        <ax-icon name="send-horizontal" [size]="20"></ax-icon>
+      </button>
+    }
+    @if (ui_controls.sending){
+      <div class="send-loader">
+        <ax-loader></ax-loader>
       </div>
-    </ion-toolbar>
+    }
+  </div>
 </ion-footer>
