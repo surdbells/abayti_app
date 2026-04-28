@@ -21,7 +21,6 @@ import {
   IonButtons,
   IonButton,
   IonFooter,
-  IonModal,
   IonSpinner,
   NavController,
   Platform
@@ -44,6 +43,7 @@ import { TranslatePipe } from '../../translate.pipe';
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
+import { AxLightboxComponent } from '../../shared/ax-mobile/lightbox';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -60,11 +60,11 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     IonButtons,
     IonButton,
     IonFooter,
-    IonModal,
     IonSpinner,
     TranslatePipe,
     AxIconComponent,
     AxBottomSheetComponent,
+    AxLightboxComponent,
   ]
 })
 export class ChatPage implements OnInit, OnDestroy, AfterViewInit {

@@ -371,27 +371,10 @@
   }
 </ax-bottom-sheet>
 
-<!-- Image Viewer Modal -->
-<ion-modal
+<!-- Image Viewer (ax-lightbox) -->
+<ax-lightbox
   [isOpen]="isImageViewerOpen"
-  (didDismiss)="closeImageViewer()"
-  class="image-viewer-modal">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeImageViewer()">
-            <ax-icon name="x"></ax-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="image-viewer-content">
-      @if(viewingImage){
-        <div class="image-container">
-          <img [src]="viewingImage.file_path" [alt]="viewingImage.file_name">
-        </div>
-      }
-    </ion-content>
-  </ng-template>
-</ion-modal>
+  [src]="viewingImage?.file_path"
+  [alt]="viewingImage?.file_name"
+  (close)="closeImageViewer()">
+</ax-lightbox>
