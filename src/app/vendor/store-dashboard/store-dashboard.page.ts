@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 
 import { GlobalComponent } from '../../global-component';
+import { I18nService } from '../../i18n.service';
 import { TranslatePipe } from '../../translate.pipe';
 import {NetworkService} from "../../service/network.service";
 
@@ -126,7 +127,8 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
     private nav: NavController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private i18n: I18nService
   ) {}
 
   ngOnInit(): void {
@@ -282,23 +284,23 @@ export class StoreDashboardPage implements OnInit, OnDestroy {
 
   async contactSupport(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Contact Support',
-      message: 'How would you like to reach us?',
+      header: this.i18n.t('title_contact_support'),
+      message: this.i18n.t('prompt_how_to_reach_us'),
       buttons: [
         {
-          text: 'Email',
+          text: this.i18n.t('button_email'),
           handler: () => {
             window.open('mailto:info@3bayti.ae', '_system');
           }
         },
         {
-          text: 'WhatsApp',
+          text: this.i18n.t('button_whatsapp'),
           handler: () => {
             window.open('https://wa.me/971504559975', '_system');
           }
         },
         {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel'
         }
       ]

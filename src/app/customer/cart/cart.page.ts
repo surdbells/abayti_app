@@ -28,6 +28,7 @@ import {GlobalComponent} from "../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import {ActionSheetController} from "@ionic/angular";
 import {Labels} from "../../class/labels";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AppTabBarComponent } from '../../shared/app-tab-bar';
@@ -74,7 +75,8 @@ export class CartPage implements OnInit, OnDestroy {
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: AxNotificationService
+    private toast: AxNotificationService,
+    private i18n: I18nService
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -240,16 +242,16 @@ export class CartPage implements OnInit, OnDestroy {
   }
   async startRemove(item: number, name: string) {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Remove ' + name + " from cart ?",
+      header: this.i18n.t('confirm_remove_from_cart', { name }),
       buttons: [
         {
-          text: 'Remove',
+          text: this.i18n.t('button_remove'),
           role: 'destructive',
           handler: () => {
             this.removeItem(item);
           }
         }, {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel',
           data: {action: 'cancel'},
         },

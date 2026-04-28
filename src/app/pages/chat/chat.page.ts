@@ -44,6 +44,8 @@ import { TranslatePipe } from '../../translate.pipe';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 import { AxLightboxComponent } from '../../shared/ax-mobile/lightbox';
+import { AxNotificationService } from '../../shared/ax-mobile/notification';
+import { I18nService } from '../../i18n.service';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -113,6 +115,8 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     private nav: NavController,
     private platform: Platform,
     private cdr: ChangeDetectorRef,
+    private toast: AxNotificationService,
+    private i18n: I18nService,
     @Inject(LOCALE_ID) private localeId: string
   ) {}
 
@@ -414,7 +418,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     // Validate file size (5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert('File too large. Maximum size is 5MB.');
+      this.toast.error(this.i18n.t('text_file_too_large'), { position: 'top-center' });
       input.value = '';
       return;
     }
@@ -422,7 +426,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
-      alert('Invalid file type. Please upload JPG, PNG, WebP, or GIF.');
+      this.toast.error(this.i18n.t('text_invalid_file_type'), { position: 'top-center' });
       input.value = '';
       return;
     }
@@ -445,7 +449,7 @@ export class ChatPage implements OnInit, OnDestroy, AfterViewInit {
       },
       error: (err) => {
         console.error('Upload failed:', err);
-        alert('Failed to upload image. Please try again.');
+        this.toast.error(this.i18n.t('text_image_upload_failed'), { position: 'top-center' });
         this.isUploading = false;
         this.cdr.markForCheck();
       }
