@@ -3,7 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
+  IonButton,
+  IonButtons,
   IonContent,
+  IonFooter,
+  IonHeader,
+  IonLabel,
+  IonTabBar,
+  IonTabButton,
+  IonTitle,
+  IonToolbar,
   NavController,
   Platform,
   ActionSheetController
@@ -11,40 +20,15 @@ import {
 import { Preferences } from '@capacitor/preferences';
 import { Subscription } from 'rxjs';
 
-// Lucide Icons
-import { LucideAngularModule } from 'lucide-angular';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Sun,
-  Moon,
-  Camera,
-  Pencil,
-  User,
-  MapPin,
-  Navigation,
-  Ruler,
-  ShoppingBag,
-  Star,
-  Sparkles,
-  Globe,
-  Bell,
-  MessageCircle,
-  Mail,
-  Ticket,
-  Trash2,
-  LogOut,
-  X,
-  Check
-} from 'lucide-angular';
-
 import { ConnectionService } from '../../service/connection.service';
 import { NetworkService } from '../../service/network.service';
 import { GlobalComponent } from '../../global-component';
 import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -54,44 +38,26 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     CommonModule,
     FormsModule,
     IonContent,
-    LucideAngularModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButton,
+    IonButtons,
+    IonFooter,
+    IonTabBar,
+    IonTabButton,
+    IonLabel,
     TranslatePipe,
     LanguageSwitcherComponent,
+    AxIconComponent,
     AxBottomSheetComponent,
   ]
 })
 export class SettingsPage implements OnInit, OnDestroy {
   isLocationOpen = false;
 
-  // Lucide Icons
-  icons = {
-    chevronLeft: ChevronLeft,
-    chevronRight: ChevronRight,
-    sun: Sun,
-    moon: Moon,
-    camera: Camera,
-    pencil: Pencil,
-    user: User,
-    mapPin: MapPin,
-    navigation: Navigation,
-    ruler: Ruler,
-    shoppingBag: ShoppingBag,
-    star: Star,
-    sparkles: Sparkles,
-    globe: Globe,
-    bell: Bell,
-    messageCircle: MessageCircle,
-    mail: Mail,
-    ticket: Ticket,
-    trash2: Trash2,
-    logOut: LogOut,
-    x: X,
-    check: Check
-  };
-
   // State
   isOnline = true;
-  isDarkMode = false;
   notificationsEnabled = true;
   private sub: Subscription;
   private backSub?: Subscription;
@@ -140,7 +106,6 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadUser();
-    this.loadThemePreference();
     this.loadNotificationPreference();
   }
 
@@ -171,25 +136,9 @@ export class SettingsPage implements OnInit, OnDestroy {
     }
   }
 
-  async loadThemePreference(): Promise<void> {
-    const ret = await Preferences.get({ key: 'dark_mode' });
-    this.isDarkMode = ret.value === 'true';
-    this.applyTheme();
-  }
-
   async loadNotificationPreference(): Promise<void> {
     const ret = await Preferences.get({ key: 'notifications_enabled' });
     this.notificationsEnabled = ret.value !== 'false';
-  }
-
-  toggleTheme(): void {
-    this.isDarkMode = !this.isDarkMode;
-    Preferences.set({ key: 'dark_mode', value: String(this.isDarkMode) });
-    this.applyTheme();
-  }
-
-  applyTheme(): void {
-    document.body.classList.toggle('dark-mode', this.isDarkMode);
   }
 
   toggleNotifications(): void {
@@ -202,7 +151,10 @@ export class SettingsPage implements OnInit, OnDestroy {
     img.src = 'assets/img/avatar-placeholder.jpg';
   }
 
-  // Navigation Methods
+  // ========================================
+  // Navigation methods
+  // ========================================
+
   goBack(): void {
     this.nav.navigateBack('/account');
   }
@@ -246,7 +198,23 @@ export class SettingsPage implements OnInit, OnDestroy {
     window.open(`mailto:${email}`);
   }
 
-  // Location Update
+  // Tab bar navigation
+  user_home(): void {
+    this.nav.navigateRoot('/home');
+  }
+
+  user_explore(): void {
+    this.nav.navigateRoot('/explore');
+  }
+
+  user_cart(): void {
+    this.nav.navigateRoot('/cart');
+  }
+
+  // ========================================
+  // Location update
+  // ========================================
+
   async update_location(): Promise<void> {
     if (!this.isOnline) {
       this.showError('You are not online, check your connection');
@@ -289,7 +257,10 @@ export class SettingsPage implements OnInit, OnDestroy {
     this.isLocationOpen = false;
   }
 
-  // Account Actions
+  // ========================================
+  // Account actions
+  // ========================================
+
   async signOut(): Promise<void> {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Are you sure you want to sign out?',
@@ -332,7 +303,10 @@ export class SettingsPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  // Toast Messages
+  // ========================================
+  // Toast helpers
+  // ========================================
+
   showError(message: string): void {
     this.toast.error(message, { position: 'top-center' });
   }
