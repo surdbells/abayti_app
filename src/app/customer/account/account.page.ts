@@ -29,6 +29,7 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import { ConnectionService } from '../../service/connection.service';
 import {GlobalComponent} from "../../global-component";
+import { I18nService } from '../../i18n.service';
 import {Products} from "../../class/products";
 import {Labels} from "../../class/labels";
 import {CartIconComponent} from "../../cart-icon.component";
@@ -122,7 +123,8 @@ export class AccountPage implements OnInit, OnDestroy {
     private blocker: BlockerService,
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
-    private toast: AxNotificationService
+    private toast: AxNotificationService,
+    private i18n: I18nService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       console.log('Handler was called!');
@@ -284,10 +286,10 @@ export class AccountPage implements OnInit, OnDestroy {
 
   async user_sign_out() {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure you want to sign out of this account?',
+      header: this.i18n.t('confirm_sign_out'),
       buttons: [
         {
-          text: 'Sign out',
+          text: this.i18n.t('button_sign_out'),
           role: 'destructive',
           handler: () => {
             Preferences.remove({key: 'keep_session'}).then(r => console.log(r));
@@ -295,7 +297,7 @@ export class AccountPage implements OnInit, OnDestroy {
             this.router.navigate(['/', 'login']).then(r => console.log(r));
           }
         }, {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel',
           data: {action: 'cancel'},
         },

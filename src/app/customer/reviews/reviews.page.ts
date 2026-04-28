@@ -20,6 +20,7 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
+import { I18nService } from '../../i18n.service';
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
 import {Reviews} from "../../class/reviews";
@@ -62,6 +63,7 @@ export class ReviewsPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -165,21 +167,21 @@ delete_reviews(review: number) {
           }
         }))
     }else {
-      this.error_notification("You are not online, check your connection")
+      this.error_notification(this.i18n.t('text_offline_check_connection'))
     }
   }
   async start_delete_review(review: number) {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure you want to delete this review?',
+      header: this.i18n.t('confirm_delete_review'),
       buttons: [
         {
-          text: 'Delete',
+          text: this.i18n.t('button_delete'),
           role: 'destructive',
           handler: () => {
             this.delete_reviews(review);
           }
         }, {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel',
           data: {action: 'cancel'},
         },

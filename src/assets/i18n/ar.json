@@ -14,6 +14,8 @@
   "confirm_sign_out": "هل أنت متأكد من رغبتك في تسجيل الخروج؟",
   "delete_account_action_header": "حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.",
   "text_account_scheduled_for_removal": "تمت جدولة حسابك للحذف.",
+  "confirm_delete_review": "هل أنت متأكد من رغبتك في حذف هذه المراجعة؟",
+  "button_delete": "حذف",
   "text_offline_check_connection": "أنت غير متصل، يرجى التحقق من اتصالك.",
   "text_location_required": "يجب تحديد الموقع.",
   "text_failed_to_update_location": "تعذّر تحديث الموقع.",
