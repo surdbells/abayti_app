@@ -5,11 +5,7 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonFooter,
   IonHeader,
-  IonLabel,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -26,6 +22,7 @@ import {NetworkService} from "../../../service/network.service";
 import {GlobalComponent} from "../../../global-component";
 
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../../shared/ax-mobile/bottom-sheet';
 export interface StyleProduct {
@@ -59,14 +56,11 @@ export interface Styles {
     IonToolbar,
     IonButtons,
     IonButton,
-    IonFooter,
-    IonLabel,
-    IonTabBar,
-    IonTabButton,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class StyleViewPage implements OnInit, OnDestroy {
@@ -252,26 +246,6 @@ export class StyleViewPage implements OnInit, OnDestroy {
 
   triggerBack() {
     this.nav.back();
-  }
-
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
 
   // ========================================

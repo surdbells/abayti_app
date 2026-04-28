@@ -20,7 +20,6 @@ import {
   IonCheckbox,
   IonCol,
   IonContent,
-  IonFooter,
   IonGrid,
   IonHeader,
   IonImg,
@@ -32,8 +31,6 @@ import {
   IonRow,
   IonSelect,
   IonSelectOption,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -43,6 +40,7 @@ import {TranslatePipe} from "../../../translate.pipe";
 import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../../shared/ax-mobile/bottom-sheet';
 export interface Store {
@@ -84,7 +82,6 @@ export interface selectedProduct {
     IonCheckbox,
     IonCol,
     IonContent,
-    IonFooter,
     IonGrid,
     IonHeader,
     IonImg,
@@ -96,8 +93,6 @@ export interface selectedProduct {
     IonRow,
     IonSelect,
     IonSelectOption,
-    IonTabBar,
-    IonTabButton,
     IonTitle,
     IonToolbar,
     FormsModule,
@@ -105,6 +100,7 @@ export interface selectedProduct {
     AxIconComponent,
     AxLoaderComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class CreatePage implements OnInit {
@@ -197,19 +193,6 @@ export class CreatePage implements OnInit {
     this.toast.success(message, {
       position: 'bottom-center'
     });
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
   get_vendors() {
     this.ui_controls.is_loading = true;
@@ -325,9 +308,6 @@ export class CreatePage implements OnInit {
       //  this.get_featured_products();
       event.target.complete();
     }, 200);
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
   triggerBack() {
     this.nav.back();

@@ -6,15 +6,11 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonFooter,
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonLabel,
   IonRefresher,
   IonRefresherContent,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController
@@ -28,6 +24,7 @@ import { Preferences } from "@capacitor/preferences";
 import { GlobalComponent } from "../../global-component";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 export interface StyleProduct {
   product_id: number;
   product_name: string;
@@ -58,16 +55,13 @@ type TabType = 'community' | 'abayti' | 'personal';
     IonTitle,
     IonButton,
     IonContent,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
-    IonLabel,
     IonRefresher,
     IonRefresherContent,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     TranslatePipe,
     AxIconComponent,
+    AppTabBarComponent
   ]
 })
 export class StylesPage implements OnInit, OnDestroy {
@@ -268,22 +262,6 @@ export class StylesPage implements OnInit, OnDestroy {
 
   createStyle() {
     this.router.navigate(['/', 'create']).then(r => console.log(r));
-  }
-
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
 
   // ========================================

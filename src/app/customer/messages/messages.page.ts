@@ -5,14 +5,11 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonFooter,
   IonHeader,
   IonItem,
   IonLabel,
   IonList,
   IonNote,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -29,6 +26,7 @@ import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 export interface StoreRecord {
   store: number;
@@ -48,18 +46,16 @@ export interface StoreRecord {
     IonToolbar,
     IonButton,
     IonButtons,
-    IonFooter,
     IonItem,
     IonLabel,
     IonList,
     IonNote,
-    IonTabBar,
-    IonTabButton,
     RouterLink,
     FormsModule,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AppTabBarComponent
   ]
 })
 export class MessagesPage implements OnInit, OnDestroy {
@@ -151,18 +147,6 @@ export class MessagesPage implements OnInit, OnDestroy {
         }
       }))
   }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
@@ -170,9 +154,5 @@ export class MessagesPage implements OnInit, OnDestroy {
     this.router.navigate(['/', 'conversations'],
       { queryParams: { store, name } }
     ).then(r => console.log(r));
-  }
-
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
 }

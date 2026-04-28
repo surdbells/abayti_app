@@ -161,27 +161,4 @@
   </ax-bottom-sheet>
 </ion-content>
 
-<ion-footer class="m6f-footer ion-no-border">
-  <ion-tab-bar class="m6f-tab-bar" slot="bottom">
-    <ion-tab-button (click)="user_home()" tab="home" class="m6f-tab">
-      <ax-icon name="house" />
-      <ion-label>{{ 'nav_home' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button (click)="user_explore()" tab="explore" class="m6f-tab">
-      <ax-icon name="globe" />
-      <ion-label>{{ 'explore' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button (click)="user_cart()" tab="cart" class="m6f-tab">
-      <ax-icon name="shopping-cart" />
-      <ion-label>{{ 'title_my_cart' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button (click)="user_styles()" tab="sketch" class="m6f-tab m6f-tab--active">
-      <ax-icon name="blocks" />
-      <ion-label>{{ 'nav_style_hub' | translate }}</ion-label>
-    </ion-tab-button>
-    <ion-tab-button (click)="user_profile()" tab="profile" class="m6f-tab">
-      <ax-icon name="user-pen" />
-      <ion-label>{{ 'title_user_profile' | translate }}</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>
+<app-tab-bar active="sketch"></app-tab-bar>
