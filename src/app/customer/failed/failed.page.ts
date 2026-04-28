@@ -10,7 +10,6 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
 @Component({
   selector: 'app-failed',
   templateUrl: './failed.page.html',
-  styleUrls: ['./failed.page.scss'],
   standalone: true,
   imports: [IonContent, IonButton, RouterLink, TranslatePipe, AxIconComponent]
 })

@@ -18,7 +18,6 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-process',
   templateUrl: './process.page.html',
-  styleUrls: ['./process.page.scss'],
   standalone: true,
   imports: [IonContent, TranslatePipe, AxLoaderComponent]
 })
