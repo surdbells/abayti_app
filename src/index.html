@@ -18,6 +18,11 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <!-- Pre-bootstrap background: matches --ax-color-bg-canvas (#faf8f5).
+       Applied inline so the WebView shows brand canvas the moment it
+       mounts, eliminating the white flash between native splash dismissal
+       and Angular bootstrap. Update if --ax-palette-neutral-50 changes. -->
+  <style>html,body{background:#faf8f5;margin:0}</style>
 </head>
 <body>
   <app-root></app-root>
