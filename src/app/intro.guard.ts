@@ -16,16 +16,20 @@ import { Preferences } from '@capacitor/preferences';
  */
 export const introGuard: CanActivateFn = async () => {
   const navCtrl = inject(NavController);
-  
+
   try {
-    const { value } = await Preferences.get({ key: 'intro_seen' });
-    
-    if (value === 'true') {
-      // Already seen intro, redirect to home
-      navCtrl.navigateRoot('/home', { animated: false });
+    const { value: introSeen } = await Preferences.get({ key: 'intro_seen' });
+
+    if (introSeen === 'true') {
+      // Already onboarded. Route based on auth state:
+      //   logged in (user record present) -> /account
+      //   not logged in                    -> /home
+      const { value: userValue } = await Preferences.get({ key: 'user' });
+      const target = userValue ? '/account' : '/home';
+      navCtrl.navigateRoot(target, { animated: false });
       return false;
     }
-    
+
     // First time user, show intro
     return true;
   } catch (e) {

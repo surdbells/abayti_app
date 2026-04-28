@@ -67,23 +67,6 @@ export class IntroPage implements OnInit, OnDestroy {
   currentIndex = 0;
   private swiperInstance: any;
 
-  single_user = {
-    id: 0,
-    token: "",
-    first_name: "",
-    last_name: "",
-    user_type: "",
-    email: "",
-    phone: "",
-    avatar: "",
-    location: "",
-    is_2fa: false,
-    is_active: false,
-    is_admin: false,
-    is_vendor: false,
-    is_customer: false
-  };
-
   constructor(
     private platform: Platform,
     private blocker: BlockerService,
@@ -92,7 +75,10 @@ export class IntroPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.checkIfAlreadySeen().then(r => console.log(r));
+    // Onboarding redirect is now handled by introGuard on the route
+    // (src/app/intro.guard.ts wired in app.routes.ts). No async check
+    // here; the guard runs before the route resolves so already-seen
+    // users never reach this component.
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
   }
 
@@ -107,19 +93,6 @@ export class IntroPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.blocker.unblock();
-  }
-
-  async checkIfAlreadySeen(): Promise<void> {
-    const { value } = await Preferences.get({ key: 'intro_seen' });
-    if (value === 'true') {
-      const ret: any = await Preferences.get({ key: 'user' });
-      if (ret.value == null) {
-        this.router.navigate(['/', 'home']);
-      } else {
-        this.single_user = JSON.parse(ret.value);
-        this.router.navigate(['/', 'account']);
-      }
-    }
   }
 
   onSlideChange(event: any): void {

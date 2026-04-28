@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import {CHAT_ROUTES} from "./chat.routes";
+import { introGuard } from './intro.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'intro', pathMatch: 'full' },
   {
     path: 'intro',
     loadComponent: () => import('./public/intro/intro.page').then(m => m.IntroPage),
+    canActivate: [introGuard],
     title: 'Welcome'
   },
   {
