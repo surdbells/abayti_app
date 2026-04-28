@@ -8,13 +8,10 @@ import {
   IonButtons,
   IonChip,
   IonContent,
-  IonFooter,
   IonHeader,
   IonLabel,
   IonRefresher,
   IonRefresherContent,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -32,6 +29,7 @@ import {Preferences} from "@capacitor/preferences";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
@@ -39,7 +37,9 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonRefresher, IonRefresherContent, RouterLink, IonButton, IonFooter, IonLabel, IonTabBar, IonTabButton, IonChip, IonAvatar, TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonRefresher, IonRefresherContent, RouterLink, IonButton, IonLabel, IonChip, IonAvatar, TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent,
+    AppTabBarComponent
+  ]
 })
 export class OrdersPage implements OnInit, OnDestroy {
   orders: Cart[] = [];
@@ -139,13 +139,6 @@ export class OrdersPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
   ngOnInit() {
     this.getObject().then(r => console.log(r));
     if (this.isOnline) {
@@ -196,20 +189,11 @@ export class OrdersPage implements OnInit, OnDestroy {
         }
       }))
   }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
   user_wishlist() {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
   }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
   user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
   user_messages() {
     this.router.navigate(['/', 'messages']).then(r => console.log(r));

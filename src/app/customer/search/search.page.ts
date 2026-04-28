@@ -6,13 +6,9 @@ import {
   IonButtons,
   IonCol,
   IonContent,
-  IonFooter,
   IonGrid,
   IonHeader,
-  IonLabel,
   IonRow,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -30,6 +26,7 @@ import {Labels} from "../../class/labels";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
@@ -45,13 +42,9 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     IonToolbar,
     IonButton,
     IonButtons,
-    IonFooter,
     IonGrid,
     IonRow,
     IonCol,
-    IonLabel,
-    IonTabBar,
-    IonTabButton,
     RouterLink,
     FormsModule,
     TranslatePipe,
@@ -59,6 +52,7 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     AxLoaderComponent,
     AxTextFieldComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class SearchPage implements OnInit, OnDestroy {
@@ -186,18 +180,6 @@ export class SearchPage implements OnInit, OnDestroy {
   user_wishlist() {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
   }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
   user_support() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
@@ -291,9 +273,5 @@ export class SearchPage implements OnInit, OnDestroy {
 
   onDismiss() {
     this.isWishOpen= false;
-  }
-
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
 }

@@ -6,13 +6,9 @@ import {
   IonButtons,
   IonCard,
   IonContent,
-  IonFooter,
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonLabel,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -29,6 +25,7 @@ import {GlobalComponent} from "../../global-component";
 import {Products} from "../../class/products";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 type OrderStatus = 'processing' | 'shipping' | 'delivered';
 type FilterStatus = 'all' | OrderStatus;
@@ -64,10 +61,6 @@ interface Order {
     IonButton,
     IonButtons,
     IonCard,
-    IonFooter,
-    IonLabel,
-    IonTabBar,
-    IonTabButton,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     CommonModule,
@@ -75,6 +68,7 @@ interface Order {
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AppTabBarComponent
   ]
 })
 export class MyOrdersPage implements OnInit {
@@ -194,27 +188,11 @@ export class MyOrdersPage implements OnInit {
       event.target.complete().then(r => console.log(r));
     }, 500);
   }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
   user_messages() {
     this.router.navigate(['/', 'messages']).then(r => console.log(r));
   }
   search() {
     this.router.navigate(['/', 'search']).then(r => console.log(r));
-  }
-
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
   }
   open_vendor(id: number, name: string) {
     this.router.navigate(
