@@ -267,97 +267,87 @@
     </ax-bottom-sheet>
   }
 
-  <!-- Measurement Modal -->
+  <!-- Measurement sheet -->
   @if(!ui_controls.is_loading){
-    <ion-modal
+    <ax-bottom-sheet
       [isOpen]="isMeasureOpen"
-      (didDismiss)="onDismiss()"
-      [initialBreakpoint]="0.85"
-      [breakpoints]="[0, 0.5, 0.85, 1]">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>{{ 'custom_measurements' | translate }}</ion-title>
-            <ion-buttons slot="end">
-              <ion-button type="button" (click)="isMeasureOpen = false">{{ 'close' | translate }}</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding measurement-modal-content">
-          @if(!ui_controls.is_loading_measurement){
-            <div class="measurement-grid">
-              <div class="measurement-input">
-                <label>{{ 'label_bust' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.bust" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
-              <div class="measurement-input">
-                <label>{{ 'label_shoulder' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.shoulder" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
-              <div class="measurement-input">
-                <label>{{ 'label_hip' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.hip" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
-              <div class="measurement-input">
-                <label>{{ 'label_length' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.length" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
-              <div class="measurement-input">
-                <label>{{ 'label_armhole' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.armhole" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
-              <div class="measurement-input">
-                <label>{{ 'label_arm' | translate }}</label>
-                <div class="input-wrap">
-                  <input type="number" [(ngModel)]="update.arm" placeholder="0">
-                  <span class="unit">{{ 'text_inches' | translate }}</span>
-                </div>
-              </div>
+      (didDismiss)="onDismiss(); isMeasureOpen = false"
+      [snapPoints]="[0.85, 1]"
+      [initialSnap]="0"
+      [title]="'custom_measurements' | translate">
+
+      @if(!ui_controls.is_loading_measurement){
+        <div class="measurement-grid">
+          <div class="measurement-input">
+            <label>{{ 'label_bust' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.bust" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
             </div>
-
-            @if(single.require_extra_msmt){
-              <div class="extra-measurement">
-                <p class="extra-label">{{ single.extra_msmt }}</p>
-                <ax-text-field
-                  [label]="'extra_m_required' | translate"
-                  [multiline]="true"
-                  [rows]="3"
-                  [maxlength]="200"
-                  placeholder="Enter additional measurements..."
-                  [(ngModel)]="add_cart.extra_measurement"
-                  name="extra_measurement">
-                </ax-text-field>
-              </div>
-            }
-
-            <button type="button" class="confirm-measurement-btn" (click)="update_measurement()">
-              {{ 'c_measure' | translate }}
-            </button>
-          }
-
-          @if(ui_controls.is_loading_measurement){
-            <div class="loading-center">
-              <ax-loader></ax-loader>
+          </div>
+          <div class="measurement-input">
+            <label>{{ 'label_shoulder' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.shoulder" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
             </div>
-          }
-        </ion-content>
-      </ng-template>
-    </ion-modal>
+          </div>
+          <div class="measurement-input">
+            <label>{{ 'label_hip' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.hip" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
+            </div>
+          </div>
+          <div class="measurement-input">
+            <label>{{ 'label_length' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.length" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
+            </div>
+          </div>
+          <div class="measurement-input">
+            <label>{{ 'label_armhole' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.armhole" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
+            </div>
+          </div>
+          <div class="measurement-input">
+            <label>{{ 'label_arm' | translate }}</label>
+            <div class="input-wrap">
+              <input type="number" [(ngModel)]="update.arm" placeholder="0">
+              <span class="unit">{{ 'text_inches' | translate }}</span>
+            </div>
+          </div>
+        </div>
+
+        @if(single.require_extra_msmt){
+          <div class="extra-measurement">
+            <p class="extra-label">{{ single.extra_msmt }}</p>
+            <ax-text-field
+              [label]="'extra_m_required' | translate"
+              [multiline]="true"
+              [rows]="3"
+              [maxlength]="200"
+              placeholder="Enter additional measurements..."
+              [(ngModel)]="add_cart.extra_measurement"
+              name="extra_measurement">
+            </ax-text-field>
+          </div>
+        }
+
+        <button type="button" class="confirm-measurement-btn" (click)="update_measurement()">
+          {{ 'c_measure' | translate }}
+        </button>
+      }
+
+      @if(ui_controls.is_loading_measurement){
+        <div class="loading-center">
+          <ax-loader></ax-loader>
+        </div>
+      }
+    </ax-bottom-sheet>
   }
 </ion-content>
 

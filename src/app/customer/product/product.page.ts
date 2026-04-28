@@ -14,18 +14,13 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  IonButton,
-  IonButtons, IonCard,
+  IonCard,
   IonCol,
   IonContent,
   IonFooter,
-  IonHeader,
   IonImg,
-  IonModal,
   IonRow,
   IonText,
-  IonTitle,
-  IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -75,17 +70,11 @@ export interface ColorOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     CommonModule,
     FormsModule,
-    IonButtons,
     IonImg,
-    IonButton,
     IonText,
     IonCol,
-    IonModal,
     IonRow,
     IonFooter,
     CartIconComponent,

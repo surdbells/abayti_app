@@ -162,31 +162,28 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- Searchable country code modal (bottom sheet style) -->
-  <ion-modal  [isOpen]="isTermsOpen" [initialBreakpoint]="0.8" [backdropDismiss]="false" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'terms_c' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="isTermsOpen = false">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ 'contract_terms' | translate }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-segment value="arabic">
-              <ion-segment-button (click)="ui_controls.termsArabic = true; ui_controls.termsEnglish = false" value="arabic">
-                <ion-label>{{ 'arabic' | translate }}</ion-label>
-              </ion-segment-button>
-              <ion-segment-button (click)="ui_controls.termsArabic = false; ui_controls.termsEnglish = true" value="english">
-                <ion-label>English</ion-label>
-              </ion-segment-button>
-            </ion-segment>
+  <!-- Terms sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isTermsOpen"
+    (didDismiss)="isTermsOpen = false"
+    [snapPoints]="[0.8, 1]"
+    [initialSnap]="0"
+    [backdropDismiss]="false"
+    [title]="'terms_c' | translate">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ 'contract_terms' | translate }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-segment value="arabic">
+          <ion-segment-button (click)="ui_controls.termsArabic = true; ui_controls.termsEnglish = false" value="arabic">
+            <ion-label>{{ 'arabic' | translate }}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button (click)="ui_controls.termsArabic = false; ui_controls.termsEnglish = true" value="english">
+            <ion-label>English</ion-label>
+          </ion-segment-button>
+        </ion-segment>
             <div style="font-size: 14px; line-height: 1.8;">
               @if(ui_controls.termsArabic){
                 <!-- Arabic Version -->
@@ -483,8 +480,5 @@
             </div>
           </ion-card-content>
         </ion-card>
-      </ion-content>
-
-    </ng-template>
-  </ion-modal>
+  </ax-bottom-sheet>
 </ion-content>

@@ -676,11 +676,8 @@ swiper-slide,
 }
 
 /* ========================================
-   MEASUREMENT MODAL
+   MEASUREMENT SHEET (rendered via <ax-bottom-sheet>)
    ======================================== */
-.measurement-modal-content {
-  --background: var(--ax-color-bg-canvas);
-}
 
 .measurement-grid {
   grid-template-columns: repeat(2, 1fr);

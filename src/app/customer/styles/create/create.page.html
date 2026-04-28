@@ -112,53 +112,53 @@
     </div>
   </ion-card>
 
-  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()" [isOpen]="isProductsOpen" [initialBreakpoint]="1" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]" class="select-products-modal">
-    <ng-template>
-      <ion-header class="select-products-modal__header ion-no-border">
-        <ion-toolbar class="select-products-modal__toolbar ion-no-border">
-          <ion-title class="select-products-modal__title">{{ 'title_select_products' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="isProductsOpen = false" class="select-products-modal__close-btn">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="select-products-modal__content ion-padding">
-        <div class="store-list">
-          <ion-accordion-group>
-            @for (store of stores; track store.store_id) {
-              <ion-accordion [value]="store.store_id" class="store-accordion">
-                <ion-item (click)="get_vendor_product(store.store_id)" slot="header" class="store-header">
-                  <ion-label>{{ store.store_name }}</ion-label>
-                </ion-item>
-                <div slot="content" class="store-content">
-                  <ion-grid>
-                    <ion-row>
-                      @for (p of products; track p.product_id) {
-                        <ion-col size="6" sizeSm="6">
-                          <ion-card class="product-card" (click)="addProductToStyle(create_style, p)">
-                            <ion-img [src]="p.image_1" class="product-image"></ion-img>
-                            <ion-card-header class="ion-no-padding">
-                              <ion-card-title class="product-title">{{ p.product_name }}</ion-card-title>
-                            </ion-card-header>
-                            <ion-card-content class="product-price">Ð{{ p.price }}</ion-card-content>
-                          </ion-card>
-                        </ion-col>
-                      }
-                    </ion-row>
-                  </ion-grid>
-                </div>
-              </ion-accordion>
-            }
-          </ion-accordion-group>
-        </div>
-        @if(!ui_controls.is_empty){
-          <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-            <ion-infinite-scroll-content [loadingText]="'please_wait' | translate" loadingSpinner="dots"></ion-infinite-scroll-content>
-          </ion-infinite-scroll>
+  <ax-bottom-sheet
+    [isOpen]="isProductsOpen"
+    (didDismiss)="OnDidDismiss(); isProductsOpen = false"
+    [snapPoints]="[1]"
+    [initialSnap]="0">
+
+    <div ax-sheet-header class="select-products-modal__title-row">
+      <h2 class="select-products-modal__title">{{ 'title_select_products' | translate }}</h2>
+      <button type="button" class="select-products-modal__close-btn" (click)="isProductsOpen = false">
+        {{ 'close' | translate }}
+      </button>
+    </div>
+
+    <div class="store-list">
+      <ion-accordion-group>
+        @for (store of stores; track store.store_id) {
+          <ion-accordion [value]="store.store_id" class="store-accordion">
+            <ion-item (click)="get_vendor_product(store.store_id)" slot="header" class="store-header">
+              <ion-label>{{ store.store_name }}</ion-label>
+            </ion-item>
+            <div slot="content" class="store-content">
+              <ion-grid>
+                <ion-row>
+                  @for (p of products; track p.product_id) {
+                    <ion-col size="6" sizeSm="6">
+                      <ion-card class="product-card" (click)="addProductToStyle(create_style, p)">
+                        <ion-img [src]="p.image_1" class="product-image"></ion-img>
+                        <ion-card-header class="ion-no-padding">
+                          <ion-card-title class="product-title">{{ p.product_name }}</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content class="product-price">Ð{{ p.price }}</ion-card-content>
+                      </ion-card>
+                    </ion-col>
+                  }
+                </ion-row>
+              </ion-grid>
+            </div>
+          </ion-accordion>
         }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </ion-accordion-group>
+    </div>
+    @if(!ui_controls.is_empty){
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content [loadingText]="'please_wait' | translate" loadingSpinner="dots"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    }
+  </ax-bottom-sheet>
 </ion-content>
 
 <ion-footer class="m6f-footer ion-no-border">

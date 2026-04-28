@@ -29,7 +29,6 @@ import {
   IonInput,
   IonItem,
   IonLabel,
-  IonModal,
   IonRow,
   IonSelect,
   IonSelectOption,
@@ -45,6 +44,7 @@ import {GlobalComponent} from "../../../global-component";
 import {Preferences} from "@capacitor/preferences";
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../../shared/ax-mobile/bottom-sheet';
 export interface Store {
   id: number;
   token: string;
@@ -93,7 +93,6 @@ export interface selectedProduct {
     IonInput,
     IonItem,
     IonLabel,
-    IonModal,
     IonRow,
     IonSelect,
     IonSelectOption,
@@ -105,6 +104,7 @@ export interface selectedProduct {
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class CreatePage implements OnInit {

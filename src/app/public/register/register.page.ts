@@ -1,8 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonCol,
   IonGrid,
@@ -11,8 +8,6 @@ import {
   Platform,
   IonLabel,
   IonButton,
-  IonModal,
-  IonButtons,
   IonSegmentButton,
   IonSegment,
   IonCheckbox,
@@ -36,6 +31,7 @@ import {BlockerService} from "../../blocker.service";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -50,11 +46,6 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonText,
     IonLabel,
     IonButton,
-    IonToolbar,
-    IonHeader,
-    IonModal,
-    IonTitle,
-    IonButtons,
     IonSegmentButton,
     IonSegment,
     IonCheckbox,
@@ -65,6 +56,7 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     TranslatePipe,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class RegisterPage implements OnInit, OnDestroy {

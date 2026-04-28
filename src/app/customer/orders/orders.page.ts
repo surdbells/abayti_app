@@ -13,7 +13,7 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
-  IonList, IonModal,
+  IonList,
   IonRefresher,
   IonRefresherContent, IonRow,
   IonSearchbar,
@@ -38,12 +38,13 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, IonChip, CartIconComponent, IonAvatar, IonCol, IonModal, IonRow, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, IonSearchbar, RouterLink, IonButton, IonFooter, IonIcon, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, IonChip, CartIconComponent, IonAvatar, IonCol, IonRow, TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
 })
 export class OrdersPage implements OnInit, OnDestroy {
   orders: Cart[] = [];
