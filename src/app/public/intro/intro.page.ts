@@ -13,7 +13,6 @@ import { Preferences } from "@capacitor/preferences";
 import {
   IonButton,
   IonContent,
-  IonFab,
   IonFabButton,
   Platform
 } from "@ionic/angular/standalone";
@@ -40,7 +39,6 @@ export interface IntroSlide {
   imports: [
     IonContent,
     IonButton,
-    IonFab,
     IonFabButton,
     CommonModule,
     TranslatePipe, AxIconComponent]

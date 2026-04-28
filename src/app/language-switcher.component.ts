@@ -1,12 +1,10 @@
 import {Component, inject} from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { I18nService, LangCode } from './i18n.service';
 import { IonicModule } from '@ionic/angular';
-import {TranslatePipe} from "./translate.pipe";
 @Component({
   selector: 'app-language-switcher',
   standalone: true,
-  imports: [IonicModule, AsyncPipe, TranslatePipe],
+  imports: [IonicModule],
   template: `
       <div class="language-pills">
         @for (l of langs; track l) {

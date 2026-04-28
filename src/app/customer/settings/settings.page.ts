@@ -6,7 +6,7 @@ import {
   IonContent,
   NavController,
   Platform,
-  ActionSheetController, IonFooter, IonTabBar, IonTabButton, IonLabel
+  ActionSheetController
 } from '@ionic/angular/standalone';
 import { Preferences } from '@capacitor/preferences';
 import { Subscription } from 'rxjs';
@@ -57,10 +57,6 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     LucideAngularModule,
     TranslatePipe,
     LanguageSwitcherComponent,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
-    IonLabel,
     AxBottomSheetComponent,
   ]
 })

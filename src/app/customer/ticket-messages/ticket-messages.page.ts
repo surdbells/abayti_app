@@ -2,13 +2,11 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 
 import { FormsModule } from '@angular/forms';
 import {
-  IonAvatar, IonButtons, IonCard, IonCardContent,
-  IonChip, IonCol,
+  IonButtons,
+  IonCol,
   IonContent,
-  IonFab,
-  IonFabButton,
   IonFooter, IonGrid,
-  IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonNote, IonRow, IonTabBar, IonTabButton, IonText,
+  IonHeader, IonItem, IonLabel, IonList, IonNote, IonRow, IonText,
   IonTitle,
   IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
@@ -33,7 +31,7 @@ export interface Messages {
   templateUrl: './ticket-messages.page.html',
   styleUrls: ['./ticket-messages.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonChip, IonFab, IonFabButton, IonFooter, IonIcon, IonItem, IonLabel, IonList, IonNote, IonTabBar, IonTabButton, IonText, IonGrid, IonRow, IonCol, IonAvatar, IonButtons, RouterLink, IonCard, IonCardContent, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonFooter, IonItem, IonLabel, IonList, IonNote, IonText, IonGrid, IonRow, IonCol, IonButtons, RouterLink, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class TicketMessagesPage implements OnInit, OnDestroy {
   isOnline = true;

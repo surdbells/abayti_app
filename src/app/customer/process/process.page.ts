@@ -2,14 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import {
-  IonCard,
   IonCol,
   IonContent,
   IonGrid,
-  IonHeader,
   IonRow,
-  IonTitle,
-  IonToolbar,
   Platform
 } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
@@ -26,7 +22,7 @@ import {GlobalComponent} from "../../global-component";
   templateUrl: './process.page.html',
   styleUrls: ['./process.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonGrid, IonRow, IonCol, IonCard]
+  imports: [IonContent, FormsModule, IonGrid, IonRow, IonCol]
 })
 export class ProcessPage implements OnInit {
   isOnline = true;

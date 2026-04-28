@@ -31,7 +31,6 @@ import { NetworkService } from "../../service/network.service";
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { GlobalComponent } from "../../global-component";
 import { Preferences } from "@capacitor/preferences";
-import { CartIconComponent } from "../../cart-icon.component";
 import { SizeChipsComponent } from "../../size-chips/size-chips.component";
 import { TranslatePipe } from "../../translate.pipe";
 import { Products } from "../../class/products";
@@ -77,7 +76,6 @@ export interface ColorOption {
     IonCol,
     IonRow,
     IonFooter,
-    CartIconComponent,
     SizeChipsComponent,
     TranslatePipe,
     IonCard,

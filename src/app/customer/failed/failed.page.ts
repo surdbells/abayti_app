@@ -6,10 +6,7 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar
+  IonContent
 } from '@ionic/angular/standalone';
 import {RouterLink} from "@angular/router";
 import {TranslatePipe} from "../../translate.pipe";
@@ -19,7 +16,7 @@ import {TranslatePipe} from "../../translate.pipe";
   templateUrl: './failed.page.html',
   styleUrls: ['./failed.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
+  imports: [IonContent, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
 })
 export class FailedPage implements OnInit {
 

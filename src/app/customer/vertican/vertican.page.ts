@@ -13,14 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons,
   IonContent,
-  IonHeader,
-  IonInput,
-  IonModal,
-  IonRange,
-  IonTitle,
-  IonToolbar,
   NavController
 } from '@ionic/angular/standalone';
 import {Gesture, GestureController, Platform, ToastController} from "@ionic/angular";
@@ -54,14 +47,7 @@ type DualRange = { lower: number; upper: number };
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonButton,
-    IonButtons,
-    IonInput,
-    IonModal,
-    IonRange,
     FormsModule,
     TranslatePipe,
     AxIconComponent,
@@ -77,7 +63,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('swipeArea', { read: ElementRef })
   swipeAreas!: QueryList<ElementRef>;
 
-  @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonContent, { static: false }) ionContent!: IonContent;
 
