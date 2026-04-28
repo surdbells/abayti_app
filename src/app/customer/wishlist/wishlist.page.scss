@@ -180,14 +180,11 @@ ion-content.page-bg {
 
 /* ----- Empty state ----------------------------------------------------- */
 
+/* M38/M50: layout covered by global .empty-state. This page uses a
+   compact inline empty-state (smaller padding + smaller heading text)
+   for the "no items in this category" inline indicator. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 32px 24px;
-  text-align: center;
+  --empty-state-padding: 32px 24px;
 
   ax-icon {
     color: var(--ax-color-text-tertiary);
@@ -199,7 +196,6 @@ ion-content.page-bg {
     font-size: 14px;
     font-weight: 500;
     color: var(--ax-color-text-secondary);
-    margin: 0;
     line-height: 1.5;
   }
 }

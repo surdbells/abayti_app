@@ -194,46 +194,16 @@ ion-content.page-content {
 
 /* ----- Empty state ------------------------------------ */
 
+/* M38/M50: layout, icon-wrap, h3, p covered by global .empty-state. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
-  text-align: center;
+  --empty-state-padding: 80px 20px;
 
-  .empty-icon-wrap {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--ax-color-bg-brand-subtle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-
-    ax-icon {
-      font-size: 36px;
-      color: var(--ax-color-text-brand);
-    }
+  .empty-icon-wrap ax-icon {
+    font-size: 36px;
   }
 
   h3 {
-    font-family: var(--ax-font-display);
-    font-weight: 400;
-    font-size: 18px;
-    color: var(--ax-color-text-primary);
     margin: 0 0 8px;
-    line-height: 1.3;
-  }
-
-  p {
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--ax-color-text-secondary);
-    margin: 0;
-    line-height: 1.5;
-    max-width: 280px;
   }
 }
 
