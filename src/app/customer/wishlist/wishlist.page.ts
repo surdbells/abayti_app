@@ -6,13 +6,9 @@ import {
   IonButtons,
   IonCol,
   IonContent,
-  IonFooter,
   IonGrid,
   IonHeader,
-  IonLabel,
   IonRow,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -31,6 +27,7 @@ import {Wishlist} from "../../class/wishlist";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
@@ -51,15 +48,12 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     IonCol,
     IonRow,
     IonGrid,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
     TranslatePipe,
-    IonLabel,
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class WishlistPage implements OnInit, OnDestroy {
@@ -221,22 +215,6 @@ export class WishlistPage implements OnInit, OnDestroy {
           }
         }
       }))
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));

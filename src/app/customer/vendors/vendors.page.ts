@@ -4,11 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonButton,
   IonContent,
-  IonFooter,
   IonHeader,
-  IonLabel,
-  IonTabBar,
-  IonTabButton,
   NavController,
   Platform
 } from '@ionic/angular/standalone';
@@ -25,6 +21,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progress.component";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 @Component({
   selector: 'app-vendors',
@@ -34,17 +31,14 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   imports: [
     IonContent,
     IonHeader,
-    IonFooter,
     IonButton,
-    IonLabel,
-    IonTabBar,
-    IonTabButton,
     CommonModule,
     FormsModule,
     TranslatePipe,
     HScrollProgressComponent,
     AxIconComponent,
     AxLoaderComponent,
+    AppTabBarComponent
   ]
 })
 export class VendorsPage implements OnInit {
@@ -254,13 +248,6 @@ goToReviews(id: number, name: string) {
         }
       }))
   }
-
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
   orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
@@ -292,14 +279,5 @@ goToReviews(id: number, name: string) {
   }
   goBack() {
     this.nav.back();
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
-  go_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
 }

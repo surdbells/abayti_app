@@ -6,15 +6,12 @@ import {
   IonButtons,
   IonCard,
   IonContent,
-  IonFooter,
   IonHeader,
   IonItem,
   IonLabel,
   IonList,
   IonRefresher,
   IonRefresherContent,
-  IonTabBar,
-  IonTabButton,
   IonText,
   IonTitle,
   IonToolbar,
@@ -33,6 +30,7 @@ import {ActionSheetController} from "@ionic/angular";
 import {Labels} from "../../class/labels";
 import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
@@ -50,12 +48,9 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     IonCard,
     IonRefresher,
     IonRefresherContent,
-    IonFooter,
     IonItem,
     IonLabel,
     IonList,
-    IonTabBar,
-    IonTabButton,
     IonText,
     RouterLink,
     FormsModule,
@@ -63,6 +58,7 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     AxIconComponent,
     AxLoaderComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class CartPage implements OnInit, OnDestroy {
@@ -157,9 +153,6 @@ export class CartPage implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
   }
   ngOnInit() {
     this.getObject().then(r => console.log(r));
@@ -264,26 +257,14 @@ export class CartPage implements OnInit, OnDestroy {
     });
     await actionSheet.present();
   }
-  user_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
   user_wishlist() {
     this.router.navigate(['/', 'wishlist']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
   }
   user_orders() {
     this.router.navigate(['/', 'orders']).then(r => console.log(r));
   }
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
-  }
   user_messages() {
     this.router.navigate(['/', 'messages']).then(r => console.log(r));
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
   }
   handleRefresh(event: any) {
     setTimeout(() => {

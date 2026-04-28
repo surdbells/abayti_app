@@ -6,11 +6,7 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonFooter,
   IonHeader,
-  IonLabel,
-  IonTabBar,
-  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -27,6 +23,7 @@ import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 
 @Component({
@@ -43,14 +40,11 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     IonTitle,
     IonButton,
     IonButtons,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
-    IonLabel,
     TranslatePipe,
     LanguageSwitcherComponent,
     AxIconComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class SettingsPage implements OnInit, OnDestroy {

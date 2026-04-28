@@ -6,19 +6,15 @@ import {
   IonButtons,
   IonCard,
   IonContent,
-  IonFooter,
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonInput,
   IonItem,
-  IonLabel,
   IonRefresher,
   IonRefresherContent,
   IonSelect,
   IonSelectOption,
-  IonTabBar,
-  IonTabButton,
   IonTextarea,
   IonTitle,
   IonToolbar,
@@ -37,6 +33,7 @@ import {GlobalComponent} from "../../global-component";
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
+import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 type Review = {
@@ -66,24 +63,21 @@ type Review = {
     IonButton,
     IonButtons,
     IonCard,
-    IonFooter,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     IonInput,
     IonItem,
-    IonLabel,
     IonRefresher,
     IonRefresherContent,
     IonSelect,
     IonSelectOption,
-    IonTabBar,
-    IonTabButton,
     IonTextarea,
     FormsModule,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
     AxBottomSheetComponent,
+    AppTabBarComponent
   ]
 })
 export class VendorReviewsPage implements OnInit {
@@ -194,22 +188,6 @@ export class VendorReviewsPage implements OnInit {
   ionViewDidEnter(){
     this.rqst_param.store_id = Number(this.route.snapshot.queryParamMap.get('id'));
     this.getObject().then(r => console.log(r));
-  }
-  user_styles() {
-    this.router.navigate(['/', 'styles']).then(r => console.log(r));
-  }
-  go_home() {
-    this.router.navigate(['/', 'account']).then(r => console.log(r));
-  }
-  user_explore() {
-    this.router.navigate(['/', 'explore']).then(r => console.log(r));
-  }
-  user_profile() {
-    this.router.navigate(['/', 'settings']).then(r => console.log(r));
-  }
-
-  user_cart() {
-    this.router.navigate(['/', 'cart']).then(r => console.log(r));
   }
   error_notification(message: string) {
     this.toast.error(message, {
