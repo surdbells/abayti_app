@@ -1,24 +1,22 @@
-<ion-content fullscreen="true" class="ion-padding ion-padding-vertical ion-margin-vertical">
-  <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <div class="empty-state">
-          <ion-card style="margin-top: 30%;">
-            <ion-card-content class="ion-text-center">
-              <ion-img src="assets/images/success.gif" alt="success"></ion-img>
-              <h1>{{ 'text_purchase_successful' | translate }}</h1>
-              <ion-button shape="round" class="ion-margin-vertical" [routerLink]="['/account']">
-                <ax-icon name="house" class="ion-padding-horizontal"></ax-icon>
-                <span>{{ 'button_home' | translate }}</span>
-              </ion-button>
-              <ion-button shape="round" class="ion-margin-vertical" [routerLink]="['/messages']">
-                <ax-icon name="message-square-text" class="ion-padding-horizontal"></ax-icon>
-                <span>{{ 'button_message_vendor' | translate }}</span>
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content [fullscreen]="true" class="page-bg">
+  <div class="status-screen">
+    <img loading="lazy"
+         class="status-illustration"
+         src="assets/images/success.gif"
+         alt="" />
+
+    <h1>{{ 'text_purchase_successful' | translate }}</h1>
+    <p>{{ 'text_purchase_successful_subtitle' | translate }}</p>
+
+    <div class="status-actions">
+      <ion-button shape="round" expand="block" [routerLink]="['/account']">
+        <ax-icon name="house" slot="start"></ax-icon>
+        <span>{{ 'button_home' | translate }}</span>
+      </ion-button>
+      <ion-button shape="round" expand="block" fill="outline" [routerLink]="['/messages']">
+        <ax-icon name="message-square-text" slot="start"></ax-icon>
+        <span>{{ 'button_message_vendor' | translate }}</span>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormsModule } from '@angular/forms';
 import {
-  IonCol,
   IonContent,
-  IonGrid,
-  IonRow,
   Platform
 } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
@@ -16,13 +12,15 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {Preferences} from "@capacitor/preferences";
 import {GlobalComponent} from "../../global-component";
+import {TranslatePipe} from "../../translate.pipe";
+import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 
 @Component({
   selector: 'app-process',
   templateUrl: './process.page.html',
   styleUrls: ['./process.page.scss'],
   standalone: true,
-  imports: [IonContent, FormsModule, IonGrid, IonRow, IonCol]
+  imports: [IonContent, TranslatePipe, AxLoaderComponent]
 })
 export class ProcessPage implements OnInit {
   isOnline = true;

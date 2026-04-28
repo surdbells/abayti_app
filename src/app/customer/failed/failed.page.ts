@@ -1,28 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
-import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
   IonContent
 } from '@ionic/angular/standalone';
-import {RouterLink} from "@angular/router";
-import {TranslatePipe} from "../../translate.pipe";
+import { RouterLink } from "@angular/router";
+import { TranslatePipe } from "../../translate.pipe";
+import { AxIconComponent } from '../../shared/ax-mobile/icon';
 
 @Component({
   selector: 'app-failed',
   templateUrl: './failed.page.html',
   styleUrls: ['./failed.page.scss'],
   standalone: true,
-  imports: [IonContent, FormsModule, IonCard, IonCardHeader, IonCardTitle, IonButton, RouterLink, TranslatePipe]
+  imports: [IonContent, IonButton, RouterLink, TranslatePipe, AxIconComponent]
 })
 export class FailedPage implements OnInit {
-
   constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }

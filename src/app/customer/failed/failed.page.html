@@ -1,11 +1,18 @@
-<ion-content fullscreen="true" class="ion-padding ion-padding-vertical ion-margin-vertical">
-  <ion-card style="margin-top: 25%;" class="ion-margin ion-text-center ion-padding">
-    <img loading="lazy" src="assets/images/failed.gif" alt="success" />
-    <ion-card-header>
-      <ion-card-title class="text-center">{{ 'title_payment_failed' | translate }}</ion-card-title>
-    </ion-card-header>
-    <ion-button [routerLink]="['/cart']" expand="block" style="color: #ffffff;" class="ion-padding ion-margin">
-      {{'button_try_again' | translate}}
-    </ion-button>
-  </ion-card>
+<ion-content [fullscreen]="true" class="page-bg">
+  <div class="status-screen">
+    <img loading="lazy"
+         class="status-illustration"
+         src="assets/images/failed.gif"
+         alt="" />
+
+    <h1>{{ 'title_payment_failed' | translate }}</h1>
+    <p>{{ 'text_payment_failed_subtitle' | translate }}</p>
+
+    <div class="status-actions">
+      <ion-button shape="round" expand="block" [routerLink]="['/cart']">
+        <ax-icon name="rotate-ccw" slot="start"></ax-icon>
+        <span>{{ 'button_try_again' | translate }}</span>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
