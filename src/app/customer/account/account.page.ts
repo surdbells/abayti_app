@@ -16,8 +16,8 @@ import {
   IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol,
   IonContent,
   IonFooter, IonGrid,
-  IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonInput, IonItem,
-  IonLabel, IonList, IonModal, IonNote, IonRange,
+  IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonInput,
+  IonLabel, IonNote, IonRange,
   IonRefresher, IonRefresherContent, IonRow,
   IonSearchbar, IonSelect, IonSelectOption,
   IonTabBar,
@@ -40,6 +40,7 @@ import {HScrollProgressComponent} from "../../h-scroll-progress/h-scroll-progres
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -67,7 +68,7 @@ export interface Store {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, IonRow, IonCol, IonGrid, IonIcon, IonItem, IonList, IonModal, IonTitle, IonCard, IonCardContent, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, IonSelect, IonSelectOption, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonButton, IonButtons, IonSearchbar, IonAvatar, IonTabBar, IonTabButton, IonLabel, IonFooter, IonRefresher, IonRefresherContent, IonRow, IonCol, IonGrid, IonIcon, IonTitle, IonCard, IonCardContent, IonRange, IonCardHeader, IonCardTitle, IonInput, IonNote, IonSelect, IonSelectOption, CartIconComponent, StoreRatingSimpleComponent, TranslatePipe, HScrollProgressComponent, IonChip, IonInfiniteScroll, IonInfiniteScrollContent, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
 })
 
 export class AccountPage implements OnInit, OnDestroy {

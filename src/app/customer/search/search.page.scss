@@ -121,22 +121,46 @@ ion-content.page-bg {
   padding: 1rem 0;
 }
 
-/* ----- Add-to-closet modal list rows --------------------------------- */
+/* ----- Add-to-closet sheet list rows --------------------------------- */
 
 .custom-list {
-  background: transparent;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
 
-  ion-item {
-    --background: transparent;
-    --background-hover: rgba(90, 58, 44, 0.04);
-    --background-activated: rgba(90, 58, 44, 0.08);
+.custom-list__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  min-height: 48px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--ax-radius-md);
+  transition: background 120ms ease;
 
-    h2 {
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ax-color-text-primary);
-      margin: 0;
-    }
+  &:hover,
+  &:focus-visible {
+    background: rgba(90, 58, 44, 0.04);
+    outline: none;
   }
+
+  &:active {
+    background: rgba(90, 58, 44, 0.08);
+  }
+
+  & + .custom-list__item {
+    border-top: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.06));
+  }
+}
+
+.custom-list__label {
+  flex: 1;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ax-color-text-primary);
 }

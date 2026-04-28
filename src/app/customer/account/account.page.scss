@@ -390,73 +390,90 @@
    ============================================================ */
 
 
-/* ----- Wishlist modal ----- */
+/* ----- Wishlist sheet (rendered via <ax-bottom-sheet>) ----- */
 
-.m6f-wishlist-modal {
-  /* Modal sheet rounding handled by Ionic; we restyle inner content. */
-  --background: var(--ax-palette-neutral-0);
+.m6f-wishlist-sheet__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px 14px;
 }
 
-.m6f-modal-header {
-  /* Ionic adds a default subtle shadow under the header. We keep
-     a hairline border instead — quieter and more on-brand. */
-  ion-toolbar.m6f-modal-toolbar {
-    --background: var(--ax-palette-neutral-0);
-    --border-color: var(--ax-color-border-subtle);
-    --border-width: 0 0 0.5px 0;
-    --color: var(--ax-color-text-primary);
-    --min-height: 56px;
-  }
-}
-
-.m6f-modal-title {
-  font-family: var(--ax-font-display);  /* Poltawski Nowy */
+.m6f-wishlist-sheet__title {
+  margin: 0;
+  font-family: var(--ax-font-display);
   font-weight: 400;
   font-size: 17px;
   letter-spacing: -0.005em;
   color: var(--ax-color-text-primary);
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
+  line-height: 1.3;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.m6f-modal-close {
-  --color: var(--ax-color-text-brand);  /* #614536 */
+.m6f-wishlist-sheet__close-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 4px;
+  color: var(--ax-color-text-brand);
+  font-family: inherit;
   font-size: 13px;
   font-weight: 400;
-  text-transform: none;
-}
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
 
-.m6f-modal-content {
-  --background: var(--ax-palette-neutral-0);
-  --padding-top: 8px;
-  --padding-bottom: 16px;
-  --padding-start: 0;
-  --padding-end: 0;
+  &:hover,
+  &:focus-visible {
+    outline: none;
+    text-decoration: underline;
+  }
 }
 
 .m6f-wishlist-list {
-  background: transparent;
+  list-style: none;
+  margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .m6f-wishlist-item {
-  --background: transparent;
-  --background-hover: var(--ax-palette-beige-100);
-  --background-activated: var(--ax-palette-beige-200);
-  --color: var(--ax-color-text-primary);
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --inner-padding-end: 8px;
-  --min-height: 56px;
-  --border-color: var(--ax-color-border-subtle);
-  --border-width: 0 0 0.5px 0;
-  --border-style: solid;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  min-height: 56px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: var(--ax-radius-md);
+  transition: background 120ms ease;
 
-  ion-label {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--ax-color-text-primary);
+  &:hover,
+  &:focus-visible {
+    background: var(--ax-palette-beige-100);
+    outline: none;
   }
+
+  &:active {
+    background: var(--ax-palette-beige-200);
+  }
+
+  & + .m6f-wishlist-item {
+    border-top: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.06));
+  }
+}
+
+.m6f-wishlist-label {
+  flex: 1;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ax-color-text-primary);
 }
 
 /* The "add" affordance for each wishlist label — small brown
@@ -471,7 +488,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-inline-end: 12px;
 
   ax-icon {
     font-size: 16px;

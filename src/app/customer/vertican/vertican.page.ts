@@ -17,9 +17,6 @@ import {
   IonContent,
   IonHeader,
   IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonModal,
   IonRange,
   IonTitle,
@@ -40,6 +37,7 @@ import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 interface Category {
   readonly id: number;
   readonly name: string;
@@ -62,15 +60,13 @@ type DualRange = { lower: number; upper: number };
     IonButton,
     IonButtons,
     IonInput,
-    IonItem,
-    IonLabel,
-    IonList,
     IonModal,
     IonRange,
     FormsModule,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
@@ -81,7 +77,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChildren('swipeArea', { read: ElementRef })
   swipeAreas!: QueryList<ElementRef>;
 
-  @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('filter_modal', { read: ElementRef }) filterModal!: ElementRef<HTMLIonModalElement>;
   @ViewChild('swiper', { static: false }) swiperEl!: ElementRef<HTMLElement>;
   @ViewChild(IonContent, { static: false }) ionContent!: IonContent;

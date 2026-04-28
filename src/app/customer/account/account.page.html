@@ -246,38 +246,40 @@
   }
 
 
-  <!-- Wishlist Modal -->
-  <ion-modal class="m6f-wishlist-modal" swipeToClose="true" (didDismiss)="OnDidDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
-    <ng-template>
-      <ion-header class="m6f-modal-header">
-        <ion-toolbar class="m6f-modal-toolbar">
-          <ion-title class="m6f-modal-title">{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false" class="m6f-modal-close">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="m6f-modal-content">
-        @if (!ui_controls.is_loading_category){
-          <ion-list class="m6f-wishlist-list" lines="none">
-            @for(category of categories; track category.id; let i = $index){
-              <ion-item (click)="addToCloset(category.id)" button detail="false" class="m6f-wishlist-item">
-                <span slot="start" class="m6f-wishlist-add">
-                  <ax-icon name="plus" />
-                </span>
-                <ion-label>{{category.name}}</ion-label>
-              </ion-item>
-            }
-          </ion-list>
+  <!-- Wishlist sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isWishOpen"
+    (didDismiss)="OnDidDismiss(); isWishOpen = false"
+    [snapPoints]="[0.5, 0.9]"
+    [initialSnap]="0">
+
+    <div ax-sheet-header class="m6f-wishlist-sheet__title-row">
+      <h2 class="m6f-wishlist-sheet__title">
+        {{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}
+      </h2>
+      <button type="button" class="m6f-wishlist-sheet__close-btn" (click)="isWishOpen = false">
+        {{ 'close' | translate }}
+      </button>
+    </div>
+
+    @if (!ui_controls.is_loading_category){
+      <ul class="m6f-wishlist-list">
+        @for(category of categories; track category.id; let i = $index){
+          <li class="m6f-wishlist-item" (click)="addToCloset(category.id)" role="button" tabindex="0">
+            <span class="m6f-wishlist-add">
+              <ax-icon name="plus" />
+            </span>
+            <span class="m6f-wishlist-label">{{category.name}}</span>
+          </li>
         }
-        @if (ui_controls.is_loading_category){
-          <div class="m6f-wishlist-loading">
-            <ax-loader></ax-loader>
-          </div>
-        }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </ul>
+    }
+    @if (ui_controls.is_loading_category){
+      <div class="m6f-wishlist-loading">
+        <ax-loader></ax-loader>
+      </div>
+    }
+  </ax-bottom-sheet>
 </ion-content>
 
 <ion-footer class="m6f-footer ion-no-border">

@@ -236,34 +236,36 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Wishlist Modal -->
-  <ion-modal swipeToClose="true" (didDismiss)="OnDidDismiss()" [isOpen]="isWishOpen" [initialBreakpoint]="0.5" [backdropDismiss]="true" [breakpoints]="[0, 0.5, 0.6, 0.8, 1]" class="wishlist-modal">
-    <ng-template>
-      <ion-header class="wishlist-modal__header ion-no-border">
-        <ion-toolbar class="wishlist-modal__toolbar ion-no-border">
-          <ion-title class="wishlist-modal__title">{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="isWishOpen = false" class="wishlist-modal__close-btn">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="wishlist-modal__content ion-padding">
-        @if (!ui_controls.is_loading_category){
-          <ion-list class="custom-list">
-            @for(category of categories; track category.id){
-              <ion-item (click)="addToCloset(category.id)" button detail="false" class="custom-list__item">
-                <ax-icon name="plus" slot="start" class="custom-list__icon" />
-                <ion-label>{{category.name}}</ion-label>
-              </ion-item>
-            }
-          </ion-list>
+  <!-- Wishlist sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isWishOpen"
+    (didDismiss)="OnDidDismiss(); isWishOpen = false"
+    [snapPoints]="[0.5, 0.9]"
+    [initialSnap]="0">
+
+    <div ax-sheet-header class="wishlist-modal__title-row">
+      <h2 class="wishlist-modal__title">
+        {{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}
+      </h2>
+      <button type="button" class="wishlist-modal__close-btn" (click)="isWishOpen = false">
+        {{ 'close' | translate }}
+      </button>
+    </div>
+
+    @if (!ui_controls.is_loading_category){
+      <ul class="custom-list">
+        @for(category of categories; track category.id){
+          <li class="custom-list__item" (click)="addToCloset(category.id)" role="button" tabindex="0">
+            <ax-icon name="plus" class="custom-list__icon" />
+            <span class="custom-list__label">{{category.name}}</span>
+          </li>
         }
-        @if (ui_controls.is_loading_category) {
-          <div class="loader-row">
-            <ax-loader></ax-loader>
-          </div>
-        }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </ul>
+    }
+    @if (ui_controls.is_loading_category) {
+      <div class="loader-row">
+        <ax-loader></ax-loader>
+      </div>
+    }
+  </ax-bottom-sheet>
 </ion-content>

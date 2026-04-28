@@ -9,10 +9,7 @@ import {
   IonFooter,
   IonGrid,
   IonHeader,
-  IonItem,
   IonLabel,
-  IonList,
-  IonModal,
   IonRow,
   IonTabBar,
   IonTabButton,
@@ -35,6 +32,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
@@ -51,10 +49,7 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonGrid,
     IonRow,
     IonCol,
-    IonItem,
     IonLabel,
-    IonList,
-    IonModal,
     IonTabBar,
     IonTabButton,
     RouterLink,
@@ -63,6 +58,7 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class SearchPage implements OnInit, OnDestroy {
