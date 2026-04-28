@@ -123,46 +123,33 @@
     </div>
   }
 
-  <!-- Wishlist Modal -->
-  <ion-modal
+  <!-- Wishlist sheet -->
+  <ax-bottom-sheet
     [isOpen]="isWishOpen"
-    (didDismiss)="OnDidDismiss()"
-    [initialBreakpoint]="0.5"
-    [backdropDismiss]="true"
-    [breakpoints]="[0, 0.5, 0.6, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'save' | translate }} {{ addCloset.product_name }} {{ 'to' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button type="button" (click)="isWishOpen = false">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding modal-content">
-        @if(!ui_controls.is_loading_category){
-          <ion-list class="wishlist-list">
-            @for(category of categories; track category.id){
-              <ion-item (click)="addToCloset(category.id)" lines="none" button detail="false" class="wishlist-item">
-                <div class="folder-icon" slot="start">
-                  <ax-icon name="folder-plus"></ax-icon>
-                </div>
-                <ion-label>
-                  <h2>{{category.name}}</h2>
-                </ion-label>
-                <ax-icon name="chevron-right" slot="end" class="chevron"></ax-icon>
-              </ion-item>
-            }
-          </ion-list>
+    (didDismiss)="OnDidDismiss(); isWishOpen = false"
+    [snapPoints]="[0.5, 0.9]"
+    [initialSnap]="0"
+    [title]="('save' | translate) + ' ' + addCloset.product_name + ' ' + ('to' | translate)">
+
+    @if(!ui_controls.is_loading_category){
+      <ul class="wishlist-list">
+        @for(category of categories; track category.id){
+          <li class="wishlist-item" (click)="addToCloset(category.id)" role="button" tabindex="0">
+            <div class="folder-icon">
+              <ax-icon name="folder-plus"></ax-icon>
+            </div>
+            <span class="wishlist-item__label">{{category.name}}</span>
+            <ax-icon name="chevron-right" class="chevron"></ax-icon>
+          </li>
         }
-        @if(ui_controls.is_loading_category){
-          <div class="modal-loading">
-            <ax-loader></ax-loader>
-          </div>
-        }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </ul>
+    }
+    @if(ui_controls.is_loading_category){
+      <div class="modal-loading">
+        <ax-loader></ax-loader>
+      </div>
+    }
+  </ax-bottom-sheet>
 </ion-content>
 
 <ion-footer class="m6f-footer ion-no-border">

@@ -315,38 +315,52 @@ ion-content.page-bg {
    Wishlist modal
    ============================================================================ */
 
-ion-modal {
-  --border-radius: var(--ax-radius-lg) var(--ax-radius-lg) 0 0;
-}
-
-.modal-content {
-  --background: var(--ax-color-bg-canvas);
-}
+/* ----- Wishlist sheet (rendered via <ax-bottom-sheet>) ----- */
 
 .wishlist-list {
-  background: transparent;
+  list-style: none;
+  margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .wishlist-item {
-  --background: var(--ax-color-bg-surface);
-  --background-hover: rgba(90, 58, 44, 0.04);
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --inner-padding-end: 0;
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--ax-color-bg-surface);
   border-radius: var(--ax-radius-md);
   box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(46, 36, 28, 0.10);
+    background: rgba(90, 58, 44, 0.02);
+    outline: none;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(46, 36, 28, 0.08);
+    background: rgba(90, 58, 44, 0.04);
+  }
 
   .folder-icon {
     width: 42px;
     height: 42px;
+    flex-shrink: 0;
     border-radius: var(--ax-radius-md);
     background: var(--ax-color-bg-brand-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
 
     ax-icon {
       font-size: 20px;
@@ -354,15 +368,16 @@ ion-modal {
     }
   }
 
-  h2 {
+  &__label {
+    flex: 1;
     font-family: inherit;
     font-size: 14px;
     font-weight: 500;
     color: var(--ax-color-text-primary);
-    margin: 0;
   }
 
   .chevron {
+    flex-shrink: 0;
     font-size: 18px;
     color: var(--ax-color-text-tertiary);
   }

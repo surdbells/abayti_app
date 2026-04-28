@@ -17,10 +17,6 @@ import {
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
   IonRefresher,
   IonRefresherContent,
   IonRow,
@@ -43,6 +39,7 @@ import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-best-sellers',
   templateUrl: './best-sellers.page.html',
@@ -61,15 +58,11 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonCol,
     IonGrid,
     IonRow,
-    IonItem,
-    IonList,
-    IonModal,
-    IonLabel,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     IonRefresher,
     IonRefresherContent,
-    TranslatePipe, AxIconComponent, AxLoaderComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
 })
 export class BestSellersPage implements OnInit, OnDestroy {
   best_sellers: Products[] = [];

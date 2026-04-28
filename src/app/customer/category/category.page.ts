@@ -9,10 +9,6 @@ import {
   IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
   IonRefresher,
   IonRefresherContent,
   IonRow,
@@ -35,6 +31,7 @@ import { InfiniteScrollCustomEvent } from "@ionic/angular";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-category',
   templateUrl: './category.page.html',
@@ -53,14 +50,10 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
     IonGrid,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonModal,
     IonRefresher,
     IonRefresherContent,
     IonRow,
-    TranslatePipe, AxIconComponent, AxLoaderComponent]
+    TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
 })
 export class CategoryPage implements OnInit, OnDestroy {
   category_listing: Products[] = [];

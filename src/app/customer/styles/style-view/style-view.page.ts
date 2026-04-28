@@ -7,10 +7,7 @@ import {
   IonContent,
   IonFooter,
   IonHeader,
-  IonItem,
   IonLabel,
-  IonList,
-  IonModal,
   IonTabBar,
   IonTabButton,
   IonTitle,
@@ -30,6 +27,7 @@ import {GlobalComponent} from "../../../global-component";
 
 import { AxIconComponent } from '../../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../../shared/ax-mobile/loader';
+import { AxBottomSheetComponent } from '../../../shared/ax-mobile/bottom-sheet';
 export interface StyleProduct {
   product_id: number;
   product_name: string;
@@ -65,12 +63,10 @@ export interface Styles {
     IonLabel,
     IonTabBar,
     IonTabButton,
-    IonItem,
-    IonList,
-    IonModal,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class StyleViewPage implements OnInit, OnDestroy {
