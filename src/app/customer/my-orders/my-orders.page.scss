@@ -242,37 +242,12 @@ ion-content.page-bg {
 
 /* ----- Empty state -------------------------------------- */
 
+/* M38/M46: layout, icon-wrap, h2 covered by global .empty-state.
+   This page only adjusts ax-icon size. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
 
-  .empty-icon-wrap {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--ax-color-bg-brand-subtle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-
-    ax-icon {
-      font-size: 36px;
-      color: var(--ax-color-text-brand);
-    }
-  }
-
-  h2 {
-    font-family: var(--ax-font-display);
-    font-weight: 400;
-    font-size: 18px;
-    color: var(--ax-color-text-primary);
-    margin: 0;
-    line-height: 1.3;
+  .empty-icon-wrap ax-icon {
+    font-size: 36px;
   }
 }
 
