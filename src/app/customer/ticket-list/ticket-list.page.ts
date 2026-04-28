@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ActionSheetController, IonicModule} from "@ionic/angular";
+import {ActionSheetController} from "@ionic/angular";
 import {Router, RouterLink} from "@angular/router";
-import {DatePipe} from "@angular/common";
-import {NavController, Platform} from "@ionic/angular/standalone";
+import {CommonModule, DatePipe} from "@angular/common";
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  NavController,
+  Platform
+} from "@ionic/angular/standalone";
 import {ConnectionService} from "../../service/connection.service";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
@@ -30,7 +39,13 @@ interface Ticket {
   standalone: true,
   styleUrls: ['./ticket-list.page.scss'],
   imports: [
-    IonicModule,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButton,
+    IonButtons,
+    CommonModule,
     RouterLink,
     DatePipe,
     ReactiveFormsModule,
