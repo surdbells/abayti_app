@@ -95,11 +95,6 @@ export class TicketListPage implements OnInit {
   }
   ngOnInit() {
     this.getObject();
-    if (this.isOnline) {
-      console.log('You are online');
-    } else {
-      console.log('You are offline');
-    }
   }
   async getObject() {
     const ret: any = await Preferences.get({ key: 'user' });

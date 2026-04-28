@@ -82,11 +82,6 @@ export class RegisterPage implements OnInit, OnDestroy {
     this.blocker.block({ disableSwipe: true, disableHardwareBack: true });
   }
   ngOnInit() {
-    if (this.isOnline) {
-      console.log('You are online');
-    } else {
-      console.log('You are offline');
-    }
     this.getAuthToken();
   }
   ui_controls = {
@@ -237,7 +232,6 @@ export class RegisterPage implements OnInit, OnDestroy {
           if (response.response_code == 200 && response.status == "success") {
             this.smsToken = response;
             this.ui_controls.loading = false;
-            console.log(this.smsToken)
           }
         },
         error: (e) => {

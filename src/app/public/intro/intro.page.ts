@@ -93,7 +93,6 @@ export class IntroPage implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       if (this.swiperRef?.nativeElement) {
         this.swiperInstance = this.swiperRef.nativeElement.swiper;
-        console.log('Swiper initialized:', this.swiperInstance);
       }
     }, 200);
   }
@@ -106,14 +105,12 @@ export class IntroPage implements OnInit, OnDestroy, AfterViewInit {
     const swiper = event.target?.swiper || this.swiperInstance;
     if (swiper) {
       this.currentIndex = swiper.activeIndex;
-      console.log('Slide changed to:', this.currentIndex);
       this.triggerHaptic('light');
       this.cdr.markForCheck();
     }
   }
 
   goToSlide(index: number): void {
-    console.log('goToSlide:', index);
     if (this.swiperInstance) {
       this.swiperInstance.slideTo(index);
       this.triggerHaptic('light');
@@ -121,35 +118,28 @@ export class IntroPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onNextClick(): void {
-    console.log('Next clicked! Current index:', this.currentIndex, 'Total slides:', this.slides.length);
 
     this.triggerHaptic('medium');
 
     if (this.currentIndex === this.slides.length - 1) {
-      console.log('Last slide - completing intro');
       this.completeIntro();
     } else {
-      console.log('Going to next slide');
       this.nextSlide();
     }
   }
 
   nextSlide(): void {
-    console.log('nextSlide called, swiperInstance:', !!this.swiperInstance);
     if (this.swiperInstance) {
       this.swiperInstance.slideNext();
     } else {
       // Fallback: manually update index
-      console.log('No swiper instance, manually incrementing');
       this.currentIndex++;
       this.cdr.markForCheck();
     }
   }
 
   async completeIntro(): Promise<void> {
-    console.log('completeIntro called');
     await Preferences.set({ key: 'intro_seen', value: 'true' });
-    console.log('Preference saved, navigating to home');
     await this.router.navigate(['/', 'home']);
 
   }

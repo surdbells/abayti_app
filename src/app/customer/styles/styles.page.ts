@@ -84,7 +84,6 @@ export class StylesPage implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
     });
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

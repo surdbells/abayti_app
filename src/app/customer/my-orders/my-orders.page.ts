@@ -159,12 +159,10 @@ export class MyOrdersPage implements OnInit {
 
   onView(order: Order) {
     // navigate to order details or modal
-    console.log('View order', order.id);
   }
 
   onReview(order: Order) {
     // open review modal / route
-    console.log('Review order', order.id);
   }
 
   getMoreItems() {

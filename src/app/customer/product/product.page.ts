@@ -159,7 +159,6 @@ export class ProductPage implements OnInit, OnDestroy {
     private i18n: I18nService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Back button handler');
     });
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

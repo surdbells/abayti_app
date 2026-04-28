@@ -271,11 +271,6 @@ export class CheckoutPage implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.getObject();
-    if (this.isOnline) {
-      console.log('You are online');
-    } else {
-      console.log('You are offline');
-    }
   }
 
   async getObject() {
@@ -417,11 +412,10 @@ export class CheckoutPage implements OnInit, OnDestroy {
               console.error('addListener failed', err);
             });
 
-          console.log(response);
         },
         error: (e) => {
           this.ui_controls.checking_out = false;
-          console.log('initiatePayment error', e.toString());
+          console.error('initiatePayment error', e.toString());
           return;
         },
         complete: () => {

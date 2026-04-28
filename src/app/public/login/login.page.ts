@@ -115,7 +115,6 @@ export class LoginPage implements OnInit, OnDestroy {
       if (!this.login.remember) {
         Preferences.remove({key: 'keep_session'});
       }
-      console.log(this.login);
       this.ui_controls.login_loading = true;
       this.networkService.post_request(this.login, GlobalComponent.UserLogin)
         .subscribe(({

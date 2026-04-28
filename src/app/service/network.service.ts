@@ -25,7 +25,7 @@ export class NetworkService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
+    console.error(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

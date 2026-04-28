@@ -64,7 +64,6 @@ export class SinglePage implements OnInit {
     private i18n: I18nService,
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
     });
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);

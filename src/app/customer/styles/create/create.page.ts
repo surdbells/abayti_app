@@ -135,7 +135,6 @@ export class CreatePage {
     private toast: AxNotificationService
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
-      console.log('Handler was called!');
     });
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -339,11 +338,8 @@ export class CreatePage {
       (product: selectedProduct) =>
         String(product.product_id) !== String(product_id)
     );
-    console.log('Style products:', this.create_style);
-    console.log('Selected products:', this.selectedProducts);
   }
 
   onToggleChange(event: any) {
-    console.log('Toggle value:', event.detail.checked);
   }
 }

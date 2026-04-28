@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { IonButton, IonContent, Platform } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../service/connection.service";
@@ -17,7 +17,7 @@ import {TranslatePipe} from "../translate.pipe";
   ],
   standalone: true
 })
-export class WelcomePage implements OnInit, OnDestroy {
+export class WelcomePage implements OnDestroy {
   isOnline = true;
   private sub: Subscription;
   constructor(
@@ -32,13 +32,6 @@ export class WelcomePage implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  ngOnInit() {
-    if (this.isOnline) {
-      console.log('You are online');
-    } else {
-      console.log('You are offline');
-    }
-  }
   ui_controls = {
     page_loading: false,
     login_loading: false,

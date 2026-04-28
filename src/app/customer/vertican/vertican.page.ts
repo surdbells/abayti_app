@@ -133,7 +133,6 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     if (!this.isOnline) {
-      console.log('You are offline');
     }
   }
 
@@ -557,11 +556,9 @@ export class VerticanPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSwipeLeft(index: number) {
-    console.log('Swipe left on product', index);
     this.nextImage(this.products[index].product_id);
   }
   onSwipeRight(index: number) {
-    console.log('Swipe right on product', index);
     this.prevImage(this.products[index].product_id);
   }
 
