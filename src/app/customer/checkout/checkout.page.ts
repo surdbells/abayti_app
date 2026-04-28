@@ -14,7 +14,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonModal,
   IonRefresher,
   IonRefresherContent,
   IonRow,
@@ -42,6 +41,7 @@ import {FormsModule} from "@angular/forms";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
@@ -67,10 +67,10 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonAccordionGroup,
     IonAccordion,
     FormsModule,
-    IonModal,
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ],
   standalone: true
 })
@@ -82,6 +82,8 @@ export class CheckoutPage implements OnInit, OnDestroy {
   categories: Labels[] = [];
   isOnline = true;
   isConfirmBilling = false;
+  isCityOpen = false;
+  isAreaOpen = false;
   private sub: Subscription;
   @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;
   constructor(

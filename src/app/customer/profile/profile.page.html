@@ -50,7 +50,7 @@
           <ion-row>
             <ion-col size="4" class="ion-no-padding">
               <label class="profile-field-label">{{ 'label_dial_code' | translate }}</label>
-              <ion-button expand="block" class="ion-margin-vertical" type="button" id="open-country-codes">
+              <ion-button expand="block" class="ion-margin-vertical" type="button" (click)="isCountryCodeOpen = true">
                 <span class="cc-flag">{{ selectedDial?.flag }}</span>
                 <span class="cc-code">{{ update.countryCode }}</span>
                 <ax-icon name="chevron-down" slot="end" [style.color]="'var(--ion-color-secondary)'"/>
@@ -84,51 +84,40 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <!-- Searchable country code modal (bottom sheet style) -->
-  <ion-modal  #codeModal trigger="open-country-codes" [initialBreakpoint]="0.8" [breakpoints]="[0, 0.5, 0.8, 1]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>{{ 'title_select_country_code' | translate }}</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="codeModal.dismiss()">{{ 'close' | translate }}</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
+  <!-- Searchable country code sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isCountryCodeOpen"
+    (didDismiss)="isCountryCodeOpen = false"
+    [snapPoints]="[0.8, 0.95]"
+    [initialSnap]="0">
 
-        <ion-toolbar>
-          <ion-searchbar
-            [(ngModel)]="codeSearch"
-            debounce="100"
-            placeholder="{{ 'placeholder_search_country_or_code' | translate }}"
-          ></ion-searchbar>
-        </ion-toolbar>
-      </ion-header>
+    <div ax-sheet-header class="cc-sheet__header">
+      <div class="cc-sheet__title-row">
+        <h2 class="cc-sheet__title">{{ 'title_select_country_code' | translate }}</h2>
+        <button type="button" class="cc-sheet__close" (click)="isCountryCodeOpen = false">
+          {{ 'close' | translate }}
+        </button>
+      </div>
+      <ion-searchbar
+        [(ngModel)]="codeSearch"
+        debounce="100"
+        placeholder="{{ 'placeholder_search_country_or_code' | translate }}">
+      </ion-searchbar>
+    </div>
 
-      <ion-content>
-        <ion-list>
-          @for (c of filteredDialCodes(); track c) {
-            <ion-item
-              button
-              detail
-              (click)="selectCode(c); codeModal.dismiss()">
-              <ion-label>
-                <div class="code-line">
-                  <span class="flag">{{ c.flag }}</span>
-                  <span class="name">{{ c.name }}</span>
-                  <span class="code">{{ c.code }}</span>
-                </div>
-              </ion-label>
-            </ion-item>
-          }
-        </ion-list>
+    <ul class="cc-list">
+      @for (c of filteredDialCodes(); track c) {
+        <li class="cc-list__item" (click)="selectCode(c); isCountryCodeOpen = false" role="button" tabindex="0">
+          <span class="cc-list__flag">{{ c.flag }}</span>
+          <span class="cc-list__name">{{ c.name }}</span>
+          <span class="cc-list__code">{{ c.code }}</span>
+        </li>
+      }
+    </ul>
 
-        @if (filteredDialCodes().length === 0) {
-          <ion-item>
-            <ion-label>{{ 'label_no_results' | translate }}</ion-label>
-          </ion-item>
-        }
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+    @if (filteredDialCodes().length === 0) {
+      <div class="cc-list__empty">{{ 'label_no_results' | translate }}</div>
+    }
+  </ax-bottom-sheet>
 </ion-content>
 

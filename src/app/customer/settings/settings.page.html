@@ -61,7 +61,7 @@
           <i-lucide [img]="icons.chevronRight" [size]="20" class="item-arrow"></i-lucide>
         </button>
 
-        <button type="button" class="settings-item" id="open-location-modal">
+        <button type="button" class="settings-item" (click)="isLocationOpen = true">
           <div class="item-icon">
             <i-lucide [img]="icons.navigation" [size]="20"></i-lucide>
           </div>
@@ -195,44 +195,46 @@
     </div>
   </div>
 
-  <!-- Location Modal -->
-  <ion-modal trigger="open-location-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4, 0.6]">
-    <ng-template>
-      <div class="modal-content" [class.dark-mode]="isDarkMode">
-        <div class="modal-header">
-          <h2 class="modal-title">{{ 'update_location' | translate }}</h2>
-          <button type="button" class="modal-close" (click)="cancel()">
-            <i-lucide [img]="icons.x" [size]="24"></i-lucide>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="input-group">
-            <label class="input-label">{{ 'your_location' | translate }}</label>
-            <div class="input-wrapper">
-              <i-lucide [img]="icons.mapPin" [size]="20" class="input-icon"></i-lucide>
-              <input
-                type="text"
-                class="settings-input"
-                [placeholder]="'enter_location' | translate"
-                [(ngModel)]="u_location.location"
-                name="location">
-            </div>
-          </div>
-          <button
-            type="button"
-            class="save-btn"
-            [class.loading]="ui_controls.updating_location"
-            [disabled]="ui_controls.updating_location"
-            (click)="update_location()">
-            @if(ui_controls.updating_location) {
-              <span class="btn-loader"></span>
-            } @else {
-              <i-lucide [img]="icons.check" [size]="20"></i-lucide>
-              <span>{{ 'save_changes' | translate }}</span>
-            }
-          </button>
+  <!-- Location sheet -->
+  <ax-bottom-sheet
+    [isOpen]="isLocationOpen"
+    (didDismiss)="isLocationOpen = false"
+    [snapPoints]="[0.5, 0.85]"
+    [initialSnap]="0">
+
+    <div ax-sheet-header class="modal-header">
+      <h2 class="modal-title">{{ 'update_location' | translate }}</h2>
+      <button type="button" class="modal-close" (click)="cancel()">
+        <i-lucide [img]="icons.x" [size]="24"></i-lucide>
+      </button>
+    </div>
+
+    <div class="modal-body" [class.dark-mode]="isDarkMode">
+      <div class="input-group">
+        <label class="input-label">{{ 'your_location' | translate }}</label>
+        <div class="input-wrapper">
+          <i-lucide [img]="icons.mapPin" [size]="20" class="input-icon"></i-lucide>
+          <input
+            type="text"
+            class="settings-input"
+            [placeholder]="'enter_location' | translate"
+            [(ngModel)]="u_location.location"
+            name="location">
         </div>
       </div>
-    </ng-template>
-  </ion-modal>
+      <button
+        type="button"
+        class="save-btn"
+        [class.loading]="ui_controls.updating_location"
+        [disabled]="ui_controls.updating_location"
+        (click)="update_location()">
+        @if(ui_controls.updating_location) {
+          <span class="btn-loader"></span>
+        } @else {
+          <i-lucide [img]="icons.check" [size]="20"></i-lucide>
+          <span>{{ 'save_changes' | translate }}</span>
+        }
+      </button>
+    </div>
+  </ax-bottom-sheet>
 </ion-content>

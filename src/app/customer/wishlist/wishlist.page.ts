@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import {
@@ -10,7 +10,6 @@ import {
   IonGrid,
   IonHeader,
   IonLabel,
-  IonModal,
   IonRow,
   IonTabBar,
   IonTabButton,
@@ -34,6 +33,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.page.html',
@@ -49,7 +49,6 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     RouterLink,
     IonButton,
     IonCol,
-    IonModal,
     IonRow,
     IonGrid,
     IonFooter,
@@ -60,6 +59,7 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class WishlistPage implements OnInit, OnDestroy {
@@ -68,9 +68,9 @@ export class WishlistPage implements OnInit, OnDestroy {
   /** Tracks per-wishlist-item image load state for the m6d skeleton overlay */
   imageLoaded: { [key: number]: boolean } = {};
   isOnline = true;
+  isAddLabelOpen = false;
   private sub: Subscription;
   private backSub?: Subscription;
-  @ViewChild(IonModal) modal!: IonModal;
   constructor(
     private nav: NavController,
     private net: ConnectionService,
@@ -173,7 +173,7 @@ export class WishlistPage implements OnInit, OnDestroy {
       }))
   }
   cancel() {
-    this.modal.dismiss(null, 'cancel').then(r => console.log(r));
+    this.isAddLabelOpen = false;
   }
   error_notification(message: string) {
     this.toast.error(message, {

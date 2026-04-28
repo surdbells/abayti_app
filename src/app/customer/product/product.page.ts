@@ -44,6 +44,7 @@ import { Products } from "../../class/products";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 export interface StoreMeasurement {
   id: number;
   token: string;
@@ -94,16 +95,17 @@ export interface ColorOption {
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class ProductPage implements OnInit, OnDestroy {
   store_measurement: StoreMeasurement[] = [];
   product: Products[] = [];
   @ViewChild('swiper', { static: true }) swiperEl!: ElementRef<HTMLElement>;
-  @ViewChild(IonModal) modal!: IonModal;
   index = signal(0);
   isOnline = true;
   isMeasureOpen = false;
+  isSizeGuideOpen = false;
   itemExists = false;
   private sub: Subscription | null = null;
   selectedHex = "";

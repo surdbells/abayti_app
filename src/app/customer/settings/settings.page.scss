@@ -396,27 +396,16 @@
 }
 
 /* ========================================
-   MODAL STYLES
+   LOCATION SHEET STYLES (ax-bottom-sheet)
    ======================================== */
-.modal-content {
-  padding: 24px;
-  background: var(--bg-primary);
-  height: 100%;
-  
-  &.dark-mode {
-    --bg-primary: #0D0D0D;
-    --bg-secondary: #1A1A1A;
-    --text-primary: #FFFFFF;
-    --text-secondary: #A1A1AA;
-    --border-color: #2D2D2D;
-  }
-}
+/* modal-header is slotted as [ax-sheet-header]; modal-body is the
+   sheet's main content. The old .modal-content wrapper is gone. */
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  padding: 16px 20px 8px;
 }
 
 .modal-title {
@@ -437,11 +426,11 @@
   justify-content: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  
+
   i-lucide {
     color: var(--text-primary);
   }
-  
+
   &:active {
     opacity: 0.7;
   }
@@ -451,6 +440,15 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 8px 4px 16px;
+
+  &.dark-mode {
+    --bg-primary: #0D0D0D;
+    --bg-secondary: #1A1A1A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A1A1AA;
+    --border-color: #2D2D2D;
+  }
 }
 
 /* ========================================

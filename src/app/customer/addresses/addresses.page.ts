@@ -7,10 +7,6 @@ import {
   IonCol,
   IonContent,
   IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonModal,
   IonRow,
   IonTitle,
   IonToolbar, NavController, Platform
@@ -31,6 +27,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-addresses',
   templateUrl: './addresses.page.html',
@@ -47,15 +44,12 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonCol,
     IonRow,
     IonButton,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonModal,
     CartIconComponent,
     TranslatePipe,
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class AddressesPage implements OnInit, OnDestroy {
@@ -63,6 +57,8 @@ export class AddressesPage implements OnInit, OnDestroy {
   city: City[] = [];
   area: Area[] = [];
   isOnline = true;
+  isCityOpen = false;
+  isAreaOpen = false;
   private sub: Subscription;
   private backSub?: Subscription;
   constructor(

@@ -212,3 +212,11 @@ ion-content.page-bg {
   align-items: center;
   padding: 1rem 0;
 }
+
+/* Add-new-category form inside the bottom sheet */
+.add-label-form {
+  padding: 8px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

@@ -7,7 +7,7 @@ import {
     IonCard,
     IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol,
     IonContent,
-    IonHeader, IonItem, IonLabel, IonList, IonModal, IonRow, IonSearchbar,
+    IonHeader, IonRow, IonSearchbar,
     IonTitle,
     IonToolbar, NavController, Platform
 } from '@ionic/angular/standalone';
@@ -26,6 +26,7 @@ import {TranslatePipe} from "../../translate.pipe";
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -44,10 +45,6 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     IonCol,
     IonRow,
     IonButton,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonModal,
     IonSearchbar,
     IonCardHeader,
     IonCardSubtitle,
@@ -56,11 +53,13 @@ import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
     AxIconComponent,
     AxLoaderComponent,
     AxTextFieldComponent,
+    AxBottomSheetComponent,
   ]
 })
 export class ProfilePage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];
   isOnline = true;
+  isCountryCodeOpen = false;
   private sub: Subscription;
   private backSub?: Subscription;
   constructor(

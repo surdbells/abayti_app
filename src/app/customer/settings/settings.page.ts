@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent,
-  IonModal,
   NavController,
   Platform,
   ActionSheetController, IonFooter, IonTabBar, IonTabButton, IonLabel
@@ -45,6 +44,7 @@ import { GlobalComponent } from '../../global-component';
 import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
+import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -54,18 +54,18 @@ import { AxNotificationService } from '../../shared/ax-mobile/notification';
     CommonModule,
     FormsModule,
     IonContent,
-    IonModal,
     LucideAngularModule,
     TranslatePipe,
     LanguageSwitcherComponent,
     IonFooter,
     IonTabBar,
     IonTabButton,
-    IonLabel
+    IonLabel,
+    AxBottomSheetComponent,
   ]
 })
 export class SettingsPage implements OnInit, OnDestroy {
-  @ViewChild(IonModal) modal!: IonModal;
+  isLocationOpen = false;
 
   // Lucide Icons
   icons = {
@@ -290,7 +290,7 @@ export class SettingsPage implements OnInit, OnDestroy {
   }
 
   cancel(): void {
-    this.modal?.dismiss(null, 'cancel');
+    this.isLocationOpen = false;
   }
 
   // Account Actions

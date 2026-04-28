@@ -18,7 +18,7 @@
 
       <div class="categories-row">
         <!-- Add new category card -->
-        <button id="add_wish_list" class="category-card category-card--add" type="button" aria-label="{{ 'heading_new_category' | translate }}">
+        <button (click)="isAddLabelOpen = true" class="category-card category-card--add" type="button" aria-label="{{ 'heading_new_category' | translate }}">
           <span class="category-card__icon-wrap category-card__icon-wrap--add">
             <ax-icon name="plus" size="md"></ax-icon>
           </span>
@@ -101,50 +101,38 @@
     </div>
   }
 
-  <!-- Add new category modal -->
+  <!-- Add new category sheet -->
   @if (!ui_controls.is_loading) {
-    <ion-modal [backdropDismiss]="false" #wishlistModal trigger="add_wish_list" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.3, 0.5, 0.8, 1]">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>{{ 'button_add_new' | translate }}</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="wishlistModal.dismiss()">{{ 'close' | translate }}</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <ion-row class="ion-padding-bottom">
-            @if (!ui_controls.is_creating) {
-              <ion-col>
-                <ax-text-field
-                  [label]="'label_category_name' | translate"
-                  type="text"
-                  [maxlength]="25"
-                  [required]="true"
-                  [(ngModel)]="add_label.label_name"
-                  name="label_name">
-                </ax-text-field>
-              </ion-col>
-            }
-            @if (!ui_controls.is_creating) {
-              <ion-button (click)="add_wishlist_label()" expand="block" class="ion-margin-vertical" type="button">
-                {{ 'button_add' | translate }}
-              </ion-button>
-            }
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              @if (ui_controls.is_creating) {
-                <div class="loader-row">
-                  <ax-loader></ax-loader>
-                </div>
-              }
-            </ion-col>
-          </ion-row>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
+    <ax-bottom-sheet
+      [isOpen]="isAddLabelOpen"
+      (didDismiss)="isAddLabelOpen = false"
+      [snapPoints]="[0.5, 0.9]"
+      [initialSnap]="0"
+      [backdropDismiss]="false"
+      [title]="'button_add_new' | translate">
+
+      <div class="add-label-form">
+        @if (!ui_controls.is_creating) {
+          <ax-text-field
+            [label]="'label_category_name' | translate"
+            type="text"
+            [maxlength]="25"
+            [required]="true"
+            [(ngModel)]="add_label.label_name"
+            name="label_name">
+          </ax-text-field>
+
+          <ion-button (click)="add_wishlist_label()" expand="block" class="ion-margin-vertical" type="button">
+            {{ 'button_add' | translate }}
+          </ion-button>
+        }
+        @if (ui_controls.is_creating) {
+          <div class="loader-row">
+            <ax-loader></ax-loader>
+          </div>
+        }
+      </div>
+    </ax-bottom-sheet>
   }
 </ion-content>
 

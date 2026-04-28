@@ -128,7 +128,7 @@
           <div class="size-section">
                 <div class="section-label">
                   <span class="label-text">{{ 'size' | translate }}</span>
-                  <button type="button" class="size-guide-link" id="size_guide">
+                  <button type="button" class="size-guide-link" (click)="isSizeGuideOpen = true">
                     <ax-icon name="ruler"></ax-icon>
                     {{ 'text_size_chart' | translate }}
                   </button>
@@ -218,59 +218,53 @@
     </div>
   }
 
-  <!-- Size Guide Modal -->
+  <!-- Size Guide sheet -->
   @if(!ui_controls.is_loading){
-    <ion-modal trigger="size_guide"  [initialBreakpoint]="0.55" [breakpoints]="[0, 0.4, 0.55, 0.8]">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>{{ 'title_size_guide' | translate }}</ion-title>
-            <ion-buttons slot="end">
-              <ion-button type="button" (click)="modal.dismiss()">{{ 'close' | translate }}</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <div class="size-chart">
-            @if (store_measurement.length){
-              <div class="chart-row header">
-                <span>{{ 'label_size' | translate }}</span>
-                <span>{{ 'label_bust' | translate }}</span>
-                <span>{{ 'label_waist' | translate }}</span>
-                <span>{{ 'label_hip' | translate }}</span>
-                <span>{{ 'label_length' | translate }}</span>
-                <span>{{ 'label_neck' | translate }}</span>
-                <span>{{ 'label_arm' | translate }}</span>
-                <span>{{ 'label_armhole' | translate }}</span>
-                <span>{{ 'label_shoulder' | translate }}</span>
-              </div>
-            }
-            @for(item of store_measurement; track $index){
-              <div class="chart-row">
-                <span>{{ item.size }}</span>
-                <span>{{ item.bust }}</span>
-                <span>{{ item.waist }}</span>
-                <span>{{ item.hip }}</span>
-                <span>{{ item.length }}</span>
-                <span>{{ item.neck }}</span>
-                <span>{{ item.arm }}</span>
-                <span>{{ item.armhole }}</span>
-                <span>{{ item.shoulder }}</span>
-              </div>
-              } @empty {
-              <ion-card>
-                <ion-row>
-                  <ion-col>
-                    <ion-text class="ion-text-center ion-margin ion-padding">{{ 'text_no_size_guide' | translate }}</ion-text>
-                  </ion-col>
-                </ion-row>
-              </ion-card>
+    <ax-bottom-sheet
+      [isOpen]="isSizeGuideOpen"
+      (didDismiss)="isSizeGuideOpen = false"
+      [snapPoints]="[0.55, 0.9]"
+      [initialSnap]="0"
+      [title]="'title_size_guide' | translate">
 
-              }
+      <div class="size-chart">
+        @if (store_measurement.length){
+          <div class="chart-row header">
+            <span>{{ 'label_size' | translate }}</span>
+            <span>{{ 'label_bust' | translate }}</span>
+            <span>{{ 'label_waist' | translate }}</span>
+            <span>{{ 'label_hip' | translate }}</span>
+            <span>{{ 'label_length' | translate }}</span>
+            <span>{{ 'label_neck' | translate }}</span>
+            <span>{{ 'label_arm' | translate }}</span>
+            <span>{{ 'label_armhole' | translate }}</span>
+            <span>{{ 'label_shoulder' | translate }}</span>
           </div>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
+        }
+        @for(item of store_measurement; track $index){
+          <div class="chart-row">
+            <span>{{ item.size }}</span>
+            <span>{{ item.bust }}</span>
+            <span>{{ item.waist }}</span>
+            <span>{{ item.hip }}</span>
+            <span>{{ item.length }}</span>
+            <span>{{ item.neck }}</span>
+            <span>{{ item.arm }}</span>
+            <span>{{ item.armhole }}</span>
+            <span>{{ item.shoulder }}</span>
+          </div>
+          } @empty {
+          <ion-card>
+            <ion-row>
+              <ion-col>
+                <ion-text class="ion-text-center ion-margin ion-padding">{{ 'text_no_size_guide' | translate }}</ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+
+          }
+      </div>
+    </ax-bottom-sheet>
   }
 
   <!-- Measurement Modal -->
