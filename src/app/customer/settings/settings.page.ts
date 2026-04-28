@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 import { ConnectionService } from '../../service/connection.service';
 import { NetworkService } from '../../service/network.service';
 import { GlobalComponent } from '../../global-component';
+import { I18nService } from '../../i18n.service';
 import { TranslatePipe } from '../../translate.pipe';
 import { LanguageSwitcherComponent } from '../../language-switcher.component';
 import { AxNotificationService } from '../../shared/ax-mobile/notification';
@@ -92,7 +93,8 @@ export class SettingsPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private net: ConnectionService,
     private networkService: NetworkService,
-    private toast: AxNotificationService
+    private toast: AxNotificationService,
+    private i18n: I18nService
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -137,7 +139,7 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   toggleNotifications(): void {
     Preferences.set({ key: 'notifications_enabled', value: String(this.notificationsEnabled) });
-    this.showSuccess(this.notificationsEnabled ? 'Notifications enabled' : 'Notifications disabled');
+    this.showSuccess(this.i18n.t(this.notificationsEnabled ? 'text_notifications_enabled' : 'text_notifications_disabled'));
   }
 
   onAvatarError(event: Event): void {
@@ -211,12 +213,12 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   async update_location(): Promise<void> {
     if (!this.isOnline) {
-      this.showError('You are not online, check your connection');
+      this.showError(this.i18n.t('text_offline_check_connection'));
       return;
     }
 
     if (!this.u_location.location.trim()) {
-      this.showError('Location must be set');
+      this.showError(this.i18n.t('text_location_required'));
       return;
     }
 
@@ -236,13 +238,13 @@ export class SettingsPage implements OnInit, OnDestroy {
             this.showSuccess(response.message);
           } else {
             this.ui_controls.updating_location = false;
-            this.showError(response.message || 'Failed to update location');
+            this.showError(response.message || this.i18n.t('text_failed_to_update_location'));
           }
         },
         error: (e) => {
           console.error(e);
           this.ui_controls.updating_location = false;
-          this.showError('Failed to update location');
+          this.showError(this.i18n.t('text_failed_to_update_location'));
         }
       });
   }
@@ -257,10 +259,10 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   async signOut(): Promise<void> {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure you want to sign out?',
+      header: this.i18n.t('confirm_sign_out'),
       buttons: [
         {
-          text: 'Sign Out',
+          text: this.i18n.t('button_sign_out'),
           role: 'destructive',
           handler: () => {
             Preferences.remove({ key: 'keep_session' });
@@ -269,7 +271,7 @@ export class SettingsPage implements OnInit, OnDestroy {
           }
         },
         {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel'
         }
       ]
@@ -279,17 +281,17 @@ export class SettingsPage implements OnInit, OnDestroy {
 
   async confirmDelete(): Promise<void> {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Delete your account? This action cannot be undone.',
+      header: this.i18n.t('delete_account_action_header'),
       buttons: [
         {
-          text: 'Delete Account',
+          text: this.i18n.t('delete_account'),
           role: 'destructive',
           handler: () => {
-            this.showSuccess('Your account has been scheduled for removal');
+            this.showSuccess(this.i18n.t('text_account_scheduled_for_removal'));
           }
         },
         {
-          text: 'Cancel',
+          text: this.i18n.t('cancel'),
           role: 'cancel'
         }
       ]
