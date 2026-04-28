@@ -51,6 +51,7 @@
   "text_code_validated": "تم التحقق من الرمز بنجاح.",
   "text_measurement_confirmed": "تم تأكيد القياسات بنجاح.",
   "text_unable_to_save_measurement": "تعذّر حفظ القياسات.",
+  "text_unable_to_save_billing_address": "تعذّر حفظ عنوان الفوترة.",
   "text_otp_required": "رمز التحقق مطلوب للمتابعة.",
   "text_invalid_email_detailed": "البريد الإلكتروني الذي أدخلته غير صالح. يرجى التحقق من إدخال عنوان بريد إلكتروني صحيح.",
   "text_google_signin_unavailable": "تسجيل الدخول عبر Google غير متوفر حاليًا.",

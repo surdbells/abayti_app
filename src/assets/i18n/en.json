@@ -51,6 +51,7 @@
   "text_code_validated": "Code validated successfully.",
   "text_measurement_confirmed": "Measurement confirmed successfully.",
   "text_unable_to_save_measurement": "Unable to save measurement.",
+  "text_unable_to_save_billing_address": "Unable to save billing address.",
   "text_otp_required": "OTP code is required to proceed.",
   "text_invalid_email_detailed": "The email you entered is invalid. Check and ensure you enter a correct email address.",
   "text_google_signin_unavailable": "Google sign in is currently unavailable.",

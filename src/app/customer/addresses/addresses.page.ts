@@ -22,6 +22,7 @@ import {Billing} from "../../class/billing";
 import {City} from "../../class/city";
 import {Area} from "../../class/area";
 import {CartIconComponent} from "../../cart-icon.component";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
@@ -68,6 +69,7 @@ export class AddressesPage implements OnInit, OnDestroy {
     private router: Router,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -192,19 +194,19 @@ export class AddressesPage implements OnInit, OnDestroy {
       this.update.id = this.single_user.id;
       this.update.token = this.single_user.token;
       if (this.update.city.length == 0) {
-        this.error_notification("City is require");
+        this.error_notification(this.i18n.t('text_city_required'));
         return;
       }
       if (this.update.area.length == 0) {
-        this.error_notification("Area is require");
+        this.error_notification(this.i18n.t('text_area_required'));
         return;
       }
       if (this.update.street.length == 0) {
-        this.error_notification("Street is required");
+        this.error_notification(this.i18n.t('text_street_required'));
         return;
       }
       if (this.update.villa_number.length == 0) {
-        this.error_notification("Villa number is required is required");
+        this.error_notification(this.i18n.t('text_villa_number_required'));
         return;
       }
       this.ui_controls.is_updating = true;
@@ -235,11 +237,11 @@ export class AddressesPage implements OnInit, OnDestroy {
           },
           error: () => {
             this.ui_controls.is_updating = false;
-            this.error_notification("unable to save billing address");
+            this.error_notification(this.i18n.t('text_unable_to_save_billing_address'));
           }
         }))
     }else {
-      this.error_notification("You are not online, check your connection")
+      this.error_notification(this.i18n.t('text_offline_check_connection'))
     }
   }
   user_wishlist() {
