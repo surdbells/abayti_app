@@ -27,14 +27,14 @@
     @if (!ui_controls.is_loading) {
       <ion-card class="cart-card">
         <div class="card-row">
-          <div (click)="open_product(cart.product_id)" class="img-wrap" role="button">
+          <div (click)="open_product(cart.product)" class="img-wrap" role="button">
             <img loading="lazy" class="cart-img" src="{{ cart.product_image }}" alt="{{ cart.product_name }}" />
           </div>
           <div class="content-wrap">
             <div class="row row-top">
-              <div (click)="open_product(cart.product_id)" class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
+              <div (click)="open_product(cart.product)" class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
               <div class="icons">
-                <ion-button (click)="startAddToCloset(cart.product_id, cart.product_name, cart.product_image)" fill="clear" size="small" class="icon-btn icon-btn--save" aria-label="Save to closet">
+                <ion-button (click)="startAddToCloset(cart.product, cart.product_name, cart.product_image)" fill="clear" size="small" class="icon-btn icon-btn--save" aria-label="Save to closet">
                   <ax-icon name="heart-plus" />
                 </ion-button>
                 <ion-button (click)="startRemove(cart.item, cart.product_name)" fill="clear" size="small" class="icon-btn icon-btn--remove" aria-label="Remove">
@@ -42,12 +42,12 @@
                 </ion-button>
               </div>
             </div>
-            <div (click)="open_product(cart.product_id)" class="row row-mid">
+            <div (click)="open_product(cart.product)" class="row row-mid">
               <div class="desc" [innerHTML]="cart.description"></div>
             </div>
             <div class="row row-bottom">
               <div class="left-meta">
-                <div (click)="open_product(cart.product_id)" class="price">
+                <div (click)="open_product(cart.product)" class="price">
                   Ð{{ cart.price_formatted }}
                 </div>
               </div>
