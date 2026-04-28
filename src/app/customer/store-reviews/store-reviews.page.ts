@@ -3,9 +3,9 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons, IonCard, IonCardContent,
+  IonButtons,
   IonContent,
-  IonHeader, IonText,
+  IonHeader,
   IonTitle,
   IonToolbar,
   NavController,
@@ -29,7 +29,7 @@ import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
   templateUrl: './store-reviews.page.html',
   styleUrls: ['./store-reviews.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButton, IonButtons, IonCard, IonCardContent, IonText, TranslatePipe, AxIconComponent, AxLoaderComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButton, IonButtons, TranslatePipe, AxIconComponent, AxLoaderComponent]
 })
 export class StoreReviewsPage implements OnInit, OnDestroy {
   reviews: Reviews[] = [];

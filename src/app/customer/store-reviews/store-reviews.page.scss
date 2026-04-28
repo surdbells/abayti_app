@@ -1,112 +1,142 @@
-:host {
-  /* Theme tokens – tweak freely */
-  --profile-grad-start: #792108;
-  --profile-grad-end: #BA2E06;
-  --profile-surface: #ffffff;
-  --profile-bg: #fbf4ef;            /* soft cream backdrop */
-  --profile-text: #231f1e;
-  --profile-muted: #6e6461;
-  --profile-ring: rgba(255, 255, 255, 0.5);
-  --profile-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
-  --radius-xl: 24px;
-  --radius-2xl: 28px;
-  --radius-3xl: 36px;
-}
-.billing-address-card.compact {
-  border-radius: 0.75rem;
-  box-shadow: var(--ion-box-shadow);
-  --gap: 0.5rem;
+// store-reviews.page — M2 token migration (M35 / Tier 4)
+// Reviewer + star rating list. Loops the rating 1..5 instead of
+// duplicating @if blocks. animate.css dropped. Dead :host theme
+// vars + Taiga tui-icon descendant rules removed.
 
-  ion-card-content {
-    padding: 0.9rem 1rem;
-  }
-  /* ======= Rounded sheet ======= */
-  .sheet {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: clamp(12px, 3vw, 20px);
-    display: grid;
-    gap: 16px;
-  }
-  .row-top {
-    display: flex;
-    align-items: center;
-    gap: var(--gap);
-    margin-bottom: 0.35rem;
-
-    tui-icon {
-      width: 1rem; height: 1rem; opacity: 0.9;
-    }
-    .name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      line-height: 1.1;
-      letter-spacing: .2px;
-    }
-  }
-
-  .contact {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
-
-    .item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.85rem;
-      color: var(--ion-color-medium);
-
-      tui-icon { width: 0.95rem; height: 0.95rem; }
-      .value { color: inherit; text-decoration: none; }
-    }
-
-    .dot {
-      color: var(--ion-color-medium);
-      user-select: none;
-      line-height: 1;
-      margin: 0 .1rem;
-    }
-  }
-
-  .address-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.82rem;
-      padding: 0.25rem 0.5rem;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 999px;
-      background: var(--ion-color-light, #f6f6f6);
-
-      tui-icon { width: 0.9rem; height: 0.9rem; opacity: 0.9; }
-      span { white-space: nowrap; }
-    }
-  }
-}
-
-
-
-/* Page background */
-ion-content.profile-sheet { --background: var(--bg); }
-
-/* Header */
-.sheet-header {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
+.reviews-list {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  margin-bottom: 10px;
+  padding: 12px 0;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-ion-title {
-  color: var(--profile-grad-start) !important;
+// =========================================================
+// Review card
+// =========================================================
+
+.review-card {
+  background: var(--ax-color-bg-surface);
+  border-radius: var(--ax-radius-lg, 16px);
+  border: 1px solid var(--ax-color-border-subtle, rgba(46, 36, 28, 0.06));
+  box-shadow: 0 4px 12px rgba(46, 36, 28, 0.04);
+  padding: 14px 16px;
+}
+
+.review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.reviewer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ax-color-bg-brand-subtle);
+  color: var(--ax-color-text-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reviewer-name {
+  font-family: var(--ax-font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ax-color-text-primary);
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-comment {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ax-color-text-secondary);
+}
+
+// =========================================================
+// Star rating
+// (loop renders 5 stars, filled ones get the gold token)
+// =========================================================
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.rating__star {
+  color: var(--ax-color-text-tertiary);
+}
+
+.rating__star--filled {
+  color: #d6a800; // gold accent (matches vendor-reviews / store-dashboard)
+}
+
+// =========================================================
+// Empty state
+// =========================================================
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 64px 24px 48px;
+  gap: 12px;
+
+  .empty-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--ax-color-bg-brand-subtle);
+    color: var(--ax-color-text-brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: var(--ax-font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ax-color-text-primary);
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--ax-color-text-secondary);
+    margin: 0;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+}
+
+// =========================================================
+// Loader
+// =========================================================
+
+.loader-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
 }
