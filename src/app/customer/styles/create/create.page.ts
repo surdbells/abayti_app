@@ -5,7 +5,7 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {ConnectionService} from "../../../service/connection.service";
 import {BlockerService} from "../../../blocker.service";
-import {ActionSheetController, InfiniteScrollCustomEvent, ModalController} from "@ionic/angular";
+import {InfiniteScrollCustomEvent} from "@ionic/angular";
 import {NetworkService} from "../../../service/network.service";
 import {AxNotificationService} from '../../../shared/ax-mobile/notification';
 import {
@@ -131,12 +131,10 @@ export class CreatePage implements OnInit {
   private sub: Subscription;
   constructor(
     private router: Router,
-    private modalCtrl: ModalController,
     private platform: Platform,
     private nav: NavController,
     private net: ConnectionService,
     private blocker: BlockerService,
-    private actionSheetCtrl: ActionSheetController,
     private networkService: NetworkService,
     private toast: AxNotificationService
   ) {

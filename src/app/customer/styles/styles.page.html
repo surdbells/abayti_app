@@ -100,10 +100,10 @@
           <div class="card-images">
             <!-- Main Image -->
             <div class="main-img-wrap">
-              <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-0']">
-                <div class="skeleton-shimmer"></div>
-              </div>
               @if(style.products[0]){
+                <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-0']">
+                  <div class="skeleton-shimmer"></div>
+                </div>
                 <img
                   loading="lazy"
                   decoding="async"
@@ -113,16 +113,18 @@
                   (load)="onImageLoad(style.id, 0)"
                   (error)="onImageError(style.id, 0)"
                   alt="{{style.style_name}}">
+              } @else {
+                <div class="empty-tile" aria-hidden="true"></div>
               }
             </div>
 
             <!-- Sub Images -->
             <div class="sub-images">
               <div class="sub-img-wrap">
-                <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-1']">
-                  <div class="skeleton-shimmer"></div>
-                </div>
                 @if(style.products[1]){
+                  <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-1']">
+                    <div class="skeleton-shimmer"></div>
+                  </div>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -132,13 +134,15 @@
                     (load)="onImageLoad(style.id, 1)"
                     (error)="onImageError(style.id, 1)"
                     alt="{{style.style_name}}">
+                } @else {
+                  <div class="empty-tile" aria-hidden="true"></div>
                 }
               </div>
               <div class="sub-img-wrap">
-                <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-2']">
-                  <div class="skeleton-shimmer"></div>
-                </div>
                 @if(style.products[2]){
+                  <div class="img-skeleton" [class.hidden]="imageLoaded[style.id + '-2']">
+                    <div class="skeleton-shimmer"></div>
+                  </div>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -148,6 +152,8 @@
                     (load)="onImageLoad(style.id, 2)"
                     (error)="onImageError(style.id, 2)"
                     alt="{{style.style_name}}">
+                } @else {
+                  <div class="empty-tile" aria-hidden="true"></div>
                 }
               </div>
             </div>
