@@ -93,40 +93,15 @@
 // Empty state
 // =========================================================
 
+/* M38/M48: layout covered by global .empty-state. This page uses Tier 4
+   sizing with asymmetric padding. */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 64px 24px 48px;
-  gap: 12px;
-
-  .empty-icon-wrap {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: var(--ax-color-bg-brand-subtle);
-    color: var(--ax-color-text-brand);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 8px;
-  }
+  --empty-state-padding: 64px 24px 48px;
+  --empty-state-icon-size: 72px;
+  --empty-state-icon-margin-bottom: 8px;
 
   h2 {
-    font-family: var(--ax-font-display);
-    font-size: 18px;
     font-weight: 700;
-    color: var(--ax-color-text-primary);
-    margin: 0;
-  }
-
-  p {
-    font-size: 14px;
-    color: var(--ax-color-text-secondary);
-    margin: 0;
-    max-width: 280px;
-    line-height: 1.5;
   }
 }
 
