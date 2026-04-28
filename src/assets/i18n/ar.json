@@ -270,6 +270,8 @@
   "text_size_chart": "جدول المقاسات",
   "delivery_info": "تأكيد معلومات التوصيل.",
   "order_summary": "ملخص الطلب",
+  "price": "السعر",
+  "order_empty_subtitle": "قدم طلبك الأول لاكتشاف منتجات رائعة وابدأ في ملء سلتك.",
   "messages": "الرسائل",
   "select_vendor_to_chat": "اختر متجرًا لعرض محادثاتك",
   "select_order_to_chat": "اختر طلبًا لبدء المحادثة",

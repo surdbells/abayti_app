@@ -275,6 +275,8 @@
   "delivery_info": "Confirm delivery information.",
   "delivery_time_multiple": "Delivery times may vary for orders from multiple stores.",
   "order_summary": "Order summary",
+  "price": "Price",
+  "order_empty_subtitle": "Place your first order to discover amazing products and start filling your cart.",
   "show_all": "Show All",
   "show_more": "Show more",
   "messages": "Messages",

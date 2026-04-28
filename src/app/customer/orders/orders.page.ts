@@ -1,22 +1,20 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   IonAvatar,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent, IonChip,
+  IonChip,
   IonContent,
   IonFooter,
   IonHeader,
-  IonItem,
   IonLabel,
-  IonList,
   IonRefresher,
   IonRefresherContent,
   IonTabBar,
-  IonTabButton, IonText,
+  IonTabButton,
   IonTitle,
   IonToolbar,
   NavController,
@@ -41,7 +39,7 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, FormsModule, IonButtons, IonCard, IonCardContent, IonRefresher, IonRefresherContent, RouterLink, IonButton, IonFooter, IonLabel, IonTabBar, IonTabButton, IonItem, IonList, IonText, IonChip, IonAvatar, TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonRefresher, IonRefresherContent, RouterLink, IonButton, IonFooter, IonLabel, IonTabBar, IonTabButton, IonChip, IonAvatar, TranslatePipe, AxIconComponent, AxLoaderComponent, AxBottomSheetComponent]
 })
 export class OrdersPage implements OnInit, OnDestroy {
   orders: Cart[] = [];

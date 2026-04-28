@@ -23,117 +23,102 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
   @for (cart of orders; track cart.id){
     @if (!ui_controls.is_loading){
-      <ion-card class="cart-card">
-        <div (click)="open_details(cart.product_id)" class="card-row">
-          <div class="img-wrap" role="button" tabindex="0">
-            <img loading="lazy"  style="object-fit: cover; object-position: top center" src="{{ cart.product_image }}" alt="test" />
+      <div class="order-card" (click)="open_details(cart.product_id)" role="button" tabindex="0">
+        <div class="order-row">
+          <div class="img-wrap">
+            <img loading="lazy" src="{{ cart.product_image }}" alt="{{ cart.product_name }}" />
           </div>
           <div class="content-wrap">
             <div class="row row-top">
               <div class="title" title="{{ cart.product_name }}">{{ cart.product_name }}</div>
-              <div class="price">
-                Ð{{ cart.price_formatted }}
-              </div>
+              <div class="price">Ð{{ cart.price_formatted }}</div>
             </div>
-            <!-- Row 2: description (now single line) -->
             <div class="row row-mid">
               <div class="desc" [innerHTML]="cart.description"></div>
             </div>
             <div class="row row-bottom">
-              <div class="left-meta">
-                <div class="price">
-                  {{ cart.color }}
-                </div>
-
+              <div class="meta-pair">
+                <span class="meta-color">{{ cart.color }}</span>
+                <span class="meta-divider"></span>
+                <span class="meta-size">{{ cart.size }}</span>
               </div>
-              <div class="size"><strong>{{ cart.size }}</strong></div>
-              <div class="qty-controls" aria-label="Quantity controls">
-                <ion-chip size="small" color="success">{{ cart.status }}</ion-chip>
-              </div>
+              <span class="status-pill" [ngClass]="'status-pill--' + (cart.status || '').toLowerCase()">{{ cart.status }}</span>
             </div>
           </div>
         </div>
-      </ion-card>
+      </div>
     }
   }
+
   @if(ui_controls.is_empty){
     <div class="empty-state">
-      <ion-card>
-        <ion-card-content class="ion-text-center">
-          <ax-icon name="shopping-basket" [style.font-size.rem]="2"></ax-icon>
-          <h2>You haven't placed any orders yet</h2>
-          <p>Place your first order to discover amazing products and start filling your cart.</p>
-          <ion-button shape="round" class="mt-4" [routerLink]="['/explore']">
-            <ax-icon name="shopping-cart"></ax-icon>
-            <span>Start Shopping</span>
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+      <div class="empty-icon-wrap">
+        <ax-icon name="shopping-basket" [size]="32"></ax-icon>
+      </div>
+      <h2>{{ 'heading_no_orders' | translate }}</h2>
+      <p>{{ 'order_empty_subtitle' | translate }}</p>
+      <ion-button shape="round" class="empty-cta" [routerLink]="['/explore']">
+        <ax-icon name="shopping-cart" slot="start"></ax-icon>
+        <span>{{ 'start_shopping' | translate }}</span>
+      </ion-button>
     </div>
   }
-  <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
-      @if (ui_controls.is_loading){
-        <ax-loader></ax-loader>
-      }
-   </span>
+
+  <div class="loader-row">
+    @if (ui_controls.is_loading){
+      <ax-loader></ax-loader>
+    }
+  </div>
+
   <ax-bottom-sheet
     [isOpen]="isOrderOpen"
     (didDismiss)="isOrderOpen = false"
     [snapPoints]="[0.7, 1]"
     [initialSnap]="0"
     [backdropDismiss]="false"
-    title="Summary">
+    [title]="'order_summary' | translate">
 
     @if (!ui_controls.is_loading_details){
-      <ion-card class="cart-card">
-        <ion-list lines="none" class="contact-list">
-          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-            <ion-text>{{single_product.name}}</ion-text>
-          </ion-item>
-          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>QUANTITY</ion-label>
-            {{ single_product.quantity }}
-          </ion-item>
-          <ion-item class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>PRICE</ion-label>
-            <ion-text slot="end">
-              Ð{{ single_product.price }}
-            </ion-text>
-          </ion-item>
-          <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
-            <ion-label>SIZE</ion-label>
-            <ion-text slot="end">
-              {{ single_product.size }}
-            </ion-text>
-          </ion-item>
-          <ion-item lines="none" class="animate__animated animate__fadeInDown"  detail="false">
-            <ion-label>COLOR</ion-label>
-            <ion-text slot="end">
-              {{ single_product.color }}
-            </ion-text>
-          </ion-item>
-          <ion-item class="animate__animated animate__fadeInDown" detail="false">
-            <svg width="365" height="1" viewBox="0 0 365 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <line x1="0.5" y1="0.5" x2="364.497" y2="0.5" stroke="#A9A6A6" stroke-linecap="round"/>
-            </svg>
-          </ion-item>
-          <ion-item lines="none" class="animate__animated animate__fadeInDown" detail="false">
-            <ion-label>STATUS</ion-label>
-            <ion-text slot="end">
-              {{ single_product.status }}
-            </ion-text>
-          </ion-item>
-        </ion-list>
-      </ion-card>
+      <div class="summary-card">
+        <div class="summary-product-name">{{ single_product.name }}</div>
+
+        <dl class="summary-list">
+          <div class="summary-row">
+            <dt>{{ 'quantity' | translate }}</dt>
+            <dd>{{ single_product.quantity }}</dd>
+          </div>
+          <div class="summary-row">
+            <dt>{{ 'price' | translate }}</dt>
+            <dd>Ð{{ single_product.price }}</dd>
+          </div>
+          <div class="summary-row">
+            <dt>{{ 'size' | translate }}</dt>
+            <dd>{{ single_product.size }}</dd>
+          </div>
+          <div class="summary-row">
+            <dt>{{ 'color' | translate }}</dt>
+            <dd>{{ single_product.color }}</dd>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <dt>{{ 'status' | translate }}</dt>
+            <dd><span class="status-pill" [ngClass]="'status-pill--' + (single_product.status || '').toLowerCase()">{{ single_product.status }}</span></dd>
+          </div>
+        </dl>
+      </div>
     }
-    <span class="ion-text-center ion-padding-vertical ion-margin-vertical">
+    <div class="loader-row">
       @if (ui_controls.is_loading_details){
         <ax-loader></ax-loader>
       }
-   </span>
+    </div>
   </ax-bottom-sheet>
+
 </ion-content>
 <ion-footer class="m6f-footer ion-no-border">
   <ion-tab-bar class="m6f-tab-bar" slot="bottom">
@@ -159,4 +144,3 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-footer>
-
