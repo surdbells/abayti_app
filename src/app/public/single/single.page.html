@@ -57,7 +57,7 @@
           <ax-icon name="truck" class="product-delivery__icon" />
           <span>
             {{ 'delivery' | translate }}:
-            @if (single.delivery_time != 'custom') {
+            @if (single.delivery_time !== 'custom') {
               {{ single.delivery_time }}
             } @else {
               {{ single.custom_delivery_time }}

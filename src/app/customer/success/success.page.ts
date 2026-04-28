@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonButton,
   IonContent
@@ -14,7 +14,4 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
   standalone: true,
   imports: [IonContent, IonButton, RouterLink, TranslatePipe, AxIconComponent]
 })
-export class SuccessPage implements OnInit {
-  constructor() { }
-  ngOnInit() { }
-}
+export class SuccessPage {}

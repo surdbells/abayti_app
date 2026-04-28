@@ -194,7 +194,7 @@
                 alt="{{ vendor_feature.store_name }}" />
               <div class="m6e-featured-hero-overlay">
                 <h3 class="m6e-featured-store-name">{{ vendor_feature.store_name }}</h3>
-                @if(vendor_feature.rating_count != 0){
+                @if(vendor_feature.rating_count !== 0){
                   <div class="m6e-featured-rating" (click)="open_reviews(vendor_feature.store_id, vendor_feature.store_name); $event.stopPropagation()">
                     <ax-icon name="star" class="m6e-rating-star" />
                     <span>{{ vendor_feature.rating }} · {{ vendor_feature.rating_count }} reviews</span>

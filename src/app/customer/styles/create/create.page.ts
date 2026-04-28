@@ -1,4 +1,4 @@
-import {Component, OnInit, Type} from '@angular/core';
+import {Component} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import {Subscription} from "rxjs";
@@ -103,7 +103,7 @@ export interface selectedProduct {
     AppTabBarComponent
   ]
 })
-export class CreatePage implements OnInit {
+export class CreatePage {
   stores: Store[] = [];
   products: Product[] = [];
   single_user = {
@@ -141,9 +141,6 @@ export class CreatePage implements OnInit {
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
   }
 
-  ngOnInit() {
-
-  }
   ionViewDidEnter(){
     this.getObject();
   }

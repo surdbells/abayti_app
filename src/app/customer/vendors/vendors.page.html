@@ -99,7 +99,7 @@
         <h2 class="section-title">{{ category.name }}</h2>
         <app-h-scroll-progress>
           @for(product of products; track product.product_id){
-            @if(category.id == product.collection){
+            @if(category.id === product.collection){
               <article class="m6d-product-card">
                 <div class="m6d-img-wrap">
                   <!-- Image skeleton -->

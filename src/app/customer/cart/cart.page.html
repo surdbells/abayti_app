@@ -53,7 +53,7 @@
               </div>
               <div class="size"><strong>{{ cart.size }}</strong></div>
               <div class="qty-controls">
-                <ion-button [disabled]="cart.quantity == 1" (click)="DecreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
+                <ion-button [disabled]="cart.quantity === 1" (click)="DecreaseItem(cart.item, cart.quantity)" fill="outline" size="small" class="qty-btn">
                   <ax-icon name="minus" />
                 </ion-button>
                 <div class="qty" aria-live="polite">{{ cart.quantity }}</div>
