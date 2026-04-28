@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import {GlobalComponent} from "../../global-component";
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
@@ -47,6 +48,7 @@ export class ResetPage implements OnInit, OnDestroy {
     private router: Router,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -122,15 +124,15 @@ export class ResetPage implements OnInit, OnDestroy {
   }
   reset_password() {
     if (this.reset_p.password.length === 0) {
-      this.error_notification("Password is required");
+      this.error_notification(this.i18n.t('text_password_required'));
       return;
     }
     if (this.reset_p.confirm_password.length === 0) {
-      this.error_notification("Password does not match");
+      this.error_notification(this.i18n.t('text_passwords_do_not_match'));
       return;
     }
     if (this.reset_p.password != this.reset_p.confirm_password) {
-      this.error_notification("Password does not match");
+      this.error_notification(this.i18n.t('text_passwords_do_not_match'));
       return;
     }
     this.ui_controls.loading = true;
@@ -176,11 +178,11 @@ export class ResetPage implements OnInit, OnDestroy {
   }
   send_otp() {
     if (this.reset_p.phone.length === 0) {
-      this.error_notification("Phone number is required");
+      this.error_notification(this.i18n.t('text_phone_required'));
       return;
     }
     if (this.smsToken.data.length === 0) {
-      this.error_notification("Request cannot be completed at this time");
+      this.error_notification(this.i18n.t('text_request_failed'));
       return;
     }
     this.sendOTP.number = this.reset_p.phone;
@@ -213,7 +215,7 @@ export class ResetPage implements OnInit, OnDestroy {
   }
   validate_otp() {
     if (this.validateOtp.code.length === 0) {
-      this.error_notification("otp code is required to proceed.");
+      this.error_notification(this.i18n.t('text_otp_required'));
       return;
     }
     this.validateOtp.token = this.smsToken.data;
@@ -226,7 +228,7 @@ export class ResetPage implements OnInit, OnDestroy {
             this.v_response = response;
             this.ui_controls.loading = false;
             this.ui_controls.otpValidated = true;
-            this.success_notification("Code validated successfully");
+            this.success_notification(this.i18n.t('text_code_validated'));
           }else {
             this.ui_controls.loading = false;
             this.ui_controls.otpValidated = false;

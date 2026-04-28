@@ -24,6 +24,7 @@ import {Router} from "@angular/router";
 import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 import {Preferences} from "@capacitor/preferences";
 import {BlockerService} from "../../blocker.service";
@@ -71,6 +72,7 @@ export class RegisterPage implements OnInit, OnDestroy {
     private router: Router,
     private networkService: NetworkService,
     private toast: AxNotificationService,
+    private i18n: I18nService,
   ) {
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -155,36 +157,36 @@ export class RegisterPage implements OnInit, OnDestroy {
   }
   user_register() {
     if (this.register.first_name.length === 0) {
-      this.error_notification("First name is required");
+      this.error_notification(this.i18n.t('text_first_name_required'));
       return;
     }
     if (this.register.last_name.length === 0) {
-      this.error_notification("Last name is required");
+      this.error_notification(this.i18n.t('text_last_name_required'));
       return;
     }
     if (this.register.email.length === 0) {
-      this.error_notification("Email address is required");
+      this.error_notification(this.i18n.t('text_email_required'));
       return;
     }
     if (!GlobalComponent.validateEmail(this.register.email)) {
-      this.error_notification("Invalid email format provided");
+      this.error_notification(this.i18n.t('text_invalid_email_format'));
       return;
     }
 
     if (this.register.password.length === 0) {
-      this.error_notification("Password is required");
+      this.error_notification(this.i18n.t('text_password_required'));
       return;
     }
     if (this.register.confirm_password.length === 0) {
-      this.error_notification("Password does not match");
+      this.error_notification(this.i18n.t('text_passwords_do_not_match'));
       return;
     }
     if (this.register.password != this.register.confirm_password) {
-      this.error_notification("Password does not match");
+      this.error_notification(this.i18n.t('text_passwords_do_not_match'));
       return;
     }
     if (!this.register.accepted_terms) {
-      this.error_notification("Accept our terms and conditions to proceed");
+      this.error_notification(this.i18n.t('text_accept_terms_required'));
       return;
     }
     this.ui_controls.loading = true;
@@ -250,11 +252,11 @@ export class RegisterPage implements OnInit, OnDestroy {
   }
   send_otp() {
     if (this.register.phone.length === 0) {
-      this.error_notification("Phone number is required");
+      this.error_notification(this.i18n.t('text_phone_required'));
       return;
     }
     if (this.smsToken.data.length === 0) {
-      this.error_notification("Request cannot be completed at this time");
+      this.error_notification(this.i18n.t('text_request_failed'));
       return;
     }
     this.sendOTP.number = this.register.phone;
@@ -287,7 +289,7 @@ export class RegisterPage implements OnInit, OnDestroy {
   }
   validate_otp() {
     if (this.validateOtp.code.length === 0) {
-      this.error_notification("otp code is required to proceed.");
+      this.error_notification(this.i18n.t('text_otp_required'));
       return;
     }
     this.validateOtp.token = this.smsToken.data;
@@ -300,7 +302,7 @@ export class RegisterPage implements OnInit, OnDestroy {
             this.v_response = response;
             this.ui_controls.loading = false;
             this.ui_controls.otpValidated = true;
-            this.success_notification("Code validated successfully");
+            this.success_notification(this.i18n.t('text_code_validated'));
           }else {
             this.ui_controls.loading = false;
             this.ui_controls.otpValidated = false;

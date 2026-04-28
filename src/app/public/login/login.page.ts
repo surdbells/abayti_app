@@ -14,6 +14,7 @@ import {NetworkService} from "../../service/network.service";
 import {AxNotificationService} from '../../shared/ax-mobile/notification';
 import {GlobalComponent} from "../../global-component";
 import {BlockerService} from "../../blocker.service";
+import { I18nService } from '../../i18n.service';
 import {TranslatePipe} from "../../translate.pipe";
 
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
@@ -42,7 +43,8 @@ export class LoginPage implements OnInit, OnDestroy {
       private router: Router,
       private blocker: BlockerService,
       private networkService: NetworkService,
-      private toast: AxNotificationService
+      private toast: AxNotificationService,
+      private i18n: I18nService
     ) {
       this.net.setReachabilityCheck(true);
       this.sub = this.net.online$.subscribe(v => this.isOnline = v);
@@ -96,15 +98,15 @@ export class LoginPage implements OnInit, OnDestroy {
   async signIn() {
     if(this.isOnline){
       if (this.login.email.length == 0) {
-        this.show_error("Email address is required");
+        this.show_error(this.i18n.t('text_email_required'));
         return;
       }
       if (!GlobalComponent.validateEmail(this.login.email)) {
-        this.show_error("The email you entered is invalid. Check and ensure you enter a correct email address.");
+        this.show_error(this.i18n.t('text_invalid_email_detailed'));
         return;
       }
       if (this.login.password.length == 0) {
-        this.show_error("Password is required");
+        this.show_error(this.i18n.t('text_password_required'));
         return;
       }
       if (this.login.remember) {
@@ -145,7 +147,7 @@ export class LoginPage implements OnInit, OnDestroy {
           }
         }))
     }else {
-      this.show_error("You are not online, check your connection")
+      this.show_error(this.i18n.t('text_offline_check_connection'))
     }
   }
   show_error(message: string) {
@@ -166,10 +168,10 @@ export class LoginPage implements OnInit, OnDestroy {
     this.router.navigate(['/', 'reset']).then(r => console.log(r));
   }
   google_signin(): void {
-    this.show_error("Google sign in is currently unavailable");
+    this.show_error(this.i18n.t('text_google_signin_unavailable'));
   }
   apple_signin(): void {
-    this.show_error("Apple sign in is currently unavailable");
+    this.show_error(this.i18n.t('text_apple_signin_unavailable'));
   }
 
   goHome() {
