@@ -178,7 +178,11 @@ export class AxBottomSheetComponent implements OnChanges, OnDestroy, AfterViewIn
       hasBackdrop: true,
       backdropClass: 'ax-sheet__backdrop',
       panelClass: 'ax-sheet__panel',
-      positionStrategy: this.overlay.position().global().bottom('0').left('0').right('0'),
+      positionStrategy: this.overlay.position()
+        .global()
+        .bottom('0')
+        .left('0')
+        .width('100%'),
       scrollStrategy,
       disposeOnNavigation: true,
     });
@@ -193,11 +197,13 @@ export class AxBottomSheetComponent implements OnChanges, OnDestroy, AfterViewIn
     // Save current focus, attach portal, then trap focus inside.
     this.previouslyFocusedEl = this.doc.activeElement as HTMLElement | null;
 
-    const portal = new TemplatePortal(this.sheetTemplate, this.viewContainerRef);
-    this.overlayRef.attach(portal);
-
+    // Configure snap state BEFORE attaching the portal so the first render
+    // already reflects the correct height.
     this.activeSnap = Math.max(0, Math.min(this.initialSnap, this.snapPoints.length - 1));
     this.dragOffsetPx = 0;
+
+    const portal = new TemplatePortal(this.sheetTemplate, this.viewContainerRef);
+    this.overlayRef.attach(portal);
 
     // Set up focus trap on the actual sheet element after the next frame
     requestAnimationFrame(() => {
@@ -248,24 +254,11 @@ export class AxBottomSheetComponent implements OnChanges, OnDestroy, AfterViewIn
     this.pointerId = null;
   }
 
-  /** Computed translate-Y for the current snap + drag offset.
-   *  Lower snap point = sheet is shorter (further from top of viewport),
-   *  represented as a positive translate-Y. */
-  get sheetTransformY(): number {
+  /** Sheet height as a vh number, derived from the active snap point.
+   *  Snap point of 0.5 -> 50vh, 0.9 -> 90vh, 1 -> 100vh. */
+  get sheetHeightVh(): number {
     const snapFrac = this.snapPoints[this.activeSnap] ?? 1;
-    const baseTranslate = (1 - snapFrac) * 100; // percentage from full-height
-    // Convert percentage of sheet's own height to pixels using vh approximation,
-    // then add the drag offset.
-    return baseTranslate;
-  }
-
-  /** Style binding for the sheet. Uses transform-Y in vh + px to combine. */
-  get sheetStyle(): { [k: string]: string } {
-    const snapFrac = this.snapPoints[this.activeSnap] ?? 1;
-    const baseVh = (1 - snapFrac) * 100;
-    return {
-      transform: `translate3d(0, calc(${baseVh}vh + ${this.dragOffsetPx}px), 0)`,
-    };
+    return Math.max(10, Math.min(100, snapFrac * 100));
   }
 
   /** ===== Drag handling ===== */

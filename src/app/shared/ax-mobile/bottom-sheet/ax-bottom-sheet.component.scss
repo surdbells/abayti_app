@@ -15,13 +15,13 @@
   animation: ax-sheet-backdrop-in 200ms ease-out;
 }
 
-/* ----- Panel container (positions sheet at viewport bottom) -- */
+/* ----- Panel container (CDK pane gets this class) ------ */
+/* The CDK pane is the directly positioned element. We leave its layout
+   alone (CDK provides position: absolute + flex) and only ensure the
+   inner sheet receives pointer events while the rest doesn't. */
 
 .ax-sheet__panel {
-  pointer-events: none;        /* let backdrop receive taps; sheet itself re-enables */
-  display: flex;
-  align-items: flex-end;
-  justify-content: stretch;
+  pointer-events: none;
 }
 
 /* ----- The sheet itself --------------------------------- */
@@ -29,7 +29,8 @@
 .ax-sheet {
   pointer-events: auto;
   width: 100%;
-  max-height: calc(100vh - 24px);
+  height: 100vh;                 /* fallback; inline [style] overrides per snap */
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   background: var(--ax-color-bg-surface);
@@ -41,9 +42,10 @@
     0 -16px 48px rgba(46, 36, 28, 0.10);
   padding-bottom: env(safe-area-inset-bottom, 0);
   animation: ax-sheet-slide-in 280ms cubic-bezier(0.32, 0.72, 0, 1);
-  transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1),
+              height    240ms cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
-  touch-action: pan-y;         /* allow vertical pan, prevent horizontal scroll-jacking */
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
 }
