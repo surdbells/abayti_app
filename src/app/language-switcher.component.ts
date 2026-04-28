@@ -38,7 +38,6 @@ import { IonicModule } from '@ionic/angular';
       box-shadow: var(--shadow-sm);
       font-weight: 700;
     }
-    .lang-pill tui-icon { width: 20px; height: 20px; }
     .lang-pill .dot {
       width: 12px; height: 12px; border-radius: 999px; background: var(--ink);
       box-shadow: inset 0 0 0 2px #fff4;

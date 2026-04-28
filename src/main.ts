@@ -5,7 +5,6 @@ import { register } from 'swiper/element/bundle';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
-import {NG_EVENT_PLUGINS} from "@taiga-ui/event-plugins";
 import {provideHttpClient} from "@angular/common/http";
 import {I18nService} from "./app/i18n.service";
 import {APP_INITIALIZER, provideZoneChangeDetection} from "@angular/core";
@@ -15,7 +14,7 @@ function initI18n(i18n: I18nService) {
 }
 register();
 bootstrapApplication(AppComponent, {
-  providers: [provideZoneChangeDetection(),NG_EVENT_PLUGINS,
+  providers: [provideZoneChangeDetection(),
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: APP_INITIALIZER, useFactory: initI18n, deps: [I18nService], multi: true},
     provideIonicAngular({animated: true}),
