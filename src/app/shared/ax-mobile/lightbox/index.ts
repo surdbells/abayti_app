@@ -8,7 +8,7 @@
  *     [isOpen]="isViewerOpen"
  *     [src]="viewingImage?.url"
  *     [alt]="viewingImage?.name"
- *     (close)="closeViewer()">
+ *     (closed)="closeViewer()">
  *   </ax-lightbox>
  */
 

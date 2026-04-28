@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IonButton, IonContent, Platform } from '@ionic/angular/standalone';
 import {Subscription} from "rxjs";
 import {ConnectionService} from "../service/connection.service";
@@ -17,7 +17,7 @@ import {TranslatePipe} from "../translate.pipe";
   ],
   standalone: true
 })
-export class WelcomePage implements OnInit {
+export class WelcomePage implements OnInit, OnDestroy {
   isOnline = true;
   private sub: Subscription;
   constructor(

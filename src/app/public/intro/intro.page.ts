@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -43,7 +44,7 @@ export interface IntroSlide {
     CommonModule,
     TranslatePipe, AxIconComponent]
 })
-export class IntroPage implements OnInit, OnDestroy {
+export class IntroPage implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('swiper') swiperRef!: ElementRef;
 
   slides: IntroSlide[] = [

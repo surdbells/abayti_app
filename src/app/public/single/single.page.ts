@@ -2,9 +2,7 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
-  EventEmitter,
   OnInit,
-  Output,
   signal,
   ViewChild
 } from '@angular/core';
@@ -70,10 +68,6 @@ export class SinglePage implements OnInit {
     });
     this.net.setReachabilityCheck(true);
     this.sub = this.net.online$.subscribe(v => this.isOnline = v);
-  }
-  @Output() select = new EventEmitter<number>();
-  onSelect(i: number) {
-    this.select.emit(i);
   }
   ngOnInit() {
     this.product.product = Number(this.route.snapshot.queryParamMap.get('id'));

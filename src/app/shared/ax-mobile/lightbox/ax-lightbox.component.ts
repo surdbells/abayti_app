@@ -37,7 +37,7 @@ import { AxIconComponent } from '../icon';
  *     [isOpen]="isImageViewerOpen"
  *     [src]="viewingImage?.file_path"
  *     [alt]="viewingImage?.file_name"
- *     (close)="closeImageViewer()">
+ *     (closed)="closeImageViewer()">
  *   </ax-lightbox>
  *
  * The component is self-contained: it manages its own DOM
@@ -156,23 +156,25 @@ export class AxLightboxComponent {
   @Input() alt: string | null | undefined = null;
 
   /** Emitted when the user dismisses the lightbox (close button,
-   *  backdrop tap, or Escape key). */
-  @Output() close = new EventEmitter<void>();
+   *  backdrop tap, or Escape key). Named 'closed' (not 'close') to
+   *  avoid the @angular-eslint/no-output-native rule — 'close' is
+   *  also a native DOM event name. */
+  @Output() closed = new EventEmitter<void>();
 
   onBackdropClick(_event: MouseEvent): void {
     // Backdrop click — image clicks are stopped via stopPropagation in template
-    this.close.emit();
+    this.closed.emit();
   }
 
   onCloseClick(event: MouseEvent): void {
     event.stopPropagation();
-    this.close.emit();
+    this.closed.emit();
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
     if (this.isOpen) {
-      this.close.emit();
+      this.closed.emit();
     }
   }
 }

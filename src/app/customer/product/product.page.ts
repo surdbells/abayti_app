@@ -2,10 +2,8 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
-  EventEmitter,
   OnInit,
   OnDestroy,
-  Output,
   signal,
   ViewChild,
   ChangeDetectorRef,
@@ -352,8 +350,6 @@ export class ProductPage implements OnInit, OnDestroy {
     note: ""
   };
 
-  @Output() select = new EventEmitter<number>();
-
   // ========================================
   // Color Pill Methods
   // ========================================
@@ -462,10 +458,6 @@ export class ProductPage implements OnInit, OnDestroy {
   // ========================================
   // Navigation
   // ========================================
-
-  onSelect(i: number) {
-    this.select.emit(i);
-  }
 
   triggerBack() {
     this.nav.back();
