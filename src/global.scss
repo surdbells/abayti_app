@@ -735,11 +735,11 @@ ion-header.md ion-toolbar {
 /* ----- Option A: soft-shadow header ----- */
 
 .m7-header-shadow {
-  background: var(--ax-color-bg-surface);  /* white */
-  /* Safe area: clear iOS notch / Android cutout. The padding
-     is added INSIDE the header's white surface, so the status
-     bar appears against the same white as the toolbar. */
-  padding-top: env(safe-area-inset-top, 0);
+  background: var(--ax-color-bg-surface);  /* surface color extends INTO the
+     safe-area visually because ion-toolbar's own safe-area inset takes
+     room INSIDE this header element. The header's background covers
+     the whole area including the status-bar inset, so we don't need
+     a manual padding-top here — Ionic's toolbar handles the inset. */
 
   ion-toolbar.m7-toolbar {
     --background: var(--ax-color-bg-surface);

@@ -264,7 +264,9 @@ ion-content.page-bg {
 
 ion-header.public-header {
   background: var(--ax-color-bg-surface);
-  padding-top: env(safe-area-inset-top, 0);
+  /* No manual padding-top here — ion-toolbar handles its own safe-area
+     inset, and the header's bg color extends into that inset region
+     for visual continuity. */
   border-bottom: 1px solid rgba(46, 36, 28, 0.08);
 
   ion-toolbar.public-header__toolbar {
