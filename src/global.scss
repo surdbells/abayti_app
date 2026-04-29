@@ -110,7 +110,7 @@ ion-button[size="small"] {
 
 /* ----- Cards ----- */
 ion-card {
-  --background: var(--ax-palette-neutral-0);
+  --background: var(--ax-color-bg-surface);
   border: none;
   border-radius: var(--ax-radius-lg);      /* 12px */
   box-shadow: var(--ax-shadow-sm);
@@ -193,7 +193,7 @@ ion-tab-button.tab-selected ion-label {
 /* ----- Inputs ----- */
 ion-input,
 ion-textarea {
-  --background: var(--ax-palette-neutral-0);
+  --background: var(--ax-color-bg-surface);
   --border-color: var(--ax-color-border-default);
   --border-width: 1px;
   --border-radius: var(--ax-radius-md);    /* 8px */
@@ -208,7 +208,7 @@ ion-textarea {
 }
 
 ion-searchbar {
-  --background: var(--ax-palette-neutral-0);
+  --background: var(--ax-color-bg-surface);
   --color: var(--ax-color-text-primary);
   --placeholder-color: var(--ax-color-text-tertiary);
   --icon-color: var(--ax-color-text-tertiary);
@@ -286,7 +286,7 @@ ion-content {
   margin-top: 8px;
 
   ion-searchbar {
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --border-radius: var(--ax-radius-xl);
     --box-shadow: var(--ax-shadow-sm);
     --placeholder-color: var(--ax-color-text-tertiary);
@@ -296,7 +296,7 @@ ion-content {
   }
 
   .filter-btn {
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --border-radius: var(--ax-radius-lg);
     --box-shadow: var(--ax-shadow-sm);
     width: 44px;
@@ -390,7 +390,7 @@ ion-tab-button  {
 .custom-list {
   background: transparent !important;
   ion-item {
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --inner-border-width: 0;
     --padding-start: 12px;
     --padding-end: 12px;
@@ -458,7 +458,7 @@ ion-header.md ion-toolbar {
    that was on every page. The 0.5px top border separates the tab
    bar from content above without being heavy. */
 .m6f-footer {
-  background: var(--ax-palette-neutral-0);  /* white */
+  background: var(--ax-color-bg-surface);  /* white */
 
   /* Ionic safe-area handling preserved: the original had
      padding-bottom: 15px to clear iOS home indicator area;
@@ -468,7 +468,7 @@ ion-header.md ion-toolbar {
 
 .m6f-tab-bar {
   /* Override Ionic's default tab-bar styling */
-  --background: var(--ax-palette-neutral-0);
+  --background: var(--ax-color-bg-surface);
   --border: 0.5px solid var(--ax-color-border-subtle);
   --color: var(--ax-color-text-tertiary);
   /* Active color is set per-tab below since we don't bind to
@@ -697,14 +697,14 @@ ion-header.md ion-toolbar {
 /* ----- Option A: soft-shadow header ----- */
 
 .m7-header-shadow {
-  background: var(--ax-palette-neutral-0);  /* white */
+  background: var(--ax-color-bg-surface);  /* white */
   /* Safe area: clear iOS notch / Android cutout. The padding
      is added INSIDE the header's white surface, so the status
      bar appears against the same white as the toolbar. */
   padding-top: env(safe-area-inset-top, 0);
 
   ion-toolbar.m7-toolbar {
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --border-width: 0;  /* no hairline border, shadow does the work */
     --color: var(--ax-color-text-primary);
     --min-height: 56px;
@@ -775,7 +775,7 @@ ion-header.md ion-toolbar {
 
   ion-toolbar.m7-pill-toolbar {
     /* The pill itself: rounded white card */
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --border-radius: 28px;  /* pill shape */
     --border-width: 0;
     --min-height: 52px;  /* slightly tighter than m7-toolbar */
@@ -800,7 +800,7 @@ ion-header.md ion-toolbar {
 /* ----- Shared white-circle button (used by B and C variants) ----- */
 
 .m7-btn-shadow {
-  --background: var(--ax-palette-neutral-0);
+  --background: var(--ax-color-bg-surface);
   --background-hover: var(--ax-palette-neutral-0);
   --background-focused: var(--ax-palette-neutral-0);
   --background-activated: rgba(28, 25, 22, 0.06);
@@ -886,7 +886,7 @@ ion-header.md ion-toolbar {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  background: var(--ax-palette-neutral-0);  /* white */
+  background: var(--ax-color-bg-surface);  /* white */
   border: 0.5px solid var(--ax-color-border-default);
   border-radius: 999px;
   padding: 7px 14px;
@@ -977,7 +977,7 @@ ion-header.md ion-toolbar {
      horizontal carousels), gets pinned to 158px so cards don't
      stretch as the user scrolls. */
   width: 100%;
-  background: var(--ax-palette-neutral-0);  /* white */
+  background: var(--ax-color-bg-surface);  /* white */
   border-radius: var(--ax-radius-lg);       /* 12px outer radius */
   box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
               0 4px 12px rgba(46, 36, 28, 0.04);
@@ -1239,7 +1239,7 @@ ion-header.md ion-toolbar {
 }
 
 .m7-segment-tab--active {
-  background: var(--ax-palette-neutral-0);  /* white pill on beige track */
+  background: var(--ax-color-bg-surface);  /* white pill on beige track */
   color: var(--ax-color-text-primary);
   font-weight: 500;
   /* Soft shadow for the lifted-pill effect */

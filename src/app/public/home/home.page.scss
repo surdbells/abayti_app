@@ -263,12 +263,12 @@ ion-content.page-bg {
    ============================================================================ */
 
 ion-header.public-header {
-  background: var(--ax-palette-neutral-0);
+  background: var(--ax-color-bg-surface);
   padding-top: env(safe-area-inset-top, 0);
   border-bottom: 1px solid rgba(46, 36, 28, 0.08);
 
   ion-toolbar.public-header__toolbar {
-    --background: var(--ax-palette-neutral-0);
+    --background: var(--ax-color-bg-surface);
     --border-color: transparent;
     --border-width: 0;
     --min-height: 56px;

@@ -505,7 +505,7 @@ ion-content.page-content {
   ion-toggle {
     --background: rgba(46, 36, 28, 0.18);
     --background-checked: var(--ax-color-text-brand);
-    --handle-background: var(--ax-palette-neutral-0);
+    --handle-background: var(--ax-color-bg-surface);
     --handle-background-checked: var(--ax-palette-neutral-0);
     flex-shrink: 0;
   }

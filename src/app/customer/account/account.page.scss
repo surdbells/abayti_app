@@ -96,7 +96,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--ax-palette-neutral-0);  /* #ffffff */
+  background: var(--ax-color-bg-surface);  /* #ffffff */
   border: 0.5px solid var(--ax-color-border-default);  /* #d1c8bb */
   border-radius: var(--ax-radius-lg);  /* 12px */
   padding: 10px 14px;
@@ -133,7 +133,7 @@
     align-items: center;
     gap: 6px;
     flex-shrink: 0;
-    background: var(--ax-palette-neutral-0);  /* #ffffff */
+    background: var(--ax-color-bg-surface);  /* #ffffff */
     border: 0.5px solid var(--ax-color-border-default);  /* #d1c8bb */
     border-radius: 999px;
     padding: 6px 14px 6px 10px;
@@ -205,7 +205,7 @@
    ============================================================ */
 
 .m6e-featured-card {
-  background: var(--ax-palette-neutral-0);
+  background: var(--ax-color-bg-surface);
   border-radius: var(--ax-radius-lg);  /* 12px */
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(46, 36, 28, 0.06),
