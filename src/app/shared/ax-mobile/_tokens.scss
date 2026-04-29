@@ -76,27 +76,34 @@
   /* Gold — accent for premium highlights */
   --ax-palette-gold-100: #f6eed9;
   --ax-palette-gold-200: #ead6a0;
+  --ax-palette-gold-300: #dcbb5c;   /* dark-mode accent (brighter than -400 on dark bg) */
   --ax-palette-gold-400: #c9a227;
   --ax-palette-gold-500: #b18f1f;
+  --ax-palette-gold-700: #6a5510;   /* dark-mode subtle bg for gold badges */
 
   /* Status */
   --ax-palette-success-100: #e4f3e6;
   --ax-palette-success-400: #4ca35f;
   --ax-palette-success-500: #2e7d40;
   --ax-palette-success-600: #225d30;
+  --ax-palette-success-700: #18421f;   /* dark-mode subtle bg */
 
   --ax-palette-warning-100: #fbead0;
+  --ax-palette-warning-300: #f1bb6b;   /* dark-mode foreground (brighter for legibility) */
   --ax-palette-warning-400: #e5a03a;
   --ax-palette-warning-500: #b77520;
+  --ax-palette-warning-600: #7d4f12;   /* dark-mode subtle bg */
 
   --ax-palette-danger-100: #f9dfd9;
   --ax-palette-danger-400: #d1543f;
   --ax-palette-danger-500: #a53826;
   --ax-palette-danger-600: #822518;
+  --ax-palette-danger-700: #571810;   /* dark-mode subtle bg */
 
   --ax-palette-info-100: #dbe6ed;
   --ax-palette-info-400: #477a97;
   --ax-palette-info-500: #2f5b75;
+  --ax-palette-info-700: #1a3242;      /* dark-mode subtle bg */
 
 
   /* -----------------------------------------------------------------------
@@ -324,10 +331,23 @@
 
 /* =========================================================================
    DARK MODE
-   Activated by [data-ax-theme="dark"] on <html> or any ancestor, OR via
-   prefers-color-scheme media query when the user opts into "auto".
+   --------------------------------------------------------------------------
+   The same dark token values apply under either:
+
+     1. [data-ax-theme='dark']  on <html> or any ancestor (manual opt-in)
+     2. @media (prefers-color-scheme: dark)  with the user NOT forcing light
+        (i.e. <html> does not have [data-ax-theme='light'])
+
+   The :not([data-ax-theme='light']) guard preserves a user's manual light-
+   mode override even when the OS reports dark — useful if a later milestone
+   adds a settings toggle. Today the only consumer is the OS media query,
+   but the structure is ready for that.
+
+   To avoid duplicating ~40 token values across two selector groups, the
+   dark token VALUES live in an SCSS mixin which is included once per
+   selector context.
    ========================================================================= */
-[data-ax-theme='dark'] {
+@mixin ax-dark-tokens {
   --ax-color-bg-canvas:    var(--ax-palette-espresso-800);
   --ax-color-bg-surface:   var(--ax-palette-espresso-700);
   --ax-color-bg-raised:    var(--ax-palette-espresso-600);
@@ -358,6 +378,27 @@
   --ax-color-border-brand:   var(--ax-palette-brown-400);
   --ax-color-border-focus:   var(--ax-palette-beige-400);
 
+  /* Status — foreground (lighten so text stays legible on dark surfaces) */
+  --ax-color-text-success: var(--ax-palette-success-400);
+  --ax-color-text-warning: var(--ax-palette-warning-300);
+  --ax-color-text-danger:  var(--ax-palette-danger-400);
+  --ax-color-text-info:    var(--ax-palette-info-400);
+
+  /* Status — backgrounds (subtle, for badges/alerts on dark surfaces).
+     The light-mode subtle values (success-100 etc) would be near-white
+     and unusable in dark mode, so we re-target to the dark-surface
+     variants. The solid bg-success / bg-danger keep their light values
+     so e.g. a "delete" button still reads as red. */
+  --ax-color-bg-success-subtle: var(--ax-palette-success-700);
+  --ax-color-bg-warning-subtle: var(--ax-palette-warning-600);
+  --ax-color-bg-danger-subtle:  var(--ax-palette-danger-700);
+  --ax-color-bg-info-subtle:    var(--ax-palette-info-700);
+
+  /* Gold accent — brighten so it pops on dark surfaces */
+  --ax-color-bg-gold:        var(--ax-palette-gold-300);
+  --ax-color-bg-gold-subtle: var(--ax-palette-gold-700);
+  --ax-color-text-gold:      var(--ax-palette-gold-300);
+
   --ax-color-ring:        rgba(201, 174, 133, 0.3);
   --ax-color-ring-strong: rgba(201, 174, 133, 0.55);
   --ax-shadow-focus: 0 0 0 3px var(--ax-color-ring);
@@ -367,6 +408,19 @@
   --ax-shadow-md:   0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
   --ax-shadow-lg:   0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
   --ax-shadow-xl:   0 20px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+/* Auto-activate dark tokens when the OS reports dark mode AND the user
+   hasn't explicitly forced light mode via [data-ax-theme='light']. */
+:root:not([data-ax-theme='light']) {
+  @media (prefers-color-scheme: dark) {
+    @include ax-dark-tokens;
+  }
+}
+
+/* Manual force: [data-ax-theme='dark'] applies dark tokens regardless of OS. */
+[data-ax-theme='dark'] {
+  @include ax-dark-tokens;
 }
 
 

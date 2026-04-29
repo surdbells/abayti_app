@@ -130,3 +130,49 @@
 	--radius-xl:  var(--ax-radius-xl);
 	--radius-2xl: var(--ax-radius-2xl);
 }
+
+
+/* =========================================================================
+   IONIC DARK MODE OVERRIDES
+   --------------------------------------------------------------------------
+   Most --ion-* vars above already cascade through ax tokens that flip
+   automatically (--ion-text-color points at --ax-color-text-primary, which
+   the tokens.scss dark block remaps to neutral-100). The vars below DON'T
+   cascade — they're pinned to specific palette values (white card bg, beige
+   toolbar) that would stay light in dark mode. Override them here.
+
+   Same selector strategy as tokens.scss: an SCSS mixin applied under both
+   the manual data-attribute and the prefers-color-scheme media query.
+   ========================================================================= */
+@mixin ax-ionic-dark-overrides {
+	/* Toolbar — beige in light, surface (espresso-700) in dark */
+	--ion-toolbar-background: var(--ax-color-bg-surface);
+	--ion-toolbar-color:      var(--ax-color-text-primary);
+
+	/* Tab bar — white in light, surface (espresso-700) in dark */
+	--ion-tab-bar-background: var(--ax-color-bg-surface);
+
+	/* Cards + items — white in light, surface in dark */
+	--ion-card-background: var(--ax-color-bg-surface);
+	--ion-item-background: var(--ax-color-bg-surface);
+
+	/* RGB tuples for any Ionic CSS that uses rgba(var(--ion-*-rgb), alpha).
+	   Match the espresso-800 canvas + neutral-100 text values. */
+	--ion-background-color-rgb: 28, 25, 22;
+	--ion-text-color-rgb: 241, 237, 231;
+
+	/* Shorthand vars — pages still consume these; keep them in sync. */
+	--card:        var(--ax-color-bg-surface);
+	--header-bg:   var(--ax-color-bg-surface);
+	--header-text: var(--ax-color-text-primary);
+}
+
+:root:not([data-ax-theme='light']) {
+	@media (prefers-color-scheme: dark) {
+		@include ax-ionic-dark-overrides;
+	}
+}
+
+[data-ax-theme='dark'] {
+	@include ax-ionic-dark-overrides;
+}
