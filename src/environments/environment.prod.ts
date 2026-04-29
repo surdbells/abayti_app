@@ -1,3 +1,12 @@
 export const environment = {
-  production: true
+  production: true,
+
+  /* Google Places API (New) configuration.
+   * See environment.ts for restriction guidance — same key for now,
+   * but for a real production deployment this should be a separate
+   * restricted key bound to the production domain/bundle ID. */
+  googlePlaces: {
+    apiKey: 'AIzaSyAHERMyCn9KfrhZF5zpKynzLp0SjXpQpKU',
+    regions: ['AE']
+  }
 };
