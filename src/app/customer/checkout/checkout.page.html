@@ -94,13 +94,14 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ax-text-field
+              <ax-place-autocomplete
                 [label]="'label_street_address' | translate"
-                type="text"
+                [placeholder]="'placeholder_search_address' | translate"
                 autocomplete="street-address"
                 [(ngModel)]="update.street"
-                name="street">
-              </ax-text-field>
+                name="street"
+                (placeSelected)="onPlaceSelected($event)">
+              </ax-place-autocomplete>
             </ion-col>
           </ion-row>
           <ion-row>

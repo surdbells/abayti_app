@@ -10,7 +10,7 @@ export const environment = {
    * The key below is for development. It MUST be restricted in
    * Google Cloud Console:
    *   - Application restrictions: HTTP referrers — limit to localhost
-   *     (http://localhost:*/*, capacitor://localhost, https://localhost)
+   *     (http://localhost, capacitor://localhost, https://localhost)
    *   - API restrictions: Places API (New) only
    *
    * Without these restrictions a leaked key can be abused to consume

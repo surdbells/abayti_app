@@ -43,6 +43,7 @@ import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AxLoaderComponent } from '../../shared/ax-mobile/loader';
 import { AxTextFieldComponent } from '../../shared/ax-mobile/text-field';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
+import { AxPlaceAutocompleteComponent, PlaceDetails } from '../../shared/ax-mobile/place-autocomplete';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
@@ -72,6 +73,7 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     AxLoaderComponent,
     AxTextFieldComponent,
     AxBottomSheetComponent,
+    AxPlaceAutocompleteComponent,
   ],
   standalone: true
 })
@@ -509,6 +511,33 @@ export class CheckoutPage implements OnInit, OnDestroy {
         }
       }))
   }
+
+  /**
+   * Promise-wrapped version of getArea for use in async flows
+   * (specifically onPlaceSelected, which needs to load areas before
+   * trying to match the area name from the Google place result).
+   * Mirrors getArea's side-effects on this.area and the loading flag.
+   */
+  private getAreaAsync(cityId: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.ui_controls.is_loading_area = true;
+      this.networkService.get_request(GlobalComponent.topexAreaURL + cityId)
+        .subscribe({
+          next: (response: any) => {
+            this.area = response.data;
+            this.ui_controls.is_loading_area = false;
+            resolve();
+          },
+          error: () => {
+            /* On error, resolve anyway so the caller doesn't hang.
+               this.area stays at whatever it was (possibly empty). */
+            this.ui_controls.is_loading_area = false;
+            resolve();
+          }
+        });
+    });
+  }
+
   selectCode(d: string, id: number) {
     this.update.city = d;
     this.getArea(id);
@@ -516,6 +545,87 @@ export class CheckoutPage implements OnInit, OnDestroy {
   selectArea(d: string) {
     this.update.area = d;
   }
+
+  /**
+   * User selected a Google Places suggestion. Try to autofill all
+   * three address fields (street, city, area) from the structured
+   * place details.
+   *
+   * Auto-match strategy:
+   *   1. Always set update.street to place.street (if Google parsed one)
+   *   2. Try to match place.city against this.city[] by case-insensitive
+   *      name. If matched, call selectCode() which loads areas.
+   *      If unmatched, surface a hint with Google's value so user knows
+   *      what to pick manually.
+   *   3. After areas load, try to match place.area against this.area[].
+   *      Same fallback for unmatched.
+   *
+   * Anything we can't match is left to the user — the existing
+   * dropdowns still work as fallback.
+   */
+  async onPlaceSelected(place: PlaceDetails): Promise<void> {
+    /* Street is the easy case — always assign whatever Google parsed. */
+    if (place.street) {
+      this.update.street = place.street;
+    }
+
+    /* City match: case-insensitive substring match against name field.
+       Substring rather than equality because Google may return slightly
+       different forms ("Dubai Municipality" vs "Dubai", "Abu Dhabi
+       Emirate" vs "Abu Dhabi"). The DB names are short and clean, so
+       a substring of the DB name in Google's value is a reliable signal. */
+    let cityMatched = false;
+    if (place.city && this.city.length > 0) {
+      const placeCity = place.city.toLowerCase();
+      const matchedCity = this.city.find(c =>
+        placeCity.includes(c.name.toLowerCase()) ||
+        c.name.toLowerCase().includes(placeCity)
+      );
+      if (matchedCity) {
+        this.update.city = matchedCity.name;
+        /* Load areas for the matched city. We await so the area-match
+           step below sees fresh data. */
+        await this.getAreaAsync(matchedCity.city_ID);
+        cityMatched = true;
+      } else {
+        /* Surface the unmatched city as a hint. The user keeps whatever
+           city they previously had selected; we just tell them what
+           Google said so they can find the closest match in the list. */
+        this.toast.error(
+          this.i18n.t('text_city_not_recognized', { city: place.city }),
+          { position: 'top-center' }
+        );
+      }
+    }
+
+    /* Area match: only attempt if the city matched (otherwise our
+       this.area[] doesn't correspond to the place's city anyway). */
+    if (cityMatched && place.area && this.area.length > 0) {
+      const placeArea = place.area.toLowerCase();
+      const matchedArea = this.area.find(a =>
+        placeArea.includes(a.name.toLowerCase()) ||
+        a.name.toLowerCase().includes(placeArea)
+      );
+      if (matchedArea) {
+        this.update.area = matchedArea.name;
+      } else {
+        this.toast.error(
+          this.i18n.t('text_area_not_recognized', { area: place.area }),
+          { position: 'top-center' }
+        );
+      }
+    }
+
+    /* Confirmation toast — both for sighted users (visual feedback)
+       and as an a11y signal that something happened. */
+    if (place.street || cityMatched) {
+      this.toast.success(
+        this.i18n.t('text_address_autofilled'),
+        { position: 'top-center' }
+      );
+    }
+  }
+
   update_billing() {
     if(this.isOnline){
       this.update.id = this.single_user.id;
