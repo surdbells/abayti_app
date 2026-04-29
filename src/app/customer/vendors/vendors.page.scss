@@ -23,7 +23,7 @@ ion-header.vendor-header {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: var(--ax-palette-brown-100);
+  background: var(--ax-color-bg-placeholder);
 
   /* Bottom gradient for legibility of overlay text */
   &::after {
@@ -165,7 +165,7 @@ ion-header.vendor-header {
 
 .vendor-action-btn {
   --border-radius: 999px;
-  --background: var(--ax-color-text-brand);
+  --background: var(--ax-color-bg-brand);
   --color: var(--ax-palette-neutral-0);
   --border-color: var(--ax-color-text-brand);
 

@@ -115,7 +115,7 @@ swiper-slide,
   transition: background 200ms ease, width 200ms ease;
 
   &--active {
-    background: var(--ax-color-text-brand);
+    background: var(--ax-color-bg-brand);
     width: 18px;
     border-radius: 999px;
   }
@@ -176,8 +176,8 @@ swiper-slide,
 /* ----- Add to cart button ------------------------------------------ */
 
 .add-to-cart-btn {
-  --background: var(--ax-color-text-brand);
-  --background-hover: var(--ax-color-text-brand);
+  --background: var(--ax-color-bg-brand);
+  --background-hover: var(--ax-color-bg-brand);
   --background-activated: rgba(90, 58, 44, 0.85);
   --color: var(--ax-palette-neutral-0);
   --border-radius: 999px;

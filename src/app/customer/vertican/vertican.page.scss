@@ -521,7 +521,7 @@ ion-modal.filter-modal {
   transition: background 120ms ease, color 120ms ease;
 
   &--active {
-    background: var(--ax-color-text-brand);
+    background: var(--ax-color-bg-brand);
     color: var(--ax-palette-neutral-0);
   }
 
@@ -567,7 +567,7 @@ ion-modal.filter-modal {
   --bar-background-active: var(--ax-color-text-brand);
   --bar-height: 4px;
   --bar-border-radius: 2px;
-  --knob-background: var(--ax-color-text-brand);
+  --knob-background: var(--ax-color-bg-brand);
   --knob-size: 22px;
   padding-inline: 0;
 }
@@ -596,7 +596,7 @@ ion-modal.filter-modal {
 }
 
 .filter-action-btn--apply {
-  --background: var(--ax-color-text-brand);
+  --background: var(--ax-color-bg-brand);
   --color: var(--ax-palette-neutral-0);
 }
 

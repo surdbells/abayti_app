@@ -168,6 +168,12 @@
   --ax-color-bg-gold-subtle: var(--ax-palette-gold-100);
   --ax-color-text-gold:      var(--ax-palette-gold-500);
 
+  /* Surface variants — distinct from canvas/surface so themed differently in dark.
+     Toolbar/header: warm beige in light, espresso in dark.
+     Placeholder: warm cream in light, dark espresso in dark. */
+  --ax-color-bg-toolbar:     var(--ax-palette-beige-200);
+  --ax-color-bg-placeholder: var(--ax-palette-brown-100);
+
   /* Focus ring */
   --ax-color-ring:        rgba(144, 105, 82, 0.35);
   --ax-color-ring-strong: rgba(144, 105, 82, 0.6);
@@ -398,6 +404,10 @@
   --ax-color-bg-gold:        var(--ax-palette-gold-300);
   --ax-color-bg-gold-subtle: var(--ax-palette-gold-700);
   --ax-color-text-gold:      var(--ax-palette-gold-300);
+
+  /* Surface variants — flip from warm light to dark espresso. */
+  --ax-color-bg-toolbar:     var(--ax-palette-espresso-700);
+  --ax-color-bg-placeholder: var(--ax-palette-espresso-600);
 
   --ax-color-ring:        rgba(201, 174, 133, 0.3);
   --ax-color-ring-strong: rgba(201, 174, 133, 0.55);

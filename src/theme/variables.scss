@@ -87,7 +87,7 @@
 	--ion-text-color:             var(--ax-color-text-primary);
 	--ion-text-color-rgb:         28, 25, 22;
 
-	--ion-toolbar-background:     var(--ax-palette-beige-200); /* M2 locked: beige toolbar */
+	--ion-toolbar-background:     var(--ax-color-bg-toolbar); /* M2 locked: beige toolbar */
 	--ion-toolbar-color:          var(--ax-color-text-primary);
 	--ion-toolbar-border-color:   var(--ax-color-border-subtle);
 
@@ -117,7 +117,7 @@
 	--bg:      var(--ax-color-bg-canvas);
 	--card:    var(--ax-palette-neutral-0);
 	--profile-bg: var(--ax-color-bg-canvas);
-	--header-bg: var(--ax-palette-beige-200);
+	--header-bg: var(--ax-color-bg-toolbar);
 	--header-text: var(--ax-color-text-primary);
 
 	/* Borders + shadows shorthand */

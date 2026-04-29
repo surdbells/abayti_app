@@ -994,7 +994,7 @@ ion-header.md ion-toolbar {
 .m6d-img-wrap {
   position: relative;
   aspect-ratio: 3 / 2;
-  background: var(--ax-palette-brown-100);  /* #ead9ca — warm neutral */
+  background: var(--ax-color-bg-placeholder);  /* #ead9ca — warm neutral */
   /* No standalone border-radius here — the parent .m6d-product-card's
      border-radius + overflow:hidden gives the image rounded top corners.
      Bottom of the image meets the caption area flush, no gap. */
@@ -1004,7 +1004,7 @@ ion-header.md ion-toolbar {
   .m6d-img-skeleton {
     position: absolute;
     inset: 0;
-    background: var(--ax-palette-brown-100);
+    background: var(--ax-color-bg-placeholder);
     z-index: 2;
     overflow: hidden;
     transition: opacity 0.3s ease;

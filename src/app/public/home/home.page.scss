@@ -195,7 +195,7 @@ ion-content.page-bg {
   width: 110px;
   height: 140px;
   padding: 0;
-  background: var(--ax-palette-brown-100);
+  background: var(--ax-color-bg-placeholder);
   border: none;
   border-radius: var(--ax-radius-md);
   overflow: hidden;
@@ -223,7 +223,7 @@ ion-content.page-bg {
   &__skeleton {
     position: absolute;
     inset: 0;
-    background: var(--ax-palette-brown-100);
+    background: var(--ax-color-bg-placeholder);
     z-index: 2;
     overflow: hidden;
     transition: opacity 0.3s ease;
@@ -324,8 +324,8 @@ ion-header.public-header {
 }
 
 .auth-cta--primary {
-  --background: var(--ax-color-text-brand);
-  --background-hover: var(--ax-color-text-brand);
+  --background: var(--ax-color-bg-brand);
+  --background-hover: var(--ax-color-bg-brand);
   --background-activated: rgba(90, 58, 44, 0.85);
   --background-focused: var(--ax-color-text-brand);
   --color: var(--ax-palette-neutral-0);

@@ -18,7 +18,7 @@
 /* Header outer block — beige background, defers Ionic toolbar bg
    override below. */
 .m6-header {
-  background: var(--ax-palette-beige-200);  /* #efe2cf */
+  background: var(--ax-color-bg-toolbar);  /* #efe2cf */
   border-bottom: 0.5px solid var(--ax-color-border-subtle);
 }
 
@@ -331,7 +331,7 @@
   flex: 1;
   aspect-ratio: 1;
   position: relative;
-  background: var(--ax-palette-brown-100);  /* warm placeholder */
+  background: var(--ax-color-bg-placeholder);  /* warm placeholder */
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
@@ -340,7 +340,7 @@
   .m6e-featured-thumb-skeleton {
     position: absolute;
     inset: 0;
-    background: var(--ax-palette-brown-100);
+    background: var(--ax-color-bg-placeholder);
     z-index: 2;
     overflow: hidden;
     transition: opacity 0.3s ease;
@@ -460,7 +460,7 @@
   }
 
   &:active {
-    background: var(--ax-palette-beige-200);
+    background: var(--ax-color-bg-toolbar);
   }
 
   & + .m6f-wishlist-item {

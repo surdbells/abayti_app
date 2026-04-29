@@ -15,7 +15,7 @@ ion-content.page-content {
   height: 22px;
   padding: 0 7px;
   margin-inline-end: 12px;
-  background: var(--ax-color-text-brand);
+  background: var(--ax-color-bg-brand);
   color: var(--ax-palette-neutral-0);
   border-radius: 999px;
   font-family: inherit;
@@ -77,7 +77,7 @@ ion-content.page-content {
     right: 2px;
     width: 12px;
     height: 12px;
-    background: var(--ax-color-text-brand);
+    background: var(--ax-color-bg-brand);
     border: 2px solid var(--ax-color-bg-surface);
     border-radius: 50%;
   }
@@ -187,7 +187,7 @@ ion-content.page-content {
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  background: var(--ax-color-text-brand);
+  background: var(--ax-color-bg-brand);
   color: var(--ax-palette-neutral-0);
   border-radius: 999px;
   font-family: inherit;
