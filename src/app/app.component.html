@@ -1,4 +1,14 @@
 <ion-app>
   <ion-router-outlet [animated]="true" [animation]="fadeTransition" ></ion-router-outlet>
   <ax-notification-host></ax-notification-host>
+  <!-- Force-update prompt — full-viewport blocker when shown.
+       Driven by AppUpdateService.check() in app.component.ts. -->
+  <ax-update-prompt
+    [isOpen]="showForceUpdate"
+    [title]="forceUpdateTitle"
+    [message]="forceUpdateMessage"
+    [versionLabel]="forceUpdateVersionLabel"
+    [buttonLabel]="forceUpdateButton"
+    (updateClicked)="onUpdateClicked()">
+  </ax-update-prompt>
 </ion-app>

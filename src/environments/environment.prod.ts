@@ -8,5 +8,11 @@ export const environment = {
   googlePlaces: {
     apiKey: 'AIzaSyAHERMyCn9KfrhZF5zpKynzLp0SjXpQpKU',
     regions: ['AE']
+  },
+
+  /* App Update / kill-switch — see environment.ts for shape + semantics. */
+  appUpdate: {
+    configUrl: '' as string,
+    iosCountry: 'ae'
   }
 };

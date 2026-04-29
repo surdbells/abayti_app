@@ -24,6 +24,38 @@ export const environment = {
     apiKey: 'AIzaSyAHERMyCn9KfrhZF5zpKynzLp0SjXpQpKU',
     /* ISO 3166-1 alpha-2 country code(s) to restrict autocomplete to. */
     regions: ['AE']
+  },
+
+  /* App Update / kill-switch configuration.
+   *
+   * configUrl: URL of a static JSON file hosted on the app server. When
+   * set to a non-empty string, the app fetches it on launch + when
+   * resumed from background, and uses its contents to decide whether to
+   * force users to update.
+   *
+   * If empty (current default until URL is provided), the app skips the
+   * remote check and falls through to a local store-version comparison
+   * only — which is currently a no-op since no min-version threshold
+   * is configured locally.
+   *
+   * Failing safe: if the JSON fetch fails, returns malformed data, or
+   * the URL is empty, the app does NOT force an update. The kill-switch
+   * activates updates only when both file is reachable AND it explicitly
+   * sets require_app_update: true.
+   *
+   * Expected JSON shape:
+   *   {
+   *     "require_app_update": false,
+   *     "min_required_version": "0.0.2",
+   *     "force_update_message_en": "An important update is required...",
+   *     "force_update_message_ar": "يلزم تثبيت تحديث مهم...",
+   *     "force_update_threshold": "patch" | "minor" | "major"
+   *   }
+   */
+  appUpdate: {
+    configUrl: '' as string,
+    /* iOS App Store country code for iTunes Lookup queries. UAE-focused. */
+    iosCountry: 'ae'
   }
 };
 
