@@ -39,7 +39,12 @@
 /* ----- Position variants ----- */
 
 .ax-notification-host__stack--top-center {
-  top: calc(env(safe-area-inset-top, 0px) + var(--ax-header-height, 56px) + 16px);
+  /* Sit just below the header. The previous offset (header + 16px buffer)
+     positioned the toast too far from the header on tall-header pages,
+     making it feel disconnected. Reducing to a 4px buffer keeps the
+     toast visually anchored to the header without overlapping the
+     toolbar content. */
+  top: calc(env(safe-area-inset-top, 0px) + var(--ax-header-height, 56px) + 4px);
   left: 50%;
   transform: translateX(-50%);
 }

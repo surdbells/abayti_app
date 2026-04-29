@@ -241,6 +241,38 @@ ion-content {
   --background: var(--ion-background-color);
 }
 
+/* ----- Action sheet (logout confirm, delete account, etc) -----
+   Ionic's defaults don't track our tokens, so without these overrides
+   the sheet stays white in dark mode with white button text — invisible.
+   Vars per https://ionicframework.com/docs/api/action-sheet */
+ion-action-sheet {
+  --background: var(--ax-color-bg-raised);
+  --color: var(--ax-color-text-secondary);  /* description / title color */
+
+  --button-background: transparent;
+  --button-background-activated: var(--ax-color-bg-muted);
+  --button-background-focused: var(--ax-color-bg-muted);
+  --button-background-hover: var(--ax-color-bg-muted);
+  --button-background-selected: var(--ax-color-bg-muted);
+
+  --button-color: var(--ax-color-text-primary);
+  --button-color-activated: var(--ax-color-text-primary);
+  --button-color-focused: var(--ax-color-text-primary);
+  --button-color-hover: var(--ax-color-text-primary);
+  --button-color-selected: var(--ax-color-text-brand);
+
+  /* Destructive actions — keep red in both themes for clarity */
+  .action-sheet-destructive {
+    color: var(--ax-color-text-danger) !important;
+  }
+}
+
+/* ----- Alert dialog ----- proactive: same problem as action sheet */
+ion-alert {
+  --background: var(--ax-color-bg-raised);
+  --color: var(--ax-color-text-primary);
+}
+
 /* End M2c overrides
    ========================================================================= */
 
@@ -429,8 +461,14 @@ ion-tab-button  {
   border-radius: var(--radius-2xl);
 }
 
+/* .remove_nudge — applied to ion-header on account.page.
+   Originally added padding-top: 0.7rem !important AND color: white,
+   stacking on top of Ionic's toolbar safe-area inset. Removed the
+   padding so only the toolbar's own safe-area handling applies — the
+   header now sits flush against the status bar inset, not 11px below it.
+   Color rule kept (it bleeds into a few descendant elements that
+   don't set their own color). */
 .remove_nudge {
-  padding-top: 0.7rem !important;
   color: var(--ax-palette-neutral-0) !important;
 }
 
@@ -1029,7 +1067,11 @@ ion-header.md ion-toolbar {
     }
   }
 
-  /* Wishlist heart-plus button — top-right, white-translucent circle */
+  /* Wishlist heart-plus button — top-right of card image. The button
+     sits over the product image (which can be any color) so we need
+     it visible on both light and dark backgrounds. We use the surface
+     token (white in light, espresso-700 in dark) plus a soft shadow
+     so it always reads as a separate UI element. */
   .m6d-like {
     position: absolute;
     top: 8px;
@@ -1037,7 +1079,7 @@ ion-header.md ion-toolbar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--ax-color-bg-surface);
     border: none;
     display: flex;
     align-items: center;
@@ -1045,15 +1087,16 @@ ion-header.md ion-toolbar {
     cursor: pointer;
     z-index: 3;
     padding: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
     transition: background 0.15s ease;
 
     &:active {
-      background: rgba(255, 255, 255, 1);
+      background: var(--ax-color-bg-raised);
     }
 
     ax-icon {
       font-size: 14px;
-      color: var(--ax-color-text-brand);  /* #614536 */
+      color: var(--ax-color-text-brand);  /* dark in light mode, beige-300 in dark */
     }
   }
 
