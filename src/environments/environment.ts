@@ -53,7 +53,7 @@ export const environment = {
    *   }
    */
   appUpdate: {
-    configUrl: '' as string,
+    configUrl: 'https://api.3bayti.ae/app_update.json' as string,
     /* iOS App Store country code for iTunes Lookup queries. UAE-focused. */
     iosCountry: 'ae'
   }

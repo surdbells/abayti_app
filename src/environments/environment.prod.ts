@@ -12,7 +12,7 @@ export const environment = {
 
   /* App Update / kill-switch — see environment.ts for shape + semantics. */
   appUpdate: {
-    configUrl: '' as string,
+    configUrl: 'https://api.3bayti.ae/app_update.json' as string,
     iosCountry: 'ae'
   }
 };
