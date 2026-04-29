@@ -193,17 +193,14 @@
 
     <div class="modal-body">
       <div class="input-group">
-        <label class="input-label" for="locationInput">{{ 'your_location' | translate }}</label>
-        <div class="input-wrapper">
-          <ax-icon name="map-pin" [size]="20" class="input-icon"></ax-icon>
-          <input
-            id="locationInput"
-            type="text"
-            class="settings-input"
-            [placeholder]="'enter_location' | translate"
-            [(ngModel)]="u_location.location"
-            name="location">
-        </div>
+        <ax-place-autocomplete
+          [label]="'your_location' | translate"
+          [placeholder]="'enter_location' | translate"
+          autocomplete="street-address"
+          [(ngModel)]="u_location.location"
+          name="location"
+          (placeSelected)="onLocationSelected($event)">
+        </ax-place-autocomplete>
       </div>
       <button
         type="button"

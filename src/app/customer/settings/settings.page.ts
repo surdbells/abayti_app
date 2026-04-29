@@ -26,6 +26,7 @@ import { AxNotificationService } from '../../shared/ax-mobile/notification';
 import { AxIconComponent } from '../../shared/ax-mobile/icon';
 import { AppTabBarComponent } from '../../shared/app-tab-bar';
 import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
+import { AxPlaceAutocompleteComponent, PlaceDetails } from '../../shared/ax-mobile/place-autocomplete';
 
 @Component({
   selector: 'app-settings',
@@ -45,7 +46,8 @@ import { AxBottomSheetComponent } from '../../shared/ax-mobile/bottom-sheet';
     LanguageSwitcherComponent,
     AxIconComponent,
     AxBottomSheetComponent,
-    AppTabBarComponent
+    AppTabBarComponent,
+    AxPlaceAutocompleteComponent
   ]
 })
 export class SettingsPage implements OnInit, OnDestroy {
@@ -210,6 +212,23 @@ export class SettingsPage implements OnInit, OnDestroy {
   // ========================================
   // Location update
   // ========================================
+
+  /**
+   * User selected a Google Places suggestion in the update-location
+   * sheet. Save the formatted address (full readable form, e.g.
+   * "Sheikh Zayed Road, Dubai, United Arab Emirates") into the
+   * u_location.location field. The user can still edit it manually
+   * before tapping Save Changes.
+   *
+   * If Google didn't return a formatted address (rare), fall back to
+   * the parsed street.
+   */
+  onLocationSelected(place: PlaceDetails): void {
+    const display = place.formattedAddress || place.street || '';
+    if (display) {
+      this.u_location.location = display;
+    }
+  }
 
   async update_location(): Promise<void> {
     if (!this.isOnline) {
