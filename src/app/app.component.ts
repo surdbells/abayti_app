@@ -25,11 +25,12 @@ export class AppComponent {
      a kill-switch flip will activate the prompt within at most 5 minutes
      (the in-memory remote-config cache window) for already-running apps,
      or immediately for cold launches. */
-  showForceUpdate = false;
-  forceUpdateTitle = '';
-  forceUpdateMessage = '';
-  forceUpdateVersionLabel = '';
-  forceUpdateButton = '';
+  showForceUpdate = true;
+  forceUpdateTitle = 'Update required';
+  forceUpdateMessage = 'A new version is available. Update now to continue.';
+  forceUpdateVersionLabel = 'VERSION 0.0.3';
+  forceUpdateButton = 'Update now';
+
   /* Soft-prompt mode: shows a Later button, dismisses for 24h per
      version. Driven by remote config force_mode. Default false (hard). */
   forceUpdateCanDismiss = false;
