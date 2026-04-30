@@ -25,18 +25,23 @@ export class AppComponent {
      a kill-switch flip will activate the prompt within at most 5 minutes
      (the in-memory remote-config cache window) for already-running apps,
      or immediately for cold launches. */
-  showForceUpdate = true;
-  forceUpdateTitle = 'Update required';
-  forceUpdateMessage = 'A new version is available. Update now to continue.';
-  forceUpdateVersionLabel = 'VERSION 0.0.3';
-  forceUpdateButton = 'Update now';
-
+  showForceUpdate = false;
+  forceUpdateTitle = '';
+  forceUpdateMessage = '';
+  forceUpdateVersionLabel = '';
+  forceUpdateButton = '';
   /* Soft-prompt mode: shows a Later button, dismisses for 24h per
      version. Driven by remote config force_mode. Default false (hard). */
   forceUpdateCanDismiss = false;
   forceUpdateLaterLabel = '';
   /* Tracked so onDismissed() knows which version's dismissal to record. */
   private currentPromptVersion: string | null = null;
+
+  /* Last update-check result, exposed for the optional debug overlay.
+     Populated by runUpdateCheck(); used only by the diagnostic UI in
+     app.component.html when ?debug=update is in the URL. */
+  lastUpdateDiag: string = '(check has not run yet)';
+  showUpdateDebug = false;
 
   constructor(
     private platform: Platform,
