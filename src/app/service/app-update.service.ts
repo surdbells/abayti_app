@@ -95,10 +95,6 @@ export class AppUpdateService {
   private cachedAt: number = 0;
   private readonly CACHE_TTL_MS = 5 * 60 * 1000;  // 5 minutes
 
-  /* The plugin is dynamically imported so the web build doesn't pull in
-     native code. Resolved once on first call; null on web. */
-  private pluginPromise: Promise<any> | null = null;
-
   /**
    * Run the full update check. Combines store-version check + remote
    * kill-switch + threshold logic. Returns a result object the caller
@@ -298,10 +294,11 @@ export class AppUpdateService {
     if (!Capacitor.isNativePlatform()) {
       return;
     }
-    const plugin = await this.loadPlugin();
-    if (!plugin) {
+    const container = await this.loadPlugin();
+    if (!container) {
       return;
     }
+    const plugin = container.plugin;
     try {
       const platform = Capacitor.getPlatform();
       if (platform === 'android') {
@@ -329,24 +326,43 @@ export class AppUpdateService {
 
   /* ----- Internals --------------------------------------------------------- */
 
-  /* Lazy-load the native plugin. Returns null on web or if the import
-     fails (e.g., plugin not yet sync'd into the native project). */
-  private async loadPlugin(): Promise<any | null> {
+  /* Cache the plugin reference once loaded.
+
+     CRITICAL: Capacitor's plugin proxy responds to any property access
+     (including `.then`) by treating it as a method invocation. If the
+     proxy ever becomes the resolved value of a Promise, the JS engine's
+     await machinery checks if the value is "thenable" by accessing
+     `.then` — which triggers a native call to `AppUpdate.then()` and
+     throws "not implemented on android".
+
+     Workaround: wrap the proxy in a container object ({plugin}) so the
+     resolution value of the loadPlugin promise is the container, not
+     the proxy itself. Callers extract `.plugin` from the result, which
+     happens AFTER the await is complete. */
+  private cachedContainer: { plugin: any } | null = null;
+  private cachedAttempted = false;
+
+  /* Lazy-load the native plugin. Returns a container object wrapping the
+     plugin, or null on web / if the import fails. Callers do:
+       const c = await this.loadPlugin();
+       if (!c) return; const plugin = c.plugin;  */
+  private async loadPlugin(): Promise<{ plugin: any } | null> {
     if (!Capacitor.isNativePlatform()) {
       return null;
     }
-    if (!this.pluginPromise) {
-      this.pluginPromise = import('@capawesome/capacitor-app-update')
-        .then(m => {
-          console.log('[AppUpdate] plugin module loaded:', typeof m.AppUpdate);
-          return m.AppUpdate;
-        })
-        .catch(err => {
-          console.warn('[AppUpdate] plugin module load FAILED:', err);
-          return null;
-        });
+    if (this.cachedAttempted) {
+      return this.cachedContainer;
     }
-    return this.pluginPromise;
+    this.cachedAttempted = true;
+    try {
+      const m = await import('@capawesome/capacitor-app-update');
+      this.cachedContainer = { plugin: m.AppUpdate };
+      console.log('[AppUpdate] plugin module loaded:', typeof m.AppUpdate);
+    } catch (err) {
+      console.warn('[AppUpdate] plugin module load FAILED:', err);
+      this.cachedContainer = null;
+    }
+    return this.cachedContainer;
   }
 
   /* Fetch store-version info via the plugin. Returns nulls on any error. */
@@ -355,11 +371,12 @@ export class AppUpdateService {
     availableVersion: string | null;
     updateAvailable: boolean;
   }> {
-    const plugin = await this.loadPlugin();
-    if (!plugin) {
+    const container = await this.loadPlugin();
+    if (!container) {
       console.warn('[AppUpdate] fetchStoreInfo: plugin is null (sync/build issue or web)');
       return { currentVersion: null, availableVersion: null, updateAvailable: false };
     }
+    const plugin = container.plugin;
     try {
       const platform = Capacitor.getPlatform();
       const params = platform === 'ios'
