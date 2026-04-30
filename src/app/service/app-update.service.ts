@@ -149,6 +149,36 @@ export class AppUpdateService {
     log('remote.force_mode: ' + JSON.stringify(remote?.force_mode));
     log('remote.force_update_threshold: ' + JSON.stringify(remote?.force_update_threshold));
 
+    /* DEV OVERRIDE — used to test the prompt UI locally without needing a
+       real Play Store / App Store update available. Enabled by setting
+       localStorage.ax_debug_force_update='1' OR ?forceupdate=<version> in
+       the URL. NEVER fires for normal users (no UI exposes the flag).
+
+       When active, mutates storeInfo so the rest of the decision logic
+       sees a plausible "update available" state:
+         - updateAvailable = true (overrides UPDATE_NOT_AVAILABLE)
+         - availableVersion = the mock version from the flag
+
+       The currentVersion is NOT overridden — uses whatever the plugin
+       reports. This means cond.belowMin still does a real comparison
+       (so e.g. setting mock=0.0.1 won't fire because installed > 0.0.1).
+       Set the mock version higher than your installed version to test.
+
+       Also clears any prior dismissal for the mock version so soft-mode
+       doesn't suppress on second test in the same session. */
+    const dev = this.readDevOverride();
+    if (dev.enabled) {
+      log('!! DEV OVERRIDE ACTIVE — mock availableVersion=' + dev.mockVersion);
+      storeInfo.updateAvailable = true;
+      storeInfo.availableVersion = dev.mockVersion;
+      /* Clear dismissal record so we can re-test without waiting 24h. */
+      try {
+        await Preferences.remove({ key: this.dismissalKey(dev.mockVersion) });
+      } catch {
+        /* Non-fatal */
+      }
+    }
+
     /* Resolve force_mode. Default is "soft" (more lenient) so an operator
        who only wanted to *announce* an update doesn't accidentally lock
        users out by forgetting to set the field. To force a hard prompt
@@ -276,6 +306,50 @@ export class AppUpdateService {
     /* Sanitize version string for use in a key — though semver chars
        (digits + dots) are already safe. Belt-and-suspenders. */
     return `app_update_dismissed_${version.replace(/[^0-9.\-a-z]/gi, '_')}_at`;
+  }
+
+  /**
+   * Read dev-override settings for forcing the prompt to show during
+   * local testing (e.g., before a real Play Store update exists).
+   *
+   * Sources, in priority order:
+   *   1. URL param ?forceupdate=<version>  (one-shot, this session)
+   *   2. localStorage:
+   *        ax_debug_force_update  = '1'   (turns override on)
+   *        ax_debug_mock_version  = e.g. '1.5'  (the fake available version)
+   *
+   * Production safety:
+   *   - No UI ever sets these — only a dev with browser dev tools / URL
+   *     access can enable
+   *   - Override only injects fake updateAvailable + availableVersion
+   *     into storeInfo. The remote kill-switch JSON still has to declare
+   *     require_app_update=true, AND min_required_version must be > the
+   *     real installed version. So a dev can't accidentally activate
+   *     it for a real user.
+   *   - Logged loudly when active ('!! DEV OVERRIDE ACTIVE') so it's
+   *     never silent.
+   */
+  private readDevOverride(): { enabled: boolean; mockVersion: string } {
+    const fallback = { enabled: false, mockVersion: '' };
+    try {
+      /* URL param wins over storage if both are set.
+         Accepts:
+           ?forceupdate=1          -> enable with default mock 99.99.99
+           ?forceupdate=1.5        -> enable with mock version 1.5 */
+      const urlVersion = new URL(window.location.href).searchParams.get('forceupdate');
+      if (urlVersion) {
+        const mock = urlVersion === '1' ? '99.99.99' : urlVersion;
+        return { enabled: true, mockVersion: mock };
+      }
+      const flag = window.localStorage.getItem('ax_debug_force_update');
+      if (flag === '1') {
+        const mockVersion = window.localStorage.getItem('ax_debug_mock_version') || '99.99.99';
+        return { enabled: true, mockVersion };
+      }
+    } catch {
+      /* Any access error -> override stays off. Fail safe. */
+    }
+    return fallback;
   }
 
   /* 24 hours in ms. The dismissal grace period — how long after tapping
