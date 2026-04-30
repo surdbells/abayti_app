@@ -107,7 +107,18 @@ export class AppUpdateService {
    * Always resolves — never throws. Errors in any underlying call result
    * in shouldForceUpdate=false (fail safe).
    */
+  /* Diagnostic snapshot from the most recent check(). Populated in dev
+     builds for the optional debug overlay; safe to expose otherwise (no
+     secrets, just version strings + decision booleans). */
+  lastDiagnostic: string = '';
+
   async check(): Promise<UpdateCheckResult> {
+    const diag: string[] = [];
+    const log = (msg: string) => {
+      diag.push(msg);
+      console.log('[AppUpdate] ' + msg);
+    };
+
     const fallback: UpdateCheckResult = {
       shouldForceUpdate: false,
       canDismiss: true,  /* default to dismissable; rewritten below if we decide to force */
@@ -122,8 +133,11 @@ export class AppUpdateService {
        a native context, and there's nothing meaningful we'd do for a
        browser user anyway. */
     if (!Capacitor.isNativePlatform()) {
+      log('SKIP: not native platform (browser build)');
+      this.lastDiagnostic = diag.join('\n');
       return fallback;
     }
+    log('platform: ' + Capacitor.getPlatform());
 
     /* Run store check + remote check in parallel. They're independent. */
     const [storeInfo, remote] = await Promise.all([
@@ -131,11 +145,20 @@ export class AppUpdateService {
       this.fetchRemoteConfig(),
     ]);
 
+    log('store.currentVersion: ' + JSON.stringify(storeInfo.currentVersion));
+    log('store.availableVersion: ' + JSON.stringify(storeInfo.availableVersion));
+    log('store.updateAvailable: ' + storeInfo.updateAvailable);
+    log('remote.require_app_update: ' + JSON.stringify(remote?.require_app_update));
+    log('remote.min_required_version: ' + JSON.stringify(remote?.min_required_version));
+    log('remote.force_mode: ' + JSON.stringify(remote?.force_mode));
+    log('remote.force_update_threshold: ' + JSON.stringify(remote?.force_update_threshold));
+
     /* Resolve force_mode. Default is "soft" (more lenient) so an operator
        who only wanted to *announce* an update doesn't accidentally lock
        users out by forgetting to set the field. To force a hard prompt
        on a release, the JSON must explicitly say `"force_mode": "hard"`. */
     const forceMode: 'hard' | 'soft' = remote?.force_mode === 'hard' ? 'hard' : 'soft';
+    log('resolved forceMode: ' + forceMode);
 
     /* Compose the result. */
     const result: UpdateCheckResult = {
@@ -153,19 +176,35 @@ export class AppUpdateService {
          - Installed version is below the configured min_required_version
          - The version bump meets the configured threshold
     */
-    const meetsForceConditions =
-      remote?.require_app_update === true &&
-      storeInfo.updateAvailable &&
-      storeInfo.currentVersion &&
-      remote.min_required_version &&
-      compareSemver(storeInfo.currentVersion, remote.min_required_version) < 0 &&
-      meetsThreshold(
-        storeInfo.currentVersion,
-        remote.min_required_version,
-        remote.force_update_threshold || 'patch'
-      );
+    const cond_killSwitch = remote?.require_app_update === true;
+    const cond_storeUpd   = !!storeInfo.updateAvailable;
+    const cond_haveCur    = !!storeInfo.currentVersion;
+    const cond_haveMin    = !!remote?.min_required_version;
+    const cond_belowMin   = cond_haveCur && cond_haveMin
+      ? compareSemver(storeInfo.currentVersion!, remote!.min_required_version!) < 0
+      : false;
+    const cond_threshold  = cond_haveCur && cond_haveMin
+      ? meetsThreshold(
+          storeInfo.currentVersion!,
+          remote!.min_required_version!,
+          remote!.force_update_threshold || 'patch'
+        )
+      : false;
+
+    log('cond.killSwitch (require_app_update===true): ' + cond_killSwitch);
+    log('cond.storeUpd (updateAvailable): ' + cond_storeUpd);
+    log('cond.haveCurrentVersion: ' + cond_haveCur);
+    log('cond.haveMinVersion: ' + cond_haveMin);
+    log('cond.belowMin (current < min): ' + cond_belowMin);
+    log('cond.thresholdMet: ' + cond_threshold);
+
+    const meetsForceConditions = cond_killSwitch && cond_storeUpd && cond_haveCur
+      && cond_haveMin && cond_belowMin && cond_threshold;
+    log('meetsForceConditions: ' + meetsForceConditions);
 
     if (!meetsForceConditions) {
+      log('-> shouldForceUpdate=false (one or more conditions failed)');
+      this.lastDiagnostic = diag.join('\n');
       return result;
     }
 
@@ -180,13 +219,18 @@ export class AppUpdateService {
        initially, escalate to hard if needed by editing the JSON. */
     if (forceMode === 'soft' && storeInfo.availableVersion) {
       const dismissed = await this.wasRecentlyDismissed(storeInfo.availableVersion);
+      log('soft-mode dismissal check: dismissed=' + dismissed);
       if (dismissed) {
+        log('-> shouldForceUpdate=false (recently dismissed)');
+        this.lastDiagnostic = diag.join('\n');
         return result;  /* shouldForceUpdate stays false */
       }
     }
 
     result.shouldForceUpdate = true;
     result.canDismiss = forceMode === 'soft';
+    log('-> shouldForceUpdate=TRUE (canDismiss=' + result.canDismiss + ')');
+    this.lastDiagnostic = diag.join('\n');
     return result;
   }
 
@@ -293,8 +337,14 @@ export class AppUpdateService {
     }
     if (!this.pluginPromise) {
       this.pluginPromise = import('@capawesome/capacitor-app-update')
-        .then(m => m.AppUpdate)
-        .catch(() => null);
+        .then(m => {
+          console.log('[AppUpdate] plugin module loaded:', typeof m.AppUpdate);
+          return m.AppUpdate;
+        })
+        .catch(err => {
+          console.warn('[AppUpdate] plugin module load FAILED:', err);
+          return null;
+        });
     }
     return this.pluginPromise;
   }
@@ -307,6 +357,7 @@ export class AppUpdateService {
   }> {
     const plugin = await this.loadPlugin();
     if (!plugin) {
+      console.warn('[AppUpdate] fetchStoreInfo: plugin is null (sync/build issue or web)');
       return { currentVersion: null, availableVersion: null, updateAvailable: false };
     }
     try {
@@ -314,7 +365,9 @@ export class AppUpdateService {
       const params = platform === 'ios'
         ? { country: environment.appUpdate?.iosCountry || 'us' }
         : undefined;
+      console.log('[AppUpdate] calling getAppUpdateInfo with params:', params);
       const info = await plugin.getAppUpdateInfo(params);
+      console.log('[AppUpdate] getAppUpdateInfo raw response:', JSON.stringify(info));
       /* iOS: currentVersionName / availableVersionName are CFBundleShortVersionString
          strings (e.g. "1.2.3"). On Android the plugin returns versionCode (numeric
          build counter), but for our semver-based comparison we want the name. The
@@ -328,7 +381,8 @@ export class AppUpdateService {
            in a future plugin version, this still degrades to no-update. */
         updateAvailable: info?.updateAvailability === 'UPDATE_AVAILABLE',
       };
-    } catch {
+    } catch (e) {
+      console.warn('[AppUpdate] getAppUpdateInfo threw:', e);
       return { currentVersion: null, availableVersion: null, updateAvailable: false };
     }
   }
@@ -341,12 +395,14 @@ export class AppUpdateService {
     if (!url || url.trim() === '') {
       /* Kill-switch URL not configured — disable the force-update path
          entirely. This is the development default until M87. */
+      console.warn('[AppUpdate] remote config URL is empty');
       return null;
     }
 
     /* Serve from cache if recent. */
     const now = Date.now();
     if (this.cachedRemote && now - this.cachedAt < this.CACHE_TTL_MS) {
+      console.log('[AppUpdate] remote config served from in-memory cache');
       return this.cachedRemote;
     }
 
@@ -355,14 +411,18 @@ export class AppUpdateService {
          operator flips the flag. The `t` value rounds to the cache-TTL
          window so we don't bypass the IN-APP cache, only external caches. */
       const cacheBust = Math.floor(now / this.CACHE_TTL_MS);
-      const resp = await fetch(`${url}?t=${cacheBust}`, {
+      const fullUrl = `${url}?t=${cacheBust}`;
+      console.log('[AppUpdate] fetching remote config:', fullUrl);
+      const resp = await fetch(fullUrl, {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
       });
+      console.log('[AppUpdate] remote config HTTP status:', resp.status);
       if (!resp.ok) {
         return null;
       }
       const data = (await resp.json()) as RemoteAppConfig;
+      console.log('[AppUpdate] remote config parsed:', JSON.stringify(data));
       /* Sanity-check the shape — at minimum require_app_update should be a
          boolean if present. Reject obviously malformed payloads. */
       if (data && typeof data === 'object') {
@@ -371,7 +431,8 @@ export class AppUpdateService {
         return data;
       }
       return null;
-    } catch {
+    } catch (e) {
+      console.warn('[AppUpdate] fetchRemoteConfig threw:', e);
       return null;
     }
   }

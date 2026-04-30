@@ -14,4 +14,13 @@
     (updateClicked)="onUpdateClicked()"
     (dismissed)="onDismissed()">
   </ax-update-prompt>
+
+  <!-- Debug overlay for the update-check diagnostic. Visible only when
+       ?debug=update is in the URL or localStorage.ax_debug_update=1.
+       Renders the most recent check() result + the per-step decision
+       trail so we can see WHY the prompt did or didn't fire. -->
+  <div *ngIf="showUpdateDebug" class="update-debug-overlay">
+    <div class="update-debug-overlay__header">Update check diagnostic</div>
+    <pre class="update-debug-overlay__log">{{ lastUpdateDiag }}</pre>
+  </div>
 </ion-app>

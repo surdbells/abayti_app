@@ -15,7 +15,43 @@ import {I18nService} from "./i18n.service";
   selector: 'app-root',
   templateUrl: 'app.component.html',
   imports: [IonApp, IonRouterOutlet, AxNotificationHostComponent, AxUpdatePromptComponent],
-  standalone: true
+  standalone: true,
+  styles: [`
+    /* Debug overlay (visible only when ?debug=update or localStorage flag).
+       Pinned to the bottom-left so it doesn't obscure the force-update
+       modal (centered) or the notification host (top-center). Tap-through
+       enabled so it can never block the app. */
+    .update-debug-overlay {
+      position: fixed;
+      left: 8px;
+      bottom: 8px;
+      max-width: 90vw;
+      max-height: 50vh;
+      z-index: 10000;  /* above the update prompt itself */
+      background: rgba(20, 16, 14, 0.92);
+      color: #f5e9d4;
+      border: 1px solid rgba(245, 233, 212, 0.2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      line-height: 1.35;
+      pointer-events: none;
+      overflow: auto;
+    }
+    .update-debug-overlay__header {
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffd789;
+    }
+    .update-debug-overlay__log {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  `]
 })
 export class AppComponent {
   fadeTransition = fadeTransition;
@@ -50,6 +86,22 @@ export class AppComponent {
     private i18n: I18nService,
   ) {
       this.initializeApp();
+
+      /* Enable the update-debug overlay when ?debug=update appears in the
+         URL OR localStorage flag 'ax_debug_update' is set. Devs can toggle
+         from a browser dev console:
+            localStorage.setItem('ax_debug_update', '1')   // turn on
+            localStorage.removeItem('ax_debug_update')      // turn off
+         The URL param takes precedence and persists for the session. */
+      try {
+        const url = new URL(window.location.href);
+        const param = url.searchParams.get('debug');
+        const stored = window.localStorage.getItem('ax_debug_update');
+        this.showUpdateDebug = (param === 'update') || (stored === '1');
+      } catch {
+        /* SSR / sandboxed contexts may not have localStorage. Stay quiet. */
+      }
+
       this.platform.ready().then(async () => {
           // Dismiss the native splash now that Angular has bootstrapped
           // and platform.ready() has resolved. The 200ms fade hands off
@@ -88,6 +140,15 @@ export class AppComponent {
   private async runUpdateCheck(): Promise<void> {
     try {
       const result = await this.appUpdate.check();
+      /* Always update diagnostic snapshot for the optional debug overlay,
+         regardless of whether shouldForceUpdate is true or false. */
+      this.lastUpdateDiag = this.appUpdate.lastDiagnostic
+        + '\n---\nresult.shouldForceUpdate=' + result.shouldForceUpdate
+        + '\nresult.canDismiss=' + result.canDismiss
+        + '\nresult.currentVersion=' + result.currentVersion
+        + '\nresult.availableVersion=' + result.availableVersion
+        + '\nresult.updateAvailable=' + result.updateAvailable;
+
       if (result.shouldForceUpdate) {
         const isArabic = this.i18n.lang === 'ar';
         this.forceUpdateTitle = this.i18n.t('update_available_title');
