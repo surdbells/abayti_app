@@ -29,7 +29,6 @@
   --background: transparent;
   --border-width: 0;
   --color: var(--ax-color-text-primary);
-  padding-inline: 8px;
 
   .hello {
     display: flex;
@@ -48,7 +47,7 @@
       }
     }
     .loc {
-      font-size: 12px;
+      font-size: 8px;
       padding-bottom: 5px;
       color: var(--ax-color-text-secondary);
       padding-left: 10px;

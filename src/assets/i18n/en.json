@@ -478,5 +478,6 @@
   "update_location": "Update Location",
   "your_location": "Your Location",
   "enter_location": "Enter your location",
-  "save_changes": "Save Changes"
+  "save_changes": "Save Changes",
+  "greeting": "What are you shopping for today?"
 }
