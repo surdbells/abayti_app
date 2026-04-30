@@ -62,10 +62,30 @@ export class AxUpdatePromptComponent {
    *  Set to falsy to hide. */
   @Input() versionLabel = '';
 
+  /** Whether to show a secondary "Later" button below the primary CTA.
+   *  When false (default — hard-prompt mode), the modal has no dismiss
+   *  affordance and the user must update. When true (soft-prompt mode),
+   *  a Later button appears. Caller sets based on AppUpdateService's
+   *  UpdateCheckResult.canDismiss. */
+  @Input() canDismiss = false;
+
+  /** Label for the Later button. Localize before passing in. Only
+   *  meaningful when canDismiss=true. */
+  @Input() dismissLabel = '';
+
   /** Fires when the user taps the CTA. Caller starts the update flow. */
   @Output() updateClicked = new EventEmitter<void>();
 
+  /** Fires when the user taps Later (only emitted in soft-prompt mode).
+   *  Caller should call AppUpdateService.markDismissed(version) and
+   *  hide the prompt. */
+  @Output() dismissed = new EventEmitter<void>();
+
   onUpdateClick(): void {
     this.updateClicked.emit();
+  }
+
+  onDismissClick(): void {
+    this.dismissed.emit();
   }
 }

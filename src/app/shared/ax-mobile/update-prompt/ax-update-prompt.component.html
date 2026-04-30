@@ -31,5 +31,15 @@
       <ax-icon name="download" size="sm" class="ax-update-prompt__cta-icon"></ax-icon>
       <span>{{ buttonLabel }}</span>
     </button>
+
+    <!-- Soft-prompt mode only — explicit secondary action. Backdrop
+         tap is still non-interactive even here, to prevent accidental
+         dismissals. Tapping Later requires deliberate intent. -->
+    <button *ngIf="canDismiss"
+            type="button"
+            class="ax-update-prompt__later"
+            (click)="onDismissClick()">
+      {{ dismissLabel }}
+    </button>
   </div>
 </div>

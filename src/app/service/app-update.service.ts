@@ -43,12 +43,19 @@
 
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 import { environment } from '../../environments/environment';
 
 /* JSON shape expected at environment.appUpdate.configUrl. All fields
    optional in case the file is partial — failing-safe defaults applied. */
 export interface RemoteAppConfig {
   require_app_update?: boolean;
+  /* "hard": no Later button, user must update.
+     "soft": Later button visible, dismisses for 24h per version.
+     If absent, defaults to "soft" — more lenient default protects against
+     accidental hard-prompt deploys when an operator only meant to
+     announce that an update was available. */
+  force_mode?: 'hard' | 'soft';
   min_required_version?: string;          // semver, e.g. "0.0.2"
   force_update_message_en?: string;
   force_update_message_ar?: string;
@@ -58,6 +65,9 @@ export interface RemoteAppConfig {
 export interface UpdateCheckResult {
   /* True iff the app should show the force-update prompt right now. */
   shouldForceUpdate: boolean;
+  /* Whether the user can dismiss the prompt (soft mode) or must update
+     (hard mode). Caller passes to AxUpdatePromptComponent.canDismiss. */
+  canDismiss: boolean;
   /* The version available in the store (if known), e.g. "0.0.2". May be
      missing if the plugin couldn't reach the store API. */
   availableVersion: string | null;
@@ -100,6 +110,7 @@ export class AppUpdateService {
   async check(): Promise<UpdateCheckResult> {
     const fallback: UpdateCheckResult = {
       shouldForceUpdate: false,
+      canDismiss: true,  /* default to dismissable; rewritten below if we decide to force */
       availableVersion: null,
       currentVersion: null,
       updateAvailable: false,
@@ -120,6 +131,12 @@ export class AppUpdateService {
       this.fetchRemoteConfig(),
     ]);
 
+    /* Resolve force_mode. Default is "soft" (more lenient) so an operator
+       who only wanted to *announce* an update doesn't accidentally lock
+       users out by forgetting to set the field. To force a hard prompt
+       on a release, the JSON must explicitly say `"force_mode": "hard"`. */
+    const forceMode: 'hard' | 'soft' = remote?.force_mode === 'hard' ? 'hard' : 'soft';
+
     /* Compose the result. */
     const result: UpdateCheckResult = {
       ...fallback,
@@ -136,7 +153,7 @@ export class AppUpdateService {
          - Installed version is below the configured min_required_version
          - The version bump meets the configured threshold
     */
-    if (
+    const meetsForceConditions =
       remote?.require_app_update === true &&
       storeInfo.updateAvailable &&
       storeInfo.currentVersion &&
@@ -146,13 +163,85 @@ export class AppUpdateService {
         storeInfo.currentVersion,
         remote.min_required_version,
         remote.force_update_threshold || 'patch'
-      )
-    ) {
-      result.shouldForceUpdate = true;
+      );
+
+    if (!meetsForceConditions) {
+      return result;
     }
 
+    /* In SOFT mode, also check if the user has dismissed this version
+       within the past 24h. If so, suppress the prompt — they get a 24h
+       grace period before being asked again. The dismissal record is
+       per-version, so a NEWER version surfaces the prompt immediately
+       even if a previous dismissal is recent.
+
+       In HARD mode, we ignore dismissals entirely. The user must update.
+       This gives operators a reliable escalation path: deploy with soft
+       initially, escalate to hard if needed by editing the JSON. */
+    if (forceMode === 'soft' && storeInfo.availableVersion) {
+      const dismissed = await this.wasRecentlyDismissed(storeInfo.availableVersion);
+      if (dismissed) {
+        return result;  /* shouldForceUpdate stays false */
+      }
+    }
+
+    result.shouldForceUpdate = true;
+    result.canDismiss = forceMode === 'soft';
     return result;
   }
+
+  /**
+   * Record that the user dismissed the prompt for a specific version.
+   * Stores an ISO timestamp in Capacitor Preferences so the dismissal
+   * survives app restarts (but can be wiped by clearing app data).
+   *
+   * Per-version key: dismissing v0.0.2 doesn't dismiss v0.0.3 when it
+   * eventually releases. The next version's prompt fires immediately.
+   *
+   * Failure to write is non-fatal — the user just sees the prompt
+   * again on next launch instead of getting their grace period.
+   */
+  async markDismissed(version: string): Promise<void> {
+    if (!version) return;
+    try {
+      await Preferences.set({
+        key: this.dismissalKey(version),
+        value: new Date().toISOString(),
+      });
+    } catch {
+      /* Swallow — losing the grace period is annoying but not broken. */
+    }
+  }
+
+  /**
+   * Check whether the user dismissed this version's prompt within the
+   * past DISMISSAL_WINDOW_MS. Returns false on any storage error or
+   * malformed timestamp (failing safe in the conservative direction —
+   * a failed read shows the prompt rather than hides it).
+   */
+  async wasRecentlyDismissed(version: string): Promise<boolean> {
+    if (!version) return false;
+    try {
+      const { value } = await Preferences.get({ key: this.dismissalKey(version) });
+      if (!value) return false;
+      const dismissedAt = Date.parse(value);
+      if (isNaN(dismissedAt)) return false;
+      return (Date.now() - dismissedAt) < this.DISMISSAL_WINDOW_MS;
+    } catch {
+      return false;
+    }
+  }
+
+  private dismissalKey(version: string): string {
+    /* Sanitize version string for use in a key — though semver chars
+       (digits + dots) are already safe. Belt-and-suspenders. */
+    return `app_update_dismissed_${version.replace(/[^0-9.\-a-z]/gi, '_')}_at`;
+  }
+
+  /* 24 hours in ms. The dismissal grace period — how long after tapping
+     "Later" before the prompt reappears. Per-version, so a new release
+     surfaces immediately regardless. */
+  private readonly DISMISSAL_WINDOW_MS = 24 * 60 * 60 * 1000;
 
   /**
    * Trigger the actual update flow. On Android, attempts an in-app update if

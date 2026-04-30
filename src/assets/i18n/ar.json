@@ -61,6 +61,7 @@
   "update_available_title": "تحديث مطلوب",
   "update_available_version": "الإصدار {{version}}",
   "update_now": "تحديث الآن",
+  "update_later": "لاحقًا",
   "text_unable_to_save_profile": "تعذّر حفظ الملف الشخصي.",
   "text_subject_required": "الموضوع مطلوب.",
   "text_message_required": "الرسالة مطلوبة.",

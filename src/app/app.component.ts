@@ -30,6 +30,12 @@ export class AppComponent {
   forceUpdateMessage = '';
   forceUpdateVersionLabel = '';
   forceUpdateButton = '';
+  /* Soft-prompt mode: shows a Later button, dismisses for 24h per
+     version. Driven by remote config force_mode. Default false (hard). */
+  forceUpdateCanDismiss = false;
+  forceUpdateLaterLabel = '';
+  /* Tracked so onDismissed() knows which version's dismissal to record. */
+  private currentPromptVersion: string | null = null;
 
   constructor(
     private platform: Platform,
@@ -84,6 +90,9 @@ export class AppComponent {
         this.forceUpdateVersionLabel = result.availableVersion
           ? this.i18n.t('update_available_version', { version: result.availableVersion })
           : '';
+        this.forceUpdateCanDismiss = result.canDismiss;
+        this.forceUpdateLaterLabel = result.canDismiss ? this.i18n.t('update_later') : '';
+        this.currentPromptVersion = result.availableVersion;
         this.showForceUpdate = true;
       }
       /* Note: we don't auto-dismiss here when shouldForceUpdate becomes
@@ -101,6 +110,16 @@ export class AppComponent {
      opens the store listing (iOS or Android fallback). */
   async onUpdateClicked(): Promise<void> {
     await this.appUpdate.startUpdate();
+  }
+
+  /* Tapped "Later" in the prompt (only emitted in soft-prompt mode).
+     Record the dismissal so the user gets a 24h grace window for this
+     specific version, then hide the prompt. */
+  async onDismissed(): Promise<void> {
+    if (this.currentPromptVersion) {
+      await this.appUpdate.markDismissed(this.currentPromptVersion);
+    }
+    this.showForceUpdate = false;
   }
 
   async initPush() {

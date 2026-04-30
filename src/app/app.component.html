@@ -9,6 +9,9 @@
     [message]="forceUpdateMessage"
     [versionLabel]="forceUpdateVersionLabel"
     [buttonLabel]="forceUpdateButton"
-    (updateClicked)="onUpdateClicked()">
+    [canDismiss]="forceUpdateCanDismiss"
+    [dismissLabel]="forceUpdateLaterLabel"
+    (updateClicked)="onUpdateClicked()"
+    (dismissed)="onDismissed()">
   </ax-update-prompt>
 </ion-app>

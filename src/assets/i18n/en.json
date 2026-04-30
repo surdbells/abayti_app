@@ -61,6 +61,7 @@
   "update_available_title": "Update required",
   "update_available_version": "Version {{version}}",
   "update_now": "Update now",
+  "update_later": "Later",
   "text_unable_to_save_profile": "Unable to save profile.",
   "text_subject_required": "Subject is required.",
   "text_message_required": "Message is required.",

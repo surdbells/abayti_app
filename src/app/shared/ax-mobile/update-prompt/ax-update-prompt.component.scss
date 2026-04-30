@@ -151,3 +151,34 @@
 .ax-update-prompt__cta-icon {
   color: var(--ax-palette-neutral-0);
 }
+
+/* ----- "Later" button (soft-prompt mode only) --------------------------- */
+
+.ax-update-prompt__later {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;
+  margin-top: 8px;
+  background: transparent;
+  color: var(--ax-color-text-secondary);
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ax-color-bg-muted);
+    color: var(--ax-color-text-primary);
+  }
+
+  &:active {
+    background: var(--ax-color-bg-subtle, var(--ax-color-bg-muted));
+  }
+}
